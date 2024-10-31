@@ -7,8 +7,5 @@ abstract class Logo:
 
   def interp(input: String): Unit = interp(CharReader.fromString(input))
 
-  def tokenize(r: CharReader): Seq[Token] =
-    r.consumeUpToDelim()
-
   def interp(r: CharReader): Unit =
     tokenize(r)
