@@ -3,10 +3,10 @@ ThisBuild / versionScheme     := Some("semver-spec")
 
 publish / skip := true
 
-lazy val cross_template = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
-    name         := "cross-template",
+    name         := "logo",
     version      := "0.0.1",
     scalaVersion := "3.5.2",
     scalacOptions ++=
@@ -22,13 +22,13 @@ lazy val cross_template = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     organization     := "io.github.edadma",
     githubOwner      := "edadma",
     githubRepository := name.value,
-//    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
+    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
 //    libraryDependencies ++= Seq(
 //      "io.github.edadma" %%% "cross-platform" % "0.1.5"
 //    ),
     libraryDependencies ++= Seq(
 //      "com.github.scopt" %%% "scopt" % "4.1.0",
-//      "com.lihaoyi" %%% "pprint" % "0.9.0" % "test",
+      "com.lihaoyi" %%% "pprint" % "0.9.0" % "test",
     ),
     publishMavenStyle      := true,
     Test / publishArtifact := false,
