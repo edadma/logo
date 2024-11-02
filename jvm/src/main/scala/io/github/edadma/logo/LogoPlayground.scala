@@ -13,30 +13,14 @@ import scala.Console.withOut
 import scala.io.Source
 import scala.language.postfixOps
 import scala.swing.*
+import scala.swing.Swing.*
 import scala.swing.event.*
-
-class MultiPagePanel extends BoxPanel(Orientation.Vertical):
-  def setImages(images: List[BufferedImage]): Unit =
-    contents.clear()
-
-    for (img <- images)
-      val label = new Label:
-        icon = new ImageIcon(img)
-        border = BorderFactory.createLineBorder(Color.BLACK, 1)
-
-      contents +=
-        new BoxPanel(Orientation.Vertical):
-          contents += label
-          border = BorderFactory.createEmptyBorder(10, 10, 0, 10)
-
-    revalidate()
-    repaint()
 
 object LogoPlayground extends SimpleSwingApplication:
   val screenSize = Toolkit.getDefaultToolkit.getScreenSize
 
   def top: Frame = new MainFrame:
-    title = "Scriptura Playground"
+    title = "Logo Playground"
 
     // Left panel components
     private val inputArea = new TextArea {
@@ -78,6 +62,7 @@ object LogoPlayground extends SimpleSwingApplication:
     val errorOutput = new TextArea {
       rows = 5
       editable = false
+      font = new Font("Monospaced", Font.PLAIN, 12)
     }
     val runButton = new Button("Run")
 
@@ -101,8 +86,8 @@ object LogoPlayground extends SimpleSwingApplication:
       },
     )
 
-    val multiPagePanel   = new MultiPagePanel
-    val outputScrollPane = new ScrollPane(multiPagePanel)
+    val turtlePanel      = new Panel { preferredSize = (200, 200) }
+    val outputScrollPane = new ScrollPane(turtlePanel)
 
     // Adding components to the left panel
     val leftPanel = new BoxPanel(Orientation.Vertical) {
@@ -145,8 +130,8 @@ object LogoPlayground extends SimpleSwingApplication:
     // Function to handle opening a file
     def openFile(): Unit = {
       val chooser = new FileChooser(new File("."))
-      chooser.title = "Open Script File"
-      chooser.fileFilter = new FileNameExtensionFilter("Script Files (*.script)", "script")
+      chooser.title = "Open Logo File"
+      chooser.fileFilter = new FileNameExtensionFilter("Logo Files (*.logo)", "logo")
       val result = chooser.showOpenDialog(this)
       if (result == FileChooser.Result.Approve) {
         val file = chooser.selectedFile
@@ -164,14 +149,14 @@ object LogoPlayground extends SimpleSwingApplication:
     // Function to handle saving a file
     def saveFile(): Unit = {
       val chooser = new FileChooser(new File("."))
-      chooser.title = "Save Script File"
-      chooser.fileFilter = new FileNameExtensionFilter("Script Files (*.script)", "script")
+      chooser.title = "Save Logo File"
+      chooser.fileFilter = new FileNameExtensionFilter("Logo Files (*.logo)", "logo")
       val result = chooser.showSaveDialog(this)
       if (result == FileChooser.Result.Approve) {
         var file = chooser.selectedFile
-        // Ensure the file has a .script extension
-        if (!file.getName.toLowerCase.endsWith(".script")) {
-          file = new File(file.getAbsolutePath + ".script")
+        // Ensure the file has a .logo extension
+        if (!file.getName.toLowerCase.endsWith(".logo")) {
+          file = new File(file.getAbsolutePath + ".logo")
         }
         try {
           val writer = new PrintWriter(file)
@@ -200,42 +185,41 @@ object LogoPlayground extends SimpleSwingApplication:
 
       outputStream.toString
 
-    def runAction(): Unit =
-      try {
-        val t = new Graphics2DTypesetter {
-          // debug = true
-          // ligatures = false
-          setDocument(new ZFoldedDocument)
-        }
-        val p   = new ScripturaParser
-        val r   = new ScripturaRenderer(t, Map.empty, p)
-        val ast = p.parse(inputArea.text)
-
-        errorOutput.text = captureStdOut {
-          r.render(ast)
-          t.end()
-        }
-
-        val pages = t.getDocument.printedPages.toList.asInstanceOf[List[BufferedImage]]
-        val maxDividerLocation =
-          splitPane.size.width - splitPane.rightComponent.minimumSize.width - 2 /*border*/ - 2 * 10 /*margin*/ - 7
-
-        multiPagePanel.setImages(pages)
-
-        val pagesWidth =
-          pages.map(_.getWidth) match
-            case Nil => 0
-            case ws  => ws.max
-
-        splitPane.dividerLocation = maxDividerLocation - pagesWidth
-      } catch
-        case error: Throwable =>
-          val sw = new StringWriter
-          val pw = new PrintWriter(sw)
-
-          error.printStackTrace(pw)
-          errorOutput.text = sw.toString
-          multiPagePanel.setImages(Nil)
+    def runAction(): Unit = ()
+//      try {
+//        val t = new Graphics2DTypesetter {
+//          // debug = true
+//          // ligatures = false
+//          setDocument(new ZFoldedDocument)
+//        }
+//        val p   = new ScripturaParser
+//        val r   = new ScripturaRenderer(t, Map.empty, p)
+//        val ast = p.parse(inputArea.text)
+//
+//        errorOutput.text = captureStdOut {
+//          r.render(ast)
+//          t.end()
+//        }
+//
+//        val pages = t.getDocument.printedPages.toList.asInstanceOf[List[BufferedImage]]
+//        val maxDividerLocation =
+//          splitPane.size.width - splitPane.rightComponent.minimumSize.width - 2 /*border*/ - 2 * 10 /*margin*/ - 7
+//
+//        multiPagePanel.setImages(pages)
+//
+//        val pagesWidth =
+//          pages.map(_.getWidth) match
+//            case Nil => 0
+//            case ws  => ws.max
+//
+//        splitPane.dividerLocation = maxDividerLocation - pagesWidth
+//      } catch
+//        case error: Throwable =>
+//          val sw = new StringWriter
+//          val pw = new PrintWriter(sw)
+//
+//          error.printStackTrace(pw)
+//          errorOutput.text = sw.toString
     end runAction
 
     // Event handling for the Run button
