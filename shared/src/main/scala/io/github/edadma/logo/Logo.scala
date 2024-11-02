@@ -20,6 +20,8 @@ abstract class Logo:
   private[logo] var show: Boolean   = true
   private[logo] val draws           = new ListBuffer[Draw]
 
+  event()
+
   def drawing: Seq[Draw]                       = draws.toSeq
   def turtle: Option[(Double, Double, Double)] = Option.when(show)(x, y, heading)
 

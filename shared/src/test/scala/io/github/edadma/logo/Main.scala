@@ -15,6 +15,6 @@ import pprint.pprintln
       |print "asdf
       |print [one two]
       |""".trim.stripMargin
-  val l = new Logo { override def event(): Unit = ??? }
+  val l = new Logo { override def event(): Unit = () }
 
   println(l.interp(s))
