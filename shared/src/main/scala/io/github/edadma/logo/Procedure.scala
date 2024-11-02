@@ -27,7 +27,7 @@ val builtin =
         case (ctx, Seq(distance)) =>
           val (x2, y2) = ctx.computeEndpoint(number(distance))
 
-          ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
+          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
           ctx.x = x2
           ctx.y = y2
           ctx.event()
@@ -39,6 +39,28 @@ val builtin =
       {
         case (ctx, Seq(turn)) =>
           ctx.heading = ctx.computeTurn(number(turn))
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "back",
+      1,
+      {
+        case (ctx, Seq(distance)) =>
+          val (x2, y2) = ctx.computeEndpoint(-number(distance))
+
+          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
+          ctx.x = x2
+          ctx.y = y2
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "left",
+      1,
+      {
+        case (ctx, Seq(turn)) =>
+          ctx.heading = ctx.computeTurn(-number(turn))
           ctx.event()
       },
     ),
@@ -66,4 +88,10 @@ val synonyms =
     "droite" -> "right",
     "dr"     -> "right",
     "repete" -> "repeat",
+    "bk"     -> "back",
+    "recule" -> "back",
+    "re"     -> "back",
+    "lt"     -> "left",
+    "gauche" -> "left",
+    "gc"     -> "left",
   ) map ((s, p) => s -> builtin(p)) toMap
