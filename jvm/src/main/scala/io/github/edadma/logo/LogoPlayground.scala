@@ -92,7 +92,7 @@ object LogoPlayground extends SimpleSwingApplication:
         def event(): Unit = turtlePanel.repaint()
 
     class TurtlePanel extends Panel:
-      preferredSize = (3000, 3000)
+//      preferredSize = (3000, 3000)
       background = Color.WHITE
 
       override protected def paintComponent(g: Graphics2D): Unit =
@@ -112,6 +112,13 @@ object LogoPlayground extends SimpleSwingApplication:
     end TurtlePanel
 
     val outputScrollPane = new ScrollPane(turtlePanel)
+
+//    outputScrollPane.peer.getViewport.setViewPosition(new Point(1500, 1500))
+//    val centerX = (turtlePanel.preferredSize.width - outputScrollPane.size.width) / 2
+//    val centerY = (turtlePanel.preferredSize.height - outputScrollPane.size.height) / 2
+//    outputScrollPane.peer.getHorizontalScrollBar.setValue(1500)
+//    outputScrollPane.verticalScrollBar.value = centerY
+//    println(outputScrollPane.peer.getHorizontalScrollBar.getMaximum)
 
     // Adding components to the left panel
     val leftPanel = new BoxPanel(Orientation.Vertical) {
