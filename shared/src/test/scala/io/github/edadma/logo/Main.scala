@@ -5,16 +5,16 @@ import pprint.pprintln
 
 @main def run(): Unit =
 //  val s = "print reverse [apples and pears]"
-  val s = "print 123"
-
-  pprintln(transform(tokenize(CharReader.fromString(s))))
-
-//  val s =
-//    """
-//      |print sum 3 4
-//      |print "asdf
-//      |print [one two]
-//      |""".trim.stripMargin
-//  val l = new Logo
+////  val s = "print 123"
 //
-//  println(l.interp(s))
+//  pprintln(transform(tokenize(CharReader.fromString(s))))
+
+  val s =
+    """
+      |print sum 3 4
+      |print "asdf
+      |print [one two]
+      |""".trim.stripMargin
+  val l = new Logo
+
+  println(l.interp(s))

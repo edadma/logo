@@ -21,7 +21,7 @@ class Logo:
       if rest.head.isInstanceOf[EOIToken] then value
       else interp(rest)
 
-    val tokens = tokenize(r)
+    val tokens = transform(tokenize(r))
 
     interp(tokens)
 
@@ -59,6 +59,7 @@ class Logo:
 
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
+      case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
         else if s.head.isDigit then

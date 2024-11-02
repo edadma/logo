@@ -33,6 +33,7 @@ def transform(toks: Seq[LogoValue]): Seq[LogoValue] =
   transform(toks)
   buf.toSeq
 
+@tailrec
 def transformList(
     start: CharReader,
     toks: Seq[LogoValue],
