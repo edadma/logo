@@ -226,7 +226,9 @@ object LogoPlayground extends SimpleSwingApplication:
     def runAction(): Unit =
       try {
         logo.reset()
-        logo.interp(inputArea.text)
+        errorOutput.text = captureStdOut {
+          logo.interp(inputArea.text)
+        }
       } catch
         case error: Throwable =>
           val sw = new StringWriter
