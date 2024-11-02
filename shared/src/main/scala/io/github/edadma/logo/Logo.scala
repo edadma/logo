@@ -45,12 +45,17 @@ class Logo:
       ),
     ) map (p => p.name -> p) toMap
 
-  private def numeric(n: Double): LogoNumber =
+  private def logoNumber(n: Double): LogoNumber =
     val s =
       if n.isWhole then n.toInt.toString
       else n.toString
 
     LogoNumber(s, n)
+
+  private def logoNumber(s: String, r: CharReader): LogoNumber =
+    s.toDoubleOption match
+      case Some(value) => LogoNumber(s, value).pos(r).asInstanceOf[LogoNumber]
+      case None        => problem(r, s"illegal number '$s'")
 
   private def number(v: LogoValue): Double =
     v match
@@ -87,7 +92,7 @@ class Logo:
               val res =
                 func(buf.toSeq) match
                   case v: LogoValue => v
-                  case d: Double    => numeric(d)
+                  case d: Double    => logoNumber(d)
                   case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
