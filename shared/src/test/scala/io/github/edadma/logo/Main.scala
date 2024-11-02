@@ -4,9 +4,10 @@ import io.github.edadma.char_reader.CharReader
 import pprint.pprintln
 
 @main def run(): Unit =
-  val s = "print reverse [apples and pears]"
+//  val s = "print reverse [apples and pears]"
+  val s = "print 123"
 
-  pprintln(tokenize(CharReader.fromString(s)))
+  pprintln(transform(tokenize(CharReader.fromString(s))))
 
 //  val s =
 //    """
