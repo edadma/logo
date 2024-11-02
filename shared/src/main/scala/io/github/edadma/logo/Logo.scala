@@ -45,15 +45,6 @@ class Logo:
       ),
     ) map (p => p.name -> p) toMap
 
-  private def logoNumber(s: String, r: CharReader): LogoNumber =
-    s.toDoubleOption match
-      case Some(value) =>
-        (r match
-          case null => LogoNumber(s, value)
-          case _    => LogoNumber(s, value).pos(r)
-        ).asInstanceOf[LogoNumber]
-      case None => problem(r, s"illegal number '$s'")
-
   private def number(v: LogoValue): Double =
     v match
       case LogoNumber(_, d) => d
