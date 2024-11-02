@@ -75,7 +75,7 @@ class Logo:
 
               val rest = evalarg(args, tail)
               val res =
-                func(buf.toSeq) match
+                func(this, buf.toSeq) match
                   case v: LogoValue => v
                   case d: Double    => logoNumber(d)
                   case ()           => LogoNull()
