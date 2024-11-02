@@ -46,4 +46,7 @@ val synonyms =
     "fd"     -> "forward",
     "avance" -> "forward",
     "av"     -> "forward",
+    "rt"     -> "right",
+    "droite" -> "right",
+    "dr"     -> "right",
   ) map ((s, p) => s -> builtin(p)) toMap
