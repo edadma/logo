@@ -107,7 +107,14 @@ object LogoPlayground extends SimpleSwingApplication:
         logo.drawing foreach {
           case Line(x1, y1, x2, y2, color) =>
             g.setColor(Color.black)
-            g.drawLine(x1.toInt, y1.toInt, x2.toInt, y2.toInt)
+
+            val roundedX1 = Math.round(x1).toInt
+            val roundedY1 = Math.round(y1).toInt
+            val roundedX2 = Math.round(x2).toInt
+            val roundedY2 = Math.round(y2).toInt
+
+            g.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
+//            g.drawLine(x1.toInt, y1.toInt, x2.toInt, y2.toInt)
         }
     end TurtlePanel
 

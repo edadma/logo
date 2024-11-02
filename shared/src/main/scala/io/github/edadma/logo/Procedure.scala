@@ -42,6 +42,18 @@ val builtin =
           ctx.event()
       },
     ),
+    Procedure(
+      "repeat",
+      2,
+      {
+        case (ctx, Seq(left, right)) =>
+          val times = number(left).toInt
+          val body  = list(right)
+
+          for _ <- 1 to times do
+            ctx.interp(body)
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
 val synonyms =
@@ -53,4 +65,5 @@ val synonyms =
     "rt"     -> "right",
     "droite" -> "right",
     "dr"     -> "right",
+    "repete" -> "repeat",
   ) map ((s, p) => s -> builtin(p)) toMap

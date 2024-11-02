@@ -31,6 +31,11 @@ def number(v: LogoValue): Double =
     case LogoNumber(_, d) => d
     case _                => v.r.error("expected a number")
 
+def list(v: LogoValue): Seq[LogoValue] =
+  v match
+    case LogoList(_, l) => l
+    case _              => v.r.error("expected a list")
+
 def normalizeAngle(angle: Double): Double =
   angle % (2 * Pi) match
     case h if h < 0 => h + 2 * Pi

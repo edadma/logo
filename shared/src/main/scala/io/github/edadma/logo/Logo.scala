@@ -32,6 +32,7 @@ abstract class Logo:
   def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - radians(heading))
 
   def reset(): Unit =
+    draws.clear()
     x = 0
     y = 0
     heading = Pi / 2
@@ -40,16 +41,17 @@ abstract class Logo:
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
-    @tailrec
-    def interp(toks: Seq[LogoValue]): LogoValue =
-      val (value, rest) = eval(toks)
-
-      if rest.head.isInstanceOf[EOIToken] then value
-      else interp(rest)
 
     val tokens = transform(tokenize(r))
 
     interp(tokens)
+
+  @tailrec
+  final def interp(toks: Seq[LogoValue]): LogoValue =
+    val (value, rest) = eval(toks)
+
+    if rest.head.isInstanceOf[EOIToken] then value
+    else interp(rest)
 
   def lookup(proc: String): Option[Procedure] =
     val lower = proc.toLowerCase
