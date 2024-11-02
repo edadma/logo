@@ -2,6 +2,8 @@ package io.github.edadma.logo
 
 import io.github.edadma.char_reader.CharReader
 
+import scala.math.Pi
+
 def logoNumber(n: Double): LogoNumber =
   val s =
     if n.isWhole then n.toInt.toString
@@ -28,3 +30,10 @@ def number(v: LogoValue): Double =
   v match
     case LogoNumber(_, d) => d
     case _                => v.r.error("expected a number")
+
+def normalizeAngle(angle: Double): Double =
+  angle % (2 * Pi) match
+    case h if h < 0 => h + 2 * Pi
+    case h          => h
+
+def radians(degrees: Double) = degrees * Pi / 180

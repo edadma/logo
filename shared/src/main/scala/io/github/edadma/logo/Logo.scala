@@ -7,16 +7,24 @@ import pprint.pprintln
 
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
-import scala.math.Pi
+import scala.math.{Pi, cos, sin}
 
 abstract class Logo:
   def event(): Unit
 
-  private var x: Double       = 0
-  private var y: Double       = 0
-  private var heading: Double = Pi / 2
+  private[logo] var x: Double       = 0
+  private[logo] var y: Double       = 0
+  private[logo] var heading: Double = Pi / 2
+  private[logo] var color: String   = "black"
+  private[logo] var pen: Boolean    = true
+  private[logo] var show: Boolean   = true
+  private[logo] val draws           = new ListBuffer[Draw]
 
-  val drawing = new ListBuffer[Draw]
+  def drawing: Seq[Draw]                       = draws.toSeq
+  def turtle: Option[(Double, Double, Double)] = Option.when(show)(x, y, heading)
+
+  def computeEndpoint(distance: Double): (Double, Double) = (x + distance * cos(heading), y + distance * sin(heading))
+  def computeHeading(turn: Double): Double                = normalizeAngle(heading + radians(turn))
 
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
