@@ -17,7 +17,7 @@ case class LeftBracketToken()   extends Token
 case class RightBracketToken()  extends Token
 
 def tokenize(r: CharReader): Seq[Token] =
-  val tokens = new ListBuffer[Token]
+  val buf = new ListBuffer[Token]
 
   @tailrec
   def tokenize(r: CharReader): Unit =
@@ -25,14 +25,17 @@ def tokenize(r: CharReader): Seq[Token] =
 
     if r2.more then
       val (s, r3) = r2.consume(r => r.ch.isWhitespace || r.ch == '[' || r.ch == ']')
-      val tok =
-        s match
-          case "[" => LeftBracketToken()
-          case "]" => RightBracketToken()
-          case _   => WordToken(s)
 
-      tokens += tok.pos(r2)
-      tokenize(r3)
+      if s.nonEmpty then buf += WordToken(s).pos(r2)
+
+      r3.ch match
+        case '[' =>
+          buf += LeftBracketToken().pos(r3)
+          tokenize(r3.next)
+        case ']' =>
+          buf += RightBracketToken().pos(r3)
+          tokenize(r3.next)
+        case _ => tokenize(r3)
 
   tokenize(r)
-  tokens.toSeq
+  buf.toSeq

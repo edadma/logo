@@ -19,12 +19,12 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         "-language:existentials",
         "-language:dynamics",
       ),
-    organization     := "io.github.edadma",
-    githubOwner      := "edadma",
-    githubRepository := name.value,
+    organization                            := "io.github.edadma",
+    githubOwner                             := "edadma",
+    githubRepository                        := name.value,
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
     libraryDependencies ++= Seq(
-      "io.github.edadma" %%% "char-reader" % "0.1.14"
+      "io.github.edadma" %%% "char-reader" % "0.1.15",
     ),
     libraryDependencies ++= Seq(
 //      "com.github.scopt" %%% "scopt" % "4.1.0",
