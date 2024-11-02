@@ -48,10 +48,9 @@ def transformList(
       (LogoList(list, buf.toSeq).pos(start), tl)
     case (w @ LogoWord(n)) :: tl if n.head.isDigit =>
       n.toDoubleOption match
-        case Some(value) =>
-          buf += LogoNumber(n, value).pos(w.r)
-          transformList(start, tl, buf)
-        case None => w.r.error(s"illegal number '$n'")
+        case Some(value) => buf += LogoNumber(n, value).pos(w.r)
+        case None        => buf += w
+      transformList(start, tl, buf)
     case (w @ LogoWord(_)) :: tl =>
       buf += w
       transformList(start, tl, buf)
