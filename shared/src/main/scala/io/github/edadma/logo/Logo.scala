@@ -7,9 +7,16 @@ import pprint.pprintln
 
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
+import scala.math.Pi
 
-class Logo:
-//  def penForward(d: Double): Unit
+abstract class Logo:
+  def event(): Unit
+
+  private var x: Double       = 0
+  private var y: Double       = 0
+  private var heading: Double = Pi / 2
+
+  val drawing = new ListBuffer[Draw]
 
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
