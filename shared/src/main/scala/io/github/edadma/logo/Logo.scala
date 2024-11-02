@@ -45,17 +45,14 @@ class Logo:
       ),
     ) map (p => p.name -> p) toMap
 
-  private def logoNumber(n: Double): LogoNumber =
-    val s =
-      if n.isWhole then n.toInt.toString
-      else n.toString
-
-    LogoNumber(s, n)
-
   private def logoNumber(s: String, r: CharReader): LogoNumber =
     s.toDoubleOption match
-      case Some(value) => LogoNumber(s, value).pos(r).asInstanceOf[LogoNumber]
-      case None        => problem(r, s"illegal number '$s'")
+      case Some(value) =>
+        (r match
+          case null => LogoNumber(s, value)
+          case _    => LogoNumber(s, value).pos(r)
+        ).asInstanceOf[LogoNumber]
+      case None => problem(r, s"illegal number '$s'")
 
   private def number(v: LogoValue): Double =
     v match
@@ -67,10 +64,7 @@ class Logo:
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
-        else if s.head.isDigit then
-          s.toDoubleOption match
-            case Some(value) => (LogoNumber(s, value).pos(tok.r), tail)
-            case None        => tok.r.error(s"illegal number '$s'")
+        else if s.head.isDigit then (logoNumber(s, tok.r), tail)
         else
           procedures get s match
             case None => tok.r.error(s"unknown procedure '$s'")

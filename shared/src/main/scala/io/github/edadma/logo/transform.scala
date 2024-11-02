@@ -18,11 +18,8 @@ def transform(toks: Seq[LogoValue]): Seq[LogoValue] =
         buf += list
         transform(rest)
       case (w @ LogoWord(n)) :: tl if n.head.isDigit =>
-        n.toDoubleOption match
-          case Some(value) =>
-            buf += LogoNumber(n, value).pos(w.r)
-            transform(tl)
-          case None => w.r.error(s"illegal number '$n'")
+        buf += logoNumber(n, w.r)
+        transform(tl)
       case (w @ LogoWord(_)) :: tl =>
         buf += w
         transform(tl)
