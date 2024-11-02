@@ -76,6 +76,18 @@ val builtin =
             ctx.interp(body)
       },
     ),
+    Procedure(
+      "if",
+      2,
+      {
+        case (ctx, Seq(left, right)) =>
+          val cond = boolean(left).toInt
+          val body = list(right)
+
+          for _ <- 1 to times do
+            ctx.interp(body)
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
 val synonyms =

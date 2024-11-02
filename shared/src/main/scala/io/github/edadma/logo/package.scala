@@ -29,7 +29,18 @@ def problem(pos: CharReader, error: String): Nothing =
 def number(v: LogoValue): Double =
   v match
     case LogoNumber(_, d) => d
-    case _                => v.r.error("expected a number")
+    case w @ LogoWord(s) =>
+      s.toDoubleOption match
+        case Some(value) => value
+        case None        => problem(w.r, s"expected a number: '$s'")
+    case _ => v.r.error("expected a number")
+
+def boolean(v: LogoValue): Boolean =
+  v match
+    case LogoBoolean(b)    => b
+    case LogoWord("true")  => true
+    case LogoWord("false") => false
+    case _                 => v.r.error("expected a boolean")
 
 def list(v: LogoValue): Seq[LogoValue] =
   v match
