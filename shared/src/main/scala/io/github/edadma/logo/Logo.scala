@@ -25,7 +25,7 @@ class Logo:
 
     interp(tokens)
 
-  case class Procedure(name: String, args: Int, func: PartialFunction[Seq[LogoValue], LogoValue])
+  case class Procedure(name: String, args: Int, func: PartialFunction[Seq[LogoValue], Any])
 
   private val procedures =
     List(
@@ -33,16 +33,14 @@ class Logo:
         "print",
         1,
         {
-          case Seq(arg) =>
-            println(display(arg))
-            LogoNull()
+          case Seq(arg) => println(display(arg))
         },
       ),
       Procedure(
         "sum",
         2,
         {
-          case Seq(left, right) => numeric(number(left) + number(right))
+          case Seq(left, right) => number(left) + number(right)
         },
       ),
     ) map (p => p.name -> p) toMap
@@ -85,7 +83,11 @@ class Logo:
                   evalarg(count - 1, rest)
 
               val rest = evalarg(args, tail)
-              val res  = func(buf.toSeq)
+              val res =
+                func(buf.toSeq) match
+                  case v: LogoValue => v
+                  case d: Double    => numeric(d)
+                  case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
         end if
