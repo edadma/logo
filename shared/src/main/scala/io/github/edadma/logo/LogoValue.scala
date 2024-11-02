@@ -9,7 +9,7 @@ sealed abstract class LogoValue:
     this.r = r
     this
 
-case class LogoNumber(n: String)          extends LogoValue
-case class LogoWord(s: String)            extends LogoValue
-case class LogoNull()                     extends LogoValue
-case class LogoList(list: Seq[LogoValue]) extends LogoValue
+case class LogoNumber(n: String, d: Double) extends LogoValue
+case class LogoWord(s: String)              extends LogoValue
+case class LogoNull()                       extends LogoValue
+case class LogoList(list: Seq[LogoValue])   extends LogoValue

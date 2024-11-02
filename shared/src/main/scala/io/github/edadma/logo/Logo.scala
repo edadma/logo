@@ -38,13 +38,35 @@ class Logo:
             LogoNull()
         },
       ),
+      Procedure(
+        "sum",
+        2,
+        {
+          case Seq(left, right) => numeric(number(left) + number(right))
+        },
+      ),
     ) map (p => p.name -> p) toMap
+
+  private def numeric(n: Double): LogoNumber =
+    val s =
+      if n.isWhole then n.toInt.toString
+      else n.toString
+
+    LogoNumber(s, n)
+
+  private def number(v: LogoValue): Double =
+    v match
+      case LogoNumber(_, d) => d
+      case _                => v.r.error("expected a number")
 
   def eval(toks: Seq[Token]): (LogoValue, Seq[Token]) =
     toks match
       case (tok @ WordToken(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
-        else if s.head.isDigit then (LogoNumber(s).pos(tok.r), tail)
+        else if s.head.isDigit then
+          s.toDoubleOption match
+            case Some(value) => (LogoNumber(s, value).pos(tok.r), tail)
+            case None        => tok.r.error(s"illegal number '$s'")
         else
           procedures get s match
             case None => tok.r.error(s"unknown procedure '$s'")
@@ -70,7 +92,7 @@ class Logo:
 
   def display(v: LogoValue): String =
     v match
-      case LogoNumber(n) => n
-      case LogoWord(s)   => s
-      case LogoNull()    => "null"
-      case LogoList(l)   => l map display mkString " "
+      case LogoNumber(n, _) => n
+      case LogoWord(s)      => s
+      case LogoNull()       => "null"
+      case LogoList(l)      => l map display mkString " "
