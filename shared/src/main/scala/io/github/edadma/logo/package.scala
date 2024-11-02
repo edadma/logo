@@ -23,3 +23,8 @@ def problem(pos: CharReader, error: String): Nothing =
     sys.error(error)
   else
     pos.error(error)
+
+def number(v: LogoValue): Double =
+  v match
+    case LogoNumber(_, d) => d
+    case _                => v.r.error("expected a number")
