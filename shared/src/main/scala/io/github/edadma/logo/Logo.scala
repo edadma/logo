@@ -11,14 +11,14 @@ import scala.language.postfixOps
 class Logo:
 //  def penForward(d: Double): Unit
 
-  def interp(input: String): String = interp(CharReader.fromString(input))
+  def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
-  def interp(r: CharReader): String =
+  def interp(r: CharReader): LogoValue =
     @tailrec
-    def interp(toks: Seq[Token]): String =
+    def interp(toks: Seq[LogoValue]): LogoValue =
       val (value, rest) = eval(toks)
 
-      if rest.head.isInstanceOf[EOIToken] then display(value)
+      if rest.head.isInstanceOf[EOIToken] then value
       else interp(rest)
 
     val tokens = tokenize(r)
@@ -33,7 +33,7 @@ class Logo:
         "print",
         1,
         {
-          case Seq(arg) => println(display(arg))
+          case Seq(arg) => println(arg)
         },
       ),
       Procedure(
@@ -57,9 +57,9 @@ class Logo:
       case LogoNumber(_, d) => d
       case _                => v.r.error("expected a number")
 
-  def eval(toks: Seq[Token]): (LogoValue, Seq[Token]) =
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
-      case (tok @ WordToken(s)) :: tail =>
+      case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
         else if s.head.isDigit then
           s.toDoubleOption match
@@ -72,7 +72,7 @@ class Logo:
               val buf = new ListBuffer[LogoValue]
 
               @tailrec
-              def evalarg(count: Int, toks: Seq[Token]): Seq[Token] =
+              def evalarg(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
                 if count == 0 then toks
                 else if toks.head.isInstanceOf[EOIToken] then
                   toks.head.r.error(s"unexpected end of input which evaluating argument(s) for '$name'")
@@ -91,11 +91,3 @@ class Logo:
 
               (res.pos(tok.r), rest)
         end if
-      case LeftBracketToken() :: tail =>
-
-  def display(v: LogoValue): String =
-    v match
-      case LogoNumber(n, _) => n
-      case LogoWord(s)      => s
-      case LogoNull()       => "null"
-      case LogoList(l)      => l map display mkString " "
