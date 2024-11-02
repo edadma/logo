@@ -8,7 +8,11 @@ import pprint.pprintln
 //
 //  pprintln(tokenize(CharReader.fromString(s)))
 
-  val s = "print sum 3 4 print 123"
+  val s =
+    """
+      |print sum 3 4
+      |print "asdf
+      |""".trim.stripMargin
   val l = new Logo
 
   println(l.interp(s))

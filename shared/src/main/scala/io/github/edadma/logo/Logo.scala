@@ -19,7 +19,7 @@ class Logo:
       val (value, rest) = eval(toks)
 
       if rest.head.isInstanceOf[EOIToken] then display(value)
-      else interp(toks)
+      else interp(rest)
 
     val tokens = tokenize(r)
 
