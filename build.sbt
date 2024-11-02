@@ -24,7 +24,7 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     githubRepository := name.value,
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
     libraryDependencies ++= Seq(
-      "io.github.edadma" %%% "char-reader" % "0.1.12"
+      "io.github.edadma" %%% "char-reader" % "0.1.14"
     ),
     libraryDependencies ++= Seq(
 //      "com.github.scopt" %%% "scopt" % "4.1.0",
