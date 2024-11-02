@@ -17,3 +17,9 @@ def logoNumber(s: String, r: CharReader): LogoNumber =
         case _    => LogoNumber(s, value).pos(r)
       ).asInstanceOf[LogoNumber]
     case None => problem(r, s"illegal number '$s'")
+
+def problem(pos: CharReader, error: String): Nothing =
+  if (pos eq null)
+    sys.error(error)
+  else
+    pos.error(error)
