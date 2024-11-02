@@ -63,6 +63,8 @@ abstract class Logo:
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
+      case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
+      case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
         else if s.head.isDigit || s.head == '-' then (logoNumber(s, tok.r), tail)
