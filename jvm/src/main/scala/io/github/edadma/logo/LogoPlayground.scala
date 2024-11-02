@@ -15,6 +15,7 @@ import scala.language.postfixOps
 import scala.swing.*
 import scala.swing.Swing.*
 import scala.swing.event.*
+import javax.swing.SwingUtilities
 
 object LogoPlayground extends SimpleSwingApplication:
   val screenSize = Toolkit.getDefaultToolkit.getScreenSize
@@ -86,7 +87,10 @@ object LogoPlayground extends SimpleSwingApplication:
       },
     )
 
-    val turtlePanel = new TurtlePanel
+    val turtlePanel =
+      new TurtlePanel:
+        preferredSize = (3000, 3000)
+
     val logo =
       new Logo:
         def event(): Unit = turtlePanel.repaint()
@@ -120,7 +124,19 @@ object LogoPlayground extends SimpleSwingApplication:
 
     val outputScrollPane = new ScrollPane(turtlePanel)
 
-//    outputScrollPane.peer.getViewport.setViewPosition(new Point(1500, 1500))
+    SwingUtilities.invokeLater(() => {
+      val viewport   = outputScrollPane.peer.getViewport
+      val viewSize   = viewport.getViewSize
+      val extentSize = viewport.getExtentSize
+
+      // Calculate the top-left corner position to center the content
+      val x = (viewSize.width - extentSize.width) / 2
+      val y = (viewSize.height - extentSize.height) / 2
+
+      // Set the position
+      viewport.setViewPosition(new Point(x, y))
+    })
+
 //    val centerX = (turtlePanel.preferredSize.width - outputScrollPane.size.width) / 2
 //    val centerY = (turtlePanel.preferredSize.height - outputScrollPane.size.height) / 2
 //    outputScrollPane.peer.getHorizontalScrollBar.setValue(1500)
