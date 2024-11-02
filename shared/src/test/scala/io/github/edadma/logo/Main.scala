@@ -11,7 +11,7 @@ import pprint.pprintln
 
   val s =
     """
-      |print sum 3 4
+      |print + 3 4
       |print "asdf
       |print [one two]
       |""".trim.stripMargin

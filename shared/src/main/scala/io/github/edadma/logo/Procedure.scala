@@ -4,7 +4,7 @@ import scala.language.postfixOps
 
 case class Procedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
 
-val procedures =
+val builtin =
   List(
     Procedure(
       "print",
@@ -21,3 +21,8 @@ val procedures =
       },
     ),
   ) map (p => p.name -> p) toMap
+
+val synonyms =
+  List(
+    "+" -> "sum",
+  ) map ((s, p) => s -> builtin(p)) toMap

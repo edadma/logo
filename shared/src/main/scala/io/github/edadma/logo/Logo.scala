@@ -25,6 +25,13 @@ class Logo:
 
     interp(tokens)
 
+  def lookup(proc: String): Option[Procedure] =
+    val lower = proc.toLowerCase
+
+    builtin get lower match
+      case None => synonyms get lower
+      case p    => p
+
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
@@ -32,7 +39,7 @@ class Logo:
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
         else if s.head.isDigit then (logoNumber(s, tok.r), tail)
         else
-          procedures get s match
+          lookup(s) match
             case None => tok.r.error(s"unknown procedure '$s'")
             case Some(Procedure(name, args, func)) =>
               val buf = new ListBuffer[LogoValue]
