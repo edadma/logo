@@ -12,6 +12,7 @@ import pprint.pprintln
     """
       |print sum 3 4
       |print "asdf
+      |print [one two]
       |""".trim.stripMargin
   val l = new Logo
 

@@ -91,6 +91,7 @@ class Logo:
 
               (res.pos(tok.r), rest)
         end if
+      case LeftBracketToken() :: tail =>
 
   def display(v: LogoValue): String =
     v match
