@@ -137,12 +137,6 @@ object LogoPlayground extends SimpleSwingApplication:
       viewport.setViewPosition(new Point(x, y))
     })
 
-//    val centerX = (turtlePanel.preferredSize.width - outputScrollPane.size.width) / 2
-//    val centerY = (turtlePanel.preferredSize.height - outputScrollPane.size.height) / 2
-//    outputScrollPane.peer.getHorizontalScrollBar.setValue(1500)
-//    outputScrollPane.verticalScrollBar.value = centerY
-//    println(outputScrollPane.peer.getHorizontalScrollBar.getMaximum)
-
     // Adding components to the left panel
     val leftPanel = new BoxPanel(Orientation.Vertical) {
       border = Swing.EmptyBorder(10, 10, 10, 10)
