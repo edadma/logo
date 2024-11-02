@@ -11,6 +11,7 @@ sealed abstract class LogoValue:
 
 case class LogoNumber(text: String, d: Double) extends LogoValue
 case class LogoWord(text: String)              extends LogoValue
-case class LogoNull()                          extends LogoValue { override def toString: String = "null"            }
-case class LogoList(list: Seq[LogoValue])      extends LogoValue { override def toString: String = list mkString " " }
-case class EOIToken()                          extends LogoValue { override def toString: String = ""                }
+case class LogoNull()                          extends LogoValue { override def toString: String = "null" }
+case class LogoList(list: Seq[LogoValue], terminated: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = list mkString " "
+case class EOIToken() extends LogoValue { override def toString: String = "" }
