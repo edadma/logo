@@ -28,7 +28,8 @@ abstract class Logo:
   def turtle: Option[(Double, Double, Double)] = Option.when(show)(x, y, heading)
 
   def computeEndpoint(distance: Double): (Double, Double) = (x + distance * cos(heading), y + distance * sin(heading))
-  def computeHeading(turn: Double): Double                = normalizeAngle(heading + radians(turn))
+  def computeTurn(turn: Double): Double                   = normalizeAngle(heading - radians(turn))
+  def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - radians(heading))
 
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
@@ -56,7 +57,7 @@ abstract class Logo:
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
-        else if s.head.isDigit then (logoNumber(s, tok.r), tail)
+        else if s.head.isDigit || s.head == '-' then (logoNumber(s, tok.r), tail)
         else
           lookup(s) match
             case None => tok.r.error(s"unknown procedure '$s'")

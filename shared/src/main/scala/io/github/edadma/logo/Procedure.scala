@@ -34,7 +34,7 @@ val builtin =
       1,
       {
         case (ctx, Seq(turn)) =>
-          ctx.heading = ctx.computeHeading(number(turn))
+          ctx.heading = ctx.computeTurn(number(turn))
           ctx.event()
       },
     ),

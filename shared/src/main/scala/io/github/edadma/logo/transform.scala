@@ -44,7 +44,7 @@ def transformList(
 
       buf += EOIToken().pos(end.r)
       (LogoList(list, buf.toSeq).pos(start), tl)
-    case (w @ LogoWord(n)) :: tl if n.head.isDigit =>
+    case (w @ LogoWord(n)) :: tl if n.head.isDigit || n.head == '-' =>
       n.toDoubleOption match
         case Some(value) => buf += LogoNumber(n, value).pos(w.r)
         case None        => buf += w
