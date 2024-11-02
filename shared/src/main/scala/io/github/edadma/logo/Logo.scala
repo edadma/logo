@@ -31,6 +31,12 @@ abstract class Logo:
   def computeTurn(turn: Double): Double                   = normalizeAngle(heading - radians(turn))
   def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - radians(heading))
 
+  def reset(): Unit =
+    x = 0
+    y = 0
+    heading = Pi / 2
+    color = "black"
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =

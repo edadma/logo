@@ -25,7 +25,11 @@ val builtin =
       1,
       {
         case (ctx, Seq(distance)) =>
-          ctx.draws += Line((ctx.x, ctx.y), ctx.computeEndpoint(number(distance)), ctx.color)
+          val (x2, y2) = ctx.computeEndpoint(number(distance))
+
+          ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
+          ctx.x = x2
+          ctx.y = y2
           ctx.event()
       },
     ),

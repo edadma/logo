@@ -92,17 +92,23 @@ object LogoPlayground extends SimpleSwingApplication:
         def event(): Unit = turtlePanel.repaint()
 
     class TurtlePanel extends Panel:
-      preferredSize = (300, 300)
+      preferredSize = (3000, 3000)
+      background = Color.WHITE
 
       override protected def paintComponent(g: Graphics2D): Unit =
         super.paintComponent(g)
 
+        // Translate the origin to the center of the panel
+        g.translate(size.width / 2, size.height / 2)
+
+        // Invert the y-axis
+        g.scale(1, -1)
+
         logo.drawing foreach {
-          case Line((x1, y1), (x2, y2), color) =>
+          case Line(x1, y1, x2, y2, color) =>
             g.setColor(Color.black)
             g.drawLine(x1.toInt, y1.toInt, x2.toInt, y2.toInt)
         }
-
     end TurtlePanel
 
     val outputScrollPane = new ScrollPane(turtlePanel)
@@ -205,6 +211,7 @@ object LogoPlayground extends SimpleSwingApplication:
 
     def runAction(): Unit =
       try {
+        logo.reset()
         logo.interp(inputArea.text)
       } catch
         case error: Throwable =>
