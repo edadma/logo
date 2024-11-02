@@ -236,41 +236,6 @@ object LogoPlayground extends SimpleSwingApplication:
 
           error.printStackTrace(pw)
           errorOutput.text = sw.toString
-
-//      try {
-//        val t = new Graphics2DTypesetter {
-//          // debug = true
-//          // ligatures = false
-//          setDocument(new ZFoldedDocument)
-//        }
-//        val p   = new ScripturaParser
-//        val r   = new ScripturaRenderer(t, Map.empty, p)
-//        val ast = p.parse(inputArea.text)
-//
-//        errorOutput.text = captureStdOut {
-//          r.render(ast)
-//          t.end()
-//        }
-//
-//        val pages = t.getDocument.printedPages.toList.asInstanceOf[List[BufferedImage]]
-//        val maxDividerLocation =
-//          splitPane.size.width - splitPane.rightComponent.minimumSize.width - 2 /*border*/ - 2 * 10 /*margin*/ - 7
-//
-//        multiPagePanel.setImages(pages)
-//
-//        val pagesWidth =
-//          pages.map(_.getWidth) match
-//            case Nil => 0
-//            case ws  => ws.max
-//
-//        splitPane.dividerLocation = maxDividerLocation - pagesWidth
-//      } catch
-//        case error: Throwable =>
-//          val sw = new StringWriter
-//          val pw = new PrintWriter(sw)
-//
-//          error.printStackTrace(pw)
-//          errorOutput.text = sw.toString
     end runAction
 
     // Event handling for the Run button
