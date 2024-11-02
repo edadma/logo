@@ -15,6 +15,7 @@ sealed abstract class Token:
 case class WordToken(s: String) extends Token
 case class LeftBracketToken()   extends Token
 case class RightBracketToken()  extends Token
+case class EOIToken()           extends Token
 
 def tokenize(r: CharReader): Seq[Token] =
   val buf = new ListBuffer[Token]
@@ -23,7 +24,8 @@ def tokenize(r: CharReader): Seq[Token] =
   def tokenize(r: CharReader): Unit =
     val r2 = r.skipWhitespace
 
-    if r2.more then
+    if r2.eoi then buf += EOIToken().pos(r2)
+    else
       val (s, r3) = r2.consume(r => r.ch.isWhitespace || r.ch == '[' || r.ch == ']')
 
       if s.nonEmpty then buf += WordToken(s).pos(r2)
