@@ -86,7 +86,25 @@ object LogoPlayground extends SimpleSwingApplication:
       },
     )
 
-    val turtlePanel      = new Panel { preferredSize = (200, 200) }
+    val turtlePanel = new TurtlePanel
+    val logo =
+      new Logo:
+        def event(): Unit = turtlePanel.repaint()
+
+    class TurtlePanel extends Panel:
+      preferredSize = (300, 300)
+
+      override protected def paintComponent(g: Graphics2D): Unit =
+        super.paintComponent(g)
+
+        logo.drawing foreach {
+          case Line((x1, y1), (x2, y2), color) =>
+            g.setColor(Color.black)
+            g.drawLine(x1.toInt, y1.toInt, x2.toInt, y2.toInt)
+        }
+
+    end TurtlePanel
+
     val outputScrollPane = new ScrollPane(turtlePanel)
 
     // Adding components to the left panel
@@ -185,7 +203,17 @@ object LogoPlayground extends SimpleSwingApplication:
 
       outputStream.toString
 
-    def runAction(): Unit = ()
+    def runAction(): Unit =
+      try {
+        logo.interp(inputArea.text)
+      } catch
+        case error: Throwable =>
+          val sw = new StringWriter
+          val pw = new PrintWriter(sw)
+
+          error.printStackTrace(pw)
+          errorOutput.text = sw.toString
+
 //      try {
 //        val t = new Graphics2DTypesetter {
 //          // debug = true

@@ -67,7 +67,7 @@ abstract class Logo:
               def evalarg(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
                 if count == 0 then toks
                 else if toks.head.isInstanceOf[EOIToken] then
-                  toks.head.r.error(s"unexpected end of input which evaluating argument(s) for '$name'")
+                  toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
                 else
                   val (arg, rest) = eval(toks)
 

@@ -22,7 +22,7 @@ val builtin =
     ),
     Procedure(
       "forward",
-      2,
+      1,
       {
         case (ctx, Seq(distance)) =>
           ctx.draws += Line((ctx.x, ctx.y), ctx.computeEndpoint(number(distance)), ctx.color)
@@ -31,7 +31,7 @@ val builtin =
     ),
     Procedure(
       "right",
-      2,
+      1,
       {
         case (ctx, Seq(turn)) =>
           ctx.heading = ctx.computeHeading(number(turn))
