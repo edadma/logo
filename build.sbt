@@ -36,6 +36,9 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jvmSettings(
     libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.1.0" % "provided",
+    libraryDependencies ++= Seq(
+      "org.scala-lang.modules" %% "scala-swing" % "3.0.0" % "test",
+    ),
   )
   .nativeSettings(
     libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",

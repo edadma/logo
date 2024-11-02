@@ -20,6 +20,8 @@ abstract class Logo:
   private[logo] var show: Boolean   = true
   private[logo] val draws           = new ListBuffer[Draw]
 
+  var debug: Boolean = false
+
   event()
 
   def drawing: Seq[Draw]                       = draws.toSeq
