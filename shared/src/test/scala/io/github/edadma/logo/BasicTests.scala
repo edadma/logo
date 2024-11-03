@@ -16,4 +16,8 @@ class BasicTests extends AnyFreeSpec with Matchers with Test {
   "print 1" in {
     run("print 123") shouldBe "123"
   }
+
+  "print 2" in {
+    run("print \"123x") shouldBe "123x"
+  }
 }
