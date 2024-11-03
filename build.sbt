@@ -35,6 +35,7 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     licenses += "ISC"      -> url("https://opensource.org/licenses/ISC"),
   )
   .jvmSettings(
+    assembly / mainClass                  := Some("io.github.edadma.logo.LogoPlayground"),
     libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.1.0" % "provided",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
