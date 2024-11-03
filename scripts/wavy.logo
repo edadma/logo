@@ -1,0 +1,1 @@
+repeat 3 [fd 50 rt 45 fd 50 lt 45 fd 50 lt 45 fd 50 rt 45]
