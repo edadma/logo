@@ -22,6 +22,7 @@ object LogoPlayground extends SimpleSwingApplication:
 
   def top: Frame = new MainFrame:
     title = "Logo Playground"
+    size = new Dimension(screenSize.width, screenSize.height)
 
     // Left panel components
     private val inputArea = new TextArea {
