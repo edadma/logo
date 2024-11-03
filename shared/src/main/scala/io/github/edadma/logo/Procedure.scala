@@ -127,6 +127,24 @@ val builtin =
       },
     ),
     Procedure(
+      "hideturtle",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.show = false
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "showturtle",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.show = true
+          ctx.event()
+      },
+    ),
+    Procedure(
       "repeat",
       2,
       {
@@ -191,6 +209,12 @@ val synonyms =
     "pd"           -> "pendown",
     "baisscrayon"  -> "pendown",
     "bc"           -> "pendown",
+    "ht"           -> "hideturtle",
+    "cachetortue"  -> "hideturtle",
+    "ct"           -> "hideturtle",
+    "st"           -> "showturtle",
+    "montretortue" -> "showturtle",
+    "mt"           -> "showturtle",
     "rt"           -> "right",
     "droite"       -> "right",
     "dr"           -> "right",

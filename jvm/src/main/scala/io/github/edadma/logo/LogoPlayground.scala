@@ -3,7 +3,8 @@ package io.github.edadma.logo
 import pprint.pprintln
 
 import java.awt.event.{ActionEvent, InputEvent, KeyEvent}
-import java.awt.{Frame => awtFrame, Color, Font, Toolkit}
+import java.awt.geom.{AffineTransform, Path2D}
+import java.awt.{Color, Font, GridBagConstraints, Insets, RenderingHints, Toolkit, Frame as awtFrame}
 import java.io.{ByteArrayOutputStream, File, PrintWriter, StringWriter}
 import javax.swing.filechooser.FileNameExtensionFilter
 import javax.swing.undo.UndoManager
@@ -14,7 +15,7 @@ import scala.language.postfixOps
 import scala.swing.*
 import scala.swing.Swing.*
 import scala.swing.event.*
-import java.awt.{GridBagConstraints, Insets}
+import scala.math.Pi
 import scala.swing.GridBagPanel
 
 object LogoPlayground extends SimpleSwingApplication:
@@ -133,11 +134,12 @@ object LogoPlayground extends SimpleSwingApplication:
         def event(): Unit = drawPanel.repaint()
 
     class TurtlePanel extends Panel:
-//      preferredSize = (3000, 3000)
       background = Color.WHITE
 
       override protected def paintComponent(g: Graphics2D): Unit =
         super.paintComponent(g)
+
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
 
         // Translate the origin to the center of the panel
         g.translate(size.width / 2, size.height / 2)
@@ -156,6 +158,53 @@ object LogoPlayground extends SimpleSwingApplication:
 
             g.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
         }
+
+        logo.turtle match
+          case None =>
+          case Some((x, y, heading)) =>
+            g.setColor(Color.GREEN)
+
+            // Define the turtle shape path
+            val turtlePath = new Path2D.Double()
+            turtlePath.moveTo(0, 0)   // Tail position at (0, 0)
+            turtlePath.lineTo(5, -10) // Draw head shape
+            turtlePath.lineTo(0, -20)
+            turtlePath.lineTo(-5, -10)
+            turtlePath.closePath()
+
+            turtlePath.moveTo(-20, 10) // Left front leg
+            turtlePath.lineTo(-10, 5)
+            turtlePath.lineTo(-15, 15)
+            turtlePath.closePath()
+
+            turtlePath.moveTo(20, 10) // Right front leg
+            turtlePath.lineTo(10, 5)
+            turtlePath.lineTo(15, 15)
+            turtlePath.closePath()
+
+            turtlePath.moveTo(-20, 40) // Left back leg
+            turtlePath.lineTo(-10, 35)
+            turtlePath.lineTo(-15, 45)
+            turtlePath.closePath()
+
+            turtlePath.moveTo(20, 40) // Right back leg
+            turtlePath.lineTo(10, 35)
+            turtlePath.lineTo(15, 45)
+            turtlePath.closePath()
+
+            turtlePath.moveTo(0, 0) // Body curve starts from tail
+            turtlePath.curveTo(-20, 10, -20, 30, 0, 50)
+            turtlePath.curveTo(20, 30, 20, 10, 0, 0)
+
+            // Translate the path to x, y coordinates
+            val transform = AffineTransform.getTranslateInstance(x, y)
+
+            transform.rotate(heading + Pi / 2)
+
+            val translatedPath = transform.createTransformedShape(turtlePath)
+
+            // Draw the translated path
+            g.draw(translatedPath)
     end TurtlePanel
 
     val drawScrollPane = new ScrollPane(drawPanel)
