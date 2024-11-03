@@ -8,8 +8,9 @@ abstract class Procedure:
 
 case class BuiltinProcedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
     extends Procedure
-case class BuiltinFunction1(name: String, func: Double => Double) extends Procedure
-case class BuiltinConstant(name: String, const: Double)           extends Procedure
+case class BuiltinFunction1(name: String, func: Double => Double)           extends Procedure
+case class BuiltinFunction2(name: String, func: (Double, Double) => Double) extends Procedure
+case class BuiltinConstant(name: String, const: Double)                     extends Procedure
 
 val builtin =
   List[Procedure](
@@ -22,13 +23,7 @@ val builtin =
         case (_, Seq(arg)) => println(arg)
       },
     ),
-    BuiltinProcedure(
-      "sum",
-      2,
-      {
-        case (_, Seq(left, right)) => number(left) + number(right)
-      },
-    ),
+    BuiltinFunction2("sum", _ + _),
     BuiltinProcedure(
       "difference",
       2,
