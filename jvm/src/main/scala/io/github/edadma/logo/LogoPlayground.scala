@@ -148,7 +148,7 @@ object LogoPlayground extends SimpleSwingApplication:
         g.scale(1, -1)
 
         logo.drawing foreach {
-          case Line(x1, y1, x2, y2, color, width) =>
+          case DrawLine(x1, y1, x2, y2, color, width) =>
             g.setColor(Color.black)
             g.setStroke(new BasicStroke(width.toFloat))
 
@@ -158,6 +158,22 @@ object LogoPlayground extends SimpleSwingApplication:
             val roundedY2 = Math.round(y2).toInt
 
             g.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
+          case DrawLabel(x, y, heading, text) =>
+            g.setFont(new Font("sans", Font.PLAIN, 20))
+
+            // Save the original transformation
+            val originalTransform = g.getTransform
+
+            // Apply rotation around the point (x, y)
+            g.translate(x, y) // Move the origin to (x, y)
+            g.rotate(heading) // Rotate by the specified angle in radians
+
+            // Draw the string at (0, 0) because we've translated the origin to (x, y)
+            g.scale(1, -1)
+            g.drawString(text, 0, 0)
+
+            // Restore the original transformation
+            g.setTransform(originalTransform);
         }
 
         logo.turtle match
