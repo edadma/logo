@@ -27,7 +27,7 @@ object LogoPlayground extends SimpleSwingApplication:
       rows = 20
       lineWrap = true
       wordWrap = true
-      font = new Font("Monospaced", Font.PLAIN, 14)
+      font = new Font("Monospaced", Font.PLAIN, 16)
       lineWrap = false
     }
 
@@ -62,7 +62,7 @@ object LogoPlayground extends SimpleSwingApplication:
     val errorOutput = new TextArea {
       rows = 5
       editable = false
-      font = new Font("Monospaced", Font.PLAIN, 12)
+      font = new Font("Monospaced", Font.PLAIN, 16)
     }
     val runButton = new Button("Run")
 

@@ -151,6 +151,7 @@ val synonyms =
     "/"      -> "quotient",
     "%"      -> "remainder",
     "="      -> "equalp",
+    "dis"    -> "print",
     "fd"     -> "forward",
     "avance" -> "forward",
     "av"     -> "forward",
