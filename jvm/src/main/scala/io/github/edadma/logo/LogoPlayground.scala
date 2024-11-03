@@ -59,6 +59,43 @@ object LogoPlayground extends SimpleSwingApplication:
       },
     )
 
+    // Define the one-line input field for immediate Logo command execution
+    val commandInput = new TextField {
+      font = new Font("Monospaced", Font.PLAIN, 16)
+      maximumSize = new Dimension(Int.MaxValue, font.getSize + 10)
+      listenTo(keys)
+      reactions += {
+        case KeyPressed(_, Key.Enter, _, _) =>
+          if (text.nonEmpty) {
+            executeCommand(text)
+          }
+      }
+    }
+
+    // Function to handle command execution from the one-line input field
+    def executeCommand(command: String): Unit = {
+      var success = false
+
+      try {
+        errorOutput.text = captureStdOut {
+          logo.interp(command)
+        }
+        success = true
+      } catch {
+        case error: Throwable =>
+          if dev then
+            val sw = new StringWriter
+            val pw = new PrintWriter(sw)
+
+            error.printStackTrace(pw)
+            errorOutput.text = sw.toString
+          else
+            errorOutput.text = error.getMessage
+      }
+
+      if success then commandInput.text = ""
+    }
+
     val errorOutput = new TextArea {
       rows = 5
       editable = false
@@ -143,6 +180,7 @@ object LogoPlayground extends SimpleSwingApplication:
       border = Swing.EmptyBorder(10, 10, 10, 10)
 
       contents += new ScrollPane(inputArea)
+      contents += commandInput
       contents += new ScrollPane(errorOutput)
       contents += new FlowPanel(FlowPanel.Alignment.Center)(runButton)
     }
@@ -259,6 +297,6 @@ object LogoPlayground extends SimpleSwingApplication:
     // Set up the main frame
     contents = splitPane
     size = new Dimension(screenSize.width, screenSize.height)
-    inputArea.requestFocus()
+    commandInput.requestFocus()
 
     override def closeOperation(): Unit = dispose()
