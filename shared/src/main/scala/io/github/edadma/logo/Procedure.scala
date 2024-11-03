@@ -28,6 +28,27 @@ val builtin =
       },
     ),
     Procedure(
+      "product",
+      2,
+      {
+        case (_, Seq(left, right)) => number(left) * number(right)
+      },
+    ),
+    Procedure(
+      "quotient",
+      2,
+      {
+        case (_, Seq(left, right)) => number(left) / number(right)
+      },
+    ),
+    Procedure(
+      "remainder",
+      2,
+      {
+        case (_, Seq(left, right)) => number(left) % number(right)
+      },
+    ),
+    Procedure(
       "forward",
       1,
       {
@@ -123,6 +144,9 @@ val synonyms =
   List(
     "+"      -> "sum",
     "-"      -> "difference",
+    "*"      -> "product",
+    "/"      -> "quotient",
+    "%"      -> "remainder",
     "fd"     -> "forward",
     "avance" -> "forward",
     "av"     -> "forward",

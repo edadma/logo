@@ -28,4 +28,8 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test {
   "arithmetic 6" in {
     eval("- 3 4") shouldBe "-1"
   }
+
+  "arithmetic 7" in {
+    eval("remainder 10 4") shouldBe "2"
+  }
 }
