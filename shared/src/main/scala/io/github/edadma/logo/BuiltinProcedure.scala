@@ -1,61 +1,71 @@
 package io.github.edadma.logo
 
 import scala.language.postfixOps
+import scala.math.{E, Pi}
 
-case class Procedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
+abstract class Procedure:
+  val name: String
+
+case class BuiltinProcedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
+    extends Procedure
+case class BuiltinFunction1(name: String, func: Double => Double) extends Procedure
+case class BuiltinConstant(name: String, const: Double)           extends Procedure
 
 val builtin =
-  List(
-    Procedure(
+  List[Procedure](
+    BuiltinConstant("pi", Pi),
+    BuiltinConstant("e", E),
+    BuiltinProcedure(
       "print",
       1,
       {
         case (_, Seq(arg)) => println(arg)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "sum",
       2,
       {
         case (_, Seq(left, right)) => number(left) + number(right)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "difference",
       2,
       {
         case (_, Seq(left, right)) => number(left) - number(right)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "product",
       2,
       {
         case (_, Seq(left, right)) => number(left) * number(right)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "quotient",
       2,
       {
         case (_, Seq(left, right)) => number(left) / number(right)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "remainder",
       2,
       {
         case (_, Seq(left, right)) => number(left) % number(right)
       },
     ),
-    Procedure(
+    BuiltinFunction1("negate", -_),
+    BuiltinProcedure(
       "equalp",
       2,
       {
         case (_, Seq(left, right)) => left == right
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "forward",
       1,
       {
@@ -68,7 +78,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "right",
       1,
       {
@@ -77,7 +87,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "back",
       1,
       {
@@ -90,7 +100,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "left",
       1,
       {
@@ -99,7 +109,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "label",
       1,
       {
@@ -108,7 +118,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "setpensize",
       1,
       {
@@ -120,7 +130,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "clearscreen",
       0,
       {
@@ -129,7 +139,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "home",
       0,
       {
@@ -138,7 +148,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "setxy",
       2,
       {
@@ -150,7 +160,7 @@ val builtin =
           ctx.y = newy
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "penup",
       0,
       {
@@ -159,7 +169,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "pendown",
       0,
       {
@@ -168,7 +178,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "hideturtle",
       0,
       {
@@ -177,7 +187,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "showturtle",
       0,
       {
@@ -186,7 +196,7 @@ val builtin =
           ctx.event()
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "repeat",
       2,
       {
@@ -198,7 +208,7 @@ val builtin =
             ctx.interp(body)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "if",
       2,
       {
@@ -209,7 +219,7 @@ val builtin =
           if cond then ctx.interp(body)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "ifelse",
       3,
       {
@@ -221,7 +231,7 @@ val builtin =
           if condv then ctx.interp(yesv) else ctx.interp(nov)
       },
     ),
-    Procedure(
+    BuiltinProcedure(
       "make",
       2,
       {

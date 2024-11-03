@@ -69,6 +69,22 @@ abstract class Logo:
           case s    => s
       case p => p
 
+  private def evalarg(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
+    val buf = new ListBuffer[LogoValue]
+
+    @tailrec
+    def evalarg(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
+      if count == 0 then toks
+      else if toks.head.isInstanceOf[EOIToken] then
+        toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
+      else
+        val (arg, rest) = eval(toks)
+
+        buf += arg
+        evalarg(count - 1, rest)
+
+    (buf.toSeq, evalarg(count, toks))
+
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
       case List(EOIToken())                                => (LogoNull(), Seq(EOIToken()))
@@ -80,24 +96,13 @@ abstract class Logo:
         else if s.head.isDigit || (s.head == '-' && s != "-") then (logoNumber(s, tok.r), tail)
         else
           lookup(s) match
-            case None => tok.r.error(s"unknown procedure or variable '$s'")
-            case Some(Procedure(name, args, func)) =>
-              val buf = new ListBuffer[LogoValue]
-
-              @tailrec
-              def evalarg(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
-                if count == 0 then toks
-                else if toks.head.isInstanceOf[EOIToken] then
-                  toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
-                else
-                  val (arg, rest) = eval(toks)
-
-                  buf += arg
-                  evalarg(count - 1, rest)
-
-              val rest = evalarg(args, tail)
+            case None                                => tok.r.error(s"unknown procedure, variable, or constant '$s'")
+            case Some(BuiltinConstant(_, const))     => (logoNumber(const).pos(tok.r), tail)
+            case Some(BuiltinFunction1(name, const)) => null
+            case Some(BuiltinProcedure(name, args, func)) =>
+              val (vals, rest) = evalarg(name, args, tail)
               val res =
-                func(this, buf.toSeq) match
+                func(this, vals) match
                   case v: LogoValue => v
                   case d: Double    => logoNumber(d)
                   case b: Boolean   => LogoBoolean(b)
