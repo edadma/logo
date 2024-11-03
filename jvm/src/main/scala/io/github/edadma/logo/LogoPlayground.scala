@@ -3,26 +3,25 @@ package io.github.edadma.logo
 import pprint.pprintln
 
 import java.awt.event.{ActionEvent, InputEvent, KeyEvent}
-import java.awt.image.BufferedImage
-import java.awt.{Color, Font, Toolkit}
+import java.awt.{Frame => awtFrame, Color, Font, Toolkit}
 import java.io.{ByteArrayOutputStream, File, PrintWriter, StringWriter}
 import javax.swing.filechooser.FileNameExtensionFilter
 import javax.swing.undo.UndoManager
-import javax.swing.{AbstractAction, BorderFactory, ImageIcon, KeyStroke}
+import javax.swing.{AbstractAction, KeyStroke, SwingUtilities}
 import scala.Console.withOut
 import scala.io.Source
 import scala.language.postfixOps
 import scala.swing.*
 import scala.swing.Swing.*
 import scala.swing.event.*
-import javax.swing.SwingUtilities
 
 object LogoPlayground extends SimpleSwingApplication:
   val screenSize = Toolkit.getDefaultToolkit.getScreenSize
 
   def top: Frame = new MainFrame:
     title = "Logo Playground"
-    size = new Dimension(screenSize.width, screenSize.height)
+
+    peer.setExtendedState(awtFrame.MAXIMIZED_BOTH)
 
     // Left panel components
     private val inputArea = new TextArea {
