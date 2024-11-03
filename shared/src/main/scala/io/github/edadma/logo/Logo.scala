@@ -65,6 +65,7 @@ abstract class Logo:
 
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
+      case List(EOIToken())                                => (LogoNull(), Seq(EOIToken()))
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
