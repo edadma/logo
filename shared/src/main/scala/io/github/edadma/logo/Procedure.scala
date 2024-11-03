@@ -81,11 +81,10 @@ val builtin =
       2,
       {
         case (ctx, Seq(left, right)) =>
-          val cond = boolean(left).toInt
+          val cond = boolean(left)
           val body = list(right)
 
-          for _ <- 1 to times do
-            ctx.interp(body)
+          if cond then ctx.interp(body)
       },
     ),
   ) map (p => p.name -> p) toMap
