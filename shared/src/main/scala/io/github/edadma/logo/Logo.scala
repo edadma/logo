@@ -53,12 +53,15 @@ abstract class Logo:
     if rest.head.isInstanceOf[EOIToken] then value
     else interp(rest)
 
-  def lookup(proc: String): Option[Procedure] =
+  def lookup(proc: String): Option[Procedure | LogoValue] =
     val lower = proc.toLowerCase
 
     builtin get lower match
-      case None => synonyms get lower
-      case p    => p
+      case None =>
+        synonyms get lower match
+          case None => vars get lower
+          case s    => s
+      case p => p
 
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
@@ -70,7 +73,7 @@ abstract class Logo:
         else if s.head.isDigit || (s.head == '-' && s != "-") then (logoNumber(s, tok.r), tail)
         else
           lookup(s) match
-            case None => tok.r.error(s"unknown procedure '$s'")
+            case None => tok.r.error(s"unknown procedure or variable '$s'")
             case Some(Procedure(name, args, func)) =>
               val buf = new ListBuffer[LogoValue]
 
@@ -93,4 +96,5 @@ abstract class Logo:
                   case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
+            case Some(v: LogoValue) => (v, tail)
         end if

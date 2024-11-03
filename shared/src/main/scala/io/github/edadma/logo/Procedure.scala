@@ -131,11 +131,7 @@ val builtin =
       "make",
       2,
       {
-        case (ctx, Seq(left, right)) =>
-          val cond = boolean(left)
-          val body = list(right)
-
-          if cond then ctx.interp(body)
+        case (ctx, Seq(name, value)) => ctx.vars(name.toString) = value
       },
     ),
   ) map (p => p.name -> p) toMap
