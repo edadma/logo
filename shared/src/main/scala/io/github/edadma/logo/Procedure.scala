@@ -49,6 +49,13 @@ val builtin =
       },
     ),
     Procedure(
+      "equalp",
+      2,
+      {
+        case (_, Seq(left, right)) => left == right
+      },
+    ),
+    Procedure(
       "forward",
       1,
       {
@@ -143,6 +150,7 @@ val synonyms =
     "*"      -> "product",
     "/"      -> "quotient",
     "%"      -> "remainder",
+    "="      -> "equalp",
     "fd"     -> "forward",
     "avance" -> "forward",
     "av"     -> "forward",

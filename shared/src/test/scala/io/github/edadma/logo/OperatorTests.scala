@@ -31,3 +31,7 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "arithmetic 7" in {
     eval("remainder 10 4") shouldBe "2"
   }
+
+  "comparison 1" in {
+    eval("equalp 5 5") shouldBe "true"
+  }

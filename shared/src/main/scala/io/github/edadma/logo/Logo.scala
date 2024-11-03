@@ -93,6 +93,7 @@ abstract class Logo:
                 func(this, buf.toSeq) match
                   case v: LogoValue => v
                   case d: Double    => logoNumber(d)
+                  case b: Boolean   => LogoBoolean(b)
                   case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
