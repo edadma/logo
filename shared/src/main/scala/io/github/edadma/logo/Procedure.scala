@@ -87,6 +87,29 @@ val builtin =
           if cond then ctx.interp(body)
       },
     ),
+    Procedure(
+      "ifelse",
+      3,
+      {
+        case (ctx, Seq(cond, yes, no)) =>
+          val condv = boolean(cond)
+          val yesv  = list(yes)
+          val nov   = list(no)
+
+          if condv then ctx.interp(yesv) else ctx.interp(nov)
+      },
+    ),
+    Procedure(
+      "make",
+      2,
+      {
+        case (ctx, Seq(left, right)) =>
+          val cond = boolean(left)
+          val body = list(right)
+
+          if cond then ctx.interp(body)
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
 val synonyms =
@@ -98,11 +121,14 @@ val synonyms =
     "rt"     -> "right",
     "droite" -> "right",
     "dr"     -> "right",
-    "repete" -> "repeat",
     "bk"     -> "back",
     "recule" -> "back",
     "re"     -> "back",
     "lt"     -> "left",
     "gauche" -> "left",
     "gc"     -> "left",
+    "repete" -> "repeat",
+    "si"     -> "if",
+    "siou"   -> "ifelse",
+    "rends"  -> "make",
   ) map ((s, p) => s -> builtin(p)) toMap

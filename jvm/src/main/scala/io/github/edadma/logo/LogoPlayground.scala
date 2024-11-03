@@ -118,7 +118,6 @@ object LogoPlayground extends SimpleSwingApplication:
             val roundedY2 = Math.round(y2).toInt
 
             g.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
-//            g.drawLine(x1.toInt, y1.toInt, x2.toInt, y2.toInt)
         }
     end TurtlePanel
 

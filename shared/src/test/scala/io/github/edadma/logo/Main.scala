@@ -15,6 +15,6 @@ import pprint.pprintln
       |""".trim.stripMargin
   val l = new Logo { override def event(): Unit = () }
 
-//  println(l.interp(s))
-  pprintln(tokenize(CharReader.fromString(s)))
-  pprintln(transform(tokenize(CharReader.fromString(s))))
+  println(l.interp(s))
+//  pprintln(tokenize(CharReader.fromString(s)))
+//  pprintln(transform(tokenize(CharReader.fromString(s))))

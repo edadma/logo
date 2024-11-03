@@ -5,6 +5,7 @@ import io.github.edadma.char_reader.CharReader
 import scala.annotation.tailrec
 import pprint.pprintln
 
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
 import scala.math.{Pi, cos, sin}
@@ -19,8 +20,7 @@ abstract class Logo:
   private[logo] var pen: Boolean    = true
   private[logo] var show: Boolean   = true
   private[logo] val draws           = new ListBuffer[Draw]
-
-  var debug: Boolean = false
+  private[logo] val vars            = new mutable.HashMap[String, LogoValue]
 
   event()
 
