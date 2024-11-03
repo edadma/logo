@@ -62,7 +62,7 @@ val builtin =
         case (ctx, Seq(distance)) =>
           val (x2, y2) = ctx.computeEndpoint(number(distance))
 
-          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
+          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
           ctx.y = y2
           ctx.event()
@@ -84,7 +84,7 @@ val builtin =
         case (ctx, Seq(distance)) =>
           val (x2, y2) = ctx.computeEndpoint(-number(distance))
 
-          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color)
+          if ctx.pen then ctx.draws += Line(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
           ctx.y = y2
           ctx.event()
@@ -96,6 +96,18 @@ val builtin =
       {
         case (ctx, Seq(turn)) =>
           ctx.heading = ctx.computeTurn(-number(turn))
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "setpensize",
+      1,
+      {
+        case (ctx, Seq(size @ LogoList(Seq(width, _), _))) =>
+          ctx.width = number(width)
+          ctx.event()
+        case (ctx, Seq(width)) =>
+          ctx.width = number(width)
           ctx.event()
       },
     ),
@@ -224,6 +236,7 @@ val synonyms =
     "lt"           -> "left",
     "gauche"       -> "left",
     "gc"           -> "left",
+    "taillecrayon" -> "setpensize",
     "repete"       -> "repeat",
     "si"           -> "if",
     "siou"         -> "ifelse",

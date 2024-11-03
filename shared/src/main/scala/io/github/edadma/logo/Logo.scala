@@ -18,6 +18,7 @@ abstract class Logo:
   private[logo] var heading: Double = Pi / 2
   private[logo] var color: String   = "black"
   private[logo] var pen: Boolean    = true
+  private[logo] var width: Double   = 1
   private[logo] var show: Boolean   = true
   private[logo] val draws           = new ListBuffer[Draw]
   private[logo] val vars            = new mutable.HashMap[String, LogoValue]
@@ -38,6 +39,7 @@ abstract class Logo:
     heading = Pi / 2
     color = "black"
     pen = true
+    width = 1
 
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 

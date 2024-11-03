@@ -4,7 +4,7 @@ import pprint.pprintln
 
 import java.awt.event.{ActionEvent, InputEvent, KeyEvent}
 import java.awt.geom.{AffineTransform, Path2D}
-import java.awt.{Color, Font, GridBagConstraints, Insets, RenderingHints, Toolkit, Frame as awtFrame}
+import java.awt.{BasicStroke, Color, Font, GridBagConstraints, Insets, RenderingHints, Toolkit, Frame as awtFrame}
 import java.io.{ByteArrayOutputStream, File, PrintWriter, StringWriter}
 import javax.swing.filechooser.FileNameExtensionFilter
 import javax.swing.undo.UndoManager
@@ -148,8 +148,9 @@ object LogoPlayground extends SimpleSwingApplication:
         g.scale(1, -1)
 
         logo.drawing foreach {
-          case Line(x1, y1, x2, y2, color) =>
+          case Line(x1, y1, x2, y2, color, width) =>
             g.setColor(Color.black)
+            g.setStroke(new BasicStroke(width.toFloat))
 
             val roundedX1 = Math.round(x1).toInt
             val roundedY1 = Math.round(y1).toInt
@@ -160,55 +161,11 @@ object LogoPlayground extends SimpleSwingApplication:
         }
 
         logo.turtle match
-          case None =>
-          case Some((x, y, heading)) =>
-            drawTurtle(g, x, y, heading)
-//            g.setColor(Color.GREEN)
-//
-//            // Define the turtle shape path
-//            val turtlePath = new Path2D.Double()
-//            turtlePath.moveTo(0, 0)   // Tail position at (0, 0)
-//            turtlePath.lineTo(5, -10) // Draw head shape
-//            turtlePath.lineTo(0, -20)
-//            turtlePath.lineTo(-5, -10)
-//            turtlePath.closePath()
-//
-//            turtlePath.moveTo(-20, 10) // Left front leg
-//            turtlePath.lineTo(-10, 5)
-//            turtlePath.lineTo(-15, 15)
-//            turtlePath.closePath()
-//
-//            turtlePath.moveTo(20, 10) // Right front leg
-//            turtlePath.lineTo(10, 5)
-//            turtlePath.lineTo(15, 15)
-//            turtlePath.closePath()
-//
-//            turtlePath.moveTo(-20, 40) // Left back leg
-//            turtlePath.lineTo(-10, 35)
-//            turtlePath.lineTo(-15, 45)
-//            turtlePath.closePath()
-//
-//            turtlePath.moveTo(20, 40) // Right back leg
-//            turtlePath.lineTo(10, 35)
-//            turtlePath.lineTo(15, 45)
-//            turtlePath.closePath()
-//
-//            turtlePath.moveTo(0, 0) // Body curve starts from tail
-//            turtlePath.curveTo(-20, 10, -20, 30, 0, 50)
-//            turtlePath.curveTo(20, 30, 20, 10, 0, 0)
-//
-//            // Translate the path to x, y coordinates
-//            val transform = AffineTransform.getTranslateInstance(x, y)
-//
-//            transform.rotate(heading + Pi / 2)
-//
-//            val translatedPath = transform.createTransformedShape(turtlePath)
-//
-//            // Draw the translated path
-//            g.draw(translatedPath)
+          case None                  =>
+          case Some((x, y, heading)) => drawTurtle(g, x, y, heading)
       end paintComponent
 
-      def drawTurtle(g2d: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
+      def drawTurtle(g: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
         // Define the turtle shape in local coordinates (tail at (0, 0), pointing upwards)
         val turtle = new Path2D.Double()
         val w      = 15.0 // Width of the turtle
@@ -229,8 +186,9 @@ object LogoPlayground extends SimpleSwingApplication:
         val transformedTurtle = transform.createTransformedShape(turtle)
 
         // Draw the turtle
-        g2d.setColor(Color.GREEN)
-        g2d.draw(transformedTurtle) // Outline the turtle shape
+        g.setColor(Color.GREEN)
+        g.setStroke(new BasicStroke(2.toFloat))
+        g.draw(transformedTurtle) // Outline the turtle shape
       }
     end TurtlePanel
 
