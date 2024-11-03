@@ -1,21 +1,22 @@
 package io.github.edadma.logo
 
 import scala.language.postfixOps
-import scala.math.{E, Pi}
+import scala.math.{E, Pi, random}
 
 abstract class Procedure:
   val name: String
 
 case class BuiltinProcedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
     extends Procedure
+case class BuiltinFunction0(name: String, func: () => Double)               extends Procedure
 case class BuiltinFunction1(name: String, func: Double => Double)           extends Procedure
 case class BuiltinFunction2(name: String, func: (Double, Double) => Double) extends Procedure
-case class BuiltinConstant(name: String, const: Double)                     extends Procedure
 
 val builtin =
   List[Procedure](
-    BuiltinConstant("pi", Pi),
-    BuiltinConstant("e", E),
+    BuiltinFunction0("pi", () => Pi),
+    BuiltinFunction0("e", () => E),
+    BuiltinFunction1("random", limit => random * limit),
     BuiltinProcedure(
       "print",
       1,
@@ -279,4 +280,5 @@ val synonyms =
     "si"           -> "if",
     "siou"         -> "ifelse",
     "rends"        -> "make",
+    "rnd"          -> "random",
   ) map ((s, p) => s -> builtin(p)) toMap

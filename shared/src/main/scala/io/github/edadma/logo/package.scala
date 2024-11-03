@@ -51,5 +51,3 @@ def normalizeAngle(angle: Double): Double =
   angle % (2 * Pi) match
     case h if h < 0 => h + 2 * Pi
     case h          => h
-
-def radians(degrees: Double) = degrees * Pi / 180

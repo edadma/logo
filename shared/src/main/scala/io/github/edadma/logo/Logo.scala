@@ -8,7 +8,7 @@ import pprint.pprintln
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
-import scala.math.{Pi, cos, sin}
+import scala.math.{Pi, cos, sin, toRadians}
 
 abstract class Logo:
   def event(): Unit
@@ -29,8 +29,8 @@ abstract class Logo:
   def turtle: Option[(Double, Double, Double)] = Option.when(show)(x, y, heading)
 
   def computeEndpoint(distance: Double): (Double, Double) = (x + distance * cos(heading), y + distance * sin(heading))
-  def computeTurn(turn: Double): Double                   = normalizeAngle(heading - radians(turn))
-  def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - radians(heading))
+  def computeTurn(turn: Double): Double                   = normalizeAngle(heading - toRadians(turn))
+  def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - toRadians(heading))
 
   def home(): Unit =
     x = 0
@@ -104,7 +104,7 @@ abstract class Logo:
         else
           lookup(s) match
             case None                            => tok.r.error(s"unknown procedure, variable, or constant '$s'")
-            case Some(BuiltinConstant(_, const)) => (logoNumber(const).pos(tok.r), tail)
+            case Some(BuiltinFunction0(_, func)) => (logoNumber(func()).pos(tok.r), tail)
             case Some(BuiltinFunction1(name, func)) =>
               val (Seq(a), rest) = evalargsn(name, 1, tail)
 

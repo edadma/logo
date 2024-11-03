@@ -5,11 +5,11 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.math.{E, Pi}
 
-class ConstantsTests extends AnyFreeSpec with Matchers with Test:
-  "constants 1" in {
+class Function0Tests extends AnyFreeSpec with Matchers with Test:
+  "pi" in {
     eval("pi") shouldBe Pi.toString
   }
 
-  "constants 2" in {
+  "e" in {
     eval("e") shouldBe E.toString
   }

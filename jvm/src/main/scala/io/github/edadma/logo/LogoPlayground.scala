@@ -25,6 +25,8 @@ object LogoPlayground extends SimpleSwingApplication:
   def top: Frame = new MainFrame:
     title = "Logo Playground"
 
+    val undoManager = new UndoManager
+
     // Left panel components
     private val inputArea = new TextArea {
       rows = 20
@@ -32,35 +34,44 @@ object LogoPlayground extends SimpleSwingApplication:
       wordWrap = true
       font = new Font("Monospaced", Font.PLAIN, 16)
       lineWrap = false
-    }
 
-    val undoManager = new UndoManager()
-
-    inputArea.peer.getDocument.addUndoableEditListener { event =>
-      undoManager.addEdit(event.getEdit)
-    }
-
-    private val undoKey = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK)
-    inputArea.peer.getInputMap.put(undoKey, "Undo")
-    inputArea.peer.getActionMap.put(
-      "Undo",
-      new javax.swing.AbstractAction {
+      // Define an action to insert two spaces
+      val insertSpacesAction = new AbstractAction {
         override def actionPerformed(e: ActionEvent): Unit = {
-          if (undoManager.canUndo) undoManager.undo()
+          peer.replaceSelection("  ")
         }
-      },
-    )
+      }
 
-    val redoKey = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)
-    inputArea.peer.getInputMap.put(redoKey, "Redo")
-    inputArea.peer.getActionMap.put(
-      "Redo",
-      new javax.swing.AbstractAction {
-        override def actionPerformed(e: ActionEvent): Unit = {
-          if (undoManager.canRedo) undoManager.redo()
-        }
-      },
-    )
+      // Map the Tab key to the custom action
+      peer.getInputMap.put(KeyStroke.getKeyStroke("TAB"), "insert-spaces")
+      peer.getActionMap.put("insert-spaces", insertSpacesAction)
+
+      peer.getDocument.addUndoableEditListener { event =>
+        undoManager.addEdit(event.getEdit)
+      }
+
+      private val undoKey = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK)
+      peer.getInputMap.put(undoKey, "Undo")
+      peer.getActionMap.put(
+        "Undo",
+        new javax.swing.AbstractAction {
+          override def actionPerformed(e: ActionEvent): Unit = {
+            if (undoManager.canUndo) undoManager.undo()
+          }
+        },
+      )
+
+      val redoKey = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)
+      peer.getInputMap.put(redoKey, "Redo")
+      peer.getActionMap.put(
+        "Redo",
+        new javax.swing.AbstractAction {
+          override def actionPerformed(e: ActionEvent): Unit = {
+            if (undoManager.canRedo) undoManager.redo()
+          }
+        },
+      )
+    }
 
     // Define the one-line input field for immediate Logo command execution
     val commandInput = new TextField {
