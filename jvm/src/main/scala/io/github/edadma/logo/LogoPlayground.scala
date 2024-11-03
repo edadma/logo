@@ -21,8 +21,6 @@ object LogoPlayground extends SimpleSwingApplication:
   def top: Frame = new MainFrame:
     title = "Logo Playground"
 
-    peer.setExtendedState(awtFrame.MAXIMIZED_BOTH)
-
     // Left panel components
     private val inputArea = new TextArea {
       rows = 20
@@ -123,6 +121,7 @@ object LogoPlayground extends SimpleSwingApplication:
 
     val outputScrollPane = new ScrollPane(turtlePanel)
 
+    SwingUtilities.invokeLater(() => peer.setExtendedState(awtFrame.MAXIMIZED_BOTH))
     SwingUtilities.invokeLater(() => {
       val viewport   = outputScrollPane.peer.getViewport
       val viewSize   = viewport.getViewSize
