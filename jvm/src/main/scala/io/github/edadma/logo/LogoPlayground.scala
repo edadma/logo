@@ -162,49 +162,76 @@ object LogoPlayground extends SimpleSwingApplication:
         logo.turtle match
           case None =>
           case Some((x, y, heading)) =>
-            g.setColor(Color.GREEN)
+            drawTurtle(g, x, y, heading)
+//            g.setColor(Color.GREEN)
+//
+//            // Define the turtle shape path
+//            val turtlePath = new Path2D.Double()
+//            turtlePath.moveTo(0, 0)   // Tail position at (0, 0)
+//            turtlePath.lineTo(5, -10) // Draw head shape
+//            turtlePath.lineTo(0, -20)
+//            turtlePath.lineTo(-5, -10)
+//            turtlePath.closePath()
+//
+//            turtlePath.moveTo(-20, 10) // Left front leg
+//            turtlePath.lineTo(-10, 5)
+//            turtlePath.lineTo(-15, 15)
+//            turtlePath.closePath()
+//
+//            turtlePath.moveTo(20, 10) // Right front leg
+//            turtlePath.lineTo(10, 5)
+//            turtlePath.lineTo(15, 15)
+//            turtlePath.closePath()
+//
+//            turtlePath.moveTo(-20, 40) // Left back leg
+//            turtlePath.lineTo(-10, 35)
+//            turtlePath.lineTo(-15, 45)
+//            turtlePath.closePath()
+//
+//            turtlePath.moveTo(20, 40) // Right back leg
+//            turtlePath.lineTo(10, 35)
+//            turtlePath.lineTo(15, 45)
+//            turtlePath.closePath()
+//
+//            turtlePath.moveTo(0, 0) // Body curve starts from tail
+//            turtlePath.curveTo(-20, 10, -20, 30, 0, 50)
+//            turtlePath.curveTo(20, 30, 20, 10, 0, 0)
+//
+//            // Translate the path to x, y coordinates
+//            val transform = AffineTransform.getTranslateInstance(x, y)
+//
+//            transform.rotate(heading + Pi / 2)
+//
+//            val translatedPath = transform.createTransformedShape(turtlePath)
+//
+//            // Draw the translated path
+//            g.draw(translatedPath)
+      end paintComponent
 
-            // Define the turtle shape path
-            val turtlePath = new Path2D.Double()
-            turtlePath.moveTo(0, 0)   // Tail position at (0, 0)
-            turtlePath.lineTo(5, -10) // Draw head shape
-            turtlePath.lineTo(0, -20)
-            turtlePath.lineTo(-5, -10)
-            turtlePath.closePath()
+      def drawTurtle(g2d: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
+        // Define the turtle shape in local coordinates (tail at (0, 0), pointing upwards)
+        val turtle = new Path2D.Double()
+        val w      = 15.0 // Width of the turtle
+        val h      = 20.0 // Height of the turtle
 
-            turtlePath.moveTo(-20, 10) // Left front leg
-            turtlePath.lineTo(-10, 5)
-            turtlePath.lineTo(-15, 15)
-            turtlePath.closePath()
+        turtle.moveTo(0.0, 0.0)      // Tail point at (0, 0)
+        turtle.lineTo(-w / 2, h / 2) // Left side point
+        turtle.lineTo(0.0, h)        // Head point
+        turtle.lineTo(w / 2, h / 2)  // Right side point
+        turtle.closePath()           // Close the shape
 
-            turtlePath.moveTo(20, 10) // Right front leg
-            turtlePath.lineTo(10, 5)
-            turtlePath.lineTo(15, 15)
-            turtlePath.closePath()
+        // Create a transformation that first rotates and then translates the turtle
+        val transform = new AffineTransform()
+        transform.translate(x, y)          // Move the tail to (x, y)
+        transform.rotate(heading - Pi / 2) // Rotate the turtle to the desired heading
 
-            turtlePath.moveTo(-20, 40) // Left back leg
-            turtlePath.lineTo(-10, 35)
-            turtlePath.lineTo(-15, 45)
-            turtlePath.closePath()
+        // Apply the transformation to the turtle shape
+        val transformedTurtle = transform.createTransformedShape(turtle)
 
-            turtlePath.moveTo(20, 40) // Right back leg
-            turtlePath.lineTo(10, 35)
-            turtlePath.lineTo(15, 45)
-            turtlePath.closePath()
-
-            turtlePath.moveTo(0, 0) // Body curve starts from tail
-            turtlePath.curveTo(-20, 10, -20, 30, 0, 50)
-            turtlePath.curveTo(20, 30, 20, 10, 0, 0)
-
-            // Translate the path to x, y coordinates
-            val transform = AffineTransform.getTranslateInstance(x, y)
-
-            transform.rotate(heading + Pi / 2)
-
-            val translatedPath = transform.createTransformedShape(turtlePath)
-
-            // Draw the translated path
-            g.draw(translatedPath)
+        // Draw the turtle
+        g2d.setColor(Color.GREEN)
+        g2d.draw(transformedTurtle) // Outline the turtle shape
+      }
     end TurtlePanel
 
     val drawScrollPane = new ScrollPane(drawPanel)
