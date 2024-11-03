@@ -116,8 +116,29 @@ val builtin =
       0,
       {
         case (ctx, _) =>
-          ctx.reset()
+          ctx.clearscreen()
           ctx.event()
+      },
+    ),
+    Procedure(
+      "home",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.home()
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "setxy",
+      2,
+      {
+        case (ctx, Seq(x, y)) =>
+          val newx = number(x)
+          val newy = number(y)
+
+          ctx.x = newx
+          ctx.y = newy
       },
     ),
     Procedure(
@@ -237,6 +258,8 @@ val synonyms =
     "gauche"       -> "left",
     "gc"           -> "left",
     "taillecrayon" -> "setpensize",
+    "origine"      -> "home",
+    "placexy"      -> "setxy",
     "repete"       -> "repeat",
     "si"           -> "if",
     "siou"         -> "ifelse",

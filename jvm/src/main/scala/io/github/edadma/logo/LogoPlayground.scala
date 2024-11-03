@@ -350,7 +350,7 @@ object LogoPlayground extends SimpleSwingApplication:
 
     def runAction(): Unit =
       try {
-        logo.reset()
+        logo.clearscreen()
         errorOutput.text = captureStdOut {
           logo.interp(inputArea.text)
         }

@@ -32,11 +32,14 @@ abstract class Logo:
   def computeTurn(turn: Double): Double                   = normalizeAngle(heading - radians(turn))
   def computeHeading(heading: Double): Double             = normalizeAngle(Pi / 2 - radians(heading))
 
-  def reset(): Unit =
-    draws.clear()
+  def home(): Unit =
     x = 0
     y = 0
     heading = Pi / 2
+
+  def clearscreen(): Unit =
+    draws.clear()
+    home()
     color = "black"
     pen = true
     width = 1
