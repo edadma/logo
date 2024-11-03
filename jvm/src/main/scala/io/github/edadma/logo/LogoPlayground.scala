@@ -124,13 +124,13 @@ object LogoPlayground extends SimpleSwingApplication:
       },
     )
 
-    val turtlePanel =
+    val drawPanel =
       new TurtlePanel:
         preferredSize = (3000, 3000)
 
     val logo =
       new Logo:
-        def event(): Unit = turtlePanel.repaint()
+        def event(): Unit = drawPanel.repaint()
 
     class TurtlePanel extends Panel:
 //      preferredSize = (3000, 3000)
@@ -158,13 +158,13 @@ object LogoPlayground extends SimpleSwingApplication:
         }
     end TurtlePanel
 
-    val outputScrollPane = new ScrollPane(turtlePanel)
+    val drawScrollPane = new ScrollPane(drawPanel)
 
     SwingUtilities.invokeLater(() =>
       peer.setExtendedState(awtFrame.MAXIMIZED_BOTH),
     )
     SwingUtilities.invokeLater(() =>
-      val viewport   = outputScrollPane.peer.getViewport
+      val viewport   = drawScrollPane.peer.getViewport
       val viewSize   = viewport.getViewSize
       val extentSize = viewport.getExtentSize
 
@@ -187,7 +187,7 @@ object LogoPlayground extends SimpleSwingApplication:
       c.gridy = 0
       c.anchor = GridBagPanel.Anchor.West
       c.insets = new Insets(0, 0, 5, 0) // Add some space below the label
-      layout(new Label("Input Area")) = c
+      layout(new Label("Program Editor")) = c
 
       // Input area
       c.gridy = 1
@@ -210,7 +210,7 @@ object LogoPlayground extends SimpleSwingApplication:
       // Error label
       c.gridy = 4
       c.fill = GridBagPanel.Fill.None
-      layout(new Label("Error Output")) = c
+      layout(new Label("Output")) = c
 
       // Error output area
       c.gridy = 5
@@ -299,7 +299,7 @@ object LogoPlayground extends SimpleSwingApplication:
     }
 
     // Main split pane
-    val splitPane = new SplitPane(Orientation.Vertical, leftPanel, outputScrollPane) {
+    val splitPane = new SplitPane(Orientation.Vertical, leftPanel, drawScrollPane) {
       oneTouchExpandable = true
       continuousLayout = true
       dividerLocation = screenSize.width / 2
