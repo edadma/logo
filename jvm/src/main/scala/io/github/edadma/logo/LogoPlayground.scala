@@ -16,7 +16,8 @@ import scala.swing.Swing.*
 import scala.swing.event.*
 
 object LogoPlayground extends SimpleSwingApplication:
-  val screenSize = Toolkit.getDefaultToolkit.getScreenSize
+  val screenSize   = Toolkit.getDefaultToolkit.getScreenSize
+  var dev: Boolean = false
 
   def top: Frame = new MainFrame:
     title = "Logo Playground"
@@ -122,8 +123,7 @@ object LogoPlayground extends SimpleSwingApplication:
     val outputScrollPane = new ScrollPane(turtlePanel)
 
     SwingUtilities.invokeLater(() =>
-      peer.setExtendedState(awtFrame.MAXIMIZED_BOTH)
-      size = screenSize,
+      peer.setExtendedState(awtFrame.MAXIMIZED_BOTH),
     )
     SwingUtilities.invokeLater(() =>
       val viewport   = outputScrollPane.peer.getViewport
@@ -242,11 +242,14 @@ object LogoPlayground extends SimpleSwingApplication:
         }
       } catch
         case error: Throwable =>
-          val sw = new StringWriter
-          val pw = new PrintWriter(sw)
+          if dev then
+            val sw = new StringWriter
+            val pw = new PrintWriter(sw)
 
-          error.printStackTrace(pw)
-          errorOutput.text = sw.toString
+            error.printStackTrace(pw)
+            errorOutput.text = sw.toString
+          else
+            errorOutput.text = error.getMessage
     end runAction
 
     // Event handling for the Run button
