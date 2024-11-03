@@ -112,4 +112,5 @@ abstract class Logo:
 
               (res.pos(tok.r), rest)
             case Some(v: LogoValue) => (v, tail)
+            case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
         end if
