@@ -67,7 +67,7 @@ abstract class Logo:
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r.next), tail)
-        else if s.head.isDigit || s.head == '-' then (logoNumber(s, tok.r), tail)
+        else if s.head.isDigit || (s.head == '-' && s != "-") then (logoNumber(s, tok.r), tail)
         else
           lookup(s) match
             case None => tok.r.error(s"unknown procedure '$s'")

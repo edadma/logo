@@ -21,6 +21,13 @@ val builtin =
       },
     ),
     Procedure(
+      "difference",
+      2,
+      {
+        case (_, Seq(left, right)) => number(left) - number(right)
+      },
+    ),
+    Procedure(
       "forward",
       1,
       {
@@ -115,6 +122,7 @@ val builtin =
 val synonyms =
   List(
     "+"      -> "sum",
+    "-"      -> "difference",
     "fd"     -> "forward",
     "avance" -> "forward",
     "av"     -> "forward",
