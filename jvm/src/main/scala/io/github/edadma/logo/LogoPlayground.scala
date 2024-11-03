@@ -121,8 +121,11 @@ object LogoPlayground extends SimpleSwingApplication:
 
     val outputScrollPane = new ScrollPane(turtlePanel)
 
-    SwingUtilities.invokeLater(() => peer.setExtendedState(awtFrame.MAXIMIZED_BOTH))
-    SwingUtilities.invokeLater(() => {
+    SwingUtilities.invokeLater(() =>
+      peer.setExtendedState(awtFrame.MAXIMIZED_BOTH)
+      size = screenSize,
+    )
+    SwingUtilities.invokeLater(() =>
       val viewport   = outputScrollPane.peer.getViewport
       val viewSize   = viewport.getViewSize
       val extentSize = viewport.getExtentSize
@@ -132,8 +135,8 @@ object LogoPlayground extends SimpleSwingApplication:
       val y = (viewSize.height - extentSize.height) / 2
 
       // Set the position
-      viewport.setViewPosition(new Point(x, y))
-    })
+      viewport.setViewPosition(new Point(x, y)),
+    )
 
     // Adding components to the left panel
     val leftPanel = new BoxPanel(Orientation.Vertical) {
