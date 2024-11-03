@@ -11,10 +11,10 @@ import pprint.pprintln
 
   val s =
     """
-      |print + 3 4
-      |print "asdf
-      |print [one two]
+      |[one [two] three]
       |""".trim.stripMargin
   val l = new Logo { override def event(): Unit = () }
 
-  println(l.interp(s))
+//  println(l.interp(s))
+  pprintln(tokenize(CharReader.fromString(s)))
+  pprintln(transform(tokenize(CharReader.fromString(s))))

@@ -30,15 +30,18 @@ def transform(toks: Seq[LogoValue]): Seq[LogoValue] =
   transform(toks)
   buf.toSeq
 
-@tailrec
 def transformList(
     start: CharReader,
     toks: Seq[LogoValue],
     buf: ListBuffer[LogoValue] = new ListBuffer,
 ): (LogoValue, Seq[LogoValue]) =
   toks match
-    case Nil                           => sys.error("unexpected end of token list")
-    case (start @ LogoWord("[")) :: tl => transformList(start.r, tl)
+    case Nil => sys.error("unexpected end of token list")
+    case (startsub @ LogoWord("[")) :: tl =>
+      val (list, rest) = transformList(startsub.r, tl)
+
+      buf += list
+      transformList(start, rest, buf)
     case (end @ LogoWord("]")) :: tl =>
       val list = buf.toSeq
 
