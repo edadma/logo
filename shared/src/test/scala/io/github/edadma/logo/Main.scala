@@ -11,7 +11,7 @@ import pprint.pprintln
 
   val s =
     """
-      |[one [two] three]
+      |print 123
       |""".trim.stripMargin
   val l = new Logo { override def event(): Unit = () }
 

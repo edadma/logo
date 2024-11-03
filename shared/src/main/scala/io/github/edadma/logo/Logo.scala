@@ -83,7 +83,9 @@ abstract class Logo:
         buf += arg
         evalarg(count - 1, rest)
 
-    (buf.toSeq, evalarg(count, toks))
+    val rest = evalarg(count, toks)
+
+    (buf.toSeq, rest)
 
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
