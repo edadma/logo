@@ -10,6 +10,10 @@ class BasicTests extends AnyFreeSpec with Matchers with Test {
   }
 
   "literal 2" in {
+    eval("\"123x") shouldBe "123x"
+  }
+
+  "literal 3" in {
     an[Exception] should be thrownBy eval("123x")
   }
 
