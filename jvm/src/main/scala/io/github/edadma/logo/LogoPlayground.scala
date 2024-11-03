@@ -14,6 +14,8 @@ import scala.language.postfixOps
 import scala.swing.*
 import scala.swing.Swing.*
 import scala.swing.event.*
+import java.awt.{GridBagConstraints, Insets}
+import scala.swing.GridBagPanel
 
 object LogoPlayground extends SimpleSwingApplication:
   val screenSize   = Toolkit.getDefaultToolkit.getScreenSize
@@ -62,7 +64,6 @@ object LogoPlayground extends SimpleSwingApplication:
     // Define the one-line input field for immediate Logo command execution
     val commandInput = new TextField {
       font = new Font("Monospaced", Font.PLAIN, 16)
-      maximumSize = new Dimension(Int.MaxValue, font.getSize + 10)
       listenTo(keys)
       reactions += {
         case KeyPressed(_, Key.Enter, _, _) =>
@@ -176,13 +177,54 @@ object LogoPlayground extends SimpleSwingApplication:
     )
 
     // Adding components to the left panel
-    val leftPanel = new BoxPanel(Orientation.Vertical) {
+    val leftPanel = new GridBagPanel {
       border = Swing.EmptyBorder(10, 10, 10, 10)
 
-      contents += new ScrollPane(inputArea)
-      contents += commandInput
-      contents += new ScrollPane(errorOutput)
-      contents += new FlowPanel(FlowPanel.Alignment.Center)(runButton)
+      val c = new Constraints
+
+      // Input label
+      c.gridx = 0
+      c.gridy = 0
+      c.anchor = GridBagPanel.Anchor.West
+      c.insets = new Insets(0, 0, 5, 0) // Add some space below the label
+      layout(new Label("Input Area")) = c
+
+      // Input area
+      c.gridy = 1
+      c.fill = GridBagPanel.Fill.Both
+      c.weightx = 1.0
+      c.weighty = 1.0
+      layout(new ScrollPane(inputArea)) = c
+
+      // Command label
+      c.gridy = 2
+      c.fill = GridBagPanel.Fill.None
+      c.weighty = 0
+      layout(new Label("Command Input")) = c
+
+      // Command input field
+      c.gridy = 3
+      c.fill = GridBagPanel.Fill.Both
+      layout(commandInput) = c
+
+      // Error label
+      c.gridy = 4
+      c.fill = GridBagPanel.Fill.None
+      layout(new Label("Error Output")) = c
+
+      // Error output area
+      c.gridy = 5
+      c.fill = GridBagPanel.Fill.Both
+      c.weighty = 1.0
+      layout(new ScrollPane(errorOutput)) = c
+
+      // Run button
+      c.gridy = 6
+      c.anchor = GridBagPanel.Anchor.Center
+      c.fill = GridBagPanel.Fill.None
+      c.weightx = 0
+      c.weighty = 0
+      layout(new FlowPanel(FlowPanel.Alignment.Center)(runButton)) = c
     }
 
     // Define the File menu with Open and Save items
