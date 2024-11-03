@@ -109,6 +109,24 @@ val builtin =
       },
     ),
     Procedure(
+      "penup",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.pen = false
+          ctx.event()
+      },
+    ),
+    Procedure(
+      "pendown",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.pen = true
+          ctx.event()
+      },
+    ),
+    Procedure(
       "repeat",
       2,
       {
@@ -167,6 +185,12 @@ val synonyms =
     "cs"           -> "clearscreen",
     "effacerecran" -> "clearscreen",
     "ee"           -> "clearscreen",
+    "pu"           -> "penup",
+    "levecrayon"   -> "penup",
+    "lc"           -> "penup",
+    "pd"           -> "pendown",
+    "baisscrayon"  -> "pendown",
+    "bc"           -> "pendown",
     "rt"           -> "right",
     "droite"       -> "right",
     "dr"           -> "right",

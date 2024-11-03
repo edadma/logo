@@ -37,6 +37,7 @@ abstract class Logo:
     y = 0
     heading = Pi / 2
     color = "black"
+    pen = true
 
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
