@@ -2,7 +2,7 @@ package io.github.edadma.logo
 
 import java.awt.Color
 
-val colors: Seq[(String, (Int, Int, Int))] = Seq(
+private val colors: Seq[(String, (Int, Int, Int))] = Seq(
   "black"        -> (0, 0, 0),
   "blue"         -> (0, 0, 255),
   "green"        -> (0, 255, 0),
@@ -20,5 +20,7 @@ val colors: Seq[(String, (Int, Int, Int))] = Seq(
   "lightred"     -> (255, 182, 193),
   "lightmagenta" -> (238, 130, 238),
 )
+
+val colorMap = colors.toMap
 
 val colorArray = colors.map(_._2).toVector

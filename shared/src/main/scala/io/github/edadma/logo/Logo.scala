@@ -13,15 +13,15 @@ import scala.math.{Pi, cos, sin, toRadians}
 abstract class Logo:
   def event(): Unit
 
-  private[logo] var x: Double       = 0
-  private[logo] var y: Double       = 0
-  private[logo] var heading: Double = Pi / 2
-  private[logo] var color: String   = "black"
-  private[logo] var pen: Boolean    = true
-  private[logo] var width: Double   = 1
-  private[logo] var show: Boolean   = true
-  private[logo] val draws           = new ListBuffer[Draw]
-  private[logo] val vars            = new mutable.HashMap[String, LogoValue]
+  private[logo] var x: Double              = 0
+  private[logo] var y: Double              = 0
+  private[logo] var heading: Double        = Pi / 2
+  private[logo] var color: (Int, Int, Int) = colorMap("black")
+  private[logo] var pen: Boolean           = true
+  private[logo] var width: Double          = 1
+  private[logo] var show: Boolean          = true
+  private[logo] val draws                  = new ListBuffer[Draw]
+  private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
 
   event()
 
@@ -40,7 +40,7 @@ abstract class Logo:
   def clearscreen(): Unit =
     draws.clear()
     home()
-    color = "black"
+    color = colorMap("black")
     pen = true
     width = 1
 

@@ -1,5 +1,6 @@
 package io.github.edadma.logo
 
+import java.awt.Color
 import scala.language.postfixOps
 import scala.math.{E, Pi, random}
 
@@ -93,6 +94,21 @@ val builtin =
           ctx.event()
         case (ctx, Seq(width)) =>
           ctx.width = number(width)
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "setcolor",
+      1,
+      {
+        case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
+          ctx.color = (number(r).toInt, number(g).toInt, number(b).toInt)
+          ctx.event()
+        case (ctx, Seq(LogoNumber(_, d))) =>
+          ctx.color = colorArray(d.toInt)
+          ctx.event()
+        case (ctx, Seq(LogoWord(c))) =>
+          ctx.color = colorMap(c)
           ctx.event()
       },
     ),
