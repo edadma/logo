@@ -1,0 +1,98 @@
+package io.github.edadma.test
+
+import scala.util.matching.Regex
+import pprint.*
+
+import scala.collection.mutable
+import scala.annotation.tailrec
+
+@main def run(): Unit =
+  val functionArity = Map("factorial" -> 1)
+
+//  val tokens = Seq("7", "+", "(", "foo", "3", "+", "4", "5", ")")
+
+  val tokens = Seq(":number", "*", "factorial", ":number", "-", "1")
+  val ast = Parser(tokens, functionArity)
+  pprintln(ast)
+end run
+
+enum Expr:
+  case Number(value: Double)
+  case Variable(name: String)
+  case BinaryOp(op: String, left: Expr, right: Expr)
+  case PrefixOp(op: String, expr: Expr)
+  case FunctionCall(name: String, args: List[Expr])
+
+import Expr._
+
+object Parser:
+  def apply(tokens: Seq[String], functionArity: Map[String, Int]): Expr =
+    def parseExpression(input: List[String]): (Expr, List[String]) = parseAdditive(input)
+
+    def parseAdditive(input: List[String]): (Expr, List[String]) =
+      // Helper function to handle left-associative addition and subtraction
+      @tailrec
+      def parseAdditiveTail(left: Expr, input: List[String]): (Expr, List[String]) = input match
+        case (op @ ("+" | "-")) :: tail =>
+          val (right, remaining) = parseMultiplicative(tail)
+          parseAdditiveTail(BinaryOp(op, left, right), remaining)
+        case _ => (left, input)
+
+      val (left, rest) = parseMultiplicative(input)
+
+      parseAdditiveTail(left, rest)
+
+    def parseMultiplicative(input: List[String]): (Expr, List[String]) =
+      // Helper function to handle left-associative multiplication and division
+      @tailrec
+      def parseMultiplicativeTail(left: Expr, input: List[String]): (Expr, List[String]) = input match
+        case (op @ ("*" | "/")) :: tail =>
+          val (right, remaining) = parsePrimary(tail)
+          parseMultiplicativeTail(BinaryOp(op, left, right), remaining)
+        case _ => (left, input)
+
+      val (left, rest) = parsePrimary(input)
+
+      parseMultiplicativeTail(left, rest)
+
+    // Parse numbers, variables, prefix operators, grouped expressions, and function calls
+    def parsePrimary(input: List[String]): (Expr, List[String]) =
+      input match
+        case "(" :: tail =>
+          val (expr, afterExpr) = parseExpression(tail)
+
+          afterExpr match
+            case ")" :: remaining => (expr, remaining)
+            case _                => sys.error("Expected ')'")
+        case "-" :: tail =>
+          val (expr, remaining) = parsePrimary(tail)
+
+          (PrefixOp("-", expr), remaining)
+        case varName :: tail if varName.startsWith(":") => (Variable(varName.tail), tail)
+        case funcName :: tail if functionArity.contains(funcName) =>
+          val arity = functionArity(funcName)
+          val (args, remaining) = parseArguments(tail, arity)
+
+          (FunctionCall(funcName, args), remaining)
+        case num :: tail if num.matches("-?\\d+(\\.\\d+)?") => (Number(num.toDouble), tail)
+        case unexpected :: _                                => sys.error(s"Unexpected token: $unexpected")
+        case Nil                                            => sys.error("Unexpected end of input")
+
+    def parseArguments(input: List[String], expectedArity: Int): (List[Expr], List[String]) =
+      @tailrec
+      def loop(n: Int, tokens: List[String], acc: List[Expr]): (List[Expr], List[String]) =
+        if n == expectedArity then (acc, tokens)
+        else
+          val (arg, rest) = parseExpression(tokens)
+
+          loop(n + 1, rest, acc :+ arg)
+
+      val (args, remaining) = loop(0, input, Nil)
+
+      if args.length != expectedArity then sys.error(s"Expected $expectedArity arguments but got ${args.length}")
+      (args, remaining)
+
+    val (expr, remaining) = parseExpression(tokens.toList)
+
+    if remaining.nonEmpty then sys.error(s"Unexpected tokens: $remaining")
+    expr
