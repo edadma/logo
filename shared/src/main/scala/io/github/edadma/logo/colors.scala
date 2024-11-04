@@ -1,7 +1,5 @@
 package io.github.edadma.logo
 
-import java.awt.Color
-
 private val colors: Seq[(String, (Int, Int, Int))] = Seq(
   "black"        -> (0, 0, 0),
   "blue"         -> (0, 0, 255),
