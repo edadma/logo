@@ -17,42 +17,12 @@ val builtin =
     BuiltinFunction0("pi", () => Pi),
     BuiltinFunction0("e", () => E),
     BuiltinFunction1("random", limit => random * limit),
-    BuiltinProcedure(
-      "print",
-      1,
-      {
-        case (_, Seq(arg)) => println(arg)
-      },
-    ),
+    BuiltinProcedure("print", 1, { case (_, Seq(arg)) => println(arg) }),
     BuiltinFunction2("sum", _ + _),
-    BuiltinProcedure(
-      "difference",
-      2,
-      {
-        case (_, Seq(left, right)) => number(left) - number(right)
-      },
-    ),
-    BuiltinProcedure(
-      "product",
-      2,
-      {
-        case (_, Seq(left, right)) => number(left) * number(right)
-      },
-    ),
-    BuiltinProcedure(
-      "quotient",
-      2,
-      {
-        case (_, Seq(left, right)) => number(left) / number(right)
-      },
-    ),
-    BuiltinProcedure(
-      "remainder",
-      2,
-      {
-        case (_, Seq(left, right)) => number(left) % number(right)
-      },
-    ),
+    BuiltinFunction2("difference", _ - _),
+    BuiltinFunction2("product", _ * _),
+    BuiltinFunction2("quotient", _ / _),
+    BuiltinFunction2("remainder", _ % _),
     BuiltinFunction1("negate", -_),
     BuiltinProcedure(
       "equalp",
@@ -281,4 +251,6 @@ val synonyms =
     "siou"         -> "ifelse",
     "rends"        -> "make",
     "rnd"          -> "random",
+    "aleatoire"    -> "random",
+    "alt"          -> "random",
   ) map ((s, p) => s -> builtin(p)) toMap
