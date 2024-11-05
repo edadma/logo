@@ -54,7 +54,7 @@ abstract class Logo:
 
   @tailrec
   final def interp(toks: Seq[LogoValue]): LogoValue =
-    val (value, rest) = eval(toks)
+    val (value, rest) = evalPrimary(toks)
 
     if rest.head.isInstanceOf[EOIToken] then value
     else interp(rest)
@@ -69,30 +69,30 @@ abstract class Logo:
           case s    => s
       case p => p
 
-  private def evalargs(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
+  private def evalArguments(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
     val buf = new ListBuffer[LogoValue]
 
     @tailrec
-    def evalargs(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
+    def evalArguments(count: Int, toks: Seq[LogoValue]): Seq[LogoValue] =
       if count == 0 then toks
       else if toks.head.isInstanceOf[EOIToken] then
         toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
       else
-        val (arg, rest) = eval(toks)
+        val (arg, rest) = evalPrimary(toks)
 
         buf += arg
-        evalargs(count - 1, rest)
+        evalArguments(count - 1, rest)
 
-    val rest = evalargs(count, toks)
+    val rest = evalArguments(count, toks)
 
     (buf.toSeq, rest)
 
-  def evalargsn(name: String, count: Int, toks: Seq[LogoValue]): (Seq[Double], Seq[LogoValue]) =
-    val (args, rest) = evalargs(name, count, toks)
+  def nevalArguments(name: String, count: Int, toks: Seq[LogoValue]): (Seq[Double], Seq[LogoValue]) =
+    val (args, rest) = evalArguments(name, count, toks)
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+  def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
       case List(EOIToken())                                => (LogoNull(), Seq(EOIToken()))
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
@@ -106,15 +106,15 @@ abstract class Logo:
             case None                            => tok.r.error(s"unknown procedure, variable, or constant '$s'")
             case Some(BuiltinFunction0(_, func)) => (logoNumber(func()).pos(tok.r), tail)
             case Some(BuiltinFunction1(name, func)) =>
-              val (Seq(a), rest) = evalargsn(name, 1, tail)
+              val (Seq(a), rest) = nevalArguments(name, 1, tail)
 
               (logoNumber(func(a)).pos(tok.r), rest)
             case Some(BuiltinFunction2(name, func)) =>
-              val (Seq(a, b), rest) = evalargsn(name, 2, tail)
+              val (Seq(a, b), rest) = nevalArguments(name, 2, tail)
 
               (logoNumber(func(a, b)).pos(tok.r), rest)
             case Some(BuiltinProcedure(name, args, func)) =>
-              val (vals, rest) = evalargs(name, args, tail)
+              val (vals, rest) = evalArguments(name, args, tail)
               val res =
                 func(this, vals) match
                   case v: LogoValue => v
