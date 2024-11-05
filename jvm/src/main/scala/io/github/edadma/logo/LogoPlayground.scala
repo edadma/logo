@@ -4,7 +4,7 @@ import pprint.pprintln
 
 import java.awt.event.{ActionEvent, InputEvent, KeyEvent}
 import java.awt.geom.{AffineTransform, Path2D}
-import java.awt.{BasicStroke, Color, Font, GridBagConstraints, Insets, RenderingHints, Toolkit, Frame as awtFrame}
+import java.awt.{BasicStroke, Color, Font, Insets, RenderingHints, Toolkit, Frame as awtFrame}
 import java.io.{ByteArrayOutputStream, File, PrintWriter, StringWriter}
 import javax.swing.filechooser.FileNameExtensionFilter
 import javax.swing.undo.UndoManager
@@ -147,49 +147,49 @@ object LogoPlayground extends SimpleSwingApplication:
     class TurtlePanel extends Panel:
       background = Color.WHITE
 
-      override protected def paintComponent(g: Graphics2D): Unit =
-        super.paintComponent(g)
+      override protected def paintComponent(gr: Graphics2D): Unit =
+        super.paintComponent(gr)
 
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
 
         // Translate the origin to the center of the panel
-        g.translate(size.width / 2, size.height / 2)
+        gr.translate(size.width / 2, size.height / 2)
 
         // Invert the y-axis
-        g.scale(1, -1)
+        gr.scale(1, -1)
 
         logo.drawing foreach {
-          case DrawLine(x1, y1, x2, y2, color, width) =>
-            g.setColor(Color.black)
-            g.setStroke(new BasicStroke(width.toFloat))
+          case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
+            gr.setColor(new Color(r, g, b))
+            gr.setStroke(new BasicStroke(width.toFloat))
 
             val roundedX1 = Math.round(x1).toInt
             val roundedY1 = Math.round(y1).toInt
             val roundedX2 = Math.round(x2).toInt
             val roundedY2 = Math.round(y2).toInt
 
-            g.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
+            gr.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
           case DrawLabel(x, y, heading, text) =>
-            g.setFont(new Font("sans", Font.PLAIN, 20))
+            gr.setFont(new Font("sans", Font.PLAIN, 20))
 
             // Save the original transformation
-            val originalTransform = g.getTransform
+            val originalTransform = gr.getTransform
 
             // Apply rotation around the point (x, y)
-            g.translate(x, y) // Move the origin to (x, y)
-            g.rotate(heading) // Rotate by the specified angle in radians
+            gr.translate(x, y) // Move the origin to (x, y)
+            gr.rotate(heading) // Rotate by the specified angle in radians
 
             // Draw the string at (0, 0) because we've translated the origin to (x, y)
-            g.scale(1, -1)
-            g.drawString(text, 0, 0)
+            gr.scale(1, -1)
+            gr.drawString(text, 0, 0)
 
             // Restore the original transformation
-            g.setTransform(originalTransform);
+            gr.setTransform(originalTransform);
         }
 
         logo.turtle match
           case None                  =>
-          case Some((x, y, heading)) => drawTurtle(g, x, y, heading)
+          case Some((x, y, heading)) => drawTurtle(gr, x, y, heading)
       end paintComponent
 
       def drawTurtle(g: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
