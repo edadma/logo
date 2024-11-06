@@ -94,17 +94,41 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalMultiplicative(toks)
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalAdditive(toks)
+
+  def evalAdditive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def evalAdditiveTail(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case (op @ LogoWord("+" | "-")) :: tail =>
+          val (right, remaining) = evalMultiplicative(tail)
+          val l                  = number(left)
+          val r                  = number(right)
+          val res =
+            op.toString match
+              case "+" => l + r
+              case "-" => l - r
+
+          evalAdditiveTail(logoNumber(res), remaining)
+        case _ => (left, toks)
+
+    val (left, rest) = evalMultiplicative(toks)
+
+    evalAdditiveTail(left, rest)
 
   def evalMultiplicative(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     @tailrec
     def evalMultiplicativeTail(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
       toks match
-        case (op @ LogoWord("*" | "/")) :: tail =>
+        case (op @ LogoWord("*" | "/" | "%")) :: tail =>
           val (right, remaining) = evalPrimary(tail)
           val l                  = number(left)
           val r                  = number(right)
-          val res                = if op.toString == "*" then l * r else l / r
+          val res =
+            op.toString match
+              case "*" => l * r
+              case "/" => l / r
+              case "%" => l % r
 
           evalMultiplicativeTail(logoNumber(res), remaining)
         case _ => (left, toks)
