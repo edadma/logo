@@ -11,7 +11,8 @@ import pprint.pprintln
 
   val s =
     """
-      |print sum 6 ( - ( 3 + 4 ) * 5 )
+      |make "a 123
+      |print :a
     """.trim.stripMargin
   val l = new Logo { override def event(): Unit = () }
 
