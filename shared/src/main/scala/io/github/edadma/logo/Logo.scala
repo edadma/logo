@@ -94,7 +94,24 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalPrimary(toks)
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalMultiplicative(toks)
+
+  def evalMultiplicative(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def evalMultiplicativeTail(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case (op @ LogoWord("*" | "/")) :: tail =>
+          val (right, remaining) = evalPrimary(tail)
+          val l                  = number(left)
+          val r                  = number(right)
+          val res                = if op.toString == "*" then l * r else l / r
+
+          evalMultiplicativeTail(logoNumber(res), remaining)
+        case _ => (left, toks)
+
+    val (left, rest) = evalPrimary(toks)
+
+    evalMultiplicativeTail(left, rest)
 
   def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
