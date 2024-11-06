@@ -54,7 +54,7 @@ abstract class Logo:
 
   @tailrec
   final def interp(toks: Seq[LogoValue]): LogoValue =
-    val (value, rest) = evalPrimary(toks)
+    val (value, rest) = eval(toks)
 
     if rest.head.isInstanceOf[EOIToken] then value
     else interp(rest)
@@ -80,7 +80,7 @@ abstract class Logo:
       else if toks.head.isInstanceOf[EOIToken] then
         toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
       else
-        val (arg, rest) = evalPrimary(toks)
+        val (arg, rest) = eval(toks)
 
         buf += arg
         evalArguments(count - 1, rest)
@@ -93,6 +93,8 @@ abstract class Logo:
     val (args, rest) = evalArguments(name, count, toks)
 
     (args map number, rest)
+
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalPrimary(toks)
 
   def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
