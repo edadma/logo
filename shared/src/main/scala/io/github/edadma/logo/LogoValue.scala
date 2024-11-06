@@ -9,6 +9,8 @@ sealed abstract class LogoValue:
     this.r = r
     this
 
+  override def clone(): AnyRef = super.clone()
+
 case class LogoNumber(override val toString: String, n: Double)          extends LogoValue
 case class LogoProcedure(override val toString: String, proc: Procedure) extends LogoValue
 case class LogoWord(override val toString: String)                       extends LogoValue

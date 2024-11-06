@@ -69,7 +69,7 @@ abstract class Logo:
           case s    => s
       case p => p
 
-  def variable(name: String): Option[LogoValue] = vars get name.toLowerCase
+  def variable(name: String): Option[LogoValue] = (vars get name.toLowerCase) map (_.clone.asInstanceOf[LogoValue])
 
   private def evalArguments(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
     val buf = new ListBuffer[LogoValue]
@@ -104,7 +104,11 @@ abstract class Logo:
         val (v, remaining) = evalPrimary(tail)
 
         (logoNumber(-number(v)).pos(tok.r), remaining)
-      case (tok @ LogoWord(s)) :: tail if s.head == '"'                   => (LogoWord(s.tail).pos(tok.r), tail)
+      case (tok @ LogoWord(s)) :: tail if s.head == '"' => (LogoWord(s.tail).pos(tok.r), tail)
+      case (tok @ LogoWord(s)) :: tail if s.head == ':' =>
+        variable(s.tail) match
+          case Some(v) => (v.pos(tok.r), tail)
+          case None    => tok.r.next.error(s"unknown variable '${s.tail}'")
       case (tok @ LogoWord(s)) :: tail if s.head.isDigit || s.head == '-' => (logoNumber(s, tok.r), tail)
       case (tok @ LogoWord(s)) :: tail =>
         lookup(s) match
