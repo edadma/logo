@@ -106,6 +106,12 @@ abstract class Logo:
         val (v, remaining) = evalPrimary(tail)
 
         (logoNumber(-number(v)).pos(tok.r), remaining)
+      case LogoWord("(") :: tail =>
+        val (v, afterExpr) = eval(tail)
+
+        afterExpr match
+          case LogoWord(")") :: remaining => (v, remaining)
+          case (tok: LogoValue) :: _      => tok.r.error("Expected ')'")
       case (tok @ LogoWord(s)) :: tail if s.head == '"' => (LogoWord(s.tail).pos(tok.r), tail)
       case (tok @ LogoWord(s)) :: tail if s.head == ':' =>
         variable(s.tail) match
