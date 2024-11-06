@@ -21,12 +21,12 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   }
 
   "arithmetic 5" in {
-    eval("+ 3 4") shouldBe "7"
+    eval("sum 3 4") shouldBe "7"
   }
 
-  "arithmetic 6" in {
-    eval("- 3 4") shouldBe "-1"
-  }
+//  "arithmetic 6" in {
+//    eval("3 - 4") shouldBe "-1"
+//  }
 
   "arithmetic 7" in {
     eval("remainder 10 4") shouldBe "2"

@@ -69,6 +69,8 @@ abstract class Logo:
           case s    => s
       case p => p
 
+  def variable(name: String): Option[LogoValue] = vars get name.toLowerCase
+
   private def evalArguments(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
     val buf = new ListBuffer[LogoValue]
 
@@ -98,31 +100,33 @@ abstract class Logo:
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
+      case (tok @ LogoWord("-")) :: tail =>
+        val (v, remaining) = evalPrimary(tail)
+
+        (logoNumber(-number(v)).pos(tok.r), remaining)
+      case (tok @ LogoWord(s)) :: tail if s.head == '"'                   => (LogoWord(s.tail).pos(tok.r), tail)
+      case (tok @ LogoWord(s)) :: tail if s.head.isDigit || s.head == '-' => (logoNumber(s, tok.r), tail)
       case (tok @ LogoWord(s)) :: tail =>
-        if s.head == '"' then (LogoWord(s.tail).pos(tok.r), tail)
-        else if s.head.isDigit || (s.head == '-' && s != "-") then (logoNumber(s, tok.r), tail)
-        else
-          lookup(s) match
-            case None                            => tok.r.error(s"unknown procedure, variable, or constant '$s'")
-            case Some(BuiltinFunction0(_, func)) => (logoNumber(func()).pos(tok.r), tail)
-            case Some(BuiltinFunction1(name, func)) =>
-              val (Seq(a), rest) = nevalArguments(name, 1, tail)
+        lookup(s) match
+          case None                            => tok.r.error(s"unknown procedure, variable, or constant '$s'")
+          case Some(BuiltinFunction0(_, func)) => (logoNumber(func()).pos(tok.r), tail)
+          case Some(BuiltinFunction1(name, func)) =>
+            val (Seq(a), rest) = nevalArguments(name, 1, tail)
 
-              (logoNumber(func(a)).pos(tok.r), rest)
-            case Some(BuiltinFunction2(name, func)) =>
-              val (Seq(a, b), rest) = nevalArguments(name, 2, tail)
+            (logoNumber(func(a)).pos(tok.r), rest)
+          case Some(BuiltinFunction2(name, func)) =>
+            val (Seq(a, b), rest) = nevalArguments(name, 2, tail)
 
-              (logoNumber(func(a, b)).pos(tok.r), rest)
-            case Some(BuiltinProcedure(name, args, func)) =>
-              val (vals, rest) = evalArguments(name, args, tail)
-              val res =
-                func(this, vals) match
-                  case v: LogoValue => v
-                  case d: Double    => logoNumber(d)
-                  case b: Boolean   => LogoBoolean(b)
-                  case ()           => LogoNull()
+            (logoNumber(func(a, b)).pos(tok.r), rest)
+          case Some(BuiltinProcedure(name, args, func)) =>
+            val (vals, rest) = evalArguments(name, args, tail)
+            val res =
+              func(this, vals) match
+                case v: LogoValue => v
+                case d: Double    => logoNumber(d)
+                case b: Boolean   => LogoBoolean(b)
+                case ()           => LogoNull()
 
-              (res.pos(tok.r), rest)
-            case Some(v: LogoValue) => (v, tail)
-            case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
-        end if
+            (res.pos(tok.r), rest)
+          case Some(v: LogoValue) => (v, tail)
+          case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
