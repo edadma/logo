@@ -148,6 +148,7 @@ val builtin =
           val newx = number(x)
           val newy = number(y)
 
+          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
           ctx.x = newx
           ctx.y = newy
       },
@@ -234,12 +235,6 @@ val builtin =
 
 val synonyms =
   List(
-    "+"            -> "sum",
-    "-"            -> "difference",
-    "*"            -> "product",
-    "/"            -> "quotient",
-    "%"            -> "remainder",
-    "="            -> "equalp",
     "dis"          -> "print",
     "fd"           -> "forward",
     "avance"       -> "forward",

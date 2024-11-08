@@ -1,0 +1,9 @@
+make "x 0
+make "amplitude 50
+make "scaling 5
+
+repeat 10 [
+  print amplitude * sin x
+  make "y amplitude * sin x
+  setxy scaling * x y
+]
