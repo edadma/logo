@@ -2,7 +2,7 @@ package io.github.edadma.logo
 
 import java.awt.Color
 import scala.language.postfixOps
-import scala.math.{E, Pi, random}
+import scala.math.{E, Pi, cos, cosh, exp, log, pow, random, sin, sinh, sqrt, tan, tanh}
 
 abstract class Procedure:
   val name: String
@@ -24,7 +24,17 @@ val builtin =
     BuiltinFunction2("product", _ * _),
     BuiltinFunction2("quotient", _ / _),
     BuiltinFunction2("remainder", _ % _),
+    BuiltinFunction2("pow", pow),
     BuiltinFunction1("negate", -_),
+    BuiltinFunction1("sin", sin),
+    BuiltinFunction1("cos", cos),
+    BuiltinFunction1("tan", tan),
+    BuiltinFunction1("sinh", sinh),
+    BuiltinFunction1("cosh", cosh),
+    BuiltinFunction1("tanh", tanh),
+    BuiltinFunction1("sqrt", sqrt),
+    BuiltinFunction1("exp", exp),
+    BuiltinFunction1("ln", log),
     BuiltinProcedure(
       "equalp",
       2,
