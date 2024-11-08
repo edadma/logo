@@ -151,6 +151,7 @@ val builtin =
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
           ctx.x = newx
           ctx.y = newy
+          ctx.event()
       },
     ),
     BuiltinProcedure(
@@ -228,7 +229,7 @@ val builtin =
       "make",
       2,
       {
-        case (ctx, Seq(name, value)) => ctx.vars(name.toString) = value
+        case (ctx, Seq(name, value)) => ctx.vars(name.toString) = value.seal
       },
     ),
   ) map (p => p.name -> p) toMap

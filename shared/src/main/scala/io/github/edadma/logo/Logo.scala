@@ -69,7 +69,7 @@ abstract class Logo:
           case s    => s
       case p => p
 
-  def variable(name: String): Option[LogoValue] = (vars get name.toLowerCase) map (_.clone.asInstanceOf[LogoValue])
+  def variable(name: String): Option[LogoValue] = vars get name.toLowerCase
 
   private def evalArguments(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
     val buf = new ListBuffer[LogoValue]

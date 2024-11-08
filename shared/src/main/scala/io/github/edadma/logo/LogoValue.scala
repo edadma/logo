@@ -3,13 +3,17 @@ package io.github.edadma.logo
 import io.github.edadma.char_reader.CharReader
 
 sealed abstract class LogoValue:
-  var r: CharReader = null
+  var r: CharReader     = null
+  var readonly: Boolean = false
 
   def pos(r: CharReader): LogoValue =
-    this.r = r
+    if !readonly then this.r = r
     this
 
-  def dup: LogoValue
+  def seal: LogoValue =
+    r = null
+    readonly = true
+    this
 
 case class LogoNumber(override val toString: String, n: Double)          extends LogoValue
 case class LogoProcedure(override val toString: String, proc: Procedure) extends LogoValue
