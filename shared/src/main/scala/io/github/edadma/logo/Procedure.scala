@@ -158,18 +158,14 @@ val builtin =
       "penup",
       0,
       {
-        case (ctx, _) =>
-          ctx.pen = false
-          ctx.event()
+        case (ctx, _) => ctx.pen = false
       },
     ),
     BuiltinProcedure(
       "pendown",
       0,
       {
-        case (ctx, _) =>
-          ctx.pen = true
-          ctx.event()
+        case (ctx, _) => ctx.pen = true
       },
     ),
     BuiltinProcedure(
@@ -198,8 +194,7 @@ val builtin =
           val times = number(left).toInt
           val body  = list(right)
 
-          for _ <- 1 to times do
-            ctx.interp(body)
+          for _ <- 1 to times do ctx.interp(body)
       },
     ),
     BuiltinProcedure(
