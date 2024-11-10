@@ -94,7 +94,37 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalAdditive(toks)
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalRelational(toks)
+
+  def evalRelational(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def evalRelationalTail(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case (op @ LogoWord("<" | ">" | "<=" | ">=")) :: tail =>
+          val (right, remaining) = evalAdditive(tail)
+          val l                  = number(left)
+          val r                  = number(right)
+          val res =
+            op.toString match
+              case "<"  => l < r
+              case ">"  => l > r
+              case "<=" => l <= r
+              case ">=" => l >= r
+
+          evalRelationalTail(LogoBoolean(res), remaining)
+        case (op @ LogoWord("=" | "!=")) :: tail =>
+          val (right, remaining) = evalAdditive(tail)
+          val res =
+            op.toString match
+              case "="  => left == right
+              case "!=" => left != right
+
+          evalRelationalTail(LogoBoolean(res), remaining)
+        case _ => (left, toks)
+
+    val (left, rest) = evalAdditive(toks)
+
+    evalRelationalTail(left, rest)
 
   def evalAdditive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     @tailrec

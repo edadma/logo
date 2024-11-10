@@ -24,9 +24,9 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
     eval("sum 3 4") shouldBe "7"
   }
 
-//  "arithmetic 6" in {
-//    eval("3 - 4") shouldBe "-1"
-//  }
+  "arithmetic 6" in {
+    eval("3 - 4") shouldBe "-1"
+  }
 
   "arithmetic 7" in {
     eval("remainder 10 4") shouldBe "2"
@@ -42,4 +42,20 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
 
   "comparison 1" in {
     eval("equalp 5 5") shouldBe "true"
+  }
+
+  "comparison 2" in {
+    eval("5 = 5") shouldBe "true"
+  }
+
+  "comparison 3" in {
+    eval("5 != 5") shouldBe "false"
+  }
+
+  "comparison 4" in {
+    eval("3 + 4 < 5 * 6") shouldBe "true"
+  }
+
+  "comparison 5" in {
+    eval("3 + 4 > 5 * 6") shouldBe "false"
   }
