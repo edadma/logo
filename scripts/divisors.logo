@@ -1,0 +1,7 @@
+make "n 12
+make "count 1
+
+while [count <= n] [
+  if n % count = 0 [print count]
+  make "count count + 1
+]
