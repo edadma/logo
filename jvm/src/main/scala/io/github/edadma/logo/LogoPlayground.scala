@@ -30,8 +30,6 @@ object LogoPlayground extends SimpleSwingApplication:
     // Left panel components
     private val inputArea = new TextArea {
       rows = 20
-      lineWrap = true
-      wordWrap = true
       font = new Font("Monospaced", Font.PLAIN, 16)
       lineWrap = false
 
