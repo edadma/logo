@@ -37,10 +37,10 @@ def number(v: LogoValue): Double =
 
 def boolean(v: LogoValue): Boolean =
   v match
-    case LogoBoolean(b)    => b
-    case LogoWord("true")  => true
-    case LogoWord("false") => false
-    case _                 => v.r.error("expected a boolean")
+    case LogoBoolean(b)                        => b
+    case LogoWord("true" | "True" | "TRUE")    => true
+    case LogoWord("false" | "False" | "FALSE") => false
+    case _                                     => v.r.error("expected a boolean")
 
 def list(v: LogoValue): Seq[LogoValue] =
   v match

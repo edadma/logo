@@ -94,7 +94,22 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalRelational(toks)
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalDisjunctive(toks)
+
+  def evalDisjunctive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def evalDisjunctiveTail(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case (op @ LogoWord("|")) :: tail =>
+          val (right, remaining) = evalRelational(tail)
+          val res                = if boolean(left) then true else boolean(right)
+
+          evalDisjunctiveTail(LogoBoolean(res), remaining)
+        case _ => (left, toks)
+
+    val (left, rest) = evalRelational(toks)
+
+    evalDisjunctiveTail(left, rest)
 
   def evalRelational(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     @tailrec

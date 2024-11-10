@@ -1,6 +1,7 @@
 make "n 25
 
 make "guess n / 2
+make "iterations 0
 
 while [( abs guess * guess - n ) > 0.00000000000001] [
   make "guess ( guess + n / guess ) / 2
