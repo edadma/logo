@@ -209,6 +209,17 @@ val builtin =
       },
     ),
     BuiltinProcedure(
+      "while",
+      2,
+      {
+        case (ctx, Seq(cond, body)) =>
+          val condl = list(cond)
+          val bodyl = list(body)
+
+          while boolean(ctx.interp(condl)) do ctx.interp(bodyl)
+      },
+    ),
+    BuiltinProcedure(
       "ifelse",
       3,
       {

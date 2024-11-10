@@ -1,0 +1,4 @@
+make "count 1 while [count <= 3] [
+  print count
+  make "count count + 1
+]
