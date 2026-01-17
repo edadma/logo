@@ -8,7 +8,7 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name         := "logo",
     version      := "0.0.1",
-    scalaVersion := "3.5.2",
+    scalaVersion := "3.7.4",
     scalacOptions ++=
       Seq(
         "-deprecation",
@@ -19,15 +19,13 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         "-language:existentials",
         "-language:dynamics",
       ),
-    organization                            := "io.github.edadma",
-    githubOwner                             := "edadma",
-    githubRepository                        := name.value,
+    organization := "io.github.edadma",
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
     libraryDependencies ++= Seq(
-      "io.github.edadma" %%% "char-reader" % "0.1.15",
+      "io.github.edadma" %%% "char_reader" % "0.1.24",
     ),
     libraryDependencies ++= Seq(
-//      "com.github.scopt" %%% "scopt" % "4.1.0",
+      "com.github.scopt" %%% "scopt" % "4.1.0",
       "com.lihaoyi" %%% "pprint" % "0.9.0", /*% "test"*/
     ),
     publishMavenStyle      := true,
@@ -35,7 +33,6 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     licenses += "ISC"      -> url("https://opensource.org/licenses/ISC"),
   )
   .jvmSettings(
-    assembly / mainClass                  := Some("io.github.edadma.logo.LogoPlayground"),
     libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.1.0" % "provided",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-swing" % "3.0.0",

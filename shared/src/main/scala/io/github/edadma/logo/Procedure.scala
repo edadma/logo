@@ -235,6 +235,10 @@ val builtin =
 
 val synonyms =
   List(
+    "+"            -> "sum",
+    "-"            -> "difference",
+    "*"            -> "product",
+    "/"            -> "quotient",
     "dis"          -> "print",
     "fd"           -> "forward",
     "avance"       -> "forward",

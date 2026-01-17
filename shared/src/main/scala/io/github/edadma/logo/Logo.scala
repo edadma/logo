@@ -92,7 +92,39 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalAdditive(toks)
+
+  private def evalAdditive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case LogoWord(op @ ("+" | "-")) :: tail =>
+          val (right, rest) = evalMultiplicative(tail)
+          val result = op match
+            case "+" => logoNumber(number(left) + number(right))
+            case "-" => logoNumber(number(left) - number(right))
+          loop(result, rest)
+        case _ => (left, toks)
+
+    val (left, rest) = evalMultiplicative(toks)
+    loop(left, rest)
+
+  private def evalMultiplicative(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    @tailrec
+    def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+      toks match
+        case LogoWord(op @ ("*" | "/")) :: tail =>
+          val (right, rest) = evalPrimary(tail)
+          val result = op match
+            case "*" => logoNumber(number(left) * number(right))
+            case "/" => logoNumber(number(left) / number(right))
+          loop(result, rest)
+        case _ => (left, toks)
+
+    val (left, rest) = evalPrimary(toks)
+    loop(left, rest)
+
+  private def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
       case List(EOIToken())                                => (LogoNull(), Seq(EOIToken()))
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
