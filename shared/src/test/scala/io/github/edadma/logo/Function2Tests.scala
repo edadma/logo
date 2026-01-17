@@ -21,5 +21,5 @@ class Function2Tests extends AnyFreeSpec with Matchers with Test:
   }
 
   "pow negative exponent" in {
-    eval("pow 2 -1") shouldBe "0.5"
+    eval("pow 2 -1") shouldBe "1/2" // DAL returns exact rational
   }

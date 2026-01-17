@@ -13,3 +13,16 @@ class Function0Tests extends AnyFreeSpec with Matchers with Test:
   "e" in {
     eval("e") shouldBe E.toString
   }
+
+  // Quaternion constants
+  "i" in {
+    eval("i") shouldBe "i"
+  }
+
+  "j" in {
+    eval("j") shouldBe "j"
+  }
+
+  "k" in {
+    eval("k") shouldBe "k"
+  }

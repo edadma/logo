@@ -1,6 +1,7 @@
 package io.github.edadma.logo
 
 import io.github.edadma.char_reader.CharReader
+import io.github.edadma.dal.QuaternionDAL
 
 import scala.annotation.tailrec
 import pprint.pprintln
@@ -87,7 +88,7 @@ abstract class Logo:
 
     (buf.toSeq, rest)
 
-  def evalargsn(name: String, count: Int, toks: Seq[LogoValue]): (Seq[Double], Seq[LogoValue]) =
+  def evalargsn(name: String, count: Int, toks: Seq[LogoValue]): (Seq[Number], Seq[LogoValue]) =
     val (args, rest) = evalargs(name, count, toks)
 
     (args map number, rest)
@@ -100,9 +101,7 @@ abstract class Logo:
       toks match
         case LogoWord(op @ ("+" | "-")) :: tail =>
           val (right, rest) = evalMultiplicative(tail)
-          val result = op match
-            case "+" => logoNumber(number(left) + number(right))
-            case "-" => logoNumber(number(left) - number(right))
+          val result = logoNumber(QuaternionDAL.compute(op, number(left), number(right)))
           loop(result, rest)
         case _ => (left, toks)
 
@@ -115,9 +114,7 @@ abstract class Logo:
       toks match
         case LogoWord(op @ ("*" | "/")) :: tail =>
           val (right, rest) = evalPrimary(tail)
-          val result = op match
-            case "*" => logoNumber(number(left) * number(right))
-            case "/" => logoNumber(number(left) / number(right))
+          val result = logoNumber(QuaternionDAL.compute(op, number(left), number(right)))
           loop(result, rest)
         case _ => (left, toks)
 
@@ -150,7 +147,7 @@ abstract class Logo:
               val res =
                 func(this, vals) match
                   case v: LogoValue => v
-                  case d: Double    => logoNumber(d)
+                  case n: Number    => logoNumber(n)
                   case b: Boolean   => LogoBoolean(b)
                   case ()           => LogoNull()
 

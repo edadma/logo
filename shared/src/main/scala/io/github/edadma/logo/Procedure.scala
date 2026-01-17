@@ -1,40 +1,45 @@
 package io.github.edadma.logo
 
-import java.awt.Color
+import io.github.edadma.dal.QuaternionDAL
+import io.github.edadma.numbers.QuaternionBigInt
+
 import scala.language.postfixOps
-import scala.math.{E, Pi, cos, cosh, exp, log, pow, random, sin, sinh, sqrt, tan, tanh}
+import scala.math.{E, Pi}
 
 abstract class Procedure:
   val name: String
 
 case class BuiltinProcedure(name: String, args: Int, func: PartialFunction[(Logo, Seq[LogoValue]), Any])
     extends Procedure
-case class BuiltinFunction0(name: String, func: () => Double)               extends Procedure
-case class BuiltinFunction1(name: String, func: Double => Double)           extends Procedure
-case class BuiltinFunction2(name: String, func: (Double, Double) => Double) extends Procedure
+case class BuiltinFunction0(name: String, func: () => Number)               extends Procedure
+case class BuiltinFunction1(name: String, func: Number => Number)           extends Procedure
+case class BuiltinFunction2(name: String, func: (Number, Number) => Number) extends Procedure
 
 val builtin =
   List[Procedure](
     BuiltinFunction0("pi", () => Pi),
     BuiltinFunction0("e", () => E),
-    BuiltinFunction1("random", limit => random * limit),
+    BuiltinFunction0("i", () => QuaternionBigInt(0, 1, 0, 0)),
+    BuiltinFunction0("j", () => QuaternionBigInt(0, 0, 1, 0)),
+    BuiltinFunction0("k", () => QuaternionBigInt(0, 0, 0, 1)),
+    BuiltinFunction1("random", limit => QuaternionDAL.compute("*", scala.math.random, limit)),
     BuiltinProcedure("print", 1, { case (_, Seq(arg)) => println(arg) }),
-    BuiltinFunction2("sum", _ + _),
-    BuiltinFunction2("difference", _ - _),
-    BuiltinFunction2("product", _ * _),
-    BuiltinFunction2("quotient", _ / _),
-    BuiltinFunction2("remainder", _ % _),
-    BuiltinFunction2("pow", pow),
-    BuiltinFunction1("negate", -_),
-    BuiltinFunction1("sin", sin),
-    BuiltinFunction1("cos", cos),
-    BuiltinFunction1("tan", tan),
-    BuiltinFunction1("sinh", sinh),
-    BuiltinFunction1("cosh", cosh),
-    BuiltinFunction1("tanh", tanh),
-    BuiltinFunction1("sqrt", sqrt),
-    BuiltinFunction1("exp", exp),
-    BuiltinFunction1("ln", log),
+    BuiltinFunction2("sum", QuaternionDAL.compute("+", _, _)),
+    BuiltinFunction2("difference", QuaternionDAL.compute("-", _, _)),
+    BuiltinFunction2("product", QuaternionDAL.compute("*", _, _)),
+    BuiltinFunction2("quotient", QuaternionDAL.compute("/", _, _)),
+    BuiltinFunction2("remainder", QuaternionDAL.compute("mod", _, _)),
+    BuiltinFunction2("pow", QuaternionDAL.compute("^", _, _)),
+    BuiltinFunction1("negate", QuaternionDAL.negate),
+    BuiltinFunction1("sin", QuaternionDAL.sinFunction),
+    BuiltinFunction1("cos", QuaternionDAL.cosFunction),
+    BuiltinFunction1("tan", QuaternionDAL.tanFunction),
+    BuiltinFunction1("sinh", QuaternionDAL.sinhFunction),
+    BuiltinFunction1("cosh", QuaternionDAL.coshFunction),
+    BuiltinFunction1("tanh", QuaternionDAL.tanhFunction),
+    BuiltinFunction1("sqrt", QuaternionDAL.sqrtFunction),
+    BuiltinFunction1("exp", QuaternionDAL.expFunction),
+    BuiltinFunction1("ln", QuaternionDAL.lnFunction),
     BuiltinProcedure(
       "equalp",
       2,
@@ -47,7 +52,7 @@ val builtin =
       1,
       {
         case (ctx, Seq(distance)) =>
-          val (x2, y2) = ctx.computeEndpoint(number(distance))
+          val (x2, y2) = ctx.computeEndpoint(number(distance).doubleValue)
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
@@ -60,7 +65,7 @@ val builtin =
       1,
       {
         case (ctx, Seq(turn)) =>
-          ctx.heading = ctx.computeTurn(number(turn))
+          ctx.heading = ctx.computeTurn(number(turn).doubleValue)
           ctx.event()
       },
     ),
@@ -69,7 +74,7 @@ val builtin =
       1,
       {
         case (ctx, Seq(distance)) =>
-          val (x2, y2) = ctx.computeEndpoint(-number(distance))
+          val (x2, y2) = ctx.computeEndpoint(-number(distance).doubleValue)
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
@@ -82,7 +87,7 @@ val builtin =
       1,
       {
         case (ctx, Seq(turn)) =>
-          ctx.heading = ctx.computeTurn(-number(turn))
+          ctx.heading = ctx.computeTurn(-number(turn).doubleValue)
           ctx.event()
       },
     ),
@@ -100,10 +105,10 @@ val builtin =
       1,
       {
         case (ctx, Seq(size @ LogoList(Seq(width, _), _))) =>
-          ctx.width = number(width)
+          ctx.width = number(width).doubleValue
           ctx.event()
         case (ctx, Seq(width)) =>
-          ctx.width = number(width)
+          ctx.width = number(width).doubleValue
           ctx.event()
       },
     ),
@@ -112,10 +117,10 @@ val builtin =
       1,
       {
         case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
-          ctx.color = (number(r).toInt, number(g).toInt, number(b).toInt)
+          ctx.color = (number(r).intValue, number(g).intValue, number(b).intValue)
           ctx.event()
-        case (ctx, Seq(LogoNumber(_, d))) =>
-          ctx.color = colorArray(d.toInt)
+        case (ctx, Seq(LogoNumber(n))) =>
+          ctx.color = colorArray(n.intValue)
           ctx.event()
         case (ctx, Seq(LogoWord(c))) =>
           ctx.color = colorMap(c)
@@ -145,8 +150,8 @@ val builtin =
       2,
       {
         case (ctx, Seq(x, y)) =>
-          val newx = number(x)
-          val newy = number(y)
+          val newx = number(x).doubleValue
+          val newy = number(y).doubleValue
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
           ctx.x = newx
@@ -194,7 +199,7 @@ val builtin =
       2,
       {
         case (ctx, Seq(left, right)) =>
-          val times = number(left).toInt
+          val times = number(left).intValue
           val body  = list(right)
 
           for _ <- 1 to times do
