@@ -48,6 +48,62 @@ val builtin =
       },
     ),
     BuiltinProcedure(
+      "notequalp",
+      2,
+      {
+        case (_, Seq(left, right)) => left != right
+      },
+    ),
+    BuiltinProcedure(
+      "lessp",
+      2,
+      {
+        case (_, Seq(left, right)) => QuaternionDAL.relate("<", number(left), number(right))
+      },
+    ),
+    BuiltinProcedure(
+      "greaterp",
+      2,
+      {
+        case (_, Seq(left, right)) => QuaternionDAL.relate(">", number(left), number(right))
+      },
+    ),
+    BuiltinProcedure(
+      "lessequalp",
+      2,
+      {
+        case (_, Seq(left, right)) => QuaternionDAL.relate("<=", number(left), number(right))
+      },
+    ),
+    BuiltinProcedure(
+      "greaterequalp",
+      2,
+      {
+        case (_, Seq(left, right)) => QuaternionDAL.relate(">=", number(left), number(right))
+      },
+    ),
+    BuiltinProcedure(
+      "and",
+      2,
+      {
+        case (_, Seq(left, right)) => boolean(left) && boolean(right)
+      },
+    ),
+    BuiltinProcedure(
+      "or",
+      2,
+      {
+        case (_, Seq(left, right)) => boolean(left) || boolean(right)
+      },
+    ),
+    BuiltinProcedure(
+      "not",
+      1,
+      {
+        case (_, Seq(arg)) => !boolean(arg)
+      },
+    ),
+    BuiltinProcedure(
       "forward",
       1,
       {
@@ -214,7 +270,7 @@ val builtin =
           val cond = boolean(left)
           val body = list(right)
 
-          if cond then ctx.interp(body)
+          if cond then ctx.interp(body) else LogoNull()
       },
     ),
     BuiltinProcedure(

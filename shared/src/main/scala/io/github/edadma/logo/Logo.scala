@@ -93,7 +93,22 @@ abstract class Logo:
 
     (args map number, rest)
 
-  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalAdditive(toks)
+  def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalComparison(toks)
+
+  private def evalComparison(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    val (left, rest) = evalAdditive(toks)
+    rest match
+      case LogoWord(op @ ("=" | "<>" | "<" | ">" | "<=" | ">=")) :: tail =>
+        val (right, rest2) = evalAdditive(tail)
+        val result = op match
+          case "="  => LogoBoolean(left == right)
+          case "<>" => LogoBoolean(left != right)
+          case "<"  => LogoBoolean(QuaternionDAL.relate("<", number(left), number(right)))
+          case ">"  => LogoBoolean(QuaternionDAL.relate(">", number(left), number(right)))
+          case "<=" => LogoBoolean(QuaternionDAL.relate("<=", number(left), number(right)))
+          case ">=" => LogoBoolean(QuaternionDAL.relate(">=", number(left), number(right)))
+        (result.pos(left.r), rest2)
+      case _ => (left, rest)
 
   private def evalAdditive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     @tailrec
@@ -113,13 +128,23 @@ abstract class Logo:
     def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
       toks match
         case LogoWord(op @ ("*" | "/")) :: tail =>
-          val (right, rest) = evalPrimary(tail)
+          val (right, rest) = evalPower(tail)
           val result = logoNumber(QuaternionDAL.compute(op, number(left), number(right)))
           loop(result, rest)
         case _ => (left, toks)
 
-    val (left, rest) = evalPrimary(toks)
+    val (left, rest) = evalPower(toks)
     loop(left, rest)
+
+  // Power is right-associative: 2^3^2 = 2^(3^2) = 2^9 = 512
+  private def evalPower(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
+    val (left, rest) = evalPrimary(toks)
+    rest match
+      case LogoWord("^") :: tail =>
+        val (right, rest2) = evalPower(tail) // right-associative: recurse instead of loop
+        val result = logoNumber(QuaternionDAL.compute("^", number(left), number(right)))
+        (result.pos(left.r), rest2)
+      case _ => (left, rest)
 
   private def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match

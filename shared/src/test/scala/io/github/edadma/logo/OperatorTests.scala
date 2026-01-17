@@ -90,3 +90,57 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
     // 5 * sqrt(16) = 5 * 4 = 20
     eval("5 * sqrt 9 + 7") shouldBe "20"
   }
+
+  // Power operator tests
+  "power infix" in {
+    eval("2 ^ 3") shouldBe "8"
+  }
+
+  "power precedence over multiplication" in {
+    eval("2 * 3 ^ 2") shouldBe "18" // 2 * 9 = 18, not (2*3)^2 = 36
+  }
+
+  "power right associative" in {
+    eval("2 ^ 3 ^ 2") shouldBe "512" // 2^(3^2) = 2^9 = 512, not (2^3)^2 = 64
+  }
+
+  // Comparison operator tests
+  "infix equal true" in {
+    eval("5 = 5") shouldBe "true"
+  }
+
+  "infix equal false" in {
+    eval("5 = 6") shouldBe "false"
+  }
+
+  "infix not equal" in {
+    eval("5 <> 6") shouldBe "true"
+  }
+
+  "infix less than true" in {
+    eval("3 < 5") shouldBe "true"
+  }
+
+  "infix less than false" in {
+    eval("5 < 3") shouldBe "false"
+  }
+
+  "infix greater than" in {
+    eval("5 > 3") shouldBe "true"
+  }
+
+  "infix less equal" in {
+    eval("5 <= 5") shouldBe "true"
+  }
+
+  "infix greater equal" in {
+    eval("5 >= 6") shouldBe "false"
+  }
+
+  "comparison with arithmetic" in {
+    eval("2 + 3 = 5") shouldBe "true"
+  }
+
+  "comparison precedence" in {
+    eval("2 * 3 > 5") shouldBe "true" // 6 > 5
+  }
