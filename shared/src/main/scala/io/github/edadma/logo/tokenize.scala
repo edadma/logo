@@ -8,7 +8,7 @@ import scala.collection.mutable.ListBuffer
 private val operatorChars = Set('+', '*', '/', '\\', '^', '=', '<', '>')
 private def isOperatorChar(c: Char): Boolean = operatorChars.contains(c)
 private def isTokenBoundary(r: CharReader, inList: Boolean): Boolean =
-  r.ch.isWhitespace || r.ch == '[' || r.ch == ']' || (!inList && isOperatorChar(r.ch))
+  r.ch.isWhitespace || r.ch == '[' || r.ch == ']' || r.ch == '(' || r.ch == ')' || (!inList && isOperatorChar(r.ch))
 
 def tokenize(r: CharReader): Seq[LogoValue] =
   val buf = new ListBuffer[LogoValue]
@@ -29,6 +29,12 @@ def tokenize(r: CharReader): Seq[LogoValue] =
         case ']' =>
           buf += LogoWord("]").pos(r2)
           tokenize(r2.next, (listDepth - 1) max 0, false)
+        case '(' if !inList =>
+          buf += LogoWord("(").pos(r2)
+          tokenize(r2.next, listDepth, true)
+        case ')' if !inList =>
+          buf += LogoWord(")").pos(r2)
+          tokenize(r2.next, listDepth, false)
         case '<' if !inList =>
           // Handle <, <>, <=
           val r3 = r2.next

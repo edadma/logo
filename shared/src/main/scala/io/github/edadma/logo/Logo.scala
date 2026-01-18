@@ -167,6 +167,12 @@ abstract class Logo:
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
+      case (tok @ LogoWord("(")) :: tail =>
+        // Parenthesized expression - evaluate and expect closing paren
+        val (value, rest) = eval(tail)
+        rest match
+          case LogoWord(")") :: rest2 => (value.pos(tok.r), rest2)
+          case other                  => tok.r.error("expected closing parenthesis")
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r), tail)
         else if s.head == ':' then

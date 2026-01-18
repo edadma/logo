@@ -255,3 +255,32 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "no space floor division" in {
     eval("5//2") shouldBe "2"
   }
+
+  // Parentheses for grouping
+  "parentheses simple" in {
+    eval("(3 + 4)") shouldBe "7"
+  }
+
+  "parentheses override precedence" in {
+    eval("(2 + 3) * 4") shouldBe "20"
+  }
+
+  "parentheses nested" in {
+    eval("((2 + 3) * 4)") shouldBe "20"
+  }
+
+  "parentheses complex" in {
+    eval("(1 + 2) * (3 + 4)") shouldBe "21"
+  }
+
+  "parentheses no space" in {
+    eval("(2+3)*4") shouldBe "20"
+  }
+
+  "parentheses with power" in {
+    eval("(2 + 1) ^ 2") shouldBe "9"
+  }
+
+  "parentheses in comparison" in {
+    eval("(2 + 3) = 5") shouldBe "true"
+  }
