@@ -211,26 +211,19 @@ repeat 500 [
 ]`,
           roots: `; Draw nth roots of unity
 ; These are solutions to z^n = 1
-make "n 7
+make "n 5
 make "radius 100
 
 ; Draw polygon connecting roots
 penup
 setc :radius
 pendown
+make "k 1
 repeat :n [
-  make "angle 2 * pi * repcount / :n
-  setc :radius * e ^ (:angle * i)
-]
-
-; Mark each root with a dot
-penup
-repeat :n [
-  make "angle 2 * pi * (repcount - 1) / :n
-  setc :radius * e ^ (:angle * i)
-  pendown
-  forward 1
-  penup
+  make "angle 2 * pi * :k / :n
+  make "point :radius * e ^ (:angle * i)
+  setc :point
+  make "k :k + 1
 ]`
         };
         program.value = examples[name] || '';

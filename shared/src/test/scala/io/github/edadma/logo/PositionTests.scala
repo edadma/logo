@@ -143,3 +143,49 @@ class PositionTests extends AnyFreeSpec with Matchers with Test:
         |""".stripMargin,
     ) shouldBe "50"
   }
+
+  "roots of unity computation" in {
+    // cos(72°) * 100 ≈ 30.9
+    run(
+      """
+        |make "n 5
+        |make "radius 100
+        |make "angle 2 * pi * 1 / :n
+        |make "point :radius * e ^ (:angle * i)
+        |setc :point
+        |print xcor
+        |""".stripMargin,
+    ) shouldBe "30.901699437494745"
+  }
+
+  "repeat with variable count" in {
+    run(
+      """
+        |make "n 5
+        |make "count 0
+        |repeat :n [make "count :count + 1]
+        |print :count
+        |""".stripMargin,
+    ) shouldBe "5"
+  }
+
+  "repeat with setc" in {
+    run(
+      """
+        |make "n 3
+        |repeat :n [setc 50 + 50 * i]
+        |print xcor
+        |""".stripMargin,
+    ) shouldBe "50"
+  }
+
+  "repeat with e to i" in {
+    run(
+      """
+        |repeat 2 [
+        |  make "point e ^ i
+        |  print :point
+        |]
+        |""".stripMargin,
+    ) shouldBe "0.5403023058681398+0.8414709848078965i\n0.5403023058681398+0.8414709848078965i"
+  }
