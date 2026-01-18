@@ -1,7 +1,7 @@
 package io.github.edadma.logo
 
 import io.github.edadma.dal.QuaternionDAL
-import io.github.edadma.numbers.QuaternionBigInt
+import io.github.edadma.numbers.{ComplexDouble, ComplexBigInt, ComplexRational, ComplexSmallRational, QuaternionBigInt}
 
 import scala.language.postfixOps
 import scala.math.{E, Pi}
@@ -262,6 +262,49 @@ val builtin =
           ctx.x = newx
           ctx.y = newy
           ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "setc",
+      1,
+      {
+        case (ctx, Seq(c)) =>
+          val n = number(c)
+          val (newx, newy) = n match
+            case c: ComplexDouble        => (c.re, c.im)
+            case c: ComplexBigInt        => (c.re.doubleValue, c.im.doubleValue)
+            case c: ComplexRational      => (c.re.doubleValue, c.im.doubleValue)
+            case c: ComplexSmallRational => (c.re.doubleValue, c.im.doubleValue)
+            case _                       => (n.doubleValue, 0.0)
+
+          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
+          ctx.x = newx
+          ctx.y = newy
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "xcor",
+      0,
+      { case (ctx, _) => ctx.x },
+    ),
+    BuiltinProcedure(
+      "ycor",
+      0,
+      { case (ctx, _) => ctx.y },
+    ),
+    BuiltinProcedure(
+      "pos",
+      0,
+      { case (ctx, _) => ComplexDouble(ctx.x, ctx.y) },
+    ),
+    BuiltinProcedure(
+      "heading",
+      0,
+      {
+        case (ctx, _) =>
+          val deg = math.toDegrees(Pi / 2 - ctx.heading)
+          if deg < 0 then deg + 360 else deg
       },
     ),
     BuiltinProcedure(

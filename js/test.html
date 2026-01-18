@@ -96,6 +96,7 @@ repeat 4 [
     <button onclick="loadExample('star')">Star</button>
     <button onclick="loadExample('tree')">Tree</button>
     <button onclick="loadExample('sine')">Sine Wave</button>
+    <button onclick="loadExample('roots')">Roots of Unity</button>
   </div>
 
   <script type="module">
@@ -207,6 +208,33 @@ repeat 500 [
   make "y amplitude * sin x
   setxy scaling * x y
   make "x x + 0.02
+]`,
+          roots: `; Draw nth roots of unity
+; These are solutions to z^n = 1
+make "n 7
+make "radius 100
+
+; Draw polygon connecting roots
+penup
+setc :radius
+pendown
+make "k 1
+repeat :n [
+  make "angle 2 * pi * :k / :n
+  setc :radius * e ^ (:angle * i)
+  make "k :k + 1
+]
+
+; Mark each root with a dot
+penup
+make "k 0
+repeat :n [
+  make "angle 2 * pi * :k / :n
+  setc :radius * e ^ (:angle * i)
+  pendown
+  forward 1
+  penup
+  make "k :k + 1
 ]`
         };
         program.value = examples[name] || '';

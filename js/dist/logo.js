@@ -1515,15 +1515,24 @@ function $ct_Lio_github_edadma_dal_DAL__Lio_github_edadma_numbers_BigDecimalMath
   $thiz.Lio_github_edadma_dal_DAL__f_specials = $ct_scm_HashMap__(new $c_scm_HashMap());
   return $thiz;
 }
-function $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(a$1, ar$1) {
-  var this$2 = $n(a$1);
-  $m_Lio_github_edadma_numbers_Rational$();
-  var that = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
-  if ($f_s_math_Ordered__$less__O__Z(this$2, that)) {
+function $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Z__Lio_github_edadma_numbers_SmallRational__jl_Number(isNegative$1, ar$1) {
+  if (isNegative$1) {
     var x = $n(ar$1).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, $uD(Math.sqrt(x)));
   } else {
     var x$1 = $n(ar$1).doubleValue__D();
+    return $uD(Math.sqrt(x$1));
+  }
+}
+function $ps_Lio_github_edadma_dal_DAL__rsqrt$2__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(a$1, ar$2) {
+  var this$2 = $n(a$1);
+  $m_Lio_github_edadma_numbers_Rational$();
+  var that = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
+  if ($f_s_math_Ordered__$less__O__Z(this$2, that)) {
+    var x = $n(ar$2).doubleValue__D();
+    return new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, $uD(Math.sqrt(x)));
+  } else {
+    var x$1 = $n(ar$2).doubleValue__D();
     return $uD(Math.sqrt(x$1));
   }
 }
@@ -1715,26 +1724,26 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexRational__jl_Number__Lio_github_
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational = (function(a) {
   if ((a instanceof $c_s_math_BigInt)) {
-    var x36 = $as_s_math_BigInt(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x36));
+    var x37 = $as_s_math_BigInt(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x37));
   }
   if ($isInt(a)) {
-    var x35 = $as_jl_Integer(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x35));
+    var x36 = $as_jl_Integer(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x36));
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x34 = $as_Lio_github_edadma_numbers_SmallRational(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($n(x34).toRational__Lio_github_edadma_numbers_Rational());
+    var x35 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($n(x35).toRational__Lio_github_edadma_numbers_Rational());
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x33 = $as_Lio_github_edadma_numbers_Rational(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational(x33);
+    var x34 = $as_Lio_github_edadma_numbers_Rational(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational(x34);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x32 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x33 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionRational$();
-    var a$1 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x32).Lio_github_edadma_numbers_ComplexBigInt__f_re);
-    var b = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x32).Lio_github_edadma_numbers_ComplexBigInt__f_im);
+    var a$1 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x33).Lio_github_edadma_numbers_ComplexBigInt__f_re);
+    var b = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x33).Lio_github_edadma_numbers_ComplexBigInt__f_im);
     $m_Lio_github_edadma_numbers_Rational$();
     var c = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
     $m_Lio_github_edadma_numbers_Rational$();
@@ -1742,10 +1751,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionRational__jl_Number__Lio_gith
     return new $c_Lio_github_edadma_numbers_QuaternionRational(a$1, b, c, d);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x31 = $as_Lio_github_edadma_numbers_ComplexRational(a);
+    var x32 = $as_Lio_github_edadma_numbers_ComplexRational(a);
     $m_Lio_github_edadma_numbers_QuaternionRational$();
-    var a$2 = $n(x31).Lio_github_edadma_numbers_ComplexRational__f_re;
-    var b$1 = $n(x31).Lio_github_edadma_numbers_ComplexRational__f_im;
+    var a$2 = $n(x32).Lio_github_edadma_numbers_ComplexRational__f_re;
+    var b$1 = $n(x32).Lio_github_edadma_numbers_ComplexRational__f_im;
     $m_Lio_github_edadma_numbers_Rational$();
     var c$1 = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
     $m_Lio_github_edadma_numbers_Rational$();
@@ -1753,169 +1762,173 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionRational__jl_Number__Lio_gith
     return new $c_Lio_github_edadma_numbers_QuaternionRational(a$2, b$1, c$1, d$1);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x30 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
+    var x31 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionRational$();
-    var a$3 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x30).Lio_github_edadma_numbers_QuaternionBigInt__f_a);
-    var b$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x30).Lio_github_edadma_numbers_QuaternionBigInt__f_b);
-    var c$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x30).Lio_github_edadma_numbers_QuaternionBigInt__f_c);
-    var d$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x30).Lio_github_edadma_numbers_QuaternionBigInt__f_d);
+    var a$3 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x31).Lio_github_edadma_numbers_QuaternionBigInt__f_a);
+    var b$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x31).Lio_github_edadma_numbers_QuaternionBigInt__f_b);
+    var c$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x31).Lio_github_edadma_numbers_QuaternionBigInt__f_c);
+    var d$2 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational($n(x31).Lio_github_edadma_numbers_QuaternionBigInt__f_d);
     return new $c_Lio_github_edadma_numbers_QuaternionRational(a$3, b$2, c$2, d$2);
+  }
+  if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
+    var x30 = $as_Lio_github_edadma_numbers_QuaternionRational(a);
+    return x30;
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x45 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
-    return x45;
+    var x46 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    return x46;
   }
   if ($isInt(a)) {
-    var x44 = $as_jl_Integer(a);
+    var x45 = $as_jl_Integer(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var this$1 = $n(x44);
+    var this$1 = $n(x45);
     var a$1 = this$1;
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$1, 0.0);
   }
   if (((typeof a) === "number")) {
-    var x43 = $as_jl_Double(a);
+    var x44 = $as_jl_Double(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$2 = $uD(x43);
+    var a$2 = $uD(x44);
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$2, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x42 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var x43 = $as_Lio_github_edadma_numbers_SmallRational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$3 = $n(x42).doubleValue__D();
+    var a$3 = $n(x43).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$3, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x41 = $as_Lio_github_edadma_numbers_Rational(a);
+    var x42 = $as_Lio_github_edadma_numbers_Rational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$4 = $n(x41).doubleValue__D();
+    var a$4 = $n(x42).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$4, 0.0);
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x40 = $as_s_math_BigInt(a);
+    var x41 = $as_s_math_BigInt(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$5 = $n(x40).doubleValue__D();
+    var a$5 = $n(x41).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$5, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x39 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x40 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var re = $n($n(x39).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
-    var im = $n($n(x39).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+    var re = $n($n(x40).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+    var im = $n($n(x40).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(re, im);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x38 = $as_Lio_github_edadma_numbers_ComplexRational(a);
+    var x39 = $as_Lio_github_edadma_numbers_ComplexRational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var re$1 = $n($n(x38).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
-    var im$1 = $n($n(x38).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
+    var re$1 = $n($n(x39).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
+    var im$1 = $n($n(x39).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(re$1, im$1);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x55 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    var x56 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$1 = $n(x55).Lio_github_edadma_numbers_ComplexDouble__f_re;
-    var b = $n(x55).Lio_github_edadma_numbers_ComplexDouble__f_im;
+    var a$1 = $n(x56).Lio_github_edadma_numbers_ComplexDouble__f_re;
+    var b = $n(x56).Lio_github_edadma_numbers_ComplexDouble__f_im;
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$1, b, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-    var x54 = $as_Lio_github_edadma_numbers_QuaternionDouble(a);
-    return x54;
+    var x55 = $as_Lio_github_edadma_numbers_QuaternionDouble(a);
+    return x55;
   }
   if ($isInt(a)) {
-    var x53 = $as_jl_Integer(a);
+    var x54 = $as_jl_Integer(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var this$2 = $n(x53);
+    var this$2 = $n(x54);
     var a$2 = this$2;
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$2, 0.0, 0.0, 0.0);
   }
   if (((typeof a) === "number")) {
-    var x52 = $as_jl_Double(a);
+    var x53 = $as_jl_Double(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$3 = $uD(x52);
+    var a$3 = $uD(x53);
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$3, 0.0, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x51 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var x52 = $as_Lio_github_edadma_numbers_SmallRational(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$4 = $n(x51).doubleValue__D();
+    var a$4 = $n(x52).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$4, 0.0, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x50 = $as_Lio_github_edadma_numbers_Rational(a);
+    var x51 = $as_Lio_github_edadma_numbers_Rational(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$5 = $n(x50).doubleValue__D();
+    var a$5 = $n(x51).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$5, 0.0, 0.0, 0.0);
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x49 = $as_s_math_BigInt(a);
+    var x50 = $as_s_math_BigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$6 = $n(x49).doubleValue__D();
+    var a$6 = $n(x50).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$6, 0.0, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x48 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x49 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$7 = $n($n(x48).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
-    var b$1 = $n($n(x48).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+    var a$7 = $n($n(x49).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+    var b$1 = $n($n(x49).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$7, b$1, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x47 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
+    var x48 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$8 = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_a).doubleValue__D();
-    var b$2 = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_b).doubleValue__D();
-    var c = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_c).doubleValue__D();
-    var d = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_d).doubleValue__D();
+    var a$8 = $n($n(x48).Lio_github_edadma_numbers_QuaternionBigInt__f_a).doubleValue__D();
+    var b$2 = $n($n(x48).Lio_github_edadma_numbers_QuaternionBigInt__f_b).doubleValue__D();
+    var c = $n($n(x48).Lio_github_edadma_numbers_QuaternionBigInt__f_c).doubleValue__D();
+    var d = $n($n(x48).Lio_github_edadma_numbers_QuaternionBigInt__f_d).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$8, b$2, c, d);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x69 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
-    return x69;
+    var x70 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
+    return x70;
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x68 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x69 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     var this$1 = $m_s_math_BigDecimal$();
-    var x = $n(x68).Lio_github_edadma_numbers_ComplexBigInt__f_re;
+    var x = $n(x69).Lio_github_edadma_numbers_ComplexBigInt__f_re;
     var re = this$1.exact__s_math_BigInt__s_math_BigDecimal(x);
     var this$2 = $m_s_math_BigDecimal$();
-    var x$1 = $n(x68).Lio_github_edadma_numbers_ComplexBigInt__f_im;
+    var x$1 = $n(x69).Lio_github_edadma_numbers_ComplexBigInt__f_im;
     var im = this$2.exact__s_math_BigInt__s_math_BigDecimal(x$1);
     var bdmath = this.Lio_github_edadma_dal_DAL__f_bdmath;
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(re, im, bdmath);
   }
   if ((a instanceof $c_s_math_BigDecimal)) {
-    var x67 = $as_s_math_BigDecimal(a);
+    var x68 = $as_s_math_BigDecimal(a);
     var this$4 = $m_s_math_BigDecimal$();
-    return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(x67, this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$4.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(x68, this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$4.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ($isInt(a)) {
-    var x66 = $as_jl_Integer(a);
+    var x67 = $as_jl_Integer(a);
     var this$5 = $m_s_math_BigDecimal$();
-    var i = $uI(x66);
+    var i = $uI(x67);
     var $x_1 = this$5.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$5.s_math_BigDecimal$__f_defaultMathContext);
     var this$6 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_1, this$6.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$6.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if (((typeof a) === "number")) {
-    var x65 = $as_jl_Double(a);
+    var x66 = $as_jl_Double(a);
     var this$7 = $m_s_math_BigDecimal$();
-    var d = $uD(x65);
+    var d = $uD(x66);
     var $x_2 = this$7.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d, this$7.s_math_BigDecimal$__f_defaultMathContext);
     var this$8 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_2, this$8.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$8.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x64 = $as_Lio_github_edadma_numbers_SmallRational(a);
-    var rational = $n(x64).toRational__Lio_github_edadma_numbers_Rational();
+    var x65 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var rational = $n(x65).toRational__Lio_github_edadma_numbers_Rational();
     var quo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n(rational).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n(rational).Lio_github_edadma_numbers_Rational__f_denominator));
     var this$9 = $n(quo);
     var $x_4 = $n(this$9.s_math_BigDecimal__f_bigDecimal).precision__I();
@@ -1929,11 +1942,11 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_3, this$11.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$11.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a !== null)) {
-    var x60 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
-    if ((!$n(x60).isEmpty__Z())) {
-      var x61 = $as_T2($n(x60).get__O());
-      var n = $as_s_math_BigInt($n(x61)._1__O());
-      var d$2 = $as_s_math_BigInt($n(x61)._2__O());
+    var x61 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
+    if ((!$n(x61).isEmpty__Z())) {
+      var x62 = $as_T2($n(x61).get__O());
+      var n = $as_s_math_BigInt($n(x62)._1__O());
+      var d$2 = $as_s_math_BigInt($n(x62)._2__O());
       var quo$2 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(n)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(d$2));
       var this$12 = $n(quo$2);
       var $x_6 = $n(this$12.s_math_BigDecimal__f_bigDecimal).precision__I();
@@ -1948,18 +1961,18 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     }
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x59 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    var x60 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
     var this$15 = $m_s_math_BigDecimal$();
-    var d$1 = $n(x59).Lio_github_edadma_numbers_ComplexDouble__f_re;
+    var d$1 = $n(x60).Lio_github_edadma_numbers_ComplexDouble__f_re;
     var $x_7 = this$15.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$1, this$15.s_math_BigDecimal$__f_defaultMathContext);
     var this$16 = $m_s_math_BigDecimal$();
-    var d$3 = $n(x59).Lio_github_edadma_numbers_ComplexDouble__f_im;
+    var d$3 = $n(x60).Lio_github_edadma_numbers_ComplexDouble__f_im;
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_7, this$16.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$3, this$16.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x58 = $as_Lio_github_edadma_numbers_ComplexRational(a);
-    var reQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_denominator));
-    var imQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_denominator));
+    var x59 = $as_Lio_github_edadma_numbers_ComplexRational(a);
+    var reQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x59).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x59).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_denominator));
+    var imQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x59).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x59).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_denominator));
     var this$17 = $n(reQuo);
     var $x_8 = $n(this$17.s_math_BigDecimal__f_bigDecimal).precision__I();
     var this$18 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
@@ -1979,8 +1992,8 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(reResult, imResult, this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x57 = $as_s_math_BigInt(a);
-    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x57);
+    var x58 = $as_s_math_BigInt(a);
+    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x58);
     var $x_12 = $m_s_math_BigDecimal$();
     var this$21 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
     if ((len >= this$21.Ljava_math_MathContext__f_precision)) {
@@ -1989,7 +2002,7 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     } else {
       var $x_11 = $n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc;
     }
-    var $x_10 = $x_12.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x57, $x_11);
+    var $x_10 = $x_12.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x58, $x_11);
     var this$22 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_10, this$22.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$22.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
@@ -1997,33 +2010,33 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-    var x83 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(a);
-    return x83;
+    var x84 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(a);
+    return x84;
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x82 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
+    var x83 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
     var this$1 = $m_s_math_BigDecimal$();
-    var x = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_a;
+    var x = $n(x83).Lio_github_edadma_numbers_QuaternionBigInt__f_a;
     var a$1 = this$1.exact__s_math_BigInt__s_math_BigDecimal(x);
     var this$2 = $m_s_math_BigDecimal$();
-    var x$1 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_b;
+    var x$1 = $n(x83).Lio_github_edadma_numbers_QuaternionBigInt__f_b;
     var b = this$2.exact__s_math_BigInt__s_math_BigDecimal(x$1);
     var this$3 = $m_s_math_BigDecimal$();
-    var x$2 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_c;
+    var x$2 = $n(x83).Lio_github_edadma_numbers_QuaternionBigInt__f_c;
     var c = this$3.exact__s_math_BigInt__s_math_BigDecimal(x$2);
     var this$4 = $m_s_math_BigDecimal$();
-    var x$3 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_d;
+    var x$3 = $n(x83).Lio_github_edadma_numbers_QuaternionBigInt__f_d;
     var d = this$4.exact__s_math_BigInt__s_math_BigDecimal(x$3);
     var bdmath = this.Lio_github_edadma_dal_DAL__f_bdmath;
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$1, b, c, d, bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x81 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x82 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     var this$6 = $m_s_math_BigDecimal$();
-    var x$4 = $n(x81).Lio_github_edadma_numbers_ComplexBigInt__f_re;
+    var x$4 = $n(x82).Lio_github_edadma_numbers_ComplexBigInt__f_re;
     var a$2 = this$6.exact__s_math_BigInt__s_math_BigDecimal(x$4);
     var this$7 = $m_s_math_BigDecimal$();
-    var x$5 = $n(x81).Lio_github_edadma_numbers_ComplexBigInt__f_im;
+    var x$5 = $n(x82).Lio_github_edadma_numbers_ComplexBigInt__f_im;
     var b$1 = this$7.exact__s_math_BigInt__s_math_BigDecimal(x$5);
     var this$8 = $m_s_math_BigDecimal$();
     var c$1 = this$8.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$8.s_math_BigDecimal$__f_defaultMathContext);
@@ -2033,9 +2046,9 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$2, b$1, c$1, d$1, bdmath$1);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x80 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
-    var a$3 = $n(x80).Lio_github_edadma_numbers_ComplexBigDecimal__f_re;
-    var b$2 = $n(x80).Lio_github_edadma_numbers_ComplexBigDecimal__f_im;
+    var x81 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
+    var a$3 = $n(x81).Lio_github_edadma_numbers_ComplexBigDecimal__f_re;
+    var b$2 = $n(x81).Lio_github_edadma_numbers_ComplexBigDecimal__f_im;
     var this$11 = $m_s_math_BigDecimal$();
     var c$2 = this$11.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$11.s_math_BigDecimal$__f_defaultMathContext);
     var this$12 = $m_s_math_BigDecimal$();
@@ -2044,36 +2057,36 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$3, b$2, c$2, d$2, bdmath$2);
   }
   if ((a instanceof $c_s_math_BigDecimal)) {
-    var x79 = $as_s_math_BigDecimal(a);
-    return $m_Lio_github_edadma_numbers_QuaternionBigDecimal$().apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(x79, this.Lio_github_edadma_dal_DAL__f_bdmath);
+    var x80 = $as_s_math_BigDecimal(a);
+    return $m_Lio_github_edadma_numbers_QuaternionBigDecimal$().apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(x80, this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ($isInt(a)) {
-    var x78 = $as_jl_Integer(a);
+    var x79 = $as_jl_Integer(a);
     var $x_1 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var this$14 = $m_s_math_BigDecimal$();
-    var i = $uI(x78);
+    var i = $uI(x79);
     return $x_1.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$14.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$14.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if (((typeof a) === "number")) {
-    var x77 = $as_jl_Double(a);
+    var x78 = $as_jl_Double(a);
     var $x_2 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var this$15 = $m_s_math_BigDecimal$();
-    var d$3 = $uD(x77);
+    var d$3 = $uD(x78);
     return $x_2.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$15.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$3, this$15.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x76 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var x77 = $as_Lio_github_edadma_numbers_SmallRational(a);
     var $x_3 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var this$16 = $m_s_math_BigDecimal$();
-    var d$4 = $n(x76).doubleValue__D();
+    var d$4 = $n(x77).doubleValue__D();
     return $x_3.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$16.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$4, this$16.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a !== null)) {
-    var x72 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
-    if ((!$n(x72).isEmpty__Z())) {
-      var x73 = $as_T2($n(x72).get__O());
-      var n = $as_s_math_BigInt($n(x73)._1__O());
-      var d$2$1 = $as_s_math_BigInt($n(x73)._2__O());
+    var x73 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
+    if ((!$n(x73).isEmpty__Z())) {
+      var x74 = $as_T2($n(x73).get__O());
+      var n = $as_s_math_BigInt($n(x74)._1__O());
+      var d$2$1 = $as_s_math_BigInt($n(x74)._2__O());
       var quo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(n)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(d$2$1));
       var $x_5 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
       var this$17 = $n(quo);
@@ -2083,8 +2096,8 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     }
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x71 = $as_s_math_BigInt(a);
-    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x71);
+    var x72 = $as_s_math_BigInt(a);
+    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x72);
     var $x_8 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var $x_7 = $m_s_math_BigDecimal$();
     var this$19 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
@@ -2094,18 +2107,18 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     } else {
       var $x_6 = $n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc;
     }
-    return $x_8.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal($x_7.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x71, $x_6), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    return $x_8.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal($x_7.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x72, $x_6), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.bigIntPow__jl_Number__jl_Number__T2 = (function(n, e) {
   if ($isInt(e)) {
-    var x85 = $as_jl_Integer(e);
+    var x86 = $as_jl_Integer(e);
     var $x_1 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(n));
-    var x = $uI(x85);
+    var x = $uI(x86);
     var sign = (x >> 31);
     var res = $x_1.pow__I__s_math_BigInt((((x ^ sign) - sign) | 0));
-    return (($uI(x85) < 0) ? this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($m_Lio_github_edadma_numbers_Rational$().oneOver__s_math_BigInt__Lio_github_edadma_numbers_Rational(res)) : this.maybeDemote__s_math_BigInt__T2(res));
+    return (($uI(x86) < 0) ? this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($m_Lio_github_edadma_numbers_Rational$().oneOver__s_math_BigInt__Lio_github_edadma_numbers_Rational(res)) : this.maybeDemote__s_math_BigInt__T2(res));
   }
   $m_s_sys_package$().error__T__E(("exponent too small or too large: " + e));
 });
@@ -2143,18 +2156,18 @@ $c_Lio_github_edadma_dal_DAL.prototype.maybeDemote__Lio_github_edadma_numbers_Sm
 $c_Lio_github_edadma_dal_DAL.prototype.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2 = (function(a, b, safeOp, fallbackOp) {
   var sr1 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(a);
   var sr2 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(b);
-  var x86 = $as_s_Option($n(safeOp).apply__O__O__O(sr1, sr2));
-  if ((x86 instanceof $c_s_Some)) {
-    var x87 = $as_s_Some(x86);
-    var result = $as_Lio_github_edadma_numbers_SmallRational($n(x87).s_Some__f_value);
+  var x87 = $as_s_Option($n(safeOp).apply__O__O__O(sr1, sr2));
+  if ((x87 instanceof $c_s_Some)) {
+    var x88 = $as_s_Some(x87);
+    var result = $as_Lio_github_edadma_numbers_SmallRational($n(x88).s_Some__f_value);
     return this.maybeDemote__Lio_github_edadma_numbers_SmallRational__T2(result);
   }
   var x = $m_s_None$();
-  if ((x === x86)) {
+  if ((x === x87)) {
     var result$2 = $as_Lio_github_edadma_numbers_Rational($n(fallbackOp).apply__O__O__O($n(sr1).toRational__Lio_github_edadma_numbers_Rational(), $n(sr2).toRational__Lio_github_edadma_numbers_Rational()));
     return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2(result$2);
   }
-  throw new $c_s_MatchError(x86);
+  throw new $c_s_MatchError(x87);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2 = (function(n) {
   var xn = $n(n).Lio_github_edadma_numbers_ComplexBigInt__f_im;
@@ -2323,19 +2336,19 @@ $c_Lio_github_edadma_dal_DAL.prototype.special__Lio_github_edadma_dal_Type__Lio_
   $p_scm_HashMap__put0__O__O__Z__s_Some(this$4, key$1, t, false);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.resultant__scm_HashMap__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__I = (function(rank, l, r) {
-  var x89 = $n(this.Lio_github_edadma_dal_DAL__f_specials).get__O__s_Option(new $c_T2(l, r));
-  if ((x89 instanceof $c_s_Some)) {
-    var x90 = $as_s_Some(x89);
-    var t = $as_Lio_github_edadma_dal_Type($n(x90).s_Some__f_value);
+  var x90 = $n(this.Lio_github_edadma_dal_DAL__f_specials).get__O__s_Option(new $c_T2(l, r));
+  if ((x90 instanceof $c_s_Some)) {
+    var x91 = $as_s_Some(x90);
+    var t = $as_Lio_github_edadma_dal_Type($n(x91).s_Some__f_value);
     return $uI($n(rank).apply__O__O(t));
   }
   var x = $m_s_None$();
-  if ((x === x89)) {
+  if ((x === x90)) {
     var x$1 = $uI($n(rank).apply__O__O(l));
     var that = $uI($n(rank).apply__O__O(r));
     return ((x$1 > that) ? x$1 : that);
   }
-  throw new $c_s_MatchError(x89);
+  throw new $c_s_MatchError(x90);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.define__s_Symbol__sci_Seq__V = (function(op, funcs) {
   var rank = $ct_scm_HashMap__(new $c_scm_HashMap());
@@ -2595,14 +2608,14 @@ $c_Lio_github_edadma_dal_DAL.prototype.compute__s_Symbol__jl_Number__jl_Number__
     var $x_1 = this.Lio_github_edadma_dal_DAL__f_opmap;
     var _1 = $n(left$1).Lio_github_edadma_dal_DALNumber__f_typ;
     var _3 = $n(right$1).Lio_github_edadma_dal_DALNumber__f_typ;
-    var x104 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left$1).Lio_github_edadma_dal_DALNumber__f_value, $n(right$1).Lio_github_edadma_dal_DALNumber__f_value));
-    if ((x104 !== null)) {
-      var t = $as_Lio_github_edadma_dal_Type($n(x104)._1__O());
-      var \u03b43$___1 = x104;
+    var x105 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left$1).Lio_github_edadma_dal_DALNumber__f_value, $n(right$1).Lio_github_edadma_dal_DALNumber__f_value));
+    if ((x105 !== null)) {
+      var t = $as_Lio_github_edadma_dal_Type($n(x105)._1__O());
+      var \u03b43$___1 = x105;
       var \u03b43$___2 = t;
       break matchResult18;
     }
-    throw new $c_s_MatchError(x104);
+    throw new $c_s_MatchError(x105);
   }
   var n$2 = $as_T2(\u03b43$___1);
   var t$2 = $as_Lio_github_edadma_dal_Type(\u03b43$___2);
@@ -2626,12 +2639,12 @@ $c_Lio_github_edadma_dal_DAL.prototype.relate__s_Symbol__Lio_github_edadma_dal_T
     var $x_1 = this.Lio_github_edadma_dal_DAL__f_opmap;
     var _1 = $n(left).Lio_github_edadma_dal_DALNumber__f_typ;
     var _3 = $n(right).Lio_github_edadma_dal_DALNumber__f_typ;
-    var x98 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left).Lio_github_edadma_dal_DALNumber__f_value, $n(right).Lio_github_edadma_dal_DALNumber__f_value));
-    if ((x98 !== null)) {
-      var \u03b42$ = x98;
+    var x99 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left).Lio_github_edadma_dal_DALNumber__f_value, $n(right).Lio_github_edadma_dal_DALNumber__f_value));
+    if ((x99 !== null)) {
+      var \u03b42$ = x99;
       break matchResult16;
     }
-    throw new $c_s_MatchError(x98);
+    throw new $c_s_MatchError(x99);
   }
   var t = $as_Lio_github_edadma_dal_Type($n(\u03b42$)._1__O());
   var r = $n(\u03b42$)._2__O();
@@ -2641,14 +2654,14 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
   matchResult21: {
     var $x_1;
     if ($isInt(n)) {
-      var x142 = $as_jl_Integer(n);
-      var x = ((-$uI(x142)) | 0);
+      var x144 = $as_jl_Integer(n);
+      var x = ((-$uI(x144)) | 0);
       var $x_1 = x;
       break matchResult21;
     }
     if ((n instanceof $Long)) {
-      var x141 = $as_jl_Long(n);
-      var $x_2 = $uJ(x141);
+      var x143 = $as_jl_Long(n);
+      var $x_2 = $uJ(x143);
       var x$1_$_lo = $x_2.l;
       var x$1_$_hi = $x_2.h;
       var lo = ((-x$1_$_lo) | 0);
@@ -2657,29 +2670,34 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
       break matchResult21;
     }
     if ((n instanceof $c_s_math_BigInt)) {
-      var x140 = $as_s_math_BigInt(n);
-      var $x_1 = $n(x140).unary_$minus__s_math_BigInt();
+      var x142 = $as_s_math_BigInt(n);
+      var $x_1 = $n(x142).unary_$minus__s_math_BigInt();
+      break matchResult21;
+    }
+    if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+      var x141 = $as_Lio_github_edadma_numbers_SmallRational(n);
+      var $x_1 = $n(x141).unary_$minus__Lio_github_edadma_numbers_SmallRational();
       break matchResult21;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-      var x139 = $as_Lio_github_edadma_numbers_Rational(n);
-      var $x_1 = $n(x139).unary_$minus__Lio_github_edadma_numbers_Rational();
+      var x140 = $as_Lio_github_edadma_numbers_Rational(n);
+      var $x_1 = $n(x140).unary_$minus__Lio_github_edadma_numbers_Rational();
       break matchResult21;
     }
     if (((typeof n) === "number")) {
-      var x138 = $as_jl_Double(n);
-      var x$2 = (-$uD(x138));
+      var x139 = $as_jl_Double(n);
+      var x$2 = (-$uD(x139));
       var $x_1 = x$2;
       break matchResult21;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x137 = $as_s_math_BigDecimal(n);
-      var $x_1 = $n(x137).unary_$minus__s_math_BigDecimal();
+      var x138 = $as_s_math_BigDecimal(n);
+      var $x_1 = $n(x138).unary_$minus__s_math_BigDecimal();
       break matchResult21;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x136 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigInt($n(x136).unary_$minus__Lio_github_edadma_numbers_Complex());
+      var x137 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigInt($n(x137).unary_$minus__Lio_github_edadma_numbers_Complex());
       break matchResult21;
     }
     throw new $c_s_MatchError(n);
@@ -2688,8 +2706,8 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
 });
 $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n) {
   if ($isInt(n)) {
-    var x170 = $as_jl_Integer(n);
-    var x = $uI(x170);
+    var x179 = $as_jl_Integer(n);
+    var x = $uI(x179);
     var sign = (x >> 31);
     var n$2 = (((x ^ sign) - sign) | 0);
     var x$1 = n$2;
@@ -2699,7 +2717,7 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
     var x$2_$_lo = $x_1.l;
     var x$2_$_hi = $x_1.h;
     if ((Math.imul(x$2_$_lo, x$2_$_lo) === n$2)) {
-      if (($uI(x170) < 0)) {
+      if (($uI(x179) < 0)) {
         var this$10 = $m_s_math_BigInt$();
         var $x_2 = this$10.apply__I__s_math_BigInt(0);
         var this$11 = $m_s_math_BigInt$();
@@ -2708,16 +2726,16 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return x$2_$_lo;
       }
     } else {
-      return (($uI(x170) < 0) ? new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, dr) : dr);
+      return (($uI(x179) < 0) ? new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, dr) : dr);
     }
   }
   if ((n instanceof $c_s_math_BigInt)) {
-    var x169 = $as_s_math_BigInt(n);
-    var x146 = this.bisqrt__s_math_BigInt__s_util_Either($n(x169).abs__s_math_BigInt());
-    if ((x146 instanceof $c_s_util_Left)) {
-      var x149 = $as_s_util_Left(x146);
-      var ir$2 = $as_s_math_BigInt($n(x149).s_util_Left__f_value);
-      var this$16 = $n(x169);
+    var x178 = $as_s_math_BigInt(n);
+    var x148 = this.bisqrt__s_math_BigInt__s_util_Either($n(x178).abs__s_math_BigInt());
+    if ((x148 instanceof $c_s_util_Left)) {
+      var x151 = $as_s_util_Left(x148);
+      var ir$2 = $as_s_math_BigInt($n(x151).s_util_Left__f_value);
+      var this$16 = $n(x178);
       var this$15 = $m_s_math_BigInt$();
       var that = this$15.apply__I__s_math_BigInt(0);
       if ($f_s_math_Ordered__$less__O__Z(this$16, that)) {
@@ -2727,10 +2745,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return $as_jl_Number($n(this.maybeDemote__s_math_BigInt__T2(ir$2))._2__O());
       }
     }
-    if ((x146 instanceof $c_s_util_Right)) {
-      var x147 = $as_s_util_Right(x146);
-      var dr$2 = $as_s_math_BigDecimal($n(x147).s_util_Right__f_value);
-      var this$19 = $n(x169);
+    if ((x148 instanceof $c_s_util_Right)) {
+      var x149 = $as_s_util_Right(x148);
+      var dr$2 = $as_s_math_BigDecimal($n(x149).s_util_Right__f_value);
+      var this$19 = $n(x178);
       var this$18 = $m_s_math_BigInt$();
       var that$1 = this$18.apply__I__s_math_BigInt(0);
       if ($f_s_math_Ordered__$less__O__Z(this$19, that$1)) {
@@ -2740,174 +2758,215 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return dr$2;
       }
     }
-    throw new $c_s_MatchError(x146);
+    throw new $c_s_MatchError(x148);
+  }
+  if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+    var x177 = $as_Lio_github_edadma_numbers_SmallRational(n);
+    var ar = $n(x177).abs__Lio_github_edadma_numbers_SmallRational();
+    var x$3_$_lo = $n(x177).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+    var x$3_$_hi = $n(x177).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+    var isNegative = (x$3_$_hi < 0);
+    var x156 = this.bisqrt__s_math_BigInt__s_util_Either($m_s_math_BigInt$().apply__J__s_math_BigInt($n(ar).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(ar).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi));
+    if ((x156 instanceof $c_s_util_Left)) {
+      var x157 = $as_s_util_Left(x156);
+      var irn = $as_s_math_BigInt($n(x157).s_util_Left__f_value);
+      if ($n(irn).isValidLong__Z()) {
+        var x153 = this.bisqrt__s_math_BigInt__s_util_Either($m_s_math_BigInt$().apply__J__s_math_BigInt($n(ar).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(ar).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi));
+        if ((x153 instanceof $c_s_util_Left)) {
+          var x154 = $as_s_util_Left(x153);
+          var ird = $as_s_math_BigInt($n(x154).s_util_Left__f_value);
+          if ($n(ird).isValidLong__Z()) {
+            $m_Lio_github_edadma_numbers_SmallRational$();
+            var this$22 = $n(irn);
+            var $x_3 = this$22.longValue__J();
+            var n$1_$_lo = $x_3.l;
+            var n$1_$_hi = $x_3.h;
+            var this$23 = $n(ird);
+            var $x_4 = this$23.longValue__J();
+            var d_$_lo = $x_4.l;
+            var d_$_hi = $x_4.h;
+            var res = new $c_Lio_github_edadma_numbers_SmallRational(n$1_$_lo, n$1_$_hi, d_$_lo, d_$_hi);
+            return (isNegative ? new $c_Lio_github_edadma_numbers_ComplexRational(($m_Lio_github_edadma_numbers_Rational$(), $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0)), res.toRational__Lio_github_edadma_numbers_Rational()) : res);
+          }
+        }
+        return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Z__Lio_github_edadma_numbers_SmallRational__jl_Number(isNegative, ar);
+      }
+    }
+    return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Z__Lio_github_edadma_numbers_SmallRational__jl_Number(isNegative, ar);
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x168 = $as_Lio_github_edadma_numbers_Rational(n);
-    var ar = $n(x168).abs__Lio_github_edadma_numbers_Rational();
-    var x154 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_numerator);
-    if ((x154 instanceof $c_s_util_Left)) {
-      var x155 = $as_s_util_Left(x154);
-      var irn = $as_s_math_BigInt($n(x155).s_util_Left__f_value);
-      var x151 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_denominator);
-      if ((x151 instanceof $c_s_util_Left)) {
-        var x152 = $as_s_util_Left(x151);
-        var ird = $as_s_math_BigInt($n(x152).s_util_Left__f_value);
+    var x176 = $as_Lio_github_edadma_numbers_Rational(n);
+    var ar$2 = $n(x176).abs__Lio_github_edadma_numbers_Rational();
+    var x162 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar$2).Lio_github_edadma_numbers_Rational__f_numerator);
+    if ((x162 instanceof $c_s_util_Left)) {
+      var x163 = $as_s_util_Left(x162);
+      var irn$2 = $as_s_math_BigInt($n(x163).s_util_Left__f_value);
+      var x159 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar$2).Lio_github_edadma_numbers_Rational__f_denominator);
+      if ((x159 instanceof $c_s_util_Left)) {
+        var x160 = $as_s_util_Left(x159);
+        var ird$2 = $as_s_math_BigInt($n(x160).s_util_Left__f_value);
         $m_Lio_github_edadma_numbers_Rational$();
-        var res = new $c_Lio_github_edadma_numbers_Rational(irn, ird);
-        var this$23 = $n(x168);
+        var res$2 = new $c_Lio_github_edadma_numbers_Rational(irn$2, ird$2);
+        var this$28 = $n(x176);
         $m_Lio_github_edadma_numbers_Rational$();
         var that$2 = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
-        if ($f_s_math_Ordered__$less__O__Z(this$23, that$2)) {
-          return new $c_Lio_github_edadma_numbers_ComplexRational(($m_Lio_github_edadma_numbers_Rational$(), $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0)), res);
+        if ($f_s_math_Ordered__$less__O__Z(this$28, that$2)) {
+          return new $c_Lio_github_edadma_numbers_ComplexRational(($m_Lio_github_edadma_numbers_Rational$(), $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0)), res$2);
         } else {
-          return res;
+          return res$2;
         }
       }
-      return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x168, ar);
+      return $ps_Lio_github_edadma_dal_DAL__rsqrt$2__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x176, ar$2);
     }
-    return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x168, ar);
+    return $ps_Lio_github_edadma_dal_DAL__rsqrt$2__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x176, ar$2);
   }
   if (((typeof n) === "number")) {
-    var x167 = $as_jl_Double(n);
-    if (($uD(x167) < 0.0)) {
-      var x$3 = (-$uD(x167));
-      return new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, $uD(Math.sqrt(x$3)));
+    var x175 = $as_jl_Double(n);
+    if (($uD(x175) < 0.0)) {
+      var x$4 = (-$uD(x175));
+      return new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, $uD(Math.sqrt(x$4)));
     } else {
-      var x$4 = $uD(x167);
-      var x$5 = $uD(Math.sqrt(x$4));
-      return x$5;
+      var x$5 = $uD(x175);
+      var x$6 = $uD(Math.sqrt(x$5));
+      return x$6;
     }
   }
   if ((n instanceof $c_s_math_BigDecimal)) {
-    var x166 = $as_s_math_BigDecimal(n);
-    var this$34 = $n(x166);
-    var this$33 = $m_s_math_BigDecimal$();
-    var that$3 = this$33.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$33.s_math_BigDecimal$__f_defaultMathContext);
-    if ($f_s_math_Ordered__$less__O__Z(this$34, that$3)) {
-      var this$35 = $m_s_math_BigDecimal$();
-      return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(this$35.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$35.s_math_BigDecimal$__f_defaultMathContext), $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x166).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    var x174 = $as_s_math_BigDecimal(n);
+    var this$39 = $n(x174);
+    var this$38 = $m_s_math_BigDecimal$();
+    var that$3 = this$38.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$38.s_math_BigDecimal$__f_defaultMathContext);
+    if ($f_s_math_Ordered__$less__O__Z(this$39, that$3)) {
+      var this$40 = $m_s_math_BigDecimal$();
+      return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(this$40.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$40.s_math_BigDecimal$__f_defaultMathContext), $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x174).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath), this.Lio_github_edadma_dal_DAL__f_bdmath);
     } else {
-      return $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x166, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      return $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x174, this.Lio_github_edadma_dal_DAL__f_bdmath);
     }
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x165 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x165).sqrt__Lio_github_edadma_numbers_Complex());
+    var x173 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x173).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x164 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x164).sqrt__Lio_github_edadma_numbers_Complex());
+    var x172 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x172).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x163 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x163).sqrt__Lio_github_edadma_numbers_Complex());
+    var x171 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x171).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x162 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-    return $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x162).sqrt__Lio_github_edadma_numbers_Complex());
+    var x170 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+    return $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x170).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x161 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x161).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x169 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x169).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-    var x160 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x160).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x168 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x168).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-    var x159 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x159).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x167 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x167).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-    var x158 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-    return $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x158).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x166 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+    return $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x166).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   throw new $c_s_MatchError(n);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.lnFunction__O__jl_Number = (function(n) {
-  matchResult28: {
+  matchResult30: {
     var $x_1;
     if ($isInt(n)) {
-      var x198 = $as_jl_Integer(n);
-      var this$1 = $n(x198);
+      var x209 = $as_jl_Integer(n);
+      var this$1 = $n(x209);
       var x = this$1;
       var x$1 = $uD(Math.log(x));
       var $x_1 = x$1;
-      break matchResult28;
+      break matchResult30;
     }
     if ((n instanceof $c_s_math_BigInt)) {
-      var x197 = $as_s_math_BigInt(n);
-      var x$2 = $n(x197).doubleValue__D();
+      var x208 = $as_s_math_BigInt(n);
+      var x$2 = $n(x208).doubleValue__D();
       var x$3 = $uD(Math.log(x$2));
       var $x_1 = x$3;
-      break matchResult28;
+      break matchResult30;
     }
-    if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-      var x196 = $as_Lio_github_edadma_numbers_Rational(n);
-      var x$4 = $n(x196).doubleValue__D();
+    if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+      var x207 = $as_Lio_github_edadma_numbers_SmallRational(n);
+      var x$4 = $n(x207).doubleValue__D();
       var x$5 = $uD(Math.log(x$4));
       var $x_1 = x$5;
-      break matchResult28;
+      break matchResult30;
     }
-    if (((typeof n) === "number")) {
-      var x195 = $as_jl_Double(n);
-      var x$6 = $uD(x195);
+    if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
+      var x206 = $as_Lio_github_edadma_numbers_Rational(n);
+      var x$6 = $n(x206).doubleValue__D();
       var x$7 = $uD(Math.log(x$6));
       var $x_1 = x$7;
-      break matchResult28;
+      break matchResult30;
+    }
+    if (((typeof n) === "number")) {
+      var x205 = $as_jl_Double(n);
+      var x$8 = $uD(x205);
+      var x$9 = $uD(Math.log(x$8));
+      var $x_1 = x$9;
+      break matchResult30;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x194 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().ln__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x194, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      break matchResult28;
+      var x204 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().ln__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x204, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x193 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x193).ln__Lio_github_edadma_numbers_Complex());
-      break matchResult28;
+      var x203 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x203).ln__Lio_github_edadma_numbers_Complex());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x192 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x192).ln__Lio_github_edadma_numbers_Complex());
-      break matchResult28;
+      var x202 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x202).ln__Lio_github_edadma_numbers_Complex());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x191 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x191).ln__Lio_github_edadma_numbers_Complex());
-      break matchResult28;
+      var x201 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x201).ln__Lio_github_edadma_numbers_Complex());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x190 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x190).ln__Lio_github_edadma_numbers_Complex());
-      break matchResult28;
+      var x200 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x200).ln__Lio_github_edadma_numbers_Complex());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x189 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x189).ln__Lio_github_edadma_numbers_Quaternion());
-      break matchResult28;
+      var x199 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x199).ln__Lio_github_edadma_numbers_Quaternion());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x188 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x188).ln__Lio_github_edadma_numbers_Quaternion());
-      break matchResult28;
+      var x198 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x198).ln__Lio_github_edadma_numbers_Quaternion());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x187 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x187).ln__Lio_github_edadma_numbers_Quaternion());
-      break matchResult28;
+      var x197 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x197).ln__Lio_github_edadma_numbers_Quaternion());
+      break matchResult30;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x186 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x186).ln__Lio_github_edadma_numbers_Quaternion());
-      break matchResult28;
+      var x196 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x196).ln__Lio_github_edadma_numbers_Quaternion());
+      break matchResult30;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.cosFunction__O__jl_Number = (function(n) {
-  matchResult32: {
+  matchResult34: {
     var $x_1;
     matchAlts1: {
       matchAlts2: {
@@ -2917,6 +2976,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.cosFunction__O__jl_Number = (function(n) 
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts2;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts2;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -2931,59 +2994,59 @@ $c_Lio_github_edadma_dal_DAL.prototype.cosFunction__O__jl_Number = (function(n) 
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $uD(Math.cos(x));
-      break matchResult32;
+      break matchResult34;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x238 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().cos__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x238, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      break matchResult32;
+      var x251 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().cos__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x251, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x237 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x237).cos__Lio_github_edadma_numbers_Complex());
-      break matchResult32;
+      var x250 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x250).cos__Lio_github_edadma_numbers_Complex());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x236 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x236).cos__Lio_github_edadma_numbers_Complex());
-      break matchResult32;
+      var x249 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x249).cos__Lio_github_edadma_numbers_Complex());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x235 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x235).cos__Lio_github_edadma_numbers_Complex());
-      break matchResult32;
+      var x248 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x248).cos__Lio_github_edadma_numbers_Complex());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x234 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x234).cos__Lio_github_edadma_numbers_Complex());
-      break matchResult32;
+      var x247 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x247).cos__Lio_github_edadma_numbers_Complex());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x233 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x233).cos__Lio_github_edadma_numbers_Quaternion());
-      break matchResult32;
+      var x246 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x246).cos__Lio_github_edadma_numbers_Quaternion());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x232 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x232).cos__Lio_github_edadma_numbers_Quaternion());
-      break matchResult32;
+      var x245 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x245).cos__Lio_github_edadma_numbers_Quaternion());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x231 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x231).cos__Lio_github_edadma_numbers_Quaternion());
-      break matchResult32;
+      var x244 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x244).cos__Lio_github_edadma_numbers_Quaternion());
+      break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x230 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x230).cos__Lio_github_edadma_numbers_Quaternion());
-      break matchResult32;
+      var x243 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x243).cos__Lio_github_edadma_numbers_Quaternion());
+      break matchResult34;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.sinFunction__O__jl_Number = (function(n) {
-  matchResult33: {
+  matchResult35: {
     var $x_1;
     matchAlts3: {
       matchAlts4: {
@@ -2993,6 +3056,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinFunction__O__jl_Number = (function(n) 
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts4;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts4;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3007,59 +3074,59 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinFunction__O__jl_Number = (function(n) 
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $uD(Math.sin(x));
-      break matchResult33;
+      break matchResult35;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x252 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().sin__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x252, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      break matchResult33;
+      var x266 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().sin__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x266, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x251 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x251).sin__Lio_github_edadma_numbers_Complex());
-      break matchResult33;
+      var x265 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x265).sin__Lio_github_edadma_numbers_Complex());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x250 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x250).sin__Lio_github_edadma_numbers_Complex());
-      break matchResult33;
+      var x264 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x264).sin__Lio_github_edadma_numbers_Complex());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x249 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x249).sin__Lio_github_edadma_numbers_Complex());
-      break matchResult33;
+      var x263 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x263).sin__Lio_github_edadma_numbers_Complex());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x248 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x248).sin__Lio_github_edadma_numbers_Complex());
-      break matchResult33;
+      var x262 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x262).sin__Lio_github_edadma_numbers_Complex());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x247 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x247).sin__Lio_github_edadma_numbers_Quaternion());
-      break matchResult33;
+      var x261 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x261).sin__Lio_github_edadma_numbers_Quaternion());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x246 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x246).sin__Lio_github_edadma_numbers_Quaternion());
-      break matchResult33;
+      var x260 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x260).sin__Lio_github_edadma_numbers_Quaternion());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x245 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x245).sin__Lio_github_edadma_numbers_Quaternion());
-      break matchResult33;
+      var x259 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x259).sin__Lio_github_edadma_numbers_Quaternion());
+      break matchResult35;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x244 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x244).sin__Lio_github_edadma_numbers_Quaternion());
-      break matchResult33;
+      var x258 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x258).sin__Lio_github_edadma_numbers_Quaternion());
+      break matchResult35;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.tanFunction__O__jl_Number = (function(n) {
-  matchResult34: {
+  matchResult36: {
     var $x_1;
     matchAlts5: {
       matchAlts6: {
@@ -3069,6 +3136,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanFunction__O__jl_Number = (function(n) 
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts6;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts6;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3083,70 +3154,70 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanFunction__O__jl_Number = (function(n) 
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $uD(Math.tan(x));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x265 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var this$3 = $n(x265);
+      var x280 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var this$3 = $n(x280);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$3.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$3.cos__Lio_github_edadma_numbers_Complex()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x264 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var this$4 = $n(x264);
+      var x279 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var this$4 = $n(x279);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$4.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$4.cos__Lio_github_edadma_numbers_Complex()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x263 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var this$5 = $n(x263);
+      var x278 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var this$5 = $n(x278);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$5.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$5.cos__Lio_github_edadma_numbers_Complex()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x262 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var this$6 = $n(x262);
+      var x277 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var this$6 = $n(x277);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(this$6.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$6.cos__Lio_github_edadma_numbers_Complex()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x261 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var this$7 = $n(x261);
+      var x276 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var this$7 = $n(x276);
       var this$8 = $n(this$7.sin__Lio_github_edadma_numbers_Quaternion());
       var that = this$7.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$8.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that).inverse__Lio_github_edadma_numbers_Quaternion()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x260 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var this$9 = $n(x260);
+      var x275 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var this$9 = $n(x275);
       var this$10 = $n(this$9.sin__Lio_github_edadma_numbers_Quaternion());
       var that$1 = this$9.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$10.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$1).inverse__Lio_github_edadma_numbers_Quaternion()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x259 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var this$11 = $n(x259);
+      var x274 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var this$11 = $n(x274);
       var this$12 = $n(this$11.sin__Lio_github_edadma_numbers_Quaternion());
       var that$2 = this$11.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$12.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$2).inverse__Lio_github_edadma_numbers_Quaternion()));
-      break matchResult34;
+      break matchResult36;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x258 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var this$13 = $n(x258);
+      var x273 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var this$13 = $n(x273);
       var this$14 = $n(this$13.sin__Lio_github_edadma_numbers_Quaternion());
       var that$3 = this$13.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(this$14.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$3).inverse__Lio_github_edadma_numbers_Quaternion()));
-      break matchResult34;
+      break matchResult36;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.expFunction__O__jl_Number = (function(n) {
-  matchResult38: {
+  matchResult40: {
     var $x_1;
     matchAlts13: {
       matchAlts14: {
@@ -3156,6 +3227,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.expFunction__O__jl_Number = (function(n) 
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts14;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts14;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3170,59 +3245,59 @@ $c_Lio_github_edadma_dal_DAL.prototype.expFunction__O__jl_Number = (function(n) 
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $uD(Math.exp(x));
-      break matchResult38;
+      break matchResult40;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x321 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x321, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      break matchResult38;
+      var x340 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x340, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x320 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x320).exp__Lio_github_edadma_numbers_Complex());
-      break matchResult38;
+      var x339 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x339).exp__Lio_github_edadma_numbers_Complex());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x319 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x319).exp__Lio_github_edadma_numbers_Complex());
-      break matchResult38;
+      var x338 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x338).exp__Lio_github_edadma_numbers_Complex());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x318 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x318).exp__Lio_github_edadma_numbers_Complex());
-      break matchResult38;
+      var x337 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x337).exp__Lio_github_edadma_numbers_Complex());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x317 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x317).exp__Lio_github_edadma_numbers_Complex());
-      break matchResult38;
+      var x336 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x336).exp__Lio_github_edadma_numbers_Complex());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x316 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x316).exp__Lio_github_edadma_numbers_Quaternion());
-      break matchResult38;
+      var x335 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x335).exp__Lio_github_edadma_numbers_Quaternion());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x315 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x315).exp__Lio_github_edadma_numbers_Quaternion());
-      break matchResult38;
+      var x334 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x334).exp__Lio_github_edadma_numbers_Quaternion());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x314 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x314).exp__Lio_github_edadma_numbers_Quaternion());
-      break matchResult38;
+      var x333 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x333).exp__Lio_github_edadma_numbers_Quaternion());
+      break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x313 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x313).exp__Lio_github_edadma_numbers_Quaternion());
-      break matchResult38;
+      var x332 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x332).exp__Lio_github_edadma_numbers_Quaternion());
+      break matchResult40;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.sinhFunction__O__jl_Number = (function(n) {
-  matchResult39: {
+  matchResult41: {
     var $x_1;
     matchAlts15: {
       matchAlts16: {
@@ -3232,6 +3307,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinhFunction__O__jl_Number = (function(n)
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts16;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts16;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3246,61 +3325,61 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinhFunction__O__jl_Number = (function(n)
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $m_jl_Math$().sinh__D__D(x);
-      break matchResult39;
+      break matchResult41;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x335 = $as_s_math_BigDecimal(n);
-      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x335, this.Lio_github_edadma_dal_DAL__f_bdmath)).$minus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x335).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
+      var x355 = $as_s_math_BigDecimal(n);
+      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x355, this.Lio_github_edadma_dal_DAL__f_bdmath)).$minus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x355).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
       var this$2 = $m_s_math_BigDecimal$();
       var $x_1 = $x_2.$div__s_math_BigDecimal__s_math_BigDecimal(this$2.apply__I__Ljava_math_MathContext__s_math_BigDecimal(2, this$2.s_math_BigDecimal$__f_defaultMathContext));
-      break matchResult39;
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x334 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x334).sinh__Lio_github_edadma_numbers_Complex());
-      break matchResult39;
+      var x354 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x354).sinh__Lio_github_edadma_numbers_Complex());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x333 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x333).sinh__Lio_github_edadma_numbers_Complex());
-      break matchResult39;
+      var x353 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x353).sinh__Lio_github_edadma_numbers_Complex());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x332 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x332).sinh__Lio_github_edadma_numbers_Complex());
-      break matchResult39;
+      var x352 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x352).sinh__Lio_github_edadma_numbers_Complex());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x331 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x331).sinh__Lio_github_edadma_numbers_Complex());
-      break matchResult39;
+      var x351 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x351).sinh__Lio_github_edadma_numbers_Complex());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x330 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x330).sinh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult39;
+      var x350 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x350).sinh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x329 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x329).sinh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult39;
+      var x349 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x349).sinh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x328 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x328).sinh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult39;
+      var x348 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x348).sinh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x327 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x327).sinh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult39;
+      var x347 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x347).sinh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult41;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.coshFunction__O__jl_Number = (function(n) {
-  matchResult40: {
+  matchResult42: {
     var $x_1;
     matchAlts17: {
       matchAlts18: {
@@ -3310,6 +3389,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.coshFunction__O__jl_Number = (function(n)
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts18;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts18;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3324,61 +3407,61 @@ $c_Lio_github_edadma_dal_DAL.prototype.coshFunction__O__jl_Number = (function(n)
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $m_jl_Math$().cosh__D__D(x);
-      break matchResult40;
+      break matchResult42;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x349 = $as_s_math_BigDecimal(n);
-      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x349, this.Lio_github_edadma_dal_DAL__f_bdmath)).$plus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x349).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
+      var x370 = $as_s_math_BigDecimal(n);
+      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x370, this.Lio_github_edadma_dal_DAL__f_bdmath)).$plus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x370).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
       var this$2 = $m_s_math_BigDecimal$();
       var $x_1 = $x_2.$div__s_math_BigDecimal__s_math_BigDecimal(this$2.apply__I__Ljava_math_MathContext__s_math_BigDecimal(2, this$2.s_math_BigDecimal$__f_defaultMathContext));
-      break matchResult40;
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x348 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x348).cosh__Lio_github_edadma_numbers_Complex());
-      break matchResult40;
+      var x369 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x369).cosh__Lio_github_edadma_numbers_Complex());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x347 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x347).cosh__Lio_github_edadma_numbers_Complex());
-      break matchResult40;
+      var x368 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x368).cosh__Lio_github_edadma_numbers_Complex());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x346 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x346).cosh__Lio_github_edadma_numbers_Complex());
-      break matchResult40;
+      var x367 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x367).cosh__Lio_github_edadma_numbers_Complex());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x345 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x345).cosh__Lio_github_edadma_numbers_Complex());
-      break matchResult40;
+      var x366 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x366).cosh__Lio_github_edadma_numbers_Complex());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x344 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x344).cosh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult40;
+      var x365 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x365).cosh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x343 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x343).cosh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult40;
+      var x364 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x364).cosh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x342 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x342).cosh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult40;
+      var x363 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x363).cosh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult42;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x341 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x341).cosh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult40;
+      var x362 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x362).cosh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult42;
     }
     throw new $c_s_MatchError(n);
   }
   return $as_jl_Number($x_1);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.tanhFunction__O__jl_Number = (function(n) {
-  matchResult41: {
+  matchResult43: {
     var $x_1;
     matchAlts19: {
       matchAlts20: {
@@ -3388,6 +3471,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanhFunction__O__jl_Number = (function(n)
         }
         if ((n instanceof $c_s_math_BigInt)) {
           $as_s_math_BigInt(n);
+          break matchAlts20;
+        }
+        if ((n instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+          $as_Lio_github_edadma_numbers_SmallRational(n);
           break matchAlts20;
         }
         if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
@@ -3402,54 +3489,54 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanhFunction__O__jl_Number = (function(n)
       }
       var x = $dp_doubleValue__D($n($as_jl_Number(n)));
       var $x_1 = $m_jl_Math$().tanh__D__D(x);
-      break matchResult41;
+      break matchResult43;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x363 = $as_s_math_BigDecimal(n);
-      var ea = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x363, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      var ena = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x363).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x385 = $as_s_math_BigDecimal(n);
+      var ea = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x385, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var ena = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x385).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath);
       var $x_1 = $n($n(ea).$minus__s_math_BigDecimal__s_math_BigDecimal(ena)).$div__s_math_BigDecimal__s_math_BigDecimal($n(ea).$plus__s_math_BigDecimal__s_math_BigDecimal(ena));
-      break matchResult41;
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x362 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x362).tanh__Lio_github_edadma_numbers_Complex());
-      break matchResult41;
+      var x384 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x384).tanh__Lio_github_edadma_numbers_Complex());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x361 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x361).tanh__Lio_github_edadma_numbers_Complex());
-      break matchResult41;
+      var x383 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x383).tanh__Lio_github_edadma_numbers_Complex());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x360 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x360).tanh__Lio_github_edadma_numbers_Complex());
-      break matchResult41;
+      var x382 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x382).tanh__Lio_github_edadma_numbers_Complex());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x359 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x359).tanh__Lio_github_edadma_numbers_Complex());
-      break matchResult41;
+      var x381 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x381).tanh__Lio_github_edadma_numbers_Complex());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x358 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x358).tanh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult41;
+      var x380 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x380).tanh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x357 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x357).tanh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult41;
+      var x379 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x379).tanh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x356 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x356).tanh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult41;
+      var x378 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x378).tanh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult43;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x355 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x355).tanh__Lio_github_edadma_numbers_Quaternion());
-      break matchResult41;
+      var x377 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x377).tanh__Lio_github_edadma_numbers_Quaternion());
+      break matchResult43;
     }
     throw new $c_s_MatchError(n);
   }
@@ -4975,11 +5062,11 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
   this.Lio_github_edadma_logo_Procedure$package$__f_builtin = null;
   this.Lio_github_edadma_logo_Procedure$package$__f_synonyms = null;
   $n_Lio_github_edadma_logo_Procedure$package$ = this;
-  var $x_58 = $m_sr_ScalaRunTime$();
+  var $x_63 = $m_sr_ScalaRunTime$();
   var func = new $c_sr_AbstractFunction0_$$Lambda$a02b774b97db8234e08c6a02dd06557c99779855((() => 3.141592653589793));
-  var $x_57 = new $c_Lio_github_edadma_logo_BuiltinFunction0("pi", func);
+  var $x_62 = new $c_Lio_github_edadma_logo_BuiltinFunction0("pi", func);
   var func$1 = new $c_sr_AbstractFunction0_$$Lambda$a02b774b97db8234e08c6a02dd06557c99779855((() => 2.718281828459045));
-  var $x_56 = new $c_Lio_github_edadma_logo_BuiltinFunction0("e", func$1);
+  var $x_61 = new $c_Lio_github_edadma_logo_BuiltinFunction0("e", func$1);
   var func$2 = new $c_sr_AbstractFunction0_$$Lambda$a02b774b97db8234e08c6a02dd06557c99779855((() => {
     $m_Lio_github_edadma_numbers_QuaternionBigInt$();
     var this$6 = $m_s_math_BigInt$();
@@ -4992,7 +5079,7 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var d = this$9.apply__I__s_math_BigInt(0);
     return new $c_Lio_github_edadma_numbers_QuaternionBigInt(a, b, c, d);
   }));
-  var $x_55 = new $c_Lio_github_edadma_logo_BuiltinFunction0("i", func$2);
+  var $x_60 = new $c_Lio_github_edadma_logo_BuiltinFunction0("i", func$2);
   var func$3 = new $c_sr_AbstractFunction0_$$Lambda$a02b774b97db8234e08c6a02dd06557c99779855((() => {
     $m_Lio_github_edadma_numbers_QuaternionBigInt$();
     var this$12 = $m_s_math_BigInt$();
@@ -5005,7 +5092,7 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var d$1 = this$15.apply__I__s_math_BigInt(0);
     return new $c_Lio_github_edadma_numbers_QuaternionBigInt(a$1, b$1, c$1, d$1);
   }));
-  var $x_54 = new $c_Lio_github_edadma_logo_BuiltinFunction0("j", func$3);
+  var $x_59 = new $c_Lio_github_edadma_logo_BuiltinFunction0("j", func$3);
   var func$4 = new $c_sr_AbstractFunction0_$$Lambda$a02b774b97db8234e08c6a02dd06557c99779855((() => {
     $m_Lio_github_edadma_numbers_QuaternionBigInt$();
     var this$18 = $m_s_math_BigInt$();
@@ -5018,22 +5105,22 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var d$2 = this$21.apply__I__s_math_BigInt(1);
     return new $c_Lio_github_edadma_numbers_QuaternionBigInt(a$2, b$2, c$2, d$2);
   }));
-  var $x_53 = new $c_Lio_github_edadma_logo_BuiltinFunction0("k", func$4);
+  var $x_58 = new $c_Lio_github_edadma_logo_BuiltinFunction0("k", func$4);
   var func$5 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((limit) => {
     var limit$1 = $as_jl_Number(limit);
-    var $x_51 = $m_Lio_github_edadma_dal_QuaternionDAL$();
+    var $x_56 = $m_Lio_github_edadma_dal_QuaternionDAL$();
     var x = $uD(Math.random());
-    return $x_51.compute__T__jl_Number__jl_Number__jl_Number("*", x, limit$1);
+    return $x_56.compute__T__jl_Number__jl_Number__jl_Number("*", x, limit$1);
   }));
-  var $x_52 = new $c_Lio_github_edadma_logo_BuiltinFunction1("random", func$5);
+  var $x_57 = new $c_Lio_github_edadma_logo_BuiltinFunction1("random", func$5);
   var func$6 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((ctx, args) => {
     var ctx$1 = $as_Lio_github_edadma_logo_Logo(ctx);
     var args$1 = $as_sci_Seq(args);
-    var $x_49 = $n(ctx$1);
+    var $x_54 = $n(ctx$1);
     var this$28 = $n(args$1);
-    $x_49.output__T__V($f_sc_IterableOnceOps__mkString__T__T__T__T(this$28, "", " ", ""));
+    $x_54.output__T__V($f_sc_IterableOnceOps__mkString__T__T__T__T(this$28, "", " ", ""));
   }));
-  var $x_50 = new $c_Lio_github_edadma_logo_BuiltinVariadic("print", 1, 1, func$6);
+  var $x_55 = new $c_Lio_github_edadma_logo_BuiltinVariadic("print", 1, 1, func$6);
   var func$7 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$1, args$2) => {
     $as_Lio_github_edadma_logo_Logo(_$1);
     var args$3 = $as_sci_Seq(args$2);
@@ -5042,7 +5129,7 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var terminated = $as_sci_Seq(this$31.appended__O__O(elem));
     return new $c_Lio_github_edadma_logo_LogoList(args$3, terminated);
   }));
-  var $x_48 = new $c_Lio_github_edadma_logo_BuiltinVariadic("list", 2, 0, func$7);
+  var $x_53 = new $c_Lio_github_edadma_logo_BuiltinVariadic("list", 2, 0, func$7);
   var func$8 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$2, args$3$1) => {
     $as_Lio_github_edadma_logo_Logo(_$2);
     var args$4 = $as_sci_Seq(args$3$1);
@@ -5053,7 +5140,7 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var toString = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$34, "", "", "");
     return new $c_Lio_github_edadma_logo_LogoWord(toString);
   }));
-  var $x_47 = new $c_Lio_github_edadma_logo_BuiltinVariadic("word", 2, 0, func$8);
+  var $x_52 = new $c_Lio_github_edadma_logo_BuiltinVariadic("word", 2, 0, func$8);
   var func$9 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$4, args$4$1) => {
     $as_Lio_github_edadma_logo_Logo(_$4);
     var args$5 = $as_sci_Seq(args$4$1);
@@ -5074,7 +5161,7 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var terminated$1 = $as_sci_Seq(this$41.appended__O__O(elem$1));
     return new $c_Lio_github_edadma_logo_LogoList(flat, terminated$1);
   }));
-  var $x_46 = new $c_Lio_github_edadma_logo_BuiltinVariadic("sentence", 2, 0, func$9);
+  var $x_51 = new $c_Lio_github_edadma_logo_BuiltinVariadic("sentence", 2, 0, func$9);
   var func$10 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$5, args$5$1) => {
     $as_Lio_github_edadma_logo_Logo(_$5);
     var args$6 = $as_sci_Seq(args$5$1);
@@ -5090,13 +5177,13 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var this$45 = $n($f_sc_IterableOnceOps__reduceLeftOption__F2__s_Option(this$44, op));
     return (this$45.isEmpty__Z() ? 0 : this$45.get__O());
   }));
-  var $x_45 = new $c_Lio_github_edadma_logo_BuiltinVariadic("sum", 2, 0, func$10);
+  var $x_50 = new $c_Lio_github_edadma_logo_BuiltinVariadic("sum", 2, 0, func$10);
   var func$11 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$8, _$9) => {
     var _$8$1 = $as_jl_Number(_$8);
     var _$9$1 = $as_jl_Number(_$9);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().compute__T__jl_Number__jl_Number__jl_Number("-", _$8$1, _$9$1);
   }));
-  var $x_44 = new $c_Lio_github_edadma_logo_BuiltinFunction2("difference", func$11);
+  var $x_49 = new $c_Lio_github_edadma_logo_BuiltinFunction2("difference", func$11);
   var func$12 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$10, args$6$1) => {
     $as_Lio_github_edadma_logo_Logo(_$10);
     var args$7 = $as_sci_Seq(args$6$1);
@@ -5112,148 +5199,158 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var this$49 = $n($f_sc_IterableOnceOps__reduceLeftOption__F2__s_Option(this$48, op$1));
     return (this$49.isEmpty__Z() ? 1 : this$49.get__O());
   }));
-  var $x_43 = new $c_Lio_github_edadma_logo_BuiltinVariadic("product", 2, 0, func$12);
+  var $x_48 = new $c_Lio_github_edadma_logo_BuiltinVariadic("product", 2, 0, func$12);
   var func$13 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$13, _$14) => {
     var _$13$1 = $as_jl_Number(_$13);
     var _$14$1 = $as_jl_Number(_$14);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().compute__T__jl_Number__jl_Number__jl_Number("/", _$13$1, _$14$1);
   }));
-  var $x_42 = new $c_Lio_github_edadma_logo_BuiltinFunction2("quotient", func$13);
+  var $x_47 = new $c_Lio_github_edadma_logo_BuiltinFunction2("quotient", func$13);
   var func$14 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$15, _$16) => {
     var _$15$1 = $as_jl_Number(_$15);
     var _$16$1 = $as_jl_Number(_$16);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().compute__T__jl_Number__jl_Number__jl_Number("mod", _$15$1, _$16$1);
   }));
-  var $x_41 = new $c_Lio_github_edadma_logo_BuiltinFunction2("remainder", func$14);
+  var $x_46 = new $c_Lio_github_edadma_logo_BuiltinFunction2("remainder", func$14);
   var func$15 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$17, _$18) => {
     var _$17$1 = $as_jl_Number(_$17);
     var _$18$1 = $as_jl_Number(_$18);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().compute__T__jl_Number__jl_Number__jl_Number("^", _$17$1, _$18$1);
   }));
-  var $x_40 = new $c_Lio_github_edadma_logo_BuiltinFunction2("pow", func$15);
+  var $x_45 = new $c_Lio_github_edadma_logo_BuiltinFunction2("pow", func$15);
   var func$16 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n) => {
     var n$1 = $as_jl_Number(n);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().negate__jl_Number__jl_Number(n$1);
   }));
-  var $x_39 = new $c_Lio_github_edadma_logo_BuiltinFunction1("negate", func$16);
+  var $x_44 = new $c_Lio_github_edadma_logo_BuiltinFunction1("negate", func$16);
   var func$17 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$2) => {
     var n$3 = $as_jl_Number(n$2);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().sinFunction__O__jl_Number(n$3);
   }));
-  var $x_38 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sin", func$17);
+  var $x_43 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sin", func$17);
   var func$18 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$3$1) => {
     var n$4 = $as_jl_Number(n$3$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().cosFunction__O__jl_Number(n$4);
   }));
-  var $x_37 = new $c_Lio_github_edadma_logo_BuiltinFunction1("cos", func$18);
+  var $x_42 = new $c_Lio_github_edadma_logo_BuiltinFunction1("cos", func$18);
   var func$19 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$4$1) => {
     var n$5 = $as_jl_Number(n$4$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().tanFunction__O__jl_Number(n$5);
   }));
-  var $x_36 = new $c_Lio_github_edadma_logo_BuiltinFunction1("tan", func$19);
+  var $x_41 = new $c_Lio_github_edadma_logo_BuiltinFunction1("tan", func$19);
   var func$20 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$5$1) => {
     var n$6 = $as_jl_Number(n$5$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().sinhFunction__O__jl_Number(n$6);
   }));
-  var $x_35 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sinh", func$20);
+  var $x_40 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sinh", func$20);
   var func$21 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$6$1) => {
     var n$7 = $as_jl_Number(n$6$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().coshFunction__O__jl_Number(n$7);
   }));
-  var $x_34 = new $c_Lio_github_edadma_logo_BuiltinFunction1("cosh", func$21);
+  var $x_39 = new $c_Lio_github_edadma_logo_BuiltinFunction1("cosh", func$21);
   var func$22 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$7$1) => {
     var n$8 = $as_jl_Number(n$7$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().tanhFunction__O__jl_Number(n$8);
   }));
-  var $x_33 = new $c_Lio_github_edadma_logo_BuiltinFunction1("tanh", func$22);
+  var $x_38 = new $c_Lio_github_edadma_logo_BuiltinFunction1("tanh", func$22);
   var func$23 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$8$1) => {
     var n$9 = $as_jl_Number(n$8$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().sqrtFunction__O__jl_Number(n$9);
   }));
-  var $x_32 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sqrt", func$23);
+  var $x_37 = new $c_Lio_github_edadma_logo_BuiltinFunction1("sqrt", func$23);
   var func$24 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$9$1) => {
     var n$10 = $as_jl_Number(n$9$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().expFunction__O__jl_Number(n$10);
   }));
-  var $x_31 = new $c_Lio_github_edadma_logo_BuiltinFunction1("exp", func$24);
+  var $x_36 = new $c_Lio_github_edadma_logo_BuiltinFunction1("exp", func$24);
   var func$25 = new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((n$10$1) => {
     var n$11 = $as_jl_Number(n$10$1);
     return $m_Lio_github_edadma_dal_QuaternionDAL$().lnFunction__O__jl_Number(n$11);
   }));
-  var $x_30 = new $c_Lio_github_edadma_logo_BuiltinFunction1("ln", func$25);
+  var $x_35 = new $c_Lio_github_edadma_logo_BuiltinFunction1("ln", func$25);
   var func$26 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$1();
-  var $x_29 = new $c_Lio_github_edadma_logo_BuiltinProcedure("equalp", 2, func$26);
+  var $x_34 = new $c_Lio_github_edadma_logo_BuiltinProcedure("equalp", 2, func$26);
   var func$27 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$2();
-  var $x_28 = new $c_Lio_github_edadma_logo_BuiltinProcedure("notequalp", 2, func$27);
+  var $x_33 = new $c_Lio_github_edadma_logo_BuiltinProcedure("notequalp", 2, func$27);
   var func$28 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$3();
-  var $x_27 = new $c_Lio_github_edadma_logo_BuiltinProcedure("lessp", 2, func$28);
+  var $x_32 = new $c_Lio_github_edadma_logo_BuiltinProcedure("lessp", 2, func$28);
   var func$29 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$4();
-  var $x_26 = new $c_Lio_github_edadma_logo_BuiltinProcedure("greaterp", 2, func$29);
+  var $x_31 = new $c_Lio_github_edadma_logo_BuiltinProcedure("greaterp", 2, func$29);
   var func$30 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$5();
-  var $x_25 = new $c_Lio_github_edadma_logo_BuiltinProcedure("lessequalp", 2, func$30);
+  var $x_30 = new $c_Lio_github_edadma_logo_BuiltinProcedure("lessequalp", 2, func$30);
   var func$31 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$6();
-  var $x_24 = new $c_Lio_github_edadma_logo_BuiltinProcedure("greaterequalp", 2, func$31);
+  var $x_29 = new $c_Lio_github_edadma_logo_BuiltinProcedure("greaterequalp", 2, func$31);
   var func$32 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$7();
-  var $x_23 = new $c_Lio_github_edadma_logo_BuiltinProcedure("and", 2, func$32);
+  var $x_28 = new $c_Lio_github_edadma_logo_BuiltinProcedure("and", 2, func$32);
   var func$33 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$8();
-  var $x_22 = new $c_Lio_github_edadma_logo_BuiltinProcedure("or", 2, func$33);
+  var $x_27 = new $c_Lio_github_edadma_logo_BuiltinProcedure("or", 2, func$33);
   var func$34 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$9();
-  var $x_21 = new $c_Lio_github_edadma_logo_BuiltinProcedure("not", 1, func$34);
+  var $x_26 = new $c_Lio_github_edadma_logo_BuiltinProcedure("not", 1, func$34);
   var func$35 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$10();
-  var $x_20 = new $c_Lio_github_edadma_logo_BuiltinProcedure("forward", 1, func$35);
+  var $x_25 = new $c_Lio_github_edadma_logo_BuiltinProcedure("forward", 1, func$35);
   var func$36 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$11();
-  var $x_19 = new $c_Lio_github_edadma_logo_BuiltinProcedure("right", 1, func$36);
+  var $x_24 = new $c_Lio_github_edadma_logo_BuiltinProcedure("right", 1, func$36);
   var func$37 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$12();
-  var $x_18 = new $c_Lio_github_edadma_logo_BuiltinProcedure("back", 1, func$37);
+  var $x_23 = new $c_Lio_github_edadma_logo_BuiltinProcedure("back", 1, func$37);
   var func$38 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$13();
-  var $x_17 = new $c_Lio_github_edadma_logo_BuiltinProcedure("left", 1, func$38);
+  var $x_22 = new $c_Lio_github_edadma_logo_BuiltinProcedure("left", 1, func$38);
   var func$39 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$14();
-  var $x_16 = new $c_Lio_github_edadma_logo_BuiltinProcedure("label", 1, func$39);
+  var $x_21 = new $c_Lio_github_edadma_logo_BuiltinProcedure("label", 1, func$39);
   var func$40 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$15();
-  var $x_15 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setpensize", 1, func$40);
+  var $x_20 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setpensize", 1, func$40);
   var func$41 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$16();
-  var $x_14 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setcolor", 1, func$41);
+  var $x_19 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setcolor", 1, func$41);
   var func$42 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$17();
-  var $x_13 = new $c_Lio_github_edadma_logo_BuiltinProcedure("clearscreen", 0, func$42);
+  var $x_18 = new $c_Lio_github_edadma_logo_BuiltinProcedure("clearscreen", 0, func$42);
   var func$43 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$18();
-  var $x_12 = new $c_Lio_github_edadma_logo_BuiltinProcedure("home", 0, func$43);
+  var $x_17 = new $c_Lio_github_edadma_logo_BuiltinProcedure("home", 0, func$43);
   var func$44 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$19();
-  var $x_11 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setxy", 2, func$44);
+  var $x_16 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setxy", 2, func$44);
   var func$45 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$20();
-  var $x_10 = new $c_Lio_github_edadma_logo_BuiltinProcedure("penup", 0, func$45);
+  var $x_15 = new $c_Lio_github_edadma_logo_BuiltinProcedure("setc", 1, func$45);
   var func$46 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$21();
-  var $x_9 = new $c_Lio_github_edadma_logo_BuiltinProcedure("pendown", 0, func$46);
+  var $x_14 = new $c_Lio_github_edadma_logo_BuiltinProcedure("xcor", 0, func$46);
   var func$47 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$22();
-  var $x_8 = new $c_Lio_github_edadma_logo_BuiltinProcedure("hideturtle", 0, func$47);
+  var $x_13 = new $c_Lio_github_edadma_logo_BuiltinProcedure("ycor", 0, func$47);
   var func$48 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$23();
-  var $x_7 = new $c_Lio_github_edadma_logo_BuiltinProcedure("showturtle", 0, func$48);
+  var $x_12 = new $c_Lio_github_edadma_logo_BuiltinProcedure("pos", 0, func$48);
   var func$49 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$24();
-  var $x_6 = new $c_Lio_github_edadma_logo_BuiltinProcedure("repeat", 2, func$49);
+  var $x_11 = new $c_Lio_github_edadma_logo_BuiltinProcedure("heading", 0, func$49);
   var func$50 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$25();
-  var $x_5 = new $c_Lio_github_edadma_logo_BuiltinProcedure("if", 2, func$50);
+  var $x_10 = new $c_Lio_github_edadma_logo_BuiltinProcedure("penup", 0, func$50);
   var func$51 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$26();
-  var $x_4 = new $c_Lio_github_edadma_logo_BuiltinProcedure("ifelse", 3, func$51);
+  var $x_9 = new $c_Lio_github_edadma_logo_BuiltinProcedure("pendown", 0, func$51);
   var func$52 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$27();
-  var $x_3 = new $c_Lio_github_edadma_logo_BuiltinProcedure("make", 2, func$52);
+  var $x_8 = new $c_Lio_github_edadma_logo_BuiltinProcedure("hideturtle", 0, func$52);
   var func$53 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$28();
-  var $x_2 = new $c_Lio_github_edadma_logo_BuiltinProcedure("run", 1, func$53);
+  var $x_7 = new $c_Lio_github_edadma_logo_BuiltinProcedure("showturtle", 0, func$53);
   var func$54 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$29();
-  var $x_1 = new $c_Lio_github_edadma_logo_BuiltinProcedure("output", 1, func$54);
+  var $x_6 = new $c_Lio_github_edadma_logo_BuiltinProcedure("repeat", 2, func$54);
   var func$55 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$30();
-  var elems = $x_58.wrapRefArray__AO__sci_ArraySeq(new ($d_Lio_github_edadma_logo_Procedure.getArrayOf().constr)([$x_57, $x_56, $x_55, $x_54, $x_53, $x_52, $x_50, $x_48, $x_47, $x_46, $x_45, $x_44, $x_43, $x_42, $x_41, $x_40, $x_39, $x_38, $x_37, $x_36, $x_35, $x_34, $x_33, $x_32, $x_31, $x_30, $x_29, $x_28, $x_27, $x_26, $x_25, $x_24, $x_23, $x_22, $x_21, $x_20, $x_19, $x_18, $x_17, $x_16, $x_15, $x_14, $x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lio_github_edadma_logo_BuiltinProcedure("stop", 0, func$55)]));
-  var this$97 = $n($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems));
+  var $x_5 = new $c_Lio_github_edadma_logo_BuiltinProcedure("if", 2, func$55);
+  var func$56 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$31();
+  var $x_4 = new $c_Lio_github_edadma_logo_BuiltinProcedure("ifelse", 3, func$56);
+  var func$57 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$32();
+  var $x_3 = new $c_Lio_github_edadma_logo_BuiltinProcedure("make", 2, func$57);
+  var func$58 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$33();
+  var $x_2 = new $c_Lio_github_edadma_logo_BuiltinProcedure("run", 1, func$58);
+  var func$59 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$34();
+  var $x_1 = new $c_Lio_github_edadma_logo_BuiltinProcedure("output", 1, func$59);
+  var func$60 = new $c_Lio_github_edadma_logo_Procedure$package$$anon$35();
+  var elems = $x_63.wrapRefArray__AO__sci_ArraySeq(new ($d_Lio_github_edadma_logo_Procedure.getArrayOf().constr)([$x_62, $x_61, $x_60, $x_59, $x_58, $x_57, $x_55, $x_53, $x_52, $x_51, $x_50, $x_49, $x_48, $x_47, $x_46, $x_45, $x_44, $x_43, $x_42, $x_41, $x_40, $x_39, $x_38, $x_37, $x_36, $x_35, $x_34, $x_33, $x_32, $x_31, $x_30, $x_29, $x_28, $x_27, $x_26, $x_25, $x_24, $x_23, $x_22, $x_21, $x_20, $x_19, $x_18, $x_17, $x_16, $x_15, $x_14, $x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_Lio_github_edadma_logo_BuiltinProcedure("stop", 0, func$60)]));
+  var this$102 = $n($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems));
   var f = ((p) => {
     var p$1 = $as_Lio_github_edadma_logo_Procedure(p);
     var self = $n(p$1).name__T();
     return new $c_T2(self, p$1);
   });
-  if ((this$97 === $m_sci_Nil$())) {
-    var this$99 = $m_sci_Nil$();
+  if ((this$102 === $m_sci_Nil$())) {
+    var this$104 = $m_sci_Nil$();
   } else {
-    var x0 = this$97.head__O();
+    var x0 = this$102.head__O();
     var h = new $c_sci_$colon$colon(f(x0), $m_sci_Nil$());
     var t = h;
-    var rest = $as_sci_List(this$97.tail__O());
+    var rest = $as_sci_List(this$102.tail__O());
     while ((rest !== $m_sci_Nil$())) {
       var x0$1 = $n(rest).head__O();
       var nx = new $c_sci_$colon$colon(f(x0$1), $m_sci_Nil$());
@@ -5261,11 +5358,11 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
       t = nx;
       rest = $as_sci_List($n(rest).tail__O());
     }
-    var this$99 = h;
+    var this$104 = h;
   }
-  this.Lio_github_edadma_logo_Procedure$package$__f_builtin = $m_sci_Map$().from__sc_IterableOnce__sci_Map(this$99);
+  this.Lio_github_edadma_logo_Procedure$package$__f_builtin = $m_sci_Map$().from__sc_IterableOnce__sci_Map(this$104);
   var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([new $c_T2("+", "sum"), new $c_T2("-", "difference"), new $c_T2("*", "product"), new $c_T2("/", "quotient"), new $c_T2("dis", "print"), new $c_T2("fd", "forward"), new $c_T2("avance", "forward"), new $c_T2("av", "forward"), new $c_T2("cs", "clearscreen"), new $c_T2("effacerecran", "clearscreen"), new $c_T2("ee", "clearscreen"), new $c_T2("pu", "penup"), new $c_T2("levecrayon", "penup"), new $c_T2("lc", "penup"), new $c_T2("pd", "pendown"), new $c_T2("baisscrayon", "pendown"), new $c_T2("bc", "pendown"), new $c_T2("ht", "hideturtle"), new $c_T2("cachetortue", "hideturtle"), new $c_T2("ct", "hideturtle"), new $c_T2("st", "showturtle"), new $c_T2("montretortue", "showturtle"), new $c_T2("mt", "showturtle"), new $c_T2("rt", "right"), new $c_T2("droite", "right"), new $c_T2("dr", "right"), new $c_T2("bk", "back"), new $c_T2("recule", "back"), new $c_T2("re", "back"), new $c_T2("lt", "left"), new $c_T2("gauche", "left"), new $c_T2("gc", "left"), new $c_T2("taillecrayon", "setpensize"), new $c_T2("origine", "home"), new $c_T2("placexy", "setxy"), new $c_T2("texte", "label"), new $c_T2("repete", "repeat"), new $c_T2("si", "if"), new $c_T2("siou", "ifelse"), new $c_T2("rends", "make"), new $c_T2("rnd", "random"), new $c_T2("aleatoire", "random"), new $c_T2("alt", "random"), new $c_T2("se", "sentence"), new $c_T2("pr", "print"), new $c_T2("op", "output")]));
-  var this$195 = $n($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1));
+  var this$200 = $n($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1));
   var f$1 = ((x$1$2) => {
     var x$1$3 = $as_T2(x$1$2);
     var s = $as_T($n(x$1$3)._1__O());
@@ -5273,13 +5370,13 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
     var y = $n($m_Lio_github_edadma_logo_Procedure$package$().Lio_github_edadma_logo_Procedure$package$__f_builtin).apply__O__O(p$2);
     return new $c_T2(s, y);
   });
-  if ((this$195 === $m_sci_Nil$())) {
-    var this$197 = $m_sci_Nil$();
+  if ((this$200 === $m_sci_Nil$())) {
+    var this$202 = $m_sci_Nil$();
   } else {
-    var x0$2 = this$195.head__O();
+    var x0$2 = this$200.head__O();
     var h$1 = new $c_sci_$colon$colon(f$1(x0$2), $m_sci_Nil$());
     var t$1 = h$1;
-    var rest$1 = $as_sci_List(this$195.tail__O());
+    var rest$1 = $as_sci_List(this$200.tail__O());
     while ((rest$1 !== $m_sci_Nil$())) {
       var x0$3 = $n(rest$1).head__O();
       var nx$1 = new $c_sci_$colon$colon(f$1(x0$3), $m_sci_Nil$());
@@ -5287,9 +5384,9 @@ function $c_Lio_github_edadma_logo_Procedure$package$() {
       t$1 = nx$1;
       rest$1 = $as_sci_List($n(rest$1).tail__O());
     }
-    var this$197 = h$1;
+    var this$202 = h$1;
   }
-  this.Lio_github_edadma_logo_Procedure$package$__f_synonyms = $m_sci_Map$().from__sc_IterableOnce__sci_Map(this$197);
+  this.Lio_github_edadma_logo_Procedure$package$__f_synonyms = $m_sci_Map$().from__sc_IterableOnce__sci_Map(this$202);
 }
 $c_Lio_github_edadma_logo_Procedure$package$.prototype = new $h_O();
 $c_Lio_github_edadma_logo_Procedure$package$.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$;
@@ -28220,9 +28317,9 @@ $c_Lio_github_edadma_dal_DALNumber.prototype.equals__O__Z = (function(x$0) {
   if ((this === x$0)) {
     return true;
   } else if ((x$0 instanceof $c_Lio_github_edadma_dal_DALNumber)) {
-    var x369 = $as_Lio_github_edadma_dal_DALNumber(x$0);
+    var x392 = $as_Lio_github_edadma_dal_DALNumber(x$0);
     var x = this.Lio_github_edadma_dal_DALNumber__f_typ;
-    var x$2 = $n(x369).Lio_github_edadma_dal_DALNumber__f_typ;
+    var x$2 = $n(x392).Lio_github_edadma_dal_DALNumber__f_typ;
     if ((x === null)) {
       var $x_2 = (x$2 === null);
     } else {
@@ -28231,13 +28328,13 @@ $c_Lio_github_edadma_dal_DALNumber.prototype.equals__O__Z = (function(x$0) {
     }
     if ($x_2) {
       var xn = this.Lio_github_edadma_dal_DALNumber__f_value;
-      var yn = $n(x369).Lio_github_edadma_dal_DALNumber__f_value;
+      var yn = $n(x392).Lio_github_edadma_dal_DALNumber__f_value;
       var $x_1 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn, yn);
     } else {
       var $x_1 = false;
     }
     if ($x_1) {
-      $n(x369);
+      $n(x392);
       return true;
     } else {
       return false;
@@ -29893,13 +29990,60 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$20() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
+    var x314 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    $n(ctx).Lio_github_edadma_logo_Logo__f_pen = false;
-    $n(ctx).event__V();
-    return (void 0);
-  } else {
-    return $n(default$1).apply__O__O(x);
+    if ((x314 !== null)) {
+      if (($n(x314).lengthCompare__I__I(1) === 0)) {
+        var x316 = $as_Lio_github_edadma_logo_LogoValue($n(x314).apply__I__O(0));
+        var n = $m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x316);
+        if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
+          var x311 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+          var _1 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_re;
+          var _2 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_im;
+          var \u03b45$___1 = _1;
+          var \u03b45$___2 = _2;
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
+          var x310 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+          var _1$1 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+          var _2$1 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+          var \u03b45$___1 = _1$1;
+          var \u03b45$___2 = _2$1;
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
+          var x309 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+          var _1$2 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
+          var _2$2 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
+          var \u03b45$___1 = _1$2;
+          var \u03b45$___2 = _2$2;
+        } else if (false) {
+          var x308 = $as_Lio_github_edadma_numbers_ComplexSmallRational(n);
+          var _1$3 = $n($n(x308).re__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
+          var _2$3 = $n($n(x308).im__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
+          var \u03b45$___1 = _1$3;
+          var \u03b45$___2 = _2$3;
+        } else {
+          var _1$4 = $dp_doubleValue__D($n(n));
+          var \u03b45$___1 = _1$4;
+          var \u03b45$___2 = 0.0;
+        }
+        var newx = $uD(\u03b45$___1);
+        var newy = $uD(\u03b45$___2);
+        if ($n(ctx).Lio_github_edadma_logo_Logo__f_pen) {
+          var this$10 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_draws);
+          var x1 = $n(ctx).Lio_github_edadma_logo_Logo__f_x;
+          var y1 = $n(ctx).Lio_github_edadma_logo_Logo__f_y;
+          var color = $n(ctx).Lio_github_edadma_logo_Logo__f_color;
+          var width = $n(ctx).Lio_github_edadma_logo_Logo__f_width;
+          var elem = new $c_Lio_github_edadma_logo_DrawLine(x1, y1, newx, newy, color, width);
+          this$10.addOne__O__scm_ListBuffer(elem);
+        }
+        $n(ctx).Lio_github_edadma_logo_Logo__f_x = newx;
+        $n(ctx).Lio_github_edadma_logo_Logo__f_y = newy;
+        $n(ctx).event__V();
+        return (void 0);
+      }
+    }
   }
+  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$20 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$20, "io.github.edadma.logo.Procedure$package$$anon$20", ({
   Lio_github_edadma_logo_Procedure$package$$anon$20: 1,
@@ -29920,9 +30064,7 @@ $h_Lio_github_edadma_logo_Procedure$package$$anon$21.prototype = $c_Lio_github_e
 $c_Lio_github_edadma_logo_Procedure$package$$anon$21.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    $n(ctx).Lio_github_edadma_logo_Logo__f_pen = true;
-    $n(ctx).event__V();
-    return (void 0);
+    return $n(ctx).Lio_github_edadma_logo_Logo__f_x;
   } else {
     return $n(default$1).apply__O__O(x);
   }
@@ -29946,9 +30088,7 @@ $h_Lio_github_edadma_logo_Procedure$package$$anon$22.prototype = $c_Lio_github_e
 $c_Lio_github_edadma_logo_Procedure$package$$anon$22.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    $n(ctx).Lio_github_edadma_logo_Logo__f_show = false;
-    $n(ctx).event__V();
-    return (void 0);
+    return $n(ctx).Lio_github_edadma_logo_Logo__f_y;
   } else {
     return $n(default$1).apply__O__O(x);
   }
@@ -29972,9 +30112,10 @@ $h_Lio_github_edadma_logo_Procedure$package$$anon$23.prototype = $c_Lio_github_e
 $c_Lio_github_edadma_logo_Procedure$package$$anon$23.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    $n(ctx).Lio_github_edadma_logo_Logo__f_show = true;
-    $n(ctx).event__V();
-    return (void 0);
+    $m_Lio_github_edadma_numbers_ComplexDouble$();
+    var re = $n(ctx).Lio_github_edadma_logo_Logo__f_x;
+    var im = $n(ctx).Lio_github_edadma_logo_Logo__f_y;
+    return new $c_Lio_github_edadma_numbers_ComplexDouble(re, im);
   } else {
     return $n(default$1).apply__O__O(x);
   }
@@ -29997,30 +30138,13 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$24() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$24.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$24.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$24.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x335 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x335 !== null)) {
-      if (($n(x335).lengthCompare__I__I(2) === 0)) {
-        var x337 = $as_Lio_github_edadma_logo_LogoValue($n(x335).apply__I__O(0));
-        var x338 = $as_Lio_github_edadma_logo_LogoValue($n(x335).apply__I__O(1));
-        var times = $dp_intValue__I($n($m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x337)));
-        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x338);
-        var isEmpty = (times < 1);
-        if ((!isEmpty)) {
-          var i = 1;
-          while (true) {
-            $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(body);
-            if ((i === times)) {
-              break;
-            }
-            i = ((1 + i) | 0);
-          }
-        }
-        return (void 0);
-      }
-    }
+    var x$1 = (1.5707963267948966 - $n(ctx).Lio_github_edadma_logo_Logo__f_heading);
+    var deg = ((180.0 * x$1) / 3.141592653589793);
+    return ((deg < 0.0) ? (deg + 360.0) : deg);
+  } else {
+    return $n(default$1).apply__O__O(x);
   }
-  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$24 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$24, "io.github.edadma.logo.Procedure$package$$anon$24", ({
   Lio_github_edadma_logo_Procedure$package$$anon$24: 1,
@@ -30040,19 +30164,13 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$25() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$25.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$25.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$25.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x347 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x347 !== null)) {
-      if (($n(x347).lengthCompare__I__I(2) === 0)) {
-        var x349 = $as_Lio_github_edadma_logo_LogoValue($n(x347).apply__I__O(0));
-        var x350 = $as_Lio_github_edadma_logo_LogoValue($n(x347).apply__I__O(1));
-        var cond = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x349);
-        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x350);
-        return (cond ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(body) : new $c_Lio_github_edadma_logo_LogoNull());
-      }
-    }
+    $n(ctx).Lio_github_edadma_logo_Logo__f_pen = false;
+    $n(ctx).event__V();
+    return (void 0);
+  } else {
+    return $n(default$1).apply__O__O(x);
   }
-  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$25 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$25, "io.github.edadma.logo.Procedure$package$$anon$25", ({
   Lio_github_edadma_logo_Procedure$package$$anon$25: 1,
@@ -30072,21 +30190,13 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$26() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$26.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$26.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$26.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x360 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x360 !== null)) {
-      if (($n(x360).lengthCompare__I__I(3) === 0)) {
-        var x362 = $as_Lio_github_edadma_logo_LogoValue($n(x360).apply__I__O(0));
-        var x363 = $as_Lio_github_edadma_logo_LogoValue($n(x360).apply__I__O(1));
-        var x364 = $as_Lio_github_edadma_logo_LogoValue($n(x360).apply__I__O(2));
-        var condv = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x362);
-        var yesv = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x363);
-        var nov = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x364);
-        return (condv ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(yesv) : $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(nov));
-      }
-    }
+    $n(ctx).Lio_github_edadma_logo_Logo__f_pen = true;
+    $n(ctx).event__V();
+    return (void 0);
+  } else {
+    return $n(default$1).apply__O__O(x);
   }
-  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$26 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$26, "io.github.edadma.logo.Procedure$package$$anon$26", ({
   Lio_github_edadma_logo_Procedure$package$$anon$26: 1,
@@ -30106,20 +30216,13 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$27() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$27.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$27.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$27.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x373 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x373 !== null)) {
-      if (($n(x373).lengthCompare__I__I(2) === 0)) {
-        var x375 = $as_Lio_github_edadma_logo_LogoValue($n(x373).apply__I__O(0));
-        var x376 = $as_Lio_github_edadma_logo_LogoValue($n(x373).apply__I__O(1));
-        var this$5 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_vars);
-        var key = $n(x375).toString__T();
-        $p_scm_HashMap__put0__O__O__Z__s_Some(this$5, key, x376, false);
-        return (void 0);
-      }
-    }
+    $n(ctx).Lio_github_edadma_logo_Logo__f_show = false;
+    $n(ctx).event__V();
+    return (void 0);
+  } else {
+    return $n(default$1).apply__O__O(x);
   }
-  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$27 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$27, "io.github.edadma.logo.Procedure$package$$anon$27", ({
   Lio_github_edadma_logo_Procedure$package$$anon$27: 1,
@@ -30139,16 +30242,13 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$28() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$28.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$28.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$28.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x384 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x384 !== null)) {
-      if (($n(x384).lengthCompare__I__I(1) === 0)) {
-        var x386 = $as_Lio_github_edadma_logo_LogoValue($n(x384).apply__I__O(0));
-        return $n(ctx).interp__T__Lio_github_edadma_logo_LogoValue($n(x386).toString__T());
-      }
-    }
+    $n(ctx).Lio_github_edadma_logo_Logo__f_show = true;
+    $n(ctx).event__V();
+    return (void 0);
+  } else {
+    return $n(default$1).apply__O__O(x);
   }
-  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$28 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$28, "io.github.edadma.logo.Procedure$package$$anon$28", ({
   Lio_github_edadma_logo_Procedure$package$$anon$28: 1,
@@ -30168,11 +30268,26 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$29() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x394 = $as_sci_Seq($n(x)._2__O());
-    if ((x394 !== null)) {
-      if (($n(x394).lengthCompare__I__I(1) === 0)) {
-        var x396 = $as_Lio_github_edadma_logo_LogoValue($n(x394).apply__I__O(0));
-        throw new $c_Lio_github_edadma_logo_OutputException(x396);
+    var x374 = $as_sci_Seq($n(x)._2__O());
+    var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
+    if ((x374 !== null)) {
+      if (($n(x374).lengthCompare__I__I(2) === 0)) {
+        var x376 = $as_Lio_github_edadma_logo_LogoValue($n(x374).apply__I__O(0));
+        var x377 = $as_Lio_github_edadma_logo_LogoValue($n(x374).apply__I__O(1));
+        var times = $dp_intValue__I($n($m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x376)));
+        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x377);
+        var isEmpty = (times < 1);
+        if ((!isEmpty)) {
+          var i = 1;
+          while (true) {
+            $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(body);
+            if ((i === times)) {
+              break;
+            }
+            i = ((1 + i) | 0);
+          }
+        }
+        return (void 0);
       }
     }
   }
@@ -30224,10 +30339,166 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$30() {
 }
 $h_Lio_github_edadma_logo_Procedure$package$$anon$30.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$30.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$30.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
-  throw new $c_Lio_github_edadma_logo_StopException();
+  if ((x !== null)) {
+    var x386 = $as_sci_Seq($n(x)._2__O());
+    var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
+    if ((x386 !== null)) {
+      if (($n(x386).lengthCompare__I__I(2) === 0)) {
+        var x388 = $as_Lio_github_edadma_logo_LogoValue($n(x386).apply__I__O(0));
+        var x389 = $as_Lio_github_edadma_logo_LogoValue($n(x386).apply__I__O(1));
+        var cond = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x388);
+        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x389);
+        return (cond ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(body) : new $c_Lio_github_edadma_logo_LogoNull());
+      }
+    }
+  }
+  return $n(default$1).apply__O__O(x);
 });
 var $d_Lio_github_edadma_logo_Procedure$package$$anon$30 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$30, "io.github.edadma.logo.Procedure$package$$anon$30", ({
   Lio_github_edadma_logo_Procedure$package$$anon$30: 1,
+  sr_AbstractPartialFunction: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  Ljava_io_Serializable: 1
+}));
+/** @constructor */
+function $c_Lio_github_edadma_logo_Procedure$package$$anon$31() {
+}
+$c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$$anon$31;
+/** @constructor */
+function $h_Lio_github_edadma_logo_Procedure$package$$anon$31() {
+}
+$h_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype;
+$c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
+  if ((x !== null)) {
+    var x399 = $as_sci_Seq($n(x)._2__O());
+    var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
+    if ((x399 !== null)) {
+      if (($n(x399).lengthCompare__I__I(3) === 0)) {
+        var x401 = $as_Lio_github_edadma_logo_LogoValue($n(x399).apply__I__O(0));
+        var x402 = $as_Lio_github_edadma_logo_LogoValue($n(x399).apply__I__O(1));
+        var x403 = $as_Lio_github_edadma_logo_LogoValue($n(x399).apply__I__O(2));
+        var condv = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x401);
+        var yesv = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x402);
+        var nov = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x403);
+        return (condv ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(yesv) : $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(nov));
+      }
+    }
+  }
+  return $n(default$1).apply__O__O(x);
+});
+var $d_Lio_github_edadma_logo_Procedure$package$$anon$31 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$31, "io.github.edadma.logo.Procedure$package$$anon$31", ({
+  Lio_github_edadma_logo_Procedure$package$$anon$31: 1,
+  sr_AbstractPartialFunction: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  Ljava_io_Serializable: 1
+}));
+/** @constructor */
+function $c_Lio_github_edadma_logo_Procedure$package$$anon$32() {
+}
+$c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$$anon$32;
+/** @constructor */
+function $h_Lio_github_edadma_logo_Procedure$package$$anon$32() {
+}
+$h_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype;
+$c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
+  if ((x !== null)) {
+    var x412 = $as_sci_Seq($n(x)._2__O());
+    var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
+    if ((x412 !== null)) {
+      if (($n(x412).lengthCompare__I__I(2) === 0)) {
+        var x414 = $as_Lio_github_edadma_logo_LogoValue($n(x412).apply__I__O(0));
+        var x415 = $as_Lio_github_edadma_logo_LogoValue($n(x412).apply__I__O(1));
+        var this$5 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_vars);
+        var key = $n(x414).toString__T();
+        $p_scm_HashMap__put0__O__O__Z__s_Some(this$5, key, x415, false);
+        return (void 0);
+      }
+    }
+  }
+  return $n(default$1).apply__O__O(x);
+});
+var $d_Lio_github_edadma_logo_Procedure$package$$anon$32 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$32, "io.github.edadma.logo.Procedure$package$$anon$32", ({
+  Lio_github_edadma_logo_Procedure$package$$anon$32: 1,
+  sr_AbstractPartialFunction: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  Ljava_io_Serializable: 1
+}));
+/** @constructor */
+function $c_Lio_github_edadma_logo_Procedure$package$$anon$33() {
+}
+$c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$$anon$33;
+/** @constructor */
+function $h_Lio_github_edadma_logo_Procedure$package$$anon$33() {
+}
+$h_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype;
+$c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
+  if ((x !== null)) {
+    var x423 = $as_sci_Seq($n(x)._2__O());
+    var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
+    if ((x423 !== null)) {
+      if (($n(x423).lengthCompare__I__I(1) === 0)) {
+        var x425 = $as_Lio_github_edadma_logo_LogoValue($n(x423).apply__I__O(0));
+        return $n(ctx).interp__T__Lio_github_edadma_logo_LogoValue($n(x425).toString__T());
+      }
+    }
+  }
+  return $n(default$1).apply__O__O(x);
+});
+var $d_Lio_github_edadma_logo_Procedure$package$$anon$33 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$33, "io.github.edadma.logo.Procedure$package$$anon$33", ({
+  Lio_github_edadma_logo_Procedure$package$$anon$33: 1,
+  sr_AbstractPartialFunction: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  Ljava_io_Serializable: 1
+}));
+/** @constructor */
+function $c_Lio_github_edadma_logo_Procedure$package$$anon$34() {
+}
+$c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$$anon$34;
+/** @constructor */
+function $h_Lio_github_edadma_logo_Procedure$package$$anon$34() {
+}
+$h_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype;
+$c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
+  if ((x !== null)) {
+    var x433 = $as_sci_Seq($n(x)._2__O());
+    if ((x433 !== null)) {
+      if (($n(x433).lengthCompare__I__I(1) === 0)) {
+        var x435 = $as_Lio_github_edadma_logo_LogoValue($n(x433).apply__I__O(0));
+        throw new $c_Lio_github_edadma_logo_OutputException(x435);
+      }
+    }
+  }
+  return $n(default$1).apply__O__O(x);
+});
+var $d_Lio_github_edadma_logo_Procedure$package$$anon$34 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$34, "io.github.edadma.logo.Procedure$package$$anon$34", ({
+  Lio_github_edadma_logo_Procedure$package$$anon$34: 1,
+  sr_AbstractPartialFunction: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  Ljava_io_Serializable: 1
+}));
+/** @constructor */
+function $c_Lio_github_edadma_logo_Procedure$package$$anon$35() {
+}
+$c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype.constructor = $c_Lio_github_edadma_logo_Procedure$package$$anon$35;
+/** @constructor */
+function $h_Lio_github_edadma_logo_Procedure$package$$anon$35() {
+}
+$h_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype;
+$c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
+  throw new $c_Lio_github_edadma_logo_StopException();
+});
+var $d_Lio_github_edadma_logo_Procedure$package$$anon$35 = new $TypeData().initClass($c_Lio_github_edadma_logo_Procedure$package$$anon$35, "io.github.edadma.logo.Procedure$package$$anon$35", ({
+  Lio_github_edadma_logo_Procedure$package$$anon$35: 1,
   sr_AbstractPartialFunction: 1,
   F1: 1,
   s_PartialFunction: 1,
@@ -31000,6 +31271,16 @@ $c_Lio_github_edadma_numbers_SmallRational.prototype.divideExact__Lio_github_eda
 $c_Lio_github_edadma_numbers_SmallRational.prototype.$up__I__Lio_github_edadma_numbers_SmallRational = (function(that) {
   return (this.isZero__Z() ? ((that === 0) ? $m_s_sys_package$().error__T__E("0^0 is undefined") : $m_Lio_github_edadma_numbers_SmallRational$().ZERO__Lio_github_edadma_numbers_SmallRational()) : ((that === 0) ? $m_Lio_github_edadma_numbers_SmallRational$().ONE__Lio_github_edadma_numbers_SmallRational() : ((that < 0) ? $ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational(this.inv__Lio_github_edadma_numbers_SmallRational(), ((-that) | 0)) : $ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational(this, that))));
 });
+$c_Lio_github_edadma_numbers_SmallRational.prototype.unary_$minus__Lio_github_edadma_numbers_SmallRational = (function() {
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  var x_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+  var x_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+  var lo = ((-x_$_lo) | 0);
+  var hi = ((((-x_$_hi) | 0) + ((x_$_lo | lo) >> 31)) | 0);
+  var d_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
+  var d_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
+  return new $c_Lio_github_edadma_numbers_SmallRational(lo, hi, d_$_lo, d_$_hi);
+});
 $c_Lio_github_edadma_numbers_SmallRational.prototype.inv__Lio_github_edadma_numbers_SmallRational = (function() {
   if (this.isZero__Z()) {
     $m_s_sys_package$().error__T__E("no inverse");
@@ -31010,6 +31291,22 @@ $c_Lio_github_edadma_numbers_SmallRational.prototype.inv__Lio_github_edadma_numb
     var d_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
     var d_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
     return new $c_Lio_github_edadma_numbers_SmallRational(n_$_lo, n_$_hi, d_$_lo, d_$_hi);
+  }
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.abs__Lio_github_edadma_numbers_SmallRational = (function() {
+  var x_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+  var x_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+  if ((x_$_hi >= 0)) {
+    return this;
+  } else {
+    $m_Lio_github_edadma_numbers_SmallRational$();
+    var x$1_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+    var x$1_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+    var lo = ((-x$1_$_lo) | 0);
+    var hi = ((((-x$1_$_hi) | 0) + ((x$1_$_lo | lo) >> 31)) | 0);
+    var d_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
+    var d_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
+    return new $c_Lio_github_edadma_numbers_SmallRational(lo, hi, d_$_lo, d_$_hi);
   }
 });
 $c_Lio_github_edadma_numbers_SmallRational.prototype.doubleValue__D = (function() {
@@ -39867,6 +40164,15 @@ var $d_Lio_github_edadma_numbers_ComplexRational = new $TypeData().initClass($c_
   s_Equals: 1,
   s_Product: 1
 }));
+function $as_Lio_github_edadma_numbers_ComplexSmallRational(obj) {
+  return ((false || (obj === null)) ? obj : $throwClassCastException(obj, "io.github.edadma.numbers.ComplexSmallRational"));
+}
+function $isArrayOf_Lio_github_edadma_numbers_ComplexSmallRational(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lio_github_edadma_numbers_ComplexSmallRational)));
+}
+function $asArrayOf_Lio_github_edadma_numbers_ComplexSmallRational(obj, depth) {
+  return (($isArrayOf_Lio_github_edadma_numbers_ComplexSmallRational(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.github.edadma.numbers.ComplexSmallRational;", depth));
+}
 /** @constructor */
 function $c_Lio_github_edadma_numbers_QuaternionBigInt(a, b, c, d) {
   this.Lio_github_edadma_numbers_Quaternion__f_evidence$1 = null;
