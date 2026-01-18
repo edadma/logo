@@ -146,6 +146,7 @@ object LogoPlayground extends SimpleSwingApplication:
 
     class TurtlePanel extends Panel:
       background = Color.WHITE
+      var usePathRendering: Boolean = true
 
       override protected def paintComponent(gr: Graphics2D): Unit =
         super.paintComponent(gr)
@@ -158,6 +159,56 @@ object LogoPlayground extends SimpleSwingApplication:
         // Invert the y-axis
         gr.scale(1, -1)
 
+        if usePathRendering then renderWithPaths(gr)
+        else renderWithLines(gr)
+
+        logo.turtle match
+          case None                  =>
+          case Some((x, y, heading)) => drawTurtle(gr, x, y, heading)
+      end paintComponent
+
+      private def renderWithPaths(gr: Graphics2D): Unit =
+        // Group consecutive lines with same style into paths
+        case class Style(color: (Int, Int, Int), width: Double)
+
+        var currentStyle: Option[Style] = None
+        var currentPath: Path2D.Double  = null
+
+        def flushPath(): Unit =
+          if currentPath != null && currentStyle.isDefined then
+            val Style((r, g, b), width) = currentStyle.get
+            gr.setColor(new Color(r, g, b))
+            gr.setStroke(new BasicStroke(width.toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND))
+            gr.draw(currentPath)
+            currentPath = null
+            currentStyle = None
+
+        logo.drawing foreach {
+          case DrawLine(x1, y1, x2, y2, color, width) =>
+            val style = Style(color, width)
+
+            if !currentStyle.contains(style) then
+              flushPath()
+              currentStyle = Some(style)
+              currentPath = new Path2D.Double()
+              currentPath.moveTo(x1, y1)
+
+            // Check if we need a moveTo (discontinuity)
+            if currentPath.getCurrentPoint == null ||
+               currentPath.getCurrentPoint.getX != x1 ||
+               currentPath.getCurrentPoint.getY != y1
+            then currentPath.moveTo(x1, y1)
+
+            currentPath.lineTo(x2, y2)
+
+          case DrawLabel(x, y, heading, text) =>
+            flushPath()
+            renderLabel(gr, x, y, heading, text)
+        }
+
+        flushPath()
+
+      private def renderWithLines(gr: Graphics2D): Unit =
         logo.drawing foreach {
           case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
             gr.setColor(new Color(r, g, b))
@@ -169,28 +220,28 @@ object LogoPlayground extends SimpleSwingApplication:
             val roundedY2 = Math.round(y2).toInt
 
             gr.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
+
           case DrawLabel(x, y, heading, text) =>
-            gr.setFont(new Font("sans", Font.PLAIN, 20))
-
-            // Save the original transformation
-            val originalTransform = gr.getTransform
-
-            // Apply rotation around the point (x, y)
-            gr.translate(x, y) // Move the origin to (x, y)
-            gr.rotate(heading) // Rotate by the specified angle in radians
-
-            // Draw the string at (0, 0) because we've translated the origin to (x, y)
-            gr.scale(1, -1)
-            gr.drawString(text, 0, 0)
-
-            // Restore the original transformation
-            gr.setTransform(originalTransform);
+            renderLabel(gr, x, y, heading, text)
         }
 
-        logo.turtle match
-          case None                  =>
-          case Some((x, y, heading)) => drawTurtle(gr, x, y, heading)
-      end paintComponent
+      private def renderLabel(gr: Graphics2D, x: Double, y: Double, heading: Double, text: String): Unit =
+        gr.setFont(new Font("sans", Font.PLAIN, 20))
+
+        // Save the original transformation
+        val originalTransform = gr.getTransform
+
+        // Apply rotation around the point (x, y)
+        gr.translate(x, y) // Move the origin to (x, y)
+        gr.rotate(heading) // Rotate by the specified angle in radians
+
+        // Draw the string at (0, 0) because we've translated the origin to (x, y)
+        gr.scale(1, -1)
+        gr.drawString(text, 0, 0)
+
+        // Restore the original transformation
+        gr.setTransform(originalTransform)
+      end renderLabel
 
       def drawTurtle(g: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
         // Define the turtle shape in local coordinates (tail at (0, 0), pointing upwards)
@@ -310,11 +361,18 @@ object LogoPlayground extends SimpleSwingApplication:
       contents += saveItem
     }
 
+    // Rendering toggle checkbox
+    val pathRenderingToggle = new CheckBox("Path Rendering") {
+      selected = true
+    }
+
     // Set the menu bar
     menuBar = new MenuBar {
       contents += fileMenu
       contents += Swing.HStrut(20)
       contents += runButton
+      contents += Swing.HStrut(20)
+      contents += pathRenderingToggle
     }
 
     // Function to handle opening a file
@@ -393,9 +451,14 @@ object LogoPlayground extends SimpleSwingApplication:
             errorOutput.text = error.getMessage
     end runAction
 
-    // Event handling for the Run button
-    listenTo(runButton)
-    reactions += { case ButtonClicked(`runButton`) => runAction() }
+    // Event handling for the Run button and rendering toggle
+    listenTo(runButton, pathRenderingToggle)
+    reactions += {
+      case ButtonClicked(`runButton`) => runAction()
+      case ButtonClicked(`pathRenderingToggle`) =>
+        drawPanel.usePathRendering = pathRenderingToggle.selected
+        drawPanel.repaint()
+    }
 
     // Set up the main frame
     contents = splitPane

@@ -1,9 +1,13 @@
 make "x 0
 make "amplitude 50
-make "scaling 5
+make "scaling 25
 
-repeat 10 [
-  print amplitude * sin x
+penup
+setxy scaling * x 0
+pendown
+
+repeat 1000 [
   make "y amplitude * sin x
   setxy scaling * x y
+  make "x x + 0.01
 ]
