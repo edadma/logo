@@ -11,6 +11,10 @@ import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
 import scala.math.{Pi, cos, sin, toRadians}
 
+// Exceptions for control flow in user procedures
+case class OutputException(value: LogoValue) extends Exception
+case class StopException()                   extends Exception
+
 abstract class Logo:
   def event(): Unit
 
@@ -23,6 +27,7 @@ abstract class Logo:
   private[logo] var show: Boolean          = true
   private[logo] val draws                  = new ListBuffer[Draw]
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
+  private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
 
   event()
 
@@ -66,8 +71,11 @@ abstract class Logo:
     builtin get lower match
       case None =>
         synonyms get lower match
-          case None => vars get lower
-          case s    => s
+          case None =>
+            procedures get lower match
+              case None => vars get lower
+              case p    => p
+          case s => s
       case p => p
 
   private def evalargs(name: String, count: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
@@ -211,6 +219,15 @@ abstract class Logo:
             rest match
               case LogoWord(")") :: rest2 => (value.pos(tok.r), rest2)
               case _                      => tok.r.error("expected closing parenthesis")
+      case (tok @ LogoWord("to")) :: tail =>
+        // Define a user procedure: to name :param1 :param2 ... body... end
+        tail match
+          case LogoWord(procName) :: rest =>
+            val (params, bodyStart) = collectParams(rest)
+            val (body, afterEnd) = collectUntilEnd(bodyStart)
+            procedures(procName.toLowerCase) = UserProcedure(procName.toLowerCase, params, body)
+            (LogoNull().pos(tok.r), afterEnd)
+          case _ => tok.r.error("expected procedure name after 'to'")
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r), tail)
         else if s.head == ':' then
@@ -252,6 +269,64 @@ abstract class Logo:
                   case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
+            case Some(UserProcedure(name, params, body)) =>
+              // Call user-defined procedure
+              val (vals, rest) = evalargs(name, params.length, tail)
+              val result = callUserProc(params, vals, body)
+              (result.pos(tok.r), rest)
             case Some(v: LogoValue) => (v, tail)
             case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
         end if
+
+  // Collect parameter names (tokens starting with :) until we hit something else
+  private def collectParams(toks: Seq[LogoValue]): (Seq[String], Seq[LogoValue]) =
+    val params = new ListBuffer[String]
+
+    @tailrec
+    def loop(toks: Seq[LogoValue]): Seq[LogoValue] =
+      toks match
+        case LogoWord(s) :: rest if s.startsWith(":") =>
+          params += s.tail.toLowerCase
+          loop(rest)
+        case _ => toks
+
+    val rest = loop(toks)
+    (params.toSeq, rest)
+
+  // Collect tokens until we see "end"
+  private def collectUntilEnd(toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
+    val body = new ListBuffer[LogoValue]
+
+    @tailrec
+    def loop(toks: Seq[LogoValue]): Seq[LogoValue] =
+      toks match
+        case LogoWord("end") :: rest => rest
+        case (eoi: EOIToken) :: _    => eoi.r.error("unexpected end of input, expected 'end'")
+        case tok :: rest =>
+          body += tok
+          loop(rest)
+        case Nil => sys.error("unexpected end of tokens")
+
+    val rest = loop(toks)
+    (body.toSeq, rest)
+
+  // Call a user-defined procedure
+  private def callUserProc(params: Seq[String], args: Seq[LogoValue], body: Seq[LogoValue]): LogoValue =
+    // Save current variable bindings for parameters (for proper scoping)
+    val savedVars = params.map(p => p -> vars.get(p))
+
+    // Bind parameters to arguments
+    params.zip(args).foreach { case (param, arg) => vars(param) = arg }
+
+    try
+      // Execute the body (add EOI token for proper termination)
+      interp(body :+ EOIToken())
+    catch
+      case OutputException(value) => value
+      case StopException()        => LogoNull()
+    finally
+      // Restore previous variable bindings
+      savedVars.foreach {
+        case (param, Some(v)) => vars(param) = v
+        case (param, None)    => vars.remove(param)
+      }

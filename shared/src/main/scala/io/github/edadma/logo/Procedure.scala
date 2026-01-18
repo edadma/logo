@@ -17,6 +17,8 @@ case class BuiltinFunction2(name: String, func: (Number, Number) => Number) exte
 // Variadic: defaultArgs is used without parens, with parens accepts minArgs or more
 case class BuiltinVariadic(name: String, defaultArgs: Int, minArgs: Int, func: (Logo, Seq[LogoValue]) => Any)
     extends Procedure
+// User-defined procedure
+case class UserProcedure(name: String, params: Seq[String], body: Seq[LogoValue]) extends Procedure
 
 val builtin =
   List[Procedure](
@@ -342,6 +344,20 @@ val builtin =
           ctx.interp(code.toString)
       },
     ),
+    BuiltinProcedure(
+      "output",
+      1,
+      {
+        case (_, Seq(value)) => throw OutputException(value)
+      },
+    ),
+    BuiltinProcedure(
+      "stop",
+      0,
+      {
+        case _ => throw StopException()
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
 val synonyms =
@@ -391,4 +407,5 @@ val synonyms =
     "alt"          -> "random",
     "se"           -> "sentence",
     "pr"           -> "print",
+    "op"           -> "output",
   ) map ((s, p) => s -> builtin(p)) toMap
