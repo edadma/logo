@@ -144,3 +144,44 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "comparison precedence" in {
     eval("2 * 3 > 5") shouldBe "true" // 6 > 5
   }
+
+  // Additional edge cases
+  "unary minus in multiplication" in {
+    eval("3 * -2") shouldBe "-6"
+  }
+
+  "negative base power" in {
+    eval("-2 ^ 2") shouldBe "4"
+  }
+
+  "variable in infix with colon" in {
+    eval("make \"x 10 :x * 2") shouldBe "20"
+  }
+
+  "variable in infix without colon" in {
+    eval("make \"y 5 y + 3") shouldBe "8"
+  }
+
+  "chained multiplication" in {
+    eval("2 * 3 * 4") shouldBe "24"
+  }
+
+  "chained division" in {
+    eval("24 / 4 / 2") shouldBe "3"
+  }
+
+  "mixed add sub" in {
+    eval("10 - 3 + 2") shouldBe "9"
+  }
+
+  "comparison both sides arithmetic" in {
+    eval("2 + 3 < 4 + 5") shouldBe "true"
+  }
+
+  "power in comparison" in {
+    eval("2 ^ 3 = 8") shouldBe "true"
+  }
+
+  "complex expression" in {
+    eval("2 + 3 * 4 ^ 2 - 10 / 2") shouldBe "45" // 2 + 3*16 - 5 = 2 + 48 - 5 = 45
+  }
