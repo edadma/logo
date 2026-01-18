@@ -105,3 +105,7 @@ class BasicTests extends AnyFreeSpec with Matchers with Test:
   "run multiple statements" in {
     run("run [print 1 print 2]") shouldBe "1\n2"
   }
+
+  "run with no-space operators" in {
+    run("run [print 1+2]") shouldBe "3"
+  }

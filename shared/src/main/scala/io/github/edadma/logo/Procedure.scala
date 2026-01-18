@@ -309,7 +309,9 @@ val builtin =
       "run",
       1,
       {
-        case (ctx, Seq(code)) => ctx.interp(list(code))
+        case (ctx, Seq(code)) =>
+          // Convert list to string and re-parse to enable operator splitting
+          ctx.interp(code.toString)
       },
     ),
   ) map (p => p.name -> p) toMap
