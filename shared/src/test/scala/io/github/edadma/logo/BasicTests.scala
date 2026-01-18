@@ -79,3 +79,12 @@ class BasicTests extends AnyFreeSpec with Matchers with Test:
   "colon undefined variable error" in {
     an[Exception] should be thrownBy eval(":undefined")
   }
+
+  // List atom preservation - operators inside lists are not parsed
+  "list preserves atom with operator" in {
+    eval("[1+2]") shouldBe "1+2"
+  }
+
+  "list preserves multiple atoms" in {
+    eval("[a+b c*d]") shouldBe "a+b c*d"
+  }

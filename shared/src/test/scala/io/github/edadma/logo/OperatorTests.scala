@@ -185,3 +185,36 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "complex expression" in {
     eval("2 + 3 * 4 ^ 2 - 10 / 2") shouldBe "45" // 2 + 3*16 - 5 = 2 + 48 - 5 = 45
   }
+
+  // No-space parsing tests
+  "no space addition" in {
+    eval("3+4") shouldBe "7"
+  }
+
+  "no space subtraction" in {
+    eval("10-3") shouldBe "7"
+  }
+
+  "no space multiplication" in {
+    eval("3*4") shouldBe "12"
+  }
+
+  "no space division" in {
+    eval("12/4") shouldBe "3"
+  }
+
+  "no space power" in {
+    eval("2^3") shouldBe "8"
+  }
+
+  "no space comparison" in {
+    eval("5=5") shouldBe "true"
+  }
+
+  "no space less than" in {
+    eval("3<5") shouldBe "true"
+  }
+
+  "no space complex" in {
+    eval("2+3*4") shouldBe "14"
+  }
