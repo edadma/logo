@@ -305,6 +305,13 @@ val builtin =
         case (ctx, Seq(name, value)) => ctx.vars(name.toString) = value
       },
     ),
+    BuiltinProcedure(
+      "run",
+      1,
+      {
+        case (ctx, Seq(code)) => ctx.interp(list(code))
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
 val synonyms =
