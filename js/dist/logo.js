@@ -1571,6 +1571,54 @@ $c_Lio_github_edadma_dal_DAL.prototype.bigDecimal__s_math_BigInt__s_math_BigDeci
   }
   return $m_s_math_BigDecimal$().apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(n, m);
 });
+$c_Lio_github_edadma_dal_DAL.prototype.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational = (function(a) {
+  if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+    var x6 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    return x6;
+  }
+  if ($isInt(a)) {
+    var x5 = $as_jl_Integer(a);
+    $m_Lio_github_edadma_numbers_SmallRational$();
+    var value = $uI(x5);
+    var hi = (value >> 31);
+    return new $c_Lio_github_edadma_numbers_SmallRational(value, hi, 1, 0);
+  }
+  if ((a instanceof $Long)) {
+    var x4 = $as_jl_Long(a);
+    $m_Lio_github_edadma_numbers_SmallRational$();
+    var $x_1 = $uJ(x4);
+    var a$1_$_lo = $x_1.l;
+    var a$1_$_hi = $x_1.h;
+    return new $c_Lio_github_edadma_numbers_SmallRational(a$1_$_lo, a$1_$_hi, 1, 0);
+  }
+  if ((a instanceof $c_s_math_BigInt)) {
+    var x3 = $as_s_math_BigInt(a);
+    if ($n(x3).isValidLong__Z()) {
+      $m_Lio_github_edadma_numbers_SmallRational$();
+      var this$6 = $n(x3);
+      var $x_2 = this$6.longValue__J();
+      var a$2_$_lo = $x_2.l;
+      var a$2_$_hi = $x_2.h;
+      return new $c_Lio_github_edadma_numbers_SmallRational(a$2_$_lo, a$2_$_hi, 1, 0);
+    }
+  }
+  if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
+    var x2 = $as_Lio_github_edadma_numbers_Rational(a);
+    if (($n($n(x2).Lio_github_edadma_numbers_Rational__f_numerator).isValidLong__Z() && $n($n(x2).Lio_github_edadma_numbers_Rational__f_denominator).isValidLong__Z())) {
+      $m_Lio_github_edadma_numbers_SmallRational$();
+      var this$8 = $n($n(x2).Lio_github_edadma_numbers_Rational__f_numerator);
+      var $x_3 = this$8.longValue__J();
+      var n_$_lo = $x_3.l;
+      var n_$_hi = $x_3.h;
+      var this$9 = $n($n(x2).Lio_github_edadma_numbers_Rational__f_denominator);
+      var $x_4 = this$9.longValue__J();
+      var d_$_lo = $x_4.l;
+      var d_$_hi = $x_4.h;
+      return new $c_Lio_github_edadma_numbers_SmallRational(n_$_lo, n_$_hi, d_$_lo, d_$_hi);
+    }
+  }
+  $m_s_sys_package$().error__T__E(("can't convert to SmallRational from " + a));
+});
 $c_Lio_github_edadma_dal_DAL.prototype.toBigDecimal__jl_Number__s_math_BigDecimal = (function(a) {
   if ((a instanceof $c_s_math_BigDecimal)) {
     var x12 = $as_s_math_BigDecimal(a);
@@ -1667,12 +1715,16 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexRational__jl_Number__Lio_github_
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational = (function(a) {
   if ((a instanceof $c_s_math_BigInt)) {
-    var x35 = $as_s_math_BigInt(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x35));
+    var x36 = $as_s_math_BigInt(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x36));
   }
   if ($isInt(a)) {
-    var x34 = $as_jl_Integer(a);
-    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x34));
+    var x35 = $as_jl_Integer(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(x35));
+  }
+  if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+    var x34 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    return $m_Lio_github_edadma_numbers_QuaternionRational$().apply__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_QuaternionRational($n(x34).toRational__Lio_github_edadma_numbers_Rational());
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
     var x33 = $as_Lio_github_edadma_numbers_Rational(a);
@@ -1713,151 +1765,157 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionRational__jl_Number__Lio_gith
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x44 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
-    return x44;
+    var x45 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    return x45;
   }
   if ($isInt(a)) {
-    var x43 = $as_jl_Integer(a);
+    var x44 = $as_jl_Integer(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var this$1 = $n(x43);
+    var this$1 = $n(x44);
     var a$1 = this$1;
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$1, 0.0);
   }
   if (((typeof a) === "number")) {
-    var x42 = $as_jl_Double(a);
+    var x43 = $as_jl_Double(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$2 = $uD(x42);
+    var a$2 = $uD(x43);
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$2, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x41 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var x42 = $as_Lio_github_edadma_numbers_SmallRational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$3 = $n(x41).doubleValue__D();
+    var a$3 = $n(x42).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$3, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x40 = $as_Lio_github_edadma_numbers_Rational(a);
+    var x41 = $as_Lio_github_edadma_numbers_Rational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$4 = $n(x40).doubleValue__D();
+    var a$4 = $n(x41).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$4, 0.0);
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x39 = $as_s_math_BigInt(a);
+    var x40 = $as_s_math_BigInt(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var a$5 = $n(x39).doubleValue__D();
+    var a$5 = $n(x40).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(a$5, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x38 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x39 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var re = $n($n(x38).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
-    var im = $n($n(x38).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+    var re = $n($n(x39).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+    var im = $n($n(x39).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(re, im);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x37 = $as_Lio_github_edadma_numbers_ComplexRational(a);
+    var x38 = $as_Lio_github_edadma_numbers_ComplexRational(a);
     $m_Lio_github_edadma_numbers_ComplexDouble$();
-    var re$1 = $n($n(x37).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
-    var im$1 = $n($n(x37).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
+    var re$1 = $n($n(x38).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
+    var im$1 = $n($n(x38).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_ComplexDouble(re$1, im$1);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x53 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    var x55 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$1 = $n(x53).Lio_github_edadma_numbers_ComplexDouble__f_re;
-    var b = $n(x53).Lio_github_edadma_numbers_ComplexDouble__f_im;
+    var a$1 = $n(x55).Lio_github_edadma_numbers_ComplexDouble__f_re;
+    var b = $n(x55).Lio_github_edadma_numbers_ComplexDouble__f_im;
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$1, b, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-    var x52 = $as_Lio_github_edadma_numbers_QuaternionDouble(a);
-    return x52;
+    var x54 = $as_Lio_github_edadma_numbers_QuaternionDouble(a);
+    return x54;
   }
   if ($isInt(a)) {
-    var x51 = $as_jl_Integer(a);
+    var x53 = $as_jl_Integer(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var this$2 = $n(x51);
+    var this$2 = $n(x53);
     var a$2 = this$2;
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$2, 0.0, 0.0, 0.0);
   }
   if (((typeof a) === "number")) {
-    var x50 = $as_jl_Double(a);
+    var x52 = $as_jl_Double(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$3 = $uD(x50);
+    var a$3 = $uD(x52);
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$3, 0.0, 0.0, 0.0);
   }
-  if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x49 = $as_Lio_github_edadma_numbers_Rational(a);
+  if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+    var x51 = $as_Lio_github_edadma_numbers_SmallRational(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$4 = $n(x49).doubleValue__D();
+    var a$4 = $n(x51).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$4, 0.0, 0.0, 0.0);
   }
-  if ((a instanceof $c_s_math_BigInt)) {
-    var x48 = $as_s_math_BigInt(a);
+  if ((a instanceof $c_Lio_github_edadma_numbers_Rational)) {
+    var x50 = $as_Lio_github_edadma_numbers_Rational(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$5 = $n(x48).doubleValue__D();
+    var a$5 = $n(x50).doubleValue__D();
     return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$5, 0.0, 0.0, 0.0);
   }
-  if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x47 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+  if ((a instanceof $c_s_math_BigInt)) {
+    var x49 = $as_s_math_BigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$6 = $n($n(x47).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
-    var b$1 = $n($n(x47).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
-    return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$6, b$1, 0.0, 0.0);
+    var a$6 = $n(x49).doubleValue__D();
+    return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$6, 0.0, 0.0, 0.0);
+  }
+  if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
+    var x48 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    $m_Lio_github_edadma_numbers_QuaternionDouble$();
+    var a$7 = $n($n(x48).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+    var b$1 = $n($n(x48).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+    return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$7, b$1, 0.0, 0.0);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x46 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
+    var x47 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
     $m_Lio_github_edadma_numbers_QuaternionDouble$();
-    var a$7 = $n($n(x46).Lio_github_edadma_numbers_QuaternionBigInt__f_a).doubleValue__D();
-    var b$2 = $n($n(x46).Lio_github_edadma_numbers_QuaternionBigInt__f_b).doubleValue__D();
-    var c = $n($n(x46).Lio_github_edadma_numbers_QuaternionBigInt__f_c).doubleValue__D();
-    var d = $n($n(x46).Lio_github_edadma_numbers_QuaternionBigInt__f_d).doubleValue__D();
-    return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$7, b$2, c, d);
+    var a$8 = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_a).doubleValue__D();
+    var b$2 = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_b).doubleValue__D();
+    var c = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_c).doubleValue__D();
+    var d = $n($n(x47).Lio_github_edadma_numbers_QuaternionBigInt__f_d).doubleValue__D();
+    return new $c_Lio_github_edadma_numbers_QuaternionDouble(a$8, b$2, c, d);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x67 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
-    return x67;
+    var x69 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
+    return x69;
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x66 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x68 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     var this$1 = $m_s_math_BigDecimal$();
-    var x = $n(x66).Lio_github_edadma_numbers_ComplexBigInt__f_re;
+    var x = $n(x68).Lio_github_edadma_numbers_ComplexBigInt__f_re;
     var re = this$1.exact__s_math_BigInt__s_math_BigDecimal(x);
     var this$2 = $m_s_math_BigDecimal$();
-    var x$1 = $n(x66).Lio_github_edadma_numbers_ComplexBigInt__f_im;
+    var x$1 = $n(x68).Lio_github_edadma_numbers_ComplexBigInt__f_im;
     var im = this$2.exact__s_math_BigInt__s_math_BigDecimal(x$1);
     var bdmath = this.Lio_github_edadma_dal_DAL__f_bdmath;
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(re, im, bdmath);
   }
   if ((a instanceof $c_s_math_BigDecimal)) {
-    var x65 = $as_s_math_BigDecimal(a);
+    var x67 = $as_s_math_BigDecimal(a);
     var this$4 = $m_s_math_BigDecimal$();
-    return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(x65, this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$4.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(x67, this$4.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$4.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ($isInt(a)) {
-    var x64 = $as_jl_Integer(a);
+    var x66 = $as_jl_Integer(a);
     var this$5 = $m_s_math_BigDecimal$();
-    var i = $uI(x64);
+    var i = $uI(x66);
     var $x_1 = this$5.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$5.s_math_BigDecimal$__f_defaultMathContext);
     var this$6 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_1, this$6.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$6.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if (((typeof a) === "number")) {
-    var x63 = $as_jl_Double(a);
+    var x65 = $as_jl_Double(a);
     var this$7 = $m_s_math_BigDecimal$();
-    var d = $uD(x63);
+    var d = $uD(x65);
     var $x_2 = this$7.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d, this$7.s_math_BigDecimal$__f_defaultMathContext);
     var this$8 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_2, this$8.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$8.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
-    var x62 = $as_Lio_github_edadma_numbers_SmallRational(a);
-    var rational = $n(x62).toRational__Lio_github_edadma_numbers_Rational();
+    var x64 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var rational = $n(x64).toRational__Lio_github_edadma_numbers_Rational();
     var quo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n(rational).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n(rational).Lio_github_edadma_numbers_Rational__f_denominator));
     var this$9 = $n(quo);
     var $x_4 = $n(this$9.s_math_BigDecimal__f_bigDecimal).precision__I();
@@ -1871,11 +1929,11 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_3, this$11.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$11.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a !== null)) {
-    var x58 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
-    if ((!$n(x58).isEmpty__Z())) {
-      var x59 = $as_T2($n(x58).get__O());
-      var n = $as_s_math_BigInt($n(x59)._1__O());
-      var d$2 = $as_s_math_BigInt($n(x59)._2__O());
+    var x60 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
+    if ((!$n(x60).isEmpty__Z())) {
+      var x61 = $as_T2($n(x60).get__O());
+      var n = $as_s_math_BigInt($n(x61)._1__O());
+      var d$2 = $as_s_math_BigInt($n(x61)._2__O());
       var quo$2 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(n)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(d$2));
       var this$12 = $n(quo$2);
       var $x_6 = $n(this$12.s_math_BigDecimal__f_bigDecimal).precision__I();
@@ -1890,18 +1948,18 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     }
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x57 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
+    var x59 = $as_Lio_github_edadma_numbers_ComplexDouble(a);
     var this$15 = $m_s_math_BigDecimal$();
-    var d$1 = $n(x57).Lio_github_edadma_numbers_ComplexDouble__f_re;
+    var d$1 = $n(x59).Lio_github_edadma_numbers_ComplexDouble__f_re;
     var $x_7 = this$15.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$1, this$15.s_math_BigDecimal$__f_defaultMathContext);
     var this$16 = $m_s_math_BigDecimal$();
-    var d$3 = $n(x57).Lio_github_edadma_numbers_ComplexDouble__f_im;
+    var d$3 = $n(x59).Lio_github_edadma_numbers_ComplexDouble__f_im;
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_7, this$16.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$3, this$16.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x56 = $as_Lio_github_edadma_numbers_ComplexRational(a);
-    var reQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x56).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x56).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_denominator));
-    var imQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x56).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x56).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_denominator));
+    var x58 = $as_Lio_github_edadma_numbers_ComplexRational(a);
+    var reQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_re).Lio_github_edadma_numbers_Rational__f_denominator));
+    var imQuo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_numerator)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal($n($n(x58).Lio_github_edadma_numbers_ComplexRational__f_im).Lio_github_edadma_numbers_Rational__f_denominator));
     var this$17 = $n(reQuo);
     var $x_8 = $n(this$17.s_math_BigDecimal__f_bigDecimal).precision__I();
     var this$18 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
@@ -1921,8 +1979,8 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(reResult, imResult, this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x55 = $as_s_math_BigInt(a);
-    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x55);
+    var x57 = $as_s_math_BigInt(a);
+    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x57);
     var $x_12 = $m_s_math_BigDecimal$();
     var this$21 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
     if ((len >= this$21.Ljava_math_MathContext__f_precision)) {
@@ -1931,7 +1989,7 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
     } else {
       var $x_11 = $n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc;
     }
-    var $x_10 = $x_12.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x55, $x_11);
+    var $x_10 = $x_12.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x57, $x_11);
     var this$22 = $m_s_math_BigDecimal$();
     return new $c_Lio_github_edadma_numbers_ComplexBigDecimal($x_10, this$22.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$22.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
@@ -1939,33 +1997,33 @@ $c_Lio_github_edadma_dal_DAL.prototype.toComplexBigDecimal__jl_Number__Lio_githu
 });
 $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal = (function(a) {
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-    var x80 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(a);
-    return x80;
+    var x83 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(a);
+    return x83;
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x79 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
+    var x82 = $as_Lio_github_edadma_numbers_QuaternionBigInt(a);
     var this$1 = $m_s_math_BigDecimal$();
-    var x = $n(x79).Lio_github_edadma_numbers_QuaternionBigInt__f_a;
+    var x = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_a;
     var a$1 = this$1.exact__s_math_BigInt__s_math_BigDecimal(x);
     var this$2 = $m_s_math_BigDecimal$();
-    var x$1 = $n(x79).Lio_github_edadma_numbers_QuaternionBigInt__f_b;
+    var x$1 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_b;
     var b = this$2.exact__s_math_BigInt__s_math_BigDecimal(x$1);
     var this$3 = $m_s_math_BigDecimal$();
-    var x$2 = $n(x79).Lio_github_edadma_numbers_QuaternionBigInt__f_c;
+    var x$2 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_c;
     var c = this$3.exact__s_math_BigInt__s_math_BigDecimal(x$2);
     var this$4 = $m_s_math_BigDecimal$();
-    var x$3 = $n(x79).Lio_github_edadma_numbers_QuaternionBigInt__f_d;
+    var x$3 = $n(x82).Lio_github_edadma_numbers_QuaternionBigInt__f_d;
     var d = this$4.exact__s_math_BigInt__s_math_BigDecimal(x$3);
     var bdmath = this.Lio_github_edadma_dal_DAL__f_bdmath;
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$1, b, c, d, bdmath);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x78 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
+    var x81 = $as_Lio_github_edadma_numbers_ComplexBigInt(a);
     var this$6 = $m_s_math_BigDecimal$();
-    var x$4 = $n(x78).Lio_github_edadma_numbers_ComplexBigInt__f_re;
+    var x$4 = $n(x81).Lio_github_edadma_numbers_ComplexBigInt__f_re;
     var a$2 = this$6.exact__s_math_BigInt__s_math_BigDecimal(x$4);
     var this$7 = $m_s_math_BigDecimal$();
-    var x$5 = $n(x78).Lio_github_edadma_numbers_ComplexBigInt__f_im;
+    var x$5 = $n(x81).Lio_github_edadma_numbers_ComplexBigInt__f_im;
     var b$1 = this$7.exact__s_math_BigInt__s_math_BigDecimal(x$5);
     var this$8 = $m_s_math_BigDecimal$();
     var c$1 = this$8.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$8.s_math_BigDecimal$__f_defaultMathContext);
@@ -1975,9 +2033,9 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$2, b$1, c$1, d$1, bdmath$1);
   }
   if ((a instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x77 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
-    var a$3 = $n(x77).Lio_github_edadma_numbers_ComplexBigDecimal__f_re;
-    var b$2 = $n(x77).Lio_github_edadma_numbers_ComplexBigDecimal__f_im;
+    var x80 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(a);
+    var a$3 = $n(x80).Lio_github_edadma_numbers_ComplexBigDecimal__f_re;
+    var b$2 = $n(x80).Lio_github_edadma_numbers_ComplexBigDecimal__f_im;
     var this$11 = $m_s_math_BigDecimal$();
     var c$2 = this$11.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$11.s_math_BigDecimal$__f_defaultMathContext);
     var this$12 = $m_s_math_BigDecimal$();
@@ -1986,63 +2044,117 @@ $c_Lio_github_edadma_dal_DAL.prototype.toQuaternionBigDecimal__jl_Number__Lio_gi
     return new $c_Lio_github_edadma_numbers_QuaternionBigDecimal(a$3, b$2, c$2, d$2, bdmath$2);
   }
   if ((a instanceof $c_s_math_BigDecimal)) {
-    var x76 = $as_s_math_BigDecimal(a);
-    return $m_Lio_github_edadma_numbers_QuaternionBigDecimal$().apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(x76, this.Lio_github_edadma_dal_DAL__f_bdmath);
+    var x79 = $as_s_math_BigDecimal(a);
+    return $m_Lio_github_edadma_numbers_QuaternionBigDecimal$().apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(x79, this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if ($isInt(a)) {
-    var x75 = $as_jl_Integer(a);
+    var x78 = $as_jl_Integer(a);
     var $x_1 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var this$14 = $m_s_math_BigDecimal$();
-    var i = $uI(x75);
+    var i = $uI(x78);
     return $x_1.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$14.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this$14.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   if (((typeof a) === "number")) {
-    var x74 = $as_jl_Double(a);
+    var x77 = $as_jl_Double(a);
     var $x_2 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
     var this$15 = $m_s_math_BigDecimal$();
-    var d$3 = $uD(x74);
+    var d$3 = $uD(x77);
     return $x_2.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$15.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$3, this$15.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
+  if ((a instanceof $c_Lio_github_edadma_numbers_SmallRational)) {
+    var x76 = $as_Lio_github_edadma_numbers_SmallRational(a);
+    var $x_3 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
+    var this$16 = $m_s_math_BigDecimal$();
+    var d$4 = $n(x76).doubleValue__D();
+    return $x_3.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal(this$16.decimal__D__Ljava_math_MathContext__s_math_BigDecimal(d$4, this$16.s_math_BigDecimal$__f_defaultMathContext), this.Lio_github_edadma_dal_DAL__f_bdmath);
+  }
   if ((a !== null)) {
-    var x70 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
-    if ((!$n(x70).isEmpty__Z())) {
-      var x71 = $as_T2($n(x70).get__O());
-      var n = $as_s_math_BigInt($n(x71)._1__O());
-      var d$2$1 = $as_s_math_BigInt($n(x71)._2__O());
+    var x72 = $m_Lio_github_edadma_numbers_Rational$().unapply__O__s_Option(a);
+    if ((!$n(x72).isEmpty__Z())) {
+      var x73 = $as_T2($n(x72).get__O());
+      var n = $as_s_math_BigInt($n(x73)._1__O());
+      var d$2$1 = $as_s_math_BigInt($n(x73)._2__O());
       var quo = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(n)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(d$2$1));
-      var $x_4 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
-      var this$16 = $n(quo);
-      var $x_3 = $n(this$16.s_math_BigDecimal__f_bigDecimal).precision__I();
-      var this$17 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
-      return $x_4.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal((($x_3 > this$17.Ljava_math_MathContext__f_precision) ? $n(quo).round__Ljava_math_MathContext__s_math_BigDecimal($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc) : quo), this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var $x_5 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
+      var this$17 = $n(quo);
+      var $x_4 = $n(this$17.s_math_BigDecimal__f_bigDecimal).precision__I();
+      var this$18 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
+      return $x_5.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal((($x_4 > this$18.Ljava_math_MathContext__f_precision) ? $n(quo).round__Ljava_math_MathContext__s_math_BigDecimal($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc) : quo), this.Lio_github_edadma_dal_DAL__f_bdmath);
     }
   }
   if ((a instanceof $c_s_math_BigInt)) {
-    var x69 = $as_s_math_BigInt(a);
-    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x69);
-    var $x_7 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
-    var $x_6 = $m_s_math_BigDecimal$();
-    var this$18 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
-    if ((len >= this$18.Ljava_math_MathContext__f_precision)) {
+    var x71 = $as_s_math_BigInt(a);
+    var len = $m_Lio_github_edadma_dal_package$().digits__s_math_BigInt__I(x71);
+    var $x_8 = $m_Lio_github_edadma_numbers_QuaternionBigDecimal$();
+    var $x_7 = $m_s_math_BigDecimal$();
+    var this$19 = $n($n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc);
+    if ((len >= this$19.Ljava_math_MathContext__f_precision)) {
       var p = ((5 + len) | 0);
-      var $x_5 = new $c_Ljava_math_MathContext(p, $m_Ljava_math_RoundingMode$().Ljava_math_RoundingMode$__f_HALF_EVEN);
+      var $x_6 = new $c_Ljava_math_MathContext(p, $m_Ljava_math_RoundingMode$().Ljava_math_RoundingMode$__f_HALF_EVEN);
     } else {
-      var $x_5 = $n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc;
+      var $x_6 = $n(this.Lio_github_edadma_dal_DAL__f_bdmath).Lio_github_edadma_numbers_BigDecimalMath__f_mc;
     }
-    return $x_7.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal($x_6.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x69, $x_5), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    return $x_8.apply__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__Lio_github_edadma_numbers_QuaternionBigDecimal($x_7.apply__s_math_BigInt__Ljava_math_MathContext__s_math_BigDecimal(x71, $x_6), this.Lio_github_edadma_dal_DAL__f_bdmath);
   }
   $m_s_sys_package$().error__T__E(("can't convert from " + a));
 });
 $c_Lio_github_edadma_dal_DAL.prototype.bigIntPow__jl_Number__jl_Number__T2 = (function(n, e) {
   if ($isInt(e)) {
-    var x82 = $as_jl_Integer(e);
+    var x85 = $as_jl_Integer(e);
     var $x_1 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(n));
-    var x = $uI(x82);
+    var x = $uI(x85);
     var sign = (x >> 31);
     var res = $x_1.pow__I__s_math_BigInt((((x ^ sign) - sign) | 0));
-    return (($uI(x82) < 0) ? this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($m_Lio_github_edadma_numbers_Rational$().oneOver__s_math_BigInt__Lio_github_edadma_numbers_Rational(res)) : this.maybeDemote__s_math_BigInt__T2(res));
+    return (($uI(x85) < 0) ? this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($m_Lio_github_edadma_numbers_Rational$().oneOver__s_math_BigInt__Lio_github_edadma_numbers_Rational(res)) : this.maybeDemote__s_math_BigInt__T2(res));
   }
   $m_s_sys_package$().error__T__E(("exponent too small or too large: " + e));
+});
+$c_Lio_github_edadma_dal_DAL.prototype.maybeDemote__Lio_github_edadma_numbers_SmallRational__T2 = (function(sr) {
+  if ($n(sr).isWhole__Z()) {
+    var x_$_lo = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+    var x_$_hi = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+    if (((x_$_hi === (-1)) ? ((x_$_lo >>> 0) >= 2147483648) : (x_$_hi > (-1)))) {
+      var x$1_$_lo = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+      var x$1_$_hi = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+      var $x_1 = ((x$1_$_hi === 0) ? ((x$1_$_lo >>> 0) <= 2147483647) : (x$1_$_hi < 0));
+    } else {
+      var $x_1 = false;
+    }
+    if ($x_1) {
+      var _1 = $m_Lio_github_edadma_dal_IntType$();
+      var x$2_$_lo = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+      var x$2_$_hi = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+      return new $c_T2(_1, x$2_$_lo);
+    } else if ((($n(sr), true) && ($n(sr), true))) {
+      var _1$1 = $m_Lio_github_edadma_dal_LongType$();
+      var _2_$_lo = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+      var _2_$_hi = $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+      return new $c_T2(_1$1, $bL(_2_$_lo, _2_$_hi));
+    } else {
+      var _1$2 = $m_Lio_github_edadma_dal_BigIntType$();
+      var _2$1 = $m_s_math_BigInt$().apply__J__s_math_BigInt($n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(sr).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi);
+      return new $c_T2(_1$2, _2$1);
+    }
+  } else {
+    var _1$3 = $m_Lio_github_edadma_dal_SmallRationalType$();
+    return new $c_T2(_1$3, sr);
+  }
+});
+$c_Lio_github_edadma_dal_DAL.prototype.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2 = (function(a, b, safeOp, fallbackOp) {
+  var sr1 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(a);
+  var sr2 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(b);
+  var x86 = $as_s_Option($n(safeOp).apply__O__O__O(sr1, sr2));
+  if ((x86 instanceof $c_s_Some)) {
+    var x87 = $as_s_Some(x86);
+    var result = $as_Lio_github_edadma_numbers_SmallRational($n(x87).s_Some__f_value);
+    return this.maybeDemote__Lio_github_edadma_numbers_SmallRational__T2(result);
+  }
+  var x = $m_s_None$();
+  if ((x === x86)) {
+    var result$2 = $as_Lio_github_edadma_numbers_Rational($n(fallbackOp).apply__O__O__O($n(sr1).toRational__Lio_github_edadma_numbers_Rational(), $n(sr2).toRational__Lio_github_edadma_numbers_Rational()));
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2(result$2);
+  }
+  throw new $c_s_MatchError(x86);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2 = (function(n) {
   var xn = $n(n).Lio_github_edadma_numbers_ComplexBigInt__f_im;
@@ -2211,19 +2323,19 @@ $c_Lio_github_edadma_dal_DAL.prototype.special__Lio_github_edadma_dal_Type__Lio_
   $p_scm_HashMap__put0__O__O__Z__s_Some(this$4, key$1, t, false);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.resultant__scm_HashMap__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__I = (function(rank, l, r) {
-  var x86 = $n(this.Lio_github_edadma_dal_DAL__f_specials).get__O__s_Option(new $c_T2(l, r));
-  if ((x86 instanceof $c_s_Some)) {
-    var x87 = $as_s_Some(x86);
-    var t = $as_Lio_github_edadma_dal_Type($n(x87).s_Some__f_value);
+  var x89 = $n(this.Lio_github_edadma_dal_DAL__f_specials).get__O__s_Option(new $c_T2(l, r));
+  if ((x89 instanceof $c_s_Some)) {
+    var x90 = $as_s_Some(x89);
+    var t = $as_Lio_github_edadma_dal_Type($n(x90).s_Some__f_value);
     return $uI($n(rank).apply__O__O(t));
   }
   var x = $m_s_None$();
-  if ((x === x86)) {
+  if ((x === x89)) {
     var x$1 = $uI($n(rank).apply__O__O(l));
     var that = $uI($n(rank).apply__O__O(r));
     return ((x$1 > that) ? x$1 : that);
   }
-  throw new $c_s_MatchError(x86);
+  throw new $c_s_MatchError(x89);
 });
 $c_Lio_github_edadma_dal_DAL.prototype.define__s_Symbol__sci_Seq__V = (function(op, funcs) {
   var rank = $ct_scm_HashMap__(new $c_scm_HashMap());
@@ -2483,14 +2595,14 @@ $c_Lio_github_edadma_dal_DAL.prototype.compute__s_Symbol__jl_Number__jl_Number__
     var $x_1 = this.Lio_github_edadma_dal_DAL__f_opmap;
     var _1 = $n(left$1).Lio_github_edadma_dal_DALNumber__f_typ;
     var _3 = $n(right$1).Lio_github_edadma_dal_DALNumber__f_typ;
-    var x101 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left$1).Lio_github_edadma_dal_DALNumber__f_value, $n(right$1).Lio_github_edadma_dal_DALNumber__f_value));
-    if ((x101 !== null)) {
-      var t = $as_Lio_github_edadma_dal_Type($n(x101)._1__O());
-      var \u03b43$___1 = x101;
+    var x104 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left$1).Lio_github_edadma_dal_DALNumber__f_value, $n(right$1).Lio_github_edadma_dal_DALNumber__f_value));
+    if ((x104 !== null)) {
+      var t = $as_Lio_github_edadma_dal_Type($n(x104)._1__O());
+      var \u03b43$___1 = x104;
       var \u03b43$___2 = t;
       break matchResult18;
     }
-    throw new $c_s_MatchError(x101);
+    throw new $c_s_MatchError(x104);
   }
   var n$2 = $as_T2(\u03b43$___1);
   var t$2 = $as_Lio_github_edadma_dal_Type(\u03b43$___2);
@@ -2514,12 +2626,12 @@ $c_Lio_github_edadma_dal_DAL.prototype.relate__s_Symbol__Lio_github_edadma_dal_T
     var $x_1 = this.Lio_github_edadma_dal_DAL__f_opmap;
     var _1 = $n(left).Lio_github_edadma_dal_DALNumber__f_typ;
     var _3 = $n(right).Lio_github_edadma_dal_DALNumber__f_typ;
-    var x95 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left).Lio_github_edadma_dal_DALNumber__f_value, $n(right).Lio_github_edadma_dal_DALNumber__f_value));
-    if ((x95 !== null)) {
-      var \u03b42$ = x95;
+    var x98 = $as_T2($n($as_F2($n($x_1).apply__O__O(new $c_T3(_1, op, _3)))).apply__O__O__O($n(left).Lio_github_edadma_dal_DALNumber__f_value, $n(right).Lio_github_edadma_dal_DALNumber__f_value));
+    if ((x98 !== null)) {
+      var \u03b42$ = x98;
       break matchResult16;
     }
-    throw new $c_s_MatchError(x95);
+    throw new $c_s_MatchError(x98);
   }
   var t = $as_Lio_github_edadma_dal_Type($n(\u03b42$)._1__O());
   var r = $n(\u03b42$)._2__O();
@@ -2529,14 +2641,14 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
   matchResult21: {
     var $x_1;
     if ($isInt(n)) {
-      var x139 = $as_jl_Integer(n);
-      var x = ((-$uI(x139)) | 0);
+      var x142 = $as_jl_Integer(n);
+      var x = ((-$uI(x142)) | 0);
       var $x_1 = x;
       break matchResult21;
     }
     if ((n instanceof $Long)) {
-      var x138 = $as_jl_Long(n);
-      var $x_2 = $uJ(x138);
+      var x141 = $as_jl_Long(n);
+      var $x_2 = $uJ(x141);
       var x$1_$_lo = $x_2.l;
       var x$1_$_hi = $x_2.h;
       var lo = ((-x$1_$_lo) | 0);
@@ -2545,29 +2657,29 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
       break matchResult21;
     }
     if ((n instanceof $c_s_math_BigInt)) {
-      var x137 = $as_s_math_BigInt(n);
-      var $x_1 = $n(x137).unary_$minus__s_math_BigInt();
+      var x140 = $as_s_math_BigInt(n);
+      var $x_1 = $n(x140).unary_$minus__s_math_BigInt();
       break matchResult21;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-      var x136 = $as_Lio_github_edadma_numbers_Rational(n);
-      var $x_1 = $n(x136).unary_$minus__Lio_github_edadma_numbers_Rational();
+      var x139 = $as_Lio_github_edadma_numbers_Rational(n);
+      var $x_1 = $n(x139).unary_$minus__Lio_github_edadma_numbers_Rational();
       break matchResult21;
     }
     if (((typeof n) === "number")) {
-      var x135 = $as_jl_Double(n);
-      var x$2 = (-$uD(x135));
+      var x138 = $as_jl_Double(n);
+      var x$2 = (-$uD(x138));
       var $x_1 = x$2;
       break matchResult21;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x134 = $as_s_math_BigDecimal(n);
-      var $x_1 = $n(x134).unary_$minus__s_math_BigDecimal();
+      var x137 = $as_s_math_BigDecimal(n);
+      var $x_1 = $n(x137).unary_$minus__s_math_BigDecimal();
       break matchResult21;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x133 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigInt($n(x133).unary_$minus__Lio_github_edadma_numbers_Complex());
+      var x136 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigInt($n(x136).unary_$minus__Lio_github_edadma_numbers_Complex());
       break matchResult21;
     }
     throw new $c_s_MatchError(n);
@@ -2576,8 +2688,8 @@ $c_Lio_github_edadma_dal_DAL.prototype.negate__jl_Number__jl_Number = (function(
 });
 $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n) {
   if ($isInt(n)) {
-    var x167 = $as_jl_Integer(n);
-    var x = $uI(x167);
+    var x170 = $as_jl_Integer(n);
+    var x = $uI(x170);
     var sign = (x >> 31);
     var n$2 = (((x ^ sign) - sign) | 0);
     var x$1 = n$2;
@@ -2587,7 +2699,7 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
     var x$2_$_lo = $x_1.l;
     var x$2_$_hi = $x_1.h;
     if ((Math.imul(x$2_$_lo, x$2_$_lo) === n$2)) {
-      if (($uI(x167) < 0)) {
+      if (($uI(x170) < 0)) {
         var this$10 = $m_s_math_BigInt$();
         var $x_2 = this$10.apply__I__s_math_BigInt(0);
         var this$11 = $m_s_math_BigInt$();
@@ -2596,16 +2708,16 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return x$2_$_lo;
       }
     } else {
-      return (($uI(x167) < 0) ? new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, dr) : dr);
+      return (($uI(x170) < 0) ? new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, dr) : dr);
     }
   }
   if ((n instanceof $c_s_math_BigInt)) {
-    var x166 = $as_s_math_BigInt(n);
-    var x143 = this.bisqrt__s_math_BigInt__s_util_Either($n(x166).abs__s_math_BigInt());
-    if ((x143 instanceof $c_s_util_Left)) {
-      var x146 = $as_s_util_Left(x143);
-      var ir$2 = $as_s_math_BigInt($n(x146).s_util_Left__f_value);
-      var this$16 = $n(x166);
+    var x169 = $as_s_math_BigInt(n);
+    var x146 = this.bisqrt__s_math_BigInt__s_util_Either($n(x169).abs__s_math_BigInt());
+    if ((x146 instanceof $c_s_util_Left)) {
+      var x149 = $as_s_util_Left(x146);
+      var ir$2 = $as_s_math_BigInt($n(x149).s_util_Left__f_value);
+      var this$16 = $n(x169);
       var this$15 = $m_s_math_BigInt$();
       var that = this$15.apply__I__s_math_BigInt(0);
       if ($f_s_math_Ordered__$less__O__Z(this$16, that)) {
@@ -2615,10 +2727,10 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return $as_jl_Number($n(this.maybeDemote__s_math_BigInt__T2(ir$2))._2__O());
       }
     }
-    if ((x143 instanceof $c_s_util_Right)) {
-      var x144 = $as_s_util_Right(x143);
-      var dr$2 = $as_s_math_BigDecimal($n(x144).s_util_Right__f_value);
-      var this$19 = $n(x166);
+    if ((x146 instanceof $c_s_util_Right)) {
+      var x147 = $as_s_util_Right(x146);
+      var dr$2 = $as_s_math_BigDecimal($n(x147).s_util_Right__f_value);
+      var this$19 = $n(x169);
       var this$18 = $m_s_math_BigInt$();
       var that$1 = this$18.apply__I__s_math_BigInt(0);
       if ($f_s_math_Ordered__$less__O__Z(this$19, that$1)) {
@@ -2628,22 +2740,22 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
         return dr$2;
       }
     }
-    throw new $c_s_MatchError(x143);
+    throw new $c_s_MatchError(x146);
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-    var x165 = $as_Lio_github_edadma_numbers_Rational(n);
-    var ar = $n(x165).abs__Lio_github_edadma_numbers_Rational();
-    var x151 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_numerator);
-    if ((x151 instanceof $c_s_util_Left)) {
-      var x152 = $as_s_util_Left(x151);
-      var irn = $as_s_math_BigInt($n(x152).s_util_Left__f_value);
-      var x148 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_denominator);
-      if ((x148 instanceof $c_s_util_Left)) {
-        var x149 = $as_s_util_Left(x148);
-        var ird = $as_s_math_BigInt($n(x149).s_util_Left__f_value);
+    var x168 = $as_Lio_github_edadma_numbers_Rational(n);
+    var ar = $n(x168).abs__Lio_github_edadma_numbers_Rational();
+    var x154 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_numerator);
+    if ((x154 instanceof $c_s_util_Left)) {
+      var x155 = $as_s_util_Left(x154);
+      var irn = $as_s_math_BigInt($n(x155).s_util_Left__f_value);
+      var x151 = this.bisqrt__s_math_BigInt__s_util_Either($n(ar).Lio_github_edadma_numbers_Rational__f_denominator);
+      if ((x151 instanceof $c_s_util_Left)) {
+        var x152 = $as_s_util_Left(x151);
+        var ird = $as_s_math_BigInt($n(x152).s_util_Left__f_value);
         $m_Lio_github_edadma_numbers_Rational$();
         var res = new $c_Lio_github_edadma_numbers_Rational(irn, ird);
-        var this$23 = $n(x165);
+        var this$23 = $n(x168);
         $m_Lio_github_edadma_numbers_Rational$();
         var that$2 = $m_Lio_github_edadma_numbers_Rational$().apply__I__Lio_github_edadma_numbers_Rational(0);
         if ($f_s_math_Ordered__$less__O__Z(this$23, that$2)) {
@@ -2652,64 +2764,64 @@ $c_Lio_github_edadma_dal_DAL.prototype.sqrtFunction__O__jl_Number = (function(n)
           return res;
         }
       }
-      return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x165, ar);
+      return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x168, ar);
     }
-    return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x165, ar);
+    return $ps_Lio_github_edadma_dal_DAL__rsqrt$1__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational__jl_Number(x168, ar);
   }
   if (((typeof n) === "number")) {
-    var x164 = $as_jl_Double(n);
-    if (($uD(x164) < 0.0)) {
-      var x$3 = (-$uD(x164));
+    var x167 = $as_jl_Double(n);
+    if (($uD(x167) < 0.0)) {
+      var x$3 = (-$uD(x167));
       return new $c_Lio_github_edadma_numbers_ComplexDouble(0.0, $uD(Math.sqrt(x$3)));
     } else {
-      var x$4 = $uD(x164);
+      var x$4 = $uD(x167);
       var x$5 = $uD(Math.sqrt(x$4));
       return x$5;
     }
   }
   if ((n instanceof $c_s_math_BigDecimal)) {
-    var x163 = $as_s_math_BigDecimal(n);
-    var this$34 = $n(x163);
+    var x166 = $as_s_math_BigDecimal(n);
+    var this$34 = $n(x166);
     var this$33 = $m_s_math_BigDecimal$();
     var that$3 = this$33.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$33.s_math_BigDecimal$__f_defaultMathContext);
     if ($f_s_math_Ordered__$less__O__Z(this$34, that$3)) {
       var this$35 = $m_s_math_BigDecimal$();
-      return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(this$35.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$35.s_math_BigDecimal$__f_defaultMathContext), $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x163).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath), this.Lio_github_edadma_dal_DAL__f_bdmath);
+      return new $c_Lio_github_edadma_numbers_ComplexBigDecimal(this$35.apply__I__Ljava_math_MathContext__s_math_BigDecimal(0, this$35.s_math_BigDecimal$__f_defaultMathContext), $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x166).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath), this.Lio_github_edadma_dal_DAL__f_bdmath);
     } else {
-      return $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x163, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      return $m_Lio_github_edadma_numbers_BigDecimalMath$().sqrt__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x166, this.Lio_github_edadma_dal_DAL__f_bdmath);
     }
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-    var x162 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x162).sqrt__Lio_github_edadma_numbers_Complex());
+    var x165 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x165).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-    var x161 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x161).sqrt__Lio_github_edadma_numbers_Complex());
+    var x164 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x164).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-    var x160 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x160).sqrt__Lio_github_edadma_numbers_Complex());
+    var x163 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+    return $as_Lio_github_edadma_numbers_ComplexDouble($n(x163).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-    var x159 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-    return $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x159).sqrt__Lio_github_edadma_numbers_Complex());
+    var x162 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+    return $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x162).sqrt__Lio_github_edadma_numbers_Complex());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-    var x158 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x158).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x161 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x161).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-    var x157 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x157).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x160 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x160).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-    var x156 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x156).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x159 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+    return $as_Lio_github_edadma_numbers_QuaternionDouble($n(x159).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-    var x155 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-    return $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x155).sqrt__Lio_github_edadma_numbers_Quaternion());
+    var x158 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+    return $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x158).sqrt__Lio_github_edadma_numbers_Quaternion());
   }
   throw new $c_s_MatchError(n);
 });
@@ -2717,77 +2829,77 @@ $c_Lio_github_edadma_dal_DAL.prototype.lnFunction__O__jl_Number = (function(n) {
   matchResult28: {
     var $x_1;
     if ($isInt(n)) {
-      var x195 = $as_jl_Integer(n);
-      var this$1 = $n(x195);
+      var x198 = $as_jl_Integer(n);
+      var this$1 = $n(x198);
       var x = this$1;
       var x$1 = $uD(Math.log(x));
       var $x_1 = x$1;
       break matchResult28;
     }
     if ((n instanceof $c_s_math_BigInt)) {
-      var x194 = $as_s_math_BigInt(n);
-      var x$2 = $n(x194).doubleValue__D();
+      var x197 = $as_s_math_BigInt(n);
+      var x$2 = $n(x197).doubleValue__D();
       var x$3 = $uD(Math.log(x$2));
       var $x_1 = x$3;
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_Rational)) {
-      var x193 = $as_Lio_github_edadma_numbers_Rational(n);
-      var x$4 = $n(x193).doubleValue__D();
+      var x196 = $as_Lio_github_edadma_numbers_Rational(n);
+      var x$4 = $n(x196).doubleValue__D();
       var x$5 = $uD(Math.log(x$4));
       var $x_1 = x$5;
       break matchResult28;
     }
     if (((typeof n) === "number")) {
-      var x192 = $as_jl_Double(n);
-      var x$6 = $uD(x192);
+      var x195 = $as_jl_Double(n);
+      var x$6 = $uD(x195);
       var x$7 = $uD(Math.log(x$6));
       var $x_1 = x$7;
       break matchResult28;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x191 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().ln__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x191, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x194 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().ln__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x194, this.Lio_github_edadma_dal_DAL__f_bdmath);
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x190 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x190).ln__Lio_github_edadma_numbers_Complex());
+      var x193 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x193).ln__Lio_github_edadma_numbers_Complex());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x189 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x189).ln__Lio_github_edadma_numbers_Complex());
+      var x192 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x192).ln__Lio_github_edadma_numbers_Complex());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x188 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x188).ln__Lio_github_edadma_numbers_Complex());
+      var x191 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x191).ln__Lio_github_edadma_numbers_Complex());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x187 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x187).ln__Lio_github_edadma_numbers_Complex());
+      var x190 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x190).ln__Lio_github_edadma_numbers_Complex());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x186 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x186).ln__Lio_github_edadma_numbers_Quaternion());
+      var x189 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x189).ln__Lio_github_edadma_numbers_Quaternion());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x185 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x185).ln__Lio_github_edadma_numbers_Quaternion());
+      var x188 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x188).ln__Lio_github_edadma_numbers_Quaternion());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x184 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x184).ln__Lio_github_edadma_numbers_Quaternion());
+      var x187 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x187).ln__Lio_github_edadma_numbers_Quaternion());
       break matchResult28;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x183 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x183).ln__Lio_github_edadma_numbers_Quaternion());
+      var x186 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x186).ln__Lio_github_edadma_numbers_Quaternion());
       break matchResult28;
     }
     throw new $c_s_MatchError(n);
@@ -2822,48 +2934,48 @@ $c_Lio_github_edadma_dal_DAL.prototype.cosFunction__O__jl_Number = (function(n) 
       break matchResult32;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x235 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().cos__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x235, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x238 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().cos__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x238, this.Lio_github_edadma_dal_DAL__f_bdmath);
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x234 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x234).cos__Lio_github_edadma_numbers_Complex());
+      var x237 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x237).cos__Lio_github_edadma_numbers_Complex());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x233 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x233).cos__Lio_github_edadma_numbers_Complex());
+      var x236 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x236).cos__Lio_github_edadma_numbers_Complex());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x232 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x232).cos__Lio_github_edadma_numbers_Complex());
+      var x235 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x235).cos__Lio_github_edadma_numbers_Complex());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x231 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x231).cos__Lio_github_edadma_numbers_Complex());
+      var x234 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x234).cos__Lio_github_edadma_numbers_Complex());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x230 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x230).cos__Lio_github_edadma_numbers_Quaternion());
+      var x233 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x233).cos__Lio_github_edadma_numbers_Quaternion());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x229 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x229).cos__Lio_github_edadma_numbers_Quaternion());
+      var x232 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x232).cos__Lio_github_edadma_numbers_Quaternion());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x228 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x228).cos__Lio_github_edadma_numbers_Quaternion());
+      var x231 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x231).cos__Lio_github_edadma_numbers_Quaternion());
       break matchResult32;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x227 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x227).cos__Lio_github_edadma_numbers_Quaternion());
+      var x230 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x230).cos__Lio_github_edadma_numbers_Quaternion());
       break matchResult32;
     }
     throw new $c_s_MatchError(n);
@@ -2898,48 +3010,48 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinFunction__O__jl_Number = (function(n) 
       break matchResult33;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x249 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().sin__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x249, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x252 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().sin__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x252, this.Lio_github_edadma_dal_DAL__f_bdmath);
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x248 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x248).sin__Lio_github_edadma_numbers_Complex());
+      var x251 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x251).sin__Lio_github_edadma_numbers_Complex());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x247 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x247).sin__Lio_github_edadma_numbers_Complex());
+      var x250 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x250).sin__Lio_github_edadma_numbers_Complex());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x246 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x246).sin__Lio_github_edadma_numbers_Complex());
+      var x249 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x249).sin__Lio_github_edadma_numbers_Complex());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x245 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x245).sin__Lio_github_edadma_numbers_Complex());
+      var x248 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x248).sin__Lio_github_edadma_numbers_Complex());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x244 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x244).sin__Lio_github_edadma_numbers_Quaternion());
+      var x247 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x247).sin__Lio_github_edadma_numbers_Quaternion());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x243 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x243).sin__Lio_github_edadma_numbers_Quaternion());
+      var x246 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x246).sin__Lio_github_edadma_numbers_Quaternion());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x242 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x242).sin__Lio_github_edadma_numbers_Quaternion());
+      var x245 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x245).sin__Lio_github_edadma_numbers_Quaternion());
       break matchResult33;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x241 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x241).sin__Lio_github_edadma_numbers_Quaternion());
+      var x244 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x244).sin__Lio_github_edadma_numbers_Quaternion());
       break matchResult33;
     }
     throw new $c_s_MatchError(n);
@@ -2974,56 +3086,56 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanFunction__O__jl_Number = (function(n) 
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x262 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var this$3 = $n(x262);
+      var x265 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var this$3 = $n(x265);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$3.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$3.cos__Lio_github_edadma_numbers_Complex()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x261 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var this$4 = $n(x261);
+      var x264 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var this$4 = $n(x264);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$4.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$4.cos__Lio_github_edadma_numbers_Complex()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x260 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var this$5 = $n(x260);
+      var x263 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var this$5 = $n(x263);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(this$5.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$5.cos__Lio_github_edadma_numbers_Complex()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x259 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var this$6 = $n(x259);
+      var x262 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var this$6 = $n(x262);
       var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(this$6.sin__Lio_github_edadma_numbers_Complex()).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this$6.cos__Lio_github_edadma_numbers_Complex()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x258 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var this$7 = $n(x258);
+      var x261 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var this$7 = $n(x261);
       var this$8 = $n(this$7.sin__Lio_github_edadma_numbers_Quaternion());
       var that = this$7.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$8.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that).inverse__Lio_github_edadma_numbers_Quaternion()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x257 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var this$9 = $n(x257);
+      var x260 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var this$9 = $n(x260);
       var this$10 = $n(this$9.sin__Lio_github_edadma_numbers_Quaternion());
       var that$1 = this$9.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$10.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$1).inverse__Lio_github_edadma_numbers_Quaternion()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x256 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var this$11 = $n(x256);
+      var x259 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var this$11 = $n(x259);
       var this$12 = $n(this$11.sin__Lio_github_edadma_numbers_Quaternion());
       var that$2 = this$11.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble(this$12.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$2).inverse__Lio_github_edadma_numbers_Quaternion()));
       break matchResult34;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x255 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var this$13 = $n(x255);
+      var x258 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var this$13 = $n(x258);
       var this$14 = $n(this$13.sin__Lio_github_edadma_numbers_Quaternion());
       var that$3 = this$13.cos__Lio_github_edadma_numbers_Quaternion();
       var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(this$14.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$3).inverse__Lio_github_edadma_numbers_Quaternion()));
@@ -3061,48 +3173,48 @@ $c_Lio_github_edadma_dal_DAL.prototype.expFunction__O__jl_Number = (function(n) 
       break matchResult38;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x318 = $as_s_math_BigDecimal(n);
-      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x318, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x321 = $as_s_math_BigDecimal(n);
+      var $x_1 = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x321, this.Lio_github_edadma_dal_DAL__f_bdmath);
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x317 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x317).exp__Lio_github_edadma_numbers_Complex());
+      var x320 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x320).exp__Lio_github_edadma_numbers_Complex());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x316 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x316).exp__Lio_github_edadma_numbers_Complex());
+      var x319 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x319).exp__Lio_github_edadma_numbers_Complex());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x315 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x315).exp__Lio_github_edadma_numbers_Complex());
+      var x318 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x318).exp__Lio_github_edadma_numbers_Complex());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x314 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x314).exp__Lio_github_edadma_numbers_Complex());
+      var x317 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x317).exp__Lio_github_edadma_numbers_Complex());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x313 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x313).exp__Lio_github_edadma_numbers_Quaternion());
+      var x316 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x316).exp__Lio_github_edadma_numbers_Quaternion());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x312 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x312).exp__Lio_github_edadma_numbers_Quaternion());
+      var x315 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x315).exp__Lio_github_edadma_numbers_Quaternion());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x311 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x311).exp__Lio_github_edadma_numbers_Quaternion());
+      var x314 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x314).exp__Lio_github_edadma_numbers_Quaternion());
       break matchResult38;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x310 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x310).exp__Lio_github_edadma_numbers_Quaternion());
+      var x313 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x313).exp__Lio_github_edadma_numbers_Quaternion());
       break matchResult38;
     }
     throw new $c_s_MatchError(n);
@@ -3137,50 +3249,50 @@ $c_Lio_github_edadma_dal_DAL.prototype.sinhFunction__O__jl_Number = (function(n)
       break matchResult39;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x332 = $as_s_math_BigDecimal(n);
-      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x332, this.Lio_github_edadma_dal_DAL__f_bdmath)).$minus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x332).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
+      var x335 = $as_s_math_BigDecimal(n);
+      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x335, this.Lio_github_edadma_dal_DAL__f_bdmath)).$minus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x335).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
       var this$2 = $m_s_math_BigDecimal$();
       var $x_1 = $x_2.$div__s_math_BigDecimal__s_math_BigDecimal(this$2.apply__I__Ljava_math_MathContext__s_math_BigDecimal(2, this$2.s_math_BigDecimal$__f_defaultMathContext));
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x331 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x331).sinh__Lio_github_edadma_numbers_Complex());
+      var x334 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x334).sinh__Lio_github_edadma_numbers_Complex());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x330 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x330).sinh__Lio_github_edadma_numbers_Complex());
+      var x333 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x333).sinh__Lio_github_edadma_numbers_Complex());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x329 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x329).sinh__Lio_github_edadma_numbers_Complex());
+      var x332 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x332).sinh__Lio_github_edadma_numbers_Complex());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x328 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x328).sinh__Lio_github_edadma_numbers_Complex());
+      var x331 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x331).sinh__Lio_github_edadma_numbers_Complex());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x327 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x327).sinh__Lio_github_edadma_numbers_Quaternion());
+      var x330 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x330).sinh__Lio_github_edadma_numbers_Quaternion());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x326 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x326).sinh__Lio_github_edadma_numbers_Quaternion());
+      var x329 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x329).sinh__Lio_github_edadma_numbers_Quaternion());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x325 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x325).sinh__Lio_github_edadma_numbers_Quaternion());
+      var x328 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x328).sinh__Lio_github_edadma_numbers_Quaternion());
       break matchResult39;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x324 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x324).sinh__Lio_github_edadma_numbers_Quaternion());
+      var x327 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x327).sinh__Lio_github_edadma_numbers_Quaternion());
       break matchResult39;
     }
     throw new $c_s_MatchError(n);
@@ -3215,50 +3327,50 @@ $c_Lio_github_edadma_dal_DAL.prototype.coshFunction__O__jl_Number = (function(n)
       break matchResult40;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x346 = $as_s_math_BigDecimal(n);
-      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x346, this.Lio_github_edadma_dal_DAL__f_bdmath)).$plus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x346).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
+      var x349 = $as_s_math_BigDecimal(n);
+      var $x_2 = $n($n($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x349, this.Lio_github_edadma_dal_DAL__f_bdmath)).$plus__s_math_BigDecimal__s_math_BigDecimal($m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x349).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath)));
       var this$2 = $m_s_math_BigDecimal$();
       var $x_1 = $x_2.$div__s_math_BigDecimal__s_math_BigDecimal(this$2.apply__I__Ljava_math_MathContext__s_math_BigDecimal(2, this$2.s_math_BigDecimal$__f_defaultMathContext));
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x345 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x345).cosh__Lio_github_edadma_numbers_Complex());
+      var x348 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x348).cosh__Lio_github_edadma_numbers_Complex());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x344 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x344).cosh__Lio_github_edadma_numbers_Complex());
+      var x347 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x347).cosh__Lio_github_edadma_numbers_Complex());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x343 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x343).cosh__Lio_github_edadma_numbers_Complex());
+      var x346 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x346).cosh__Lio_github_edadma_numbers_Complex());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x342 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x342).cosh__Lio_github_edadma_numbers_Complex());
+      var x345 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x345).cosh__Lio_github_edadma_numbers_Complex());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x341 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x341).cosh__Lio_github_edadma_numbers_Quaternion());
+      var x344 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x344).cosh__Lio_github_edadma_numbers_Quaternion());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x340 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x340).cosh__Lio_github_edadma_numbers_Quaternion());
+      var x343 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x343).cosh__Lio_github_edadma_numbers_Quaternion());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x339 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x339).cosh__Lio_github_edadma_numbers_Quaternion());
+      var x342 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x342).cosh__Lio_github_edadma_numbers_Quaternion());
       break matchResult40;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x338 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x338).cosh__Lio_github_edadma_numbers_Quaternion());
+      var x341 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x341).cosh__Lio_github_edadma_numbers_Quaternion());
       break matchResult40;
     }
     throw new $c_s_MatchError(n);
@@ -3293,50 +3405,50 @@ $c_Lio_github_edadma_dal_DAL.prototype.tanhFunction__O__jl_Number = (function(n)
       break matchResult41;
     }
     if ((n instanceof $c_s_math_BigDecimal)) {
-      var x360 = $as_s_math_BigDecimal(n);
-      var ea = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x360, this.Lio_github_edadma_dal_DAL__f_bdmath);
-      var ena = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x360).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var x363 = $as_s_math_BigDecimal(n);
+      var ea = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(x363, this.Lio_github_edadma_dal_DAL__f_bdmath);
+      var ena = $m_Lio_github_edadma_numbers_BigDecimalMath$().exp__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal($n(x363).unary_$minus__s_math_BigDecimal(), this.Lio_github_edadma_dal_DAL__f_bdmath);
       var $x_1 = $n($n(ea).$minus__s_math_BigDecimal__s_math_BigDecimal(ena)).$div__s_math_BigDecimal__s_math_BigDecimal($n(ea).$plus__s_math_BigDecimal__s_math_BigDecimal(ena));
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-      var x359 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x359).tanh__Lio_github_edadma_numbers_Complex());
+      var x362 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x362).tanh__Lio_github_edadma_numbers_Complex());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-      var x358 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x358).tanh__Lio_github_edadma_numbers_Complex());
+      var x361 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x361).tanh__Lio_github_edadma_numbers_Complex());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-      var x357 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x357).tanh__Lio_github_edadma_numbers_Complex());
+      var x360 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexDouble($n(x360).tanh__Lio_github_edadma_numbers_Complex());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigDecimal)) {
-      var x356 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x356).tanh__Lio_github_edadma_numbers_Complex());
+      var x359 = $as_Lio_github_edadma_numbers_ComplexBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_ComplexBigDecimal($n(x359).tanh__Lio_github_edadma_numbers_Complex());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
-      var x355 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x355).tanh__Lio_github_edadma_numbers_Quaternion());
+      var x358 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x358).tanh__Lio_github_edadma_numbers_Quaternion());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
-      var x354 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x354).tanh__Lio_github_edadma_numbers_Quaternion());
+      var x357 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x357).tanh__Lio_github_edadma_numbers_Quaternion());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
-      var x353 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x353).tanh__Lio_github_edadma_numbers_Quaternion());
+      var x356 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionDouble($n(x356).tanh__Lio_github_edadma_numbers_Quaternion());
       break matchResult41;
     }
     if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigDecimal)) {
-      var x352 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
-      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x352).tanh__Lio_github_edadma_numbers_Quaternion());
+      var x355 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal(n);
+      var $x_1 = $as_Lio_github_edadma_numbers_QuaternionBigDecimal($n(x355).tanh__Lio_github_edadma_numbers_Quaternion());
       break matchResult41;
     }
     throw new $c_s_MatchError(n);
@@ -6665,6 +6777,10 @@ function $p_Lio_github_edadma_numbers_SmallRational$___gcd$1__J__J__J($thiz, a_$
 }
 /** @constructor */
 function $c_Lio_github_edadma_numbers_SmallRational$() {
+  this.Lio_github_edadma_numbers_SmallRational$__f_ZERO$lzy1 = null;
+  this.Lio_github_edadma_numbers_SmallRational$__f_ZERObitmap$1 = false;
+  this.Lio_github_edadma_numbers_SmallRational$__f_ONE$lzy1 = null;
+  this.Lio_github_edadma_numbers_SmallRational$__f_ONEbitmap$1 = false;
   $n_Lio_github_edadma_numbers_SmallRational$ = this;
   $ct_s_util_matching_Regex__T__sci_Seq__(new $c_s_util_matching_Regex(), "\\s*(-?\\d+)\\s*/\\s*(\\d+)\\s*", $m_sci_Nil$());
 }
@@ -6674,6 +6790,170 @@ $c_Lio_github_edadma_numbers_SmallRational$.prototype.constructor = $c_Lio_githu
 function $h_Lio_github_edadma_numbers_SmallRational$() {
 }
 $h_Lio_github_edadma_numbers_SmallRational$.prototype = $c_Lio_github_edadma_numbers_SmallRational$.prototype;
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.ZERO__Lio_github_edadma_numbers_SmallRational = (function() {
+  if ((!this.Lio_github_edadma_numbers_SmallRational$__f_ZERObitmap$1)) {
+    this.Lio_github_edadma_numbers_SmallRational$__f_ZERO$lzy1 = ($m_Lio_github_edadma_numbers_SmallRational$(), new $c_Lio_github_edadma_numbers_SmallRational(0, 0, 1, 0));
+    this.Lio_github_edadma_numbers_SmallRational$__f_ZERObitmap$1 = true;
+  }
+  return this.Lio_github_edadma_numbers_SmallRational$__f_ZERO$lzy1;
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.ONE__Lio_github_edadma_numbers_SmallRational = (function() {
+  if ((!this.Lio_github_edadma_numbers_SmallRational$__f_ONEbitmap$1)) {
+    this.Lio_github_edadma_numbers_SmallRational$__f_ONE$lzy1 = ($m_Lio_github_edadma_numbers_SmallRational$(), new $c_Lio_github_edadma_numbers_SmallRational(1, 0, 1, 0));
+    this.Lio_github_edadma_numbers_SmallRational$__f_ONEbitmap$1 = true;
+  }
+  return this.Lio_github_edadma_numbers_SmallRational$__f_ONE$lzy1;
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.checkMultiplyOverflow__J__J__J = (function(a_$_lo, a_$_hi, b_$_lo, b_$_hi) {
+  if ((((a_$_lo | a_$_hi) === 0) || ((b_$_lo | b_$_hi) === 0))) {
+    return $bL(0, 0);
+  }
+  if ((((1 ^ a_$_lo) | a_$_hi) === 0)) {
+    return $bL(b_$_lo, b_$_hi);
+  }
+  if ((((1 ^ b_$_lo) | b_$_hi) === 0)) {
+    return $bL(a_$_lo, a_$_hi);
+  }
+  if ((((~a_$_lo) | (~a_$_hi)) === 0)) {
+    if (((b_$_lo | ((-2147483648) ^ b_$_hi)) === 0)) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+    var lo = ((-b_$_lo) | 0);
+    var hi = ((((-b_$_hi) | 0) + ((b_$_lo | lo) >> 31)) | 0);
+    return $bL(lo, hi);
+  }
+  if ((((~b_$_lo) | (~b_$_hi)) === 0)) {
+    if (((a_$_lo | ((-2147483648) ^ a_$_hi)) === 0)) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+    var lo$1 = ((-a_$_lo) | 0);
+    var hi$1 = ((((-a_$_hi) | 0) + ((a_$_lo | lo$1) >> 31)) | 0);
+    return $bL(lo$1, hi$1);
+  }
+  if ((((a_$_hi === 0) ? (a_$_lo !== 0) : (a_$_hi > 0)) && ((b_$_hi === 0) ? (b_$_lo !== 0) : (b_$_hi > 0)))) {
+    var $x_1 = $m_RTLong$().divide__I__I__I__I__J((-1), 2147483647, b_$_lo, b_$_hi);
+    var x_$_lo = $x_1.l;
+    var x_$_hi = $x_1.h;
+    if (((a_$_hi === x_$_hi) ? ((a_$_lo >>> 0) > (x_$_lo >>> 0)) : (a_$_hi > x_$_hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  } else if (((a_$_hi < 0) && (b_$_hi < 0))) {
+    var $x_2 = $m_RTLong$().divide__I__I__I__I__J((-1), 2147483647, b_$_lo, b_$_hi);
+    var x$1_$_lo = $x_2.l;
+    var x$1_$_hi = $x_2.h;
+    if (((a_$_hi === x$1_$_hi) ? ((a_$_lo >>> 0) < (x$1_$_lo >>> 0)) : (a_$_hi < x$1_$_hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  } else if ((((a_$_hi === 0) ? (a_$_lo !== 0) : (a_$_hi > 0)) && (b_$_hi < 0))) {
+    var $x_3 = $m_RTLong$().divide__I__I__I__I__J(0, (-2147483648), a_$_lo, a_$_hi);
+    var x$2_$_lo = $x_3.l;
+    var x$2_$_hi = $x_3.h;
+    if (((b_$_hi === x$2_$_hi) ? ((b_$_lo >>> 0) < (x$2_$_lo >>> 0)) : (b_$_hi < x$2_$_hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  } else {
+    var $x_4 = $m_RTLong$().divide__I__I__I__I__J(0, (-2147483648), b_$_lo, b_$_hi);
+    var x$3_$_lo = $x_4.l;
+    var x$3_$_hi = $x_4.h;
+    if (((a_$_hi === x$3_$_hi) ? ((a_$_lo >>> 0) < (x$3_$_lo >>> 0)) : (a_$_hi < x$3_$_hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  }
+  var a0 = (65535 & a_$_lo);
+  var a1 = ((a_$_lo >>> 16) | 0);
+  var b0 = (65535 & b_$_lo);
+  var b1 = ((b_$_lo >>> 16) | 0);
+  var a0b0 = Math.imul(a0, b0);
+  var a1b0 = Math.imul(a1, b0);
+  var a0b1 = Math.imul(a0, b1);
+  var lo$2 = ((a0b0 + (((a1b0 + a0b1) | 0) << 16)) | 0);
+  var c1part = ((((a0b0 >>> 16) | 0) + a0b1) | 0);
+  var hi$2 = ((((((((Math.imul(a_$_lo, b_$_hi) + Math.imul(a_$_hi, b_$_lo)) | 0) + Math.imul(a1, b1)) | 0) + ((c1part >>> 16) | 0)) | 0) + (((((65535 & c1part) + a1b0) | 0) >>> 16) | 0)) | 0);
+  return $bL(lo$2, hi$2);
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.checkAddOverflow__J__J__J = (function(a_$_lo, a_$_hi, b_$_lo, b_$_hi) {
+  if ((((a_$_hi === 0) ? (a_$_lo !== 0) : (a_$_hi > 0)) && ((b_$_hi === 0) ? (b_$_lo !== 0) : (b_$_hi > 0)))) {
+    var lo = (((-1) - b_$_lo) | 0);
+    var hi = ((((2147483647 - b_$_hi) | 0) + ((b_$_lo & lo) >> 31)) | 0);
+    if (((a_$_hi === hi) ? ((a_$_lo >>> 0) > (lo >>> 0)) : (a_$_hi > hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  } else if (((a_$_hi < 0) && (b_$_hi < 0))) {
+    var lo$1 = ((-b_$_lo) | 0);
+    var hi$1 = (((((-2147483648) - b_$_hi) | 0) + ((b_$_lo | lo$1) >> 31)) | 0);
+    if (((a_$_hi === hi$1) ? ((a_$_lo >>> 0) < (lo$1 >>> 0)) : (a_$_hi < hi$1))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  }
+  var lo$2 = ((a_$_lo + b_$_lo) | 0);
+  var hi$2 = ((((a_$_hi + b_$_hi) | 0) + ((((a_$_lo & b_$_lo) | ((a_$_lo | b_$_lo) & (~lo$2))) >>> 31) | 0)) | 0);
+  return $bL(lo$2, hi$2);
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.checkSubtractOverflow__J__J__J = (function(a_$_lo, a_$_hi, b_$_lo, b_$_hi) {
+  if ((((a_$_hi === 0) ? (a_$_lo !== 0) : (a_$_hi > 0)) && (b_$_hi < 0))) {
+    var lo = ((b_$_lo - 1) | 0);
+    var hi = ((((2147483647 + b_$_hi) | 0) + (((b_$_lo | (~lo)) >>> 31) | 0)) | 0);
+    if (((a_$_hi === hi) ? ((a_$_lo >>> 0) > (lo >>> 0)) : (a_$_hi > hi))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  } else if (((a_$_hi < 0) && ((b_$_hi === 0) ? (b_$_lo !== 0) : (b_$_hi > 0)))) {
+    var hi$1 = (((((-2147483648) + b_$_hi) | 0) + (((b_$_lo & (~b_$_lo)) >>> 31) | 0)) | 0);
+    if (((a_$_hi === hi$1) ? ((a_$_lo >>> 0) < (b_$_lo >>> 0)) : (a_$_hi < hi$1))) {
+      throw new $c_jl_ArithmeticException("SmallRational overflow");
+    }
+  }
+  var lo$1 = ((a_$_lo - b_$_lo) | 0);
+  var hi$2 = ((((a_$_hi - b_$_hi) | 0) + ((((~a_$_lo) & b_$_lo) | ((~(a_$_lo ^ b_$_lo)) & lo$1)) >> 31)) | 0);
+  return $bL(lo$1, hi$2);
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.safeAdd__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option = (function(a, b) {
+  try {
+    var value = $n(a).addExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b);
+    return new $c_s_Some(value);
+  } catch (e) {
+    if ((e instanceof $c_jl_ArithmeticException)) {
+      return $m_s_None$();
+    } else {
+      throw e;
+    }
+  }
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.safeMultiply__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option = (function(a, b) {
+  try {
+    var value = $n(a).multiplyExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b);
+    return new $c_s_Some(value);
+  } catch (e) {
+    if ((e instanceof $c_jl_ArithmeticException)) {
+      return $m_s_None$();
+    } else {
+      throw e;
+    }
+  }
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.safeSubtract__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option = (function(a, b) {
+  try {
+    var value = $n(a).subtractExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b);
+    return new $c_s_Some(value);
+  } catch (e) {
+    if ((e instanceof $c_jl_ArithmeticException)) {
+      return $m_s_None$();
+    } else {
+      throw e;
+    }
+  }
+});
+$c_Lio_github_edadma_numbers_SmallRational$.prototype.safeDivide__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option = (function(a, b) {
+  try {
+    var value = $n(a).divideExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b);
+    return new $c_s_Some(value);
+  } catch (e) {
+    if ((e instanceof $c_jl_ArithmeticException)) {
+      return $m_s_None$();
+    } else {
+      throw e;
+    }
+  }
+});
 var $d_Lio_github_edadma_numbers_SmallRational$ = new $TypeData().initClass($c_Lio_github_edadma_numbers_SmallRational$, "io.github.edadma.numbers.SmallRational$", ({
   Lio_github_edadma_numbers_SmallRational$: 1
 }));
@@ -16028,12 +16308,14 @@ function $c_Lio_github_edadma_dal_QuaternionDAL$() {
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_DoubleType$(), $m_Lio_github_edadma_dal_ComplexBigIntType$(), $m_Lio_github_edadma_dal_ComplexDoubleType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_ComplexBigIntType$(), $m_Lio_github_edadma_dal_ComplexBigDecType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_RationalType$(), $m_Lio_github_edadma_dal_ComplexBigIntType$(), $m_Lio_github_edadma_dal_ComplexRationalType$());
+  this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_SmallRationalType$(), $m_Lio_github_edadma_dal_ComplexBigIntType$(), $m_Lio_github_edadma_dal_ComplexRationalType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_DoubleType$(), $m_Lio_github_edadma_dal_ComplexRationalType$(), $m_Lio_github_edadma_dal_ComplexDoubleType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_ComplexRationalType$(), $m_Lio_github_edadma_dal_ComplexBigDecType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_ComplexDoubleType$(), $m_Lio_github_edadma_dal_ComplexBigDecType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_DoubleType$(), $m_Lio_github_edadma_dal_QuaternionBigIntType$(), $m_Lio_github_edadma_dal_QuaternionDoubleType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_QuaternionBigIntType$(), $m_Lio_github_edadma_dal_QuaternionBigDecType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_RationalType$(), $m_Lio_github_edadma_dal_QuaternionBigIntType$(), $m_Lio_github_edadma_dal_QuaternionRationalType$());
+  this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_SmallRationalType$(), $m_Lio_github_edadma_dal_QuaternionBigIntType$(), $m_Lio_github_edadma_dal_QuaternionRationalType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_DoubleType$(), $m_Lio_github_edadma_dal_QuaternionRationalType$(), $m_Lio_github_edadma_dal_QuaternionDoubleType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_QuaternionRationalType$(), $m_Lio_github_edadma_dal_QuaternionBigDecType$());
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_BigDecType$(), $m_Lio_github_edadma_dal_QuaternionDoubleType$(), $m_Lio_github_edadma_dal_QuaternionBigDecType$());
@@ -16045,261 +16327,291 @@ function $c_Lio_github_edadma_dal_QuaternionDAL$() {
   this.special__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__Lio_github_edadma_dal_Type__V($m_Lio_github_edadma_dal_ComplexBigDecType$(), $m_Lio_github_edadma_dal_QuaternionDoubleType$(), $m_Lio_github_edadma_dal_QuaternionBigDecType$());
   var this$1 = $m_s_Symbol$();
   var op = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "+"));
-  var $x_16 = $m_sr_ScalaRunTime$();
+  var $x_17 = $m_sr_ScalaRunTime$();
   var self = $m_Lio_github_edadma_dal_IntType$();
   var y = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l, r) => {
     var l$1 = $as_jl_Number(l);
     var r$1 = $as_jl_Number(r);
-    var $x_13 = $dp_longValue__J($n(l$1));
-    var x_$_lo = $x_13.l;
-    var x_$_hi = $x_13.h;
-    var $x_14 = $dp_longValue__J($n(r$1));
-    var x$1_$_lo = $x_14.l;
-    var x$1_$_hi = $x_14.h;
+    var $x_14 = $dp_longValue__J($n(l$1));
+    var x_$_lo = $x_14.l;
+    var x_$_hi = $x_14.h;
+    var $x_15 = $dp_longValue__J($n(r$1));
+    var x$1_$_lo = $x_15.l;
+    var x$1_$_hi = $x_15.h;
     var lo = ((x_$_lo + x$1_$_lo) | 0);
     var hi = ((((x_$_hi + x$1_$_hi) | 0) + ((((x_$_lo & x$1_$_lo) | ((x_$_lo | x$1_$_lo) & (~lo))) >>> 31) | 0)) | 0);
     return this.maybePromote__J__T2(lo, hi);
   }));
-  var $x_15 = new $c_T2(self, y);
+  var $x_16 = new $c_T2(self, y);
   var self$1 = $m_Lio_github_edadma_dal_LongType$();
   var y$1 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$2, r$2) => {
     var l$3 = $as_jl_Number(l$2);
     var r$3 = $as_jl_Number(r$2);
     return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$3)).$plus__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$3)));
   }));
-  var $x_12 = new $c_T2(self$1, y$1);
+  var $x_13 = new $c_T2(self$1, y$1);
   var self$2 = $m_Lio_github_edadma_dal_BigIntType$();
   var y$2 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$3$1, r$3$1) => {
     var l$4 = $as_jl_Number(l$3$1);
     var r$4 = $as_jl_Number(r$3$1);
     return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$4)).$plus__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$4)));
   }));
-  var $x_11 = new $c_T2(self$2, y$2);
-  var self$3 = $m_Lio_github_edadma_dal_RationalType$();
+  var $x_12 = new $c_T2(self$2, y$2);
+  var self$3 = $m_Lio_github_edadma_dal_SmallRationalType$();
   var y$3 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$4$1, r$4$1) => {
     var l$5 = $as_jl_Number(l$4$1);
     var r$5 = $as_jl_Number(r$4$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$5)).$plus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$5)));
+    return this.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2(l$5, r$5, new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a, b) => {
+      var a$1 = $as_Lio_github_edadma_numbers_SmallRational(a);
+      var b$1 = $as_Lio_github_edadma_numbers_SmallRational(b);
+      return $m_Lio_github_edadma_numbers_SmallRational$().safeAdd__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option(a$1, b$1);
+    })), new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$1, _$2) => {
+      var _$1$1 = $as_Lio_github_edadma_numbers_Rational(_$1);
+      var _$2$1 = $as_Lio_github_edadma_numbers_Rational(_$2);
+      return $n(_$1$1).$plus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational(_$2$1);
+    })));
   }));
-  var $x_10 = new $c_T2(self$3, y$3);
-  var self$4 = $m_Lio_github_edadma_dal_DoubleType$();
+  var $x_11 = new $c_T2(self$3, y$3);
+  var self$4 = $m_Lio_github_edadma_dal_RationalType$();
   var y$4 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$5$1, r$5$1) => {
     var l$6 = $as_jl_Number(l$5$1);
     var r$6 = $as_jl_Number(r$5$1);
-    var _1 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$2 = ($dp_doubleValue__D($n(l$6)) + $dp_doubleValue__D($n(r$6)));
-    return new $c_T2(_1, x$2);
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$6)).$plus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$6)));
   }));
-  var $x_9 = new $c_T2(self$4, y$4);
-  var self$5 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$5 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a, b) => {
-    var a$1 = $as_jl_Number(a);
-    var b$1 = $as_jl_Number(b);
-    var _1$1 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$1)).$plus__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$1));
-    return new $c_T2(_1$1, _2);
-  }));
-  var $x_8 = new $c_T2(self$5, y$5);
-  var self$6 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$6 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$6$1, r$6$1) => {
+  var $x_10 = new $c_T2(self$4, y$4);
+  var self$5 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$5 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$6$1, r$6$1) => {
     var l$7 = $as_jl_Number(l$6$1);
     var r$7 = $as_jl_Number(r$6$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$7)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$7))));
+    var _1 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$2 = ($dp_doubleValue__D($n(l$7)) + $dp_doubleValue__D($n(r$7)));
+    return new $c_T2(_1, x$2);
   }));
-  var $x_7 = new $c_T2(self$6, y$6);
-  var self$7 = $m_Lio_github_edadma_dal_ComplexRationalType$();
+  var $x_9 = new $c_T2(self$5, y$5);
+  var self$6 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$6 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$2, b$2) => {
+    var a$3 = $as_jl_Number(a$2);
+    var b$3 = $as_jl_Number(b$2);
+    var _1$1 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$3)).$plus__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$3));
+    return new $c_T2(_1$1, _2);
+  }));
+  var $x_8 = new $c_T2(self$6, y$6);
+  var self$7 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
   var y$7 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$7$1, r$7$1) => {
     var l$8 = $as_jl_Number(l$7$1);
     var r$8 = $as_jl_Number(r$7$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$8)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$8))));
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$8)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$8))));
   }));
-  var $x_6 = new $c_T2(self$7, y$7);
-  var self$8 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+  var $x_7 = new $c_T2(self$7, y$7);
+  var self$8 = $m_Lio_github_edadma_dal_ComplexRationalType$();
   var y$8 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$8$1, r$8$1) => {
     var l$9 = $as_jl_Number(l$8$1);
     var r$9 = $as_jl_Number(r$8$1);
-    var _1$2 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$1 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$9)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$9));
-    return new $c_T2(_1$2, _2$1);
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$9)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$9))));
   }));
-  var $x_5 = new $c_T2(self$8, y$8);
-  var self$9 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var $x_6 = new $c_T2(self$8, y$8);
+  var self$9 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
   var y$9 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$9$1, r$9$1) => {
     var l$10 = $as_jl_Number(l$9$1);
     var r$10 = $as_jl_Number(r$9$1);
-    var _1$3 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$2 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$10)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$10));
-    return new $c_T2(_1$3, _2$2);
+    var _1$2 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$1 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$10)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$10));
+    return new $c_T2(_1$2, _2$1);
   }));
-  var $x_4 = new $c_T2(self$9, y$9);
-  var self$10 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var $x_5 = new $c_T2(self$9, y$9);
+  var self$10 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
   var y$10 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$10$1, r$10$1) => {
     var l$11 = $as_jl_Number(l$10$1);
     var r$11 = $as_jl_Number(r$10$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$11)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$11))));
+    var _1$3 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$2 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$11)).$plus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$11));
+    return new $c_T2(_1$3, _2$2);
   }));
-  var $x_3 = new $c_T2(self$10, y$10);
-  var self$11 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var $x_4 = new $c_T2(self$10, y$10);
+  var self$11 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
   var y$11 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$11$1, r$11$1) => {
     var l$12 = $as_jl_Number(l$11$1);
     var r$12 = $as_jl_Number(r$11$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$12)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$12))));
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$12)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$12))));
   }));
-  var $x_2 = new $c_T2(self$11, y$11);
-  var self$12 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var $x_3 = new $c_T2(self$11, y$11);
+  var self$12 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
   var y$12 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$12$1, r$12$1) => {
     var l$13 = $as_jl_Number(l$12$1);
     var r$13 = $as_jl_Number(r$12$1);
-    var _1$4 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$3 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$13)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$13));
-    return new $c_T2(_1$4, _2$3);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$13)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$13))));
   }));
-  var $x_1 = new $c_T2(self$12, y$12);
-  var self$13 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var $x_2 = new $c_T2(self$12, y$12);
+  var self$13 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
   var y$13 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$13$1, r$13$1) => {
     var l$14 = $as_jl_Number(l$13$1);
     var r$14 = $as_jl_Number(r$13$1);
-    var _1$5 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var _2$4 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$14)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$14));
-    return new $c_T2(_1$5, _2$4);
+    var _1$4 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$3 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$14)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$14));
+    return new $c_T2(_1$4, _2$3);
   }));
-  var funcs = $x_16.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_15, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_T2(self$13, y$13)]));
-  this.define__s_Symbol__sci_Seq__V(op, funcs);
-  var this$39 = $m_s_Symbol$();
-  var op$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$39, "-"));
-  var $x_32 = $m_sr_ScalaRunTime$();
-  var self$14 = $m_Lio_github_edadma_dal_IntType$();
+  var $x_1 = new $c_T2(self$13, y$13);
+  var self$14 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
   var y$14 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$14$1, r$14$1) => {
     var l$15 = $as_jl_Number(l$14$1);
     var r$15 = $as_jl_Number(r$14$1);
-    var $x_29 = $dp_longValue__J($n(l$15));
-    var x$3_$_lo = $x_29.l;
-    var x$3_$_hi = $x_29.h;
-    var $x_30 = $dp_longValue__J($n(r$15));
-    var x$4_$_lo = $x_30.l;
-    var x$4_$_hi = $x_30.h;
+    var _1$5 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var _2$4 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$15)).$plus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$15));
+    return new $c_T2(_1$5, _2$4);
+  }));
+  var funcs = $x_17.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_16, $x_13, $x_12, $x_11, $x_10, $x_9, $x_8, $x_7, $x_6, $x_5, $x_4, $x_3, $x_2, $x_1, new $c_T2(self$14, y$14)]));
+  this.define__s_Symbol__sci_Seq__V(op, funcs);
+  var this$41 = $m_s_Symbol$();
+  var op$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$41, "-"));
+  var $x_34 = $m_sr_ScalaRunTime$();
+  var self$15 = $m_Lio_github_edadma_dal_IntType$();
+  var y$15 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$15$1, r$15$1) => {
+    var l$16 = $as_jl_Number(l$15$1);
+    var r$16 = $as_jl_Number(r$15$1);
+    var $x_31 = $dp_longValue__J($n(l$16));
+    var x$3_$_lo = $x_31.l;
+    var x$3_$_hi = $x_31.h;
+    var $x_32 = $dp_longValue__J($n(r$16));
+    var x$4_$_lo = $x_32.l;
+    var x$4_$_hi = $x_32.h;
     var lo$1 = ((x$3_$_lo - x$4_$_lo) | 0);
     var hi$1 = ((((x$3_$_hi - x$4_$_hi) | 0) + ((((~x$3_$_lo) & x$4_$_lo) | ((~(x$3_$_lo ^ x$4_$_lo)) & lo$1)) >> 31)) | 0);
     return this.maybePromote__J__T2(lo$1, hi$1);
   }));
-  var $x_31 = new $c_T2(self$14, y$14);
-  var self$15 = $m_Lio_github_edadma_dal_LongType$();
-  var y$15 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$15$1, r$15$1) => {
-    var l$16 = $as_jl_Number(l$15$1);
-    var r$16 = $as_jl_Number(r$15$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$16)).$minus__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$16)));
-  }));
-  var $x_28 = new $c_T2(self$15, y$15);
-  var self$16 = $m_Lio_github_edadma_dal_BigIntType$();
+  var $x_33 = new $c_T2(self$15, y$15);
+  var self$16 = $m_Lio_github_edadma_dal_LongType$();
   var y$16 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$16$1, r$16$1) => {
     var l$17 = $as_jl_Number(l$16$1);
     var r$17 = $as_jl_Number(r$16$1);
     return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$17)).$minus__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$17)));
   }));
-  var $x_27 = new $c_T2(self$16, y$16);
-  var self$17 = $m_Lio_github_edadma_dal_RationalType$();
+  var $x_30 = new $c_T2(self$16, y$16);
+  var self$17 = $m_Lio_github_edadma_dal_BigIntType$();
   var y$17 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$17$1, r$17$1) => {
     var l$18 = $as_jl_Number(l$17$1);
     var r$18 = $as_jl_Number(r$17$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$18)).$minus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$18)));
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$18)).$minus__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$18)));
   }));
-  var $x_26 = new $c_T2(self$17, y$17);
-  var self$18 = $m_Lio_github_edadma_dal_DoubleType$();
+  var $x_29 = new $c_T2(self$17, y$17);
+  var self$18 = $m_Lio_github_edadma_dal_SmallRationalType$();
   var y$18 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$18$1, r$18$1) => {
     var l$19 = $as_jl_Number(l$18$1);
     var r$19 = $as_jl_Number(r$18$1);
-    var _1$6 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$5 = ($dp_doubleValue__D($n(l$19)) - $dp_doubleValue__D($n(r$19)));
-    return new $c_T2(_1$6, x$5);
+    return this.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2(l$19, r$19, new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$4, b$4) => {
+      var a$5 = $as_Lio_github_edadma_numbers_SmallRational(a$4);
+      var b$5 = $as_Lio_github_edadma_numbers_SmallRational(b$4);
+      return $m_Lio_github_edadma_numbers_SmallRational$().safeSubtract__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option(a$5, b$5);
+    })), new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$3, _$4) => {
+      var _$3$1 = $as_Lio_github_edadma_numbers_Rational(_$3);
+      var _$4$1 = $as_Lio_github_edadma_numbers_Rational(_$4);
+      return $n(_$3$1).$minus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational(_$4$1);
+    })));
   }));
-  var $x_25 = new $c_T2(self$18, y$18);
-  var self$19 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$19 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$2, b$2) => {
-    var a$3 = $as_jl_Number(a$2);
-    var b$3 = $as_jl_Number(b$2);
-    var _1$7 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2$5 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$3)).$minus__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$3));
-    return new $c_T2(_1$7, _2$5);
-  }));
-  var $x_24 = new $c_T2(self$19, y$19);
-  var self$20 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$20 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$19$1, r$19$1) => {
+  var $x_28 = new $c_T2(self$18, y$18);
+  var self$19 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$19 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$19$1, r$19$1) => {
     var l$20 = $as_jl_Number(l$19$1);
     var r$20 = $as_jl_Number(r$19$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$20)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$20))));
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$20)).$minus__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$20)));
   }));
-  var $x_23 = new $c_T2(self$20, y$20);
-  var self$21 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$21 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$20$1, r$20$1) => {
+  var $x_27 = new $c_T2(self$19, y$19);
+  var self$20 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$20 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$20$1, r$20$1) => {
     var l$21 = $as_jl_Number(l$20$1);
     var r$21 = $as_jl_Number(r$20$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$21)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$21))));
+    var _1$6 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$5 = ($dp_doubleValue__D($n(l$21)) - $dp_doubleValue__D($n(r$21)));
+    return new $c_T2(_1$6, x$5);
   }));
-  var $x_22 = new $c_T2(self$21, y$21);
-  var self$22 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+  var $x_26 = new $c_T2(self$20, y$20);
+  var self$21 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$21 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$2$1, b$2$1) => {
+    var a$6 = $as_jl_Number(a$2$1);
+    var b$6 = $as_jl_Number(b$2$1);
+    var _1$7 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2$5 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$6)).$minus__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$6));
+    return new $c_T2(_1$7, _2$5);
+  }));
+  var $x_25 = new $c_T2(self$21, y$21);
+  var self$22 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
   var y$22 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$21$1, r$21$1) => {
     var l$22 = $as_jl_Number(l$21$1);
     var r$22 = $as_jl_Number(r$21$1);
-    var _1$8 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$6 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$22)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$22));
-    return new $c_T2(_1$8, _2$6);
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$22)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$22))));
   }));
-  var $x_21 = new $c_T2(self$22, y$22);
-  var self$23 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var $x_24 = new $c_T2(self$22, y$22);
+  var self$23 = $m_Lio_github_edadma_dal_ComplexRationalType$();
   var y$23 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$22$1, r$22$1) => {
     var l$23 = $as_jl_Number(l$22$1);
     var r$23 = $as_jl_Number(r$22$1);
-    var _1$9 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$7 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$23)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$23));
-    return new $c_T2(_1$9, _2$7);
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$23)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$23))));
   }));
-  var $x_20 = new $c_T2(self$23, y$23);
-  var self$24 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var $x_23 = new $c_T2(self$23, y$23);
+  var self$24 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
   var y$24 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$23$1, r$23$1) => {
     var l$24 = $as_jl_Number(l$23$1);
     var r$24 = $as_jl_Number(r$23$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$24)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$24))));
+    var _1$8 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$6 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$24)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$24));
+    return new $c_T2(_1$8, _2$6);
   }));
-  var $x_19 = new $c_T2(self$24, y$24);
-  var self$25 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var $x_22 = new $c_T2(self$24, y$24);
+  var self$25 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
   var y$25 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$24$1, r$24$1) => {
     var l$25 = $as_jl_Number(l$24$1);
     var r$25 = $as_jl_Number(r$24$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$25)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$25))));
+    var _1$9 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$7 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$25)).$minus__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$25));
+    return new $c_T2(_1$9, _2$7);
   }));
-  var $x_18 = new $c_T2(self$25, y$25);
-  var self$26 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var $x_21 = new $c_T2(self$25, y$25);
+  var self$26 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
   var y$26 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$25$1, r$25$1) => {
     var l$26 = $as_jl_Number(l$25$1);
     var r$26 = $as_jl_Number(r$25$1);
-    var _1$10 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$8 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$26)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$26));
-    return new $c_T2(_1$10, _2$8);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$26)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$26))));
   }));
-  var $x_17 = new $c_T2(self$26, y$26);
-  var self$27 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var $x_20 = new $c_T2(self$26, y$26);
+  var self$27 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
   var y$27 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$26$1, r$26$1) => {
     var l$27 = $as_jl_Number(l$26$1);
     var r$27 = $as_jl_Number(r$26$1);
-    var _1$11 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var _2$9 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$27)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$27));
-    return new $c_T2(_1$11, _2$9);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$27)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$27))));
   }));
-  var funcs$1 = $x_32.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_31, $x_28, $x_27, $x_26, $x_25, $x_24, $x_23, $x_22, $x_21, $x_20, $x_19, $x_18, $x_17, new $c_T2(self$27, y$27)]));
-  this.define__s_Symbol__sci_Seq__V(op$1, funcs$1);
-  var this$76 = $m_s_Symbol$();
-  var op$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$76, "*"));
-  var $x_48 = $m_sr_ScalaRunTime$();
-  var self$28 = $m_Lio_github_edadma_dal_IntType$();
+  var $x_19 = new $c_T2(self$27, y$27);
+  var self$28 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
   var y$28 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$27$1, r$27$1) => {
     var l$28 = $as_jl_Number(l$27$1);
     var r$28 = $as_jl_Number(r$27$1);
-    var $x_45 = $dp_longValue__J($n(l$28));
-    var x$6_$_lo = $x_45.l;
-    var x$6_$_hi = $x_45.h;
-    var $x_46 = $dp_longValue__J($n(r$28));
-    var x$7_$_lo = $x_46.l;
-    var x$7_$_hi = $x_46.h;
+    var _1$10 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$8 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$28)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$28));
+    return new $c_T2(_1$10, _2$8);
+  }));
+  var $x_18 = new $c_T2(self$28, y$28);
+  var self$29 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var y$29 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$28$1, r$28$1) => {
+    var l$29 = $as_jl_Number(l$28$1);
+    var r$29 = $as_jl_Number(r$28$1);
+    var _1$11 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var _2$9 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$29)).$minus__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$29));
+    return new $c_T2(_1$11, _2$9);
+  }));
+  var funcs$1 = $x_34.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_33, $x_30, $x_29, $x_28, $x_27, $x_26, $x_25, $x_24, $x_23, $x_22, $x_21, $x_20, $x_19, $x_18, new $c_T2(self$29, y$29)]));
+  this.define__s_Symbol__sci_Seq__V(op$1, funcs$1);
+  var this$80 = $m_s_Symbol$();
+  var op$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$80, "*"));
+  var $x_51 = $m_sr_ScalaRunTime$();
+  var self$30 = $m_Lio_github_edadma_dal_IntType$();
+  var y$30 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$29$1, r$29$1) => {
+    var l$30 = $as_jl_Number(l$29$1);
+    var r$30 = $as_jl_Number(r$29$1);
+    var $x_48 = $dp_longValue__J($n(l$30));
+    var x$6_$_lo = $x_48.l;
+    var x$6_$_hi = $x_48.h;
+    var $x_49 = $dp_longValue__J($n(r$30));
+    var x$7_$_lo = $x_49.l;
+    var x$7_$_hi = $x_49.h;
     var a0 = (65535 & x$6_$_lo);
     var a1 = ((x$6_$_lo >>> 16) | 0);
     var b0 = (65535 & x$7_$_lo);
@@ -16312,1362 +16624,1491 @@ function $c_Lio_github_edadma_dal_QuaternionDAL$() {
     var hi$2 = ((((((((Math.imul(x$6_$_lo, x$7_$_hi) + Math.imul(x$6_$_hi, x$7_$_lo)) | 0) + Math.imul(a1, b1)) | 0) + ((c1part >>> 16) | 0)) | 0) + (((((65535 & c1part) + a1b0) | 0) >>> 16) | 0)) | 0);
     return this.maybePromote__J__T2(lo$2, hi$2);
   }));
-  var $x_47 = new $c_T2(self$28, y$28);
-  var self$29 = $m_Lio_github_edadma_dal_LongType$();
-  var y$29 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$28$1, r$28$1) => {
-    var l$29 = $as_jl_Number(l$28$1);
-    var r$29 = $as_jl_Number(r$28$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$29)).$times__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$29)));
-  }));
-  var $x_44 = new $c_T2(self$29, y$29);
-  var self$30 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$30 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$29$1, r$29$1) => {
-    var l$30 = $as_jl_Number(l$29$1);
-    var r$30 = $as_jl_Number(r$29$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$30)).$times__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$30)));
-  }));
-  var $x_43 = new $c_T2(self$30, y$30);
-  var self$31 = $m_Lio_github_edadma_dal_RationalType$();
+  var $x_50 = new $c_T2(self$30, y$30);
+  var self$31 = $m_Lio_github_edadma_dal_LongType$();
   var y$31 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$30$1, r$30$1) => {
     var l$31 = $as_jl_Number(l$30$1);
     var r$31 = $as_jl_Number(r$30$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$31)).$times__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$31)));
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$31)).$times__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$31)));
   }));
-  var $x_42 = new $c_T2(self$31, y$31);
-  var self$32 = $m_Lio_github_edadma_dal_DoubleType$();
+  var $x_47 = new $c_T2(self$31, y$31);
+  var self$32 = $m_Lio_github_edadma_dal_BigIntType$();
   var y$32 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$31$1, r$31$1) => {
     var l$32 = $as_jl_Number(l$31$1);
     var r$32 = $as_jl_Number(r$31$1);
-    var _1$12 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$8 = ($dp_doubleValue__D($n(l$32)) * $dp_doubleValue__D($n(r$32)));
-    return new $c_T2(_1$12, x$8);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$32)).$times__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$32)));
   }));
-  var $x_41 = new $c_T2(self$32, y$32);
-  var self$33 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$33 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$3$1, b$3$1) => {
-    var a$4 = $as_jl_Number(a$3$1);
-    var b$4 = $as_jl_Number(b$3$1);
-    var _1$13 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2$10 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$4)).$times__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$4));
-    return new $c_T2(_1$13, _2$10);
-  }));
-  var $x_40 = new $c_T2(self$33, y$33);
-  var self$34 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$34 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$32$1, r$32$1) => {
+  var $x_46 = new $c_T2(self$32, y$32);
+  var self$33 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$33 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$32$1, r$32$1) => {
     var l$33 = $as_jl_Number(l$32$1);
     var r$33 = $as_jl_Number(r$32$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$33)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$33))));
+    return this.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2(l$33, r$33, new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$7, b$7) => {
+      var a$8 = $as_Lio_github_edadma_numbers_SmallRational(a$7);
+      var b$8 = $as_Lio_github_edadma_numbers_SmallRational(b$7);
+      return $m_Lio_github_edadma_numbers_SmallRational$().safeMultiply__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option(a$8, b$8);
+    })), new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$5, _$6) => {
+      var _$5$1 = $as_Lio_github_edadma_numbers_Rational(_$5);
+      var _$6$1 = $as_Lio_github_edadma_numbers_Rational(_$6);
+      return $n(_$5$1).$times__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational(_$6$1);
+    })));
   }));
-  var $x_39 = new $c_T2(self$34, y$34);
-  var self$35 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$35 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$33$1, r$33$1) => {
+  var $x_45 = new $c_T2(self$33, y$33);
+  var self$34 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$34 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$33$1, r$33$1) => {
     var l$34 = $as_jl_Number(l$33$1);
     var r$34 = $as_jl_Number(r$33$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$34)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$34))));
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$34)).$times__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$34)));
   }));
-  var $x_38 = new $c_T2(self$35, y$35);
-  var self$36 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$36 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$34$1, r$34$1) => {
+  var $x_44 = new $c_T2(self$34, y$34);
+  var self$35 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$35 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$34$1, r$34$1) => {
     var l$35 = $as_jl_Number(l$34$1);
     var r$35 = $as_jl_Number(r$34$1);
-    var _1$14 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$11 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$35)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$35));
-    return new $c_T2(_1$14, _2$11);
+    var _1$12 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$8 = ($dp_doubleValue__D($n(l$35)) * $dp_doubleValue__D($n(r$35)));
+    return new $c_T2(_1$12, x$8);
   }));
-  var $x_37 = new $c_T2(self$36, y$36);
-  var self$37 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var $x_43 = new $c_T2(self$35, y$35);
+  var self$36 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$36 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$3$1, b$3$1) => {
+    var a$9 = $as_jl_Number(a$3$1);
+    var b$9 = $as_jl_Number(b$3$1);
+    var _1$13 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2$10 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$9)).$times__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$9));
+    return new $c_T2(_1$13, _2$10);
+  }));
+  var $x_42 = new $c_T2(self$36, y$36);
+  var self$37 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
   var y$37 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$35$1, r$35$1) => {
     var l$36 = $as_jl_Number(l$35$1);
     var r$36 = $as_jl_Number(r$35$1);
-    var _1$15 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$12 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$36)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$36));
-    return new $c_T2(_1$15, _2$12);
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexBigInt__T2($as_Lio_github_edadma_numbers_ComplexBigInt($n(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$36)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$36))));
   }));
-  var $x_36 = new $c_T2(self$37, y$37);
-  var self$38 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var $x_41 = new $c_T2(self$37, y$37);
+  var self$38 = $m_Lio_github_edadma_dal_ComplexRationalType$();
   var y$38 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$36$1, r$36$1) => {
     var l$37 = $as_jl_Number(l$36$1);
     var r$37 = $as_jl_Number(r$36$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$37)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$37))));
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$37)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$37))));
   }));
-  var $x_35 = new $c_T2(self$38, y$38);
-  var self$39 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var $x_40 = new $c_T2(self$38, y$38);
+  var self$39 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
   var y$39 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$37$1, r$37$1) => {
     var l$38 = $as_jl_Number(l$37$1);
     var r$38 = $as_jl_Number(r$37$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$38)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$38))));
+    var _1$14 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$11 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$38)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$38));
+    return new $c_T2(_1$14, _2$11);
   }));
-  var $x_34 = new $c_T2(self$39, y$39);
-  var self$40 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var $x_39 = new $c_T2(self$39, y$39);
+  var self$40 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
   var y$40 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$38$1, r$38$1) => {
     var l$39 = $as_jl_Number(l$38$1);
     var r$39 = $as_jl_Number(r$38$1);
-    var _1$16 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$13 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$39)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$39));
-    return new $c_T2(_1$16, _2$13);
+    var _1$15 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$12 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$39)).$times__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$39));
+    return new $c_T2(_1$15, _2$12);
   }));
-  var $x_33 = new $c_T2(self$40, y$40);
-  var self$41 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var $x_38 = new $c_T2(self$40, y$40);
+  var self$41 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
   var y$41 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$39$1, r$39$1) => {
     var l$40 = $as_jl_Number(l$39$1);
     var r$40 = $as_jl_Number(r$39$1);
-    var _1$17 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var _2$14 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$40)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$40));
-    return new $c_T2(_1$17, _2$14);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionBigInt__T2($as_Lio_github_edadma_numbers_QuaternionBigInt($n(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$40)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$40))));
   }));
-  var funcs$2 = $x_48.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_47, $x_44, $x_43, $x_42, $x_41, $x_40, $x_39, $x_38, $x_37, $x_36, $x_35, $x_34, $x_33, new $c_T2(self$41, y$41)]));
-  this.define__s_Symbol__sci_Seq__V(op$2, funcs$2);
-  var this$113 = $m_s_Symbol$();
-  var op$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$113, "/"));
-  var $x_62 = $m_sr_ScalaRunTime$();
-  var self$42 = $m_Lio_github_edadma_dal_IntType$();
+  var $x_37 = new $c_T2(self$41, y$41);
+  var self$42 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
   var y$42 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$40$1, r$40$1) => {
     var l$41 = $as_jl_Number(l$40$1);
     var r$41 = $as_jl_Number(r$40$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$41)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$41)));
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational($n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$41)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$41))));
   }));
-  var $x_61 = new $c_T2(self$42, y$42);
-  var self$43 = $m_Lio_github_edadma_dal_LongType$();
+  var $x_36 = new $c_T2(self$42, y$42);
+  var self$43 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
   var y$43 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$41$1, r$41$1) => {
     var l$42 = $as_jl_Number(l$41$1);
     var r$42 = $as_jl_Number(r$41$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$42)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$42)));
+    var _1$16 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$13 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$42)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$42));
+    return new $c_T2(_1$16, _2$13);
   }));
-  var $x_60 = new $c_T2(self$43, y$43);
-  var self$44 = $m_Lio_github_edadma_dal_BigIntType$();
+  var $x_35 = new $c_T2(self$43, y$43);
+  var self$44 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
   var y$44 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$42$1, r$42$1) => {
     var l$43 = $as_jl_Number(l$42$1);
     var r$43 = $as_jl_Number(r$42$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$43)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$43)));
+    var _1$17 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var _2$14 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$43)).$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$43));
+    return new $c_T2(_1$17, _2$14);
   }));
-  var $x_59 = new $c_T2(self$44, y$44);
-  var self$45 = $m_Lio_github_edadma_dal_RationalType$();
+  var funcs$2 = $x_51.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_50, $x_47, $x_46, $x_45, $x_44, $x_43, $x_42, $x_41, $x_40, $x_39, $x_38, $x_37, $x_36, $x_35, new $c_T2(self$44, y$44)]));
+  this.define__s_Symbol__sci_Seq__V(op$2, funcs$2);
+  var this$119 = $m_s_Symbol$();
+  var op$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$119, "/"));
+  var $x_66 = $m_sr_ScalaRunTime$();
+  var self$45 = $m_Lio_github_edadma_dal_IntType$();
   var y$45 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$43$1, r$43$1) => {
     var l$44 = $as_jl_Number(l$43$1);
     var r$44 = $as_jl_Number(r$43$1);
     return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$44)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$44)));
   }));
-  var $x_58 = new $c_T2(self$45, y$45);
-  var self$46 = $m_Lio_github_edadma_dal_DoubleType$();
+  var $x_65 = new $c_T2(self$45, y$45);
+  var self$46 = $m_Lio_github_edadma_dal_LongType$();
   var y$46 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$44$1, r$44$1) => {
     var l$45 = $as_jl_Number(l$44$1);
     var r$45 = $as_jl_Number(r$44$1);
-    var _1$18 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$9 = ($dp_doubleValue__D($n(l$45)) / $dp_doubleValue__D($n(r$45)));
-    return new $c_T2(_1$18, x$9);
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$45)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$45)));
   }));
-  var $x_57 = new $c_T2(self$46, y$46);
-  var self$47 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$47 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$4$1, b$4$1) => {
-    var a$5 = $as_jl_Number(a$4$1);
-    var b$5 = $as_jl_Number(b$4$1);
-    var _1$19 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2$15 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$5)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$5));
-    return new $c_T2(_1$19, _2$15);
-  }));
-  var $x_56 = new $c_T2(self$47, y$47);
-  var self$48 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$48 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$45$1, r$45$1) => {
+  var $x_64 = new $c_T2(self$46, y$46);
+  var self$47 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$47 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$45$1, r$45$1) => {
     var l$46 = $as_jl_Number(l$45$1);
     var r$46 = $as_jl_Number(r$45$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$46)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$46))));
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$46)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$46)));
   }));
-  var $x_55 = new $c_T2(self$48, y$48);
-  var self$49 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$49 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$46$1, r$46$1) => {
+  var $x_63 = new $c_T2(self$47, y$47);
+  var self$48 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$48 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$46$1, r$46$1) => {
     var l$47 = $as_jl_Number(l$46$1);
     var r$47 = $as_jl_Number(r$46$1);
-    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$47)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$47))));
+    return this.safeSmallRationalOp__jl_Number__jl_Number__F2__F2__T2(l$47, r$47, new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$10, b$10) => {
+      var a$11 = $as_Lio_github_edadma_numbers_SmallRational(a$10);
+      var b$11 = $as_Lio_github_edadma_numbers_SmallRational(b$10);
+      return $m_Lio_github_edadma_numbers_SmallRational$().safeDivide__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational__s_Option(a$11, b$11);
+    })), new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((_$7, _$8) => {
+      var _$7$1 = $as_Lio_github_edadma_numbers_Rational(_$7);
+      var _$8$1 = $as_Lio_github_edadma_numbers_Rational(_$8);
+      return $n(_$7$1).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational(_$8$1);
+    })));
   }));
-  var $x_54 = new $c_T2(self$49, y$49);
-  var self$50 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$50 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$47$1, r$47$1) => {
+  var $x_62 = new $c_T2(self$48, y$48);
+  var self$49 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$49 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$47$1, r$47$1) => {
     var l$48 = $as_jl_Number(l$47$1);
     var r$48 = $as_jl_Number(r$47$1);
-    var _1$20 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$16 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$48)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$48));
-    return new $c_T2(_1$20, _2$16);
+    return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$48)).$div__Lio_github_edadma_numbers_Rational__Lio_github_edadma_numbers_Rational($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$48)));
   }));
-  var $x_53 = new $c_T2(self$50, y$50);
-  var self$51 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-  var y$51 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$48$1, r$48$1) => {
+  var $x_61 = new $c_T2(self$49, y$49);
+  var self$50 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$50 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$48$1, r$48$1) => {
     var l$49 = $as_jl_Number(l$48$1);
     var r$49 = $as_jl_Number(r$48$1);
-    var _1$21 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$17 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$49)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$49));
-    return new $c_T2(_1$21, _2$17);
+    var _1$18 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$9 = ($dp_doubleValue__D($n(l$49)) / $dp_doubleValue__D($n(r$49)));
+    return new $c_T2(_1$18, x$9);
   }));
-  var $x_52 = new $c_T2(self$51, y$51);
-  var self$52 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var $x_60 = new $c_T2(self$50, y$50);
+  var self$51 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$51 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$4$1, b$4$1) => {
+    var a$12 = $as_jl_Number(a$4$1);
+    var b$12 = $as_jl_Number(b$4$1);
+    var _1$19 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2$15 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$12)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$12));
+    return new $c_T2(_1$19, _2$15);
+  }));
+  var $x_59 = new $c_T2(self$51, y$51);
+  var self$52 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
   var y$52 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$49$1, r$49$1) => {
     var l$50 = $as_jl_Number(l$49$1);
     var r$50 = $as_jl_Number(r$49$1);
-    var this$140 = $n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$50));
-    var that = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$50);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational(this$140.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that).inverse__Lio_github_edadma_numbers_Quaternion())));
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$50)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$50))));
   }));
-  var $x_51 = new $c_T2(self$52, y$52);
-  var self$53 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var $x_58 = new $c_T2(self$52, y$52);
+  var self$53 = $m_Lio_github_edadma_dal_ComplexRationalType$();
   var y$53 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$50$1, r$50$1) => {
     var l$51 = $as_jl_Number(l$50$1);
     var r$51 = $as_jl_Number(r$50$1);
-    var this$143 = $n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$51));
-    var that$1 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$51);
-    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational(this$143.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$1).inverse__Lio_github_edadma_numbers_Quaternion())));
+    return this.maybeDemote__Lio_github_edadma_numbers_ComplexRational__T2($as_Lio_github_edadma_numbers_ComplexRational($n(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$51)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$51))));
   }));
-  var $x_50 = new $c_T2(self$53, y$53);
-  var self$54 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var $x_57 = new $c_T2(self$53, y$53);
+  var self$54 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
   var y$54 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$51$1, r$51$1) => {
     var l$52 = $as_jl_Number(l$51$1);
     var r$52 = $as_jl_Number(r$51$1);
-    var _1$22 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var this$146 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$52));
-    var that$2 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$52);
-    var _2$18 = this$146.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$2).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$22, _2$18);
+    var _1$20 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$16 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$52)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$52));
+    return new $c_T2(_1$20, _2$16);
   }));
-  var $x_49 = new $c_T2(self$54, y$54);
-  var self$55 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var $x_56 = new $c_T2(self$54, y$54);
+  var self$55 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
   var y$55 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$52$1, r$52$1) => {
     var l$53 = $as_jl_Number(l$52$1);
     var r$53 = $as_jl_Number(r$52$1);
-    var _1$23 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var this$150 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$53));
-    var that$3 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$53);
-    var _2$19 = this$150.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$3).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$23, _2$19);
+    var _1$21 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$17 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$53)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$53));
+    return new $c_T2(_1$21, _2$17);
   }));
-  var funcs$3 = $x_62.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_61, $x_60, $x_59, $x_58, $x_57, $x_56, $x_55, $x_54, $x_53, $x_52, $x_51, $x_50, $x_49, new $c_T2(self$55, y$55)]));
-  this.define__s_Symbol__sci_Seq__V(op$3, funcs$3);
-  var this$153 = $m_s_Symbol$();
-  var op$4 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$153, "//"));
-  var $x_76 = $m_sr_ScalaRunTime$();
-  var self$56 = $m_Lio_github_edadma_dal_IntType$();
+  var $x_55 = new $c_T2(self$55, y$55);
+  var self$56 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
   var y$56 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$53$1, r$53$1) => {
     var l$54 = $as_jl_Number(l$53$1);
     var r$54 = $as_jl_Number(r$53$1);
-    var _1$24 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$10 = ($dp_doubleValue__D($n(l$54)) / $dp_doubleValue__D($n(r$54)));
-    return new $c_T2(_1$24, x$10);
+    var this$148 = $n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$54));
+    var that = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$54);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational(this$148.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that).inverse__Lio_github_edadma_numbers_Quaternion())));
   }));
-  var $x_75 = new $c_T2(self$56, y$56);
-  var self$57 = $m_Lio_github_edadma_dal_LongType$();
+  var $x_54 = new $c_T2(self$56, y$56);
+  var self$57 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
   var y$57 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$54$1, r$54$1) => {
     var l$55 = $as_jl_Number(l$54$1);
     var r$55 = $as_jl_Number(r$54$1);
-    var _1$25 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$11 = ($dp_doubleValue__D($n(l$55)) / $dp_doubleValue__D($n(r$55)));
-    return new $c_T2(_1$25, x$11);
+    var this$151 = $n(this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$55));
+    var that$1 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$55);
+    return this.maybeDemote__Lio_github_edadma_numbers_QuaternionRational__T2($as_Lio_github_edadma_numbers_QuaternionRational(this$151.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$1).inverse__Lio_github_edadma_numbers_Quaternion())));
   }));
-  var $x_74 = new $c_T2(self$57, y$57);
-  var self$58 = $m_Lio_github_edadma_dal_BigIntType$();
+  var $x_53 = new $c_T2(self$57, y$57);
+  var self$58 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
   var y$58 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$55$1, r$55$1) => {
     var l$56 = $as_jl_Number(l$55$1);
     var r$56 = $as_jl_Number(r$55$1);
-    var _1$26 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$12 = ($dp_doubleValue__D($n(l$56)) / $dp_doubleValue__D($n(r$56)));
-    return new $c_T2(_1$26, x$12);
+    var _1$22 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var this$154 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$56));
+    var that$2 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$56);
+    var _2$18 = this$154.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$2).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$22, _2$18);
   }));
-  var $x_73 = new $c_T2(self$58, y$58);
-  var self$59 = $m_Lio_github_edadma_dal_RationalType$();
+  var $x_52 = new $c_T2(self$58, y$58);
+  var self$59 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
   var y$59 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$56$1, r$56$1) => {
     var l$57 = $as_jl_Number(l$56$1);
     var r$57 = $as_jl_Number(r$56$1);
-    var _1$27 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$13 = ($dp_doubleValue__D($n(l$57)) / $dp_doubleValue__D($n(r$57)));
-    return new $c_T2(_1$27, x$13);
+    var _1$23 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var this$158 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$57));
+    var that$3 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$57);
+    var _2$19 = this$158.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$3).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$23, _2$19);
   }));
-  var $x_72 = new $c_T2(self$59, y$59);
-  var self$60 = $m_Lio_github_edadma_dal_DoubleType$();
+  var funcs$3 = $x_66.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_65, $x_64, $x_63, $x_62, $x_61, $x_60, $x_59, $x_58, $x_57, $x_56, $x_55, $x_54, $x_53, $x_52, new $c_T2(self$59, y$59)]));
+  this.define__s_Symbol__sci_Seq__V(op$3, funcs$3);
+  var this$161 = $m_s_Symbol$();
+  var op$4 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$161, "//"));
+  var $x_81 = $m_sr_ScalaRunTime$();
+  var self$60 = $m_Lio_github_edadma_dal_IntType$();
   var y$60 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$57$1, r$57$1) => {
     var l$58 = $as_jl_Number(l$57$1);
     var r$58 = $as_jl_Number(r$57$1);
-    var _1$28 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$14 = ($dp_doubleValue__D($n(l$58)) / $dp_doubleValue__D($n(r$58)));
-    return new $c_T2(_1$28, x$14);
+    var _1$24 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$10 = ($dp_doubleValue__D($n(l$58)) / $dp_doubleValue__D($n(r$58)));
+    return new $c_T2(_1$24, x$10);
   }));
-  var $x_71 = new $c_T2(self$60, y$60);
-  var self$61 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$61 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$5$1, b$5$1) => {
-    var a$6 = $as_jl_Number(a$5$1);
-    var b$6 = $as_jl_Number(b$5$1);
-    var _1$29 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2$20 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$6)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$6));
-    return new $c_T2(_1$29, _2$20);
-  }));
-  var $x_70 = new $c_T2(self$61, y$61);
-  var self$62 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$62 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$58$1, r$58$1) => {
+  var $x_80 = new $c_T2(self$60, y$60);
+  var self$61 = $m_Lio_github_edadma_dal_LongType$();
+  var y$61 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$58$1, r$58$1) => {
     var l$59 = $as_jl_Number(l$58$1);
     var r$59 = $as_jl_Number(r$58$1);
-    var _1$30 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$21 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$59)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$59));
-    return new $c_T2(_1$30, _2$21);
+    var _1$25 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$11 = ($dp_doubleValue__D($n(l$59)) / $dp_doubleValue__D($n(r$59)));
+    return new $c_T2(_1$25, x$11);
   }));
-  var $x_69 = new $c_T2(self$62, y$62);
-  var self$63 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$63 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$59$1, r$59$1) => {
+  var $x_79 = new $c_T2(self$61, y$61);
+  var self$62 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$62 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$59$1, r$59$1) => {
     var l$60 = $as_jl_Number(l$59$1);
     var r$60 = $as_jl_Number(r$59$1);
-    var _1$31 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$22 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$60)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$60));
-    return new $c_T2(_1$31, _2$22);
+    var _1$26 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$12 = ($dp_doubleValue__D($n(l$60)) / $dp_doubleValue__D($n(r$60)));
+    return new $c_T2(_1$26, x$12);
   }));
-  var $x_68 = new $c_T2(self$63, y$63);
-  var self$64 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$64 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$60$1, r$60$1) => {
+  var $x_78 = new $c_T2(self$62, y$62);
+  var self$63 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$63 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$60$1, r$60$1) => {
     var l$61 = $as_jl_Number(l$60$1);
     var r$61 = $as_jl_Number(r$60$1);
-    var _1$32 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$23 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$61)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$61));
-    return new $c_T2(_1$32, _2$23);
+    var _1$27 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$13 = ($dp_doubleValue__D($n(l$61)) / $dp_doubleValue__D($n(r$61)));
+    return new $c_T2(_1$27, x$13);
   }));
-  var $x_67 = new $c_T2(self$64, y$64);
-  var self$65 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-  var y$65 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$61$1, r$61$1) => {
+  var $x_77 = new $c_T2(self$63, y$63);
+  var self$64 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$64 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$61$1, r$61$1) => {
     var l$62 = $as_jl_Number(l$61$1);
     var r$62 = $as_jl_Number(r$61$1);
-    var _1$33 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$24 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$62)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$62));
-    return new $c_T2(_1$33, _2$24);
+    var _1$28 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$14 = ($dp_doubleValue__D($n(l$62)) / $dp_doubleValue__D($n(r$62)));
+    return new $c_T2(_1$28, x$14);
   }));
-  var $x_66 = new $c_T2(self$65, y$65);
-  var self$66 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
-  var y$66 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$62$1, r$62$1) => {
+  var $x_76 = new $c_T2(self$64, y$64);
+  var self$65 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$65 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$62$1, r$62$1) => {
     var l$63 = $as_jl_Number(l$62$1);
     var r$63 = $as_jl_Number(r$62$1);
-    var _1$34 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var this$190 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$63));
-    var that$4 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$63);
-    var _2$25 = this$190.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$4).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$34, _2$25);
+    var _1$29 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$15 = ($dp_doubleValue__D($n(l$63)) / $dp_doubleValue__D($n(r$63)));
+    return new $c_T2(_1$29, x$15);
   }));
-  var $x_65 = new $c_T2(self$66, y$66);
-  var self$67 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var $x_75 = new $c_T2(self$65, y$65);
+  var self$66 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$66 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((a$5$1, b$5$1) => {
+    var a$13 = $as_jl_Number(a$5$1);
+    var b$13 = $as_jl_Number(b$5$1);
+    var _1$30 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2$20 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(a$13)).$div__s_math_BigDecimal__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(b$13));
+    return new $c_T2(_1$30, _2$20);
+  }));
+  var $x_74 = new $c_T2(self$66, y$66);
+  var self$67 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
   var y$67 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$63$1, r$63$1) => {
     var l$64 = $as_jl_Number(l$63$1);
     var r$64 = $as_jl_Number(r$63$1);
-    var _1$35 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var this$194 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$64));
-    var that$5 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$64);
-    var _2$26 = this$194.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$5).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$35, _2$26);
+    var _1$31 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$21 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$64)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$64));
+    return new $c_T2(_1$31, _2$21);
   }));
-  var $x_64 = new $c_T2(self$67, y$67);
-  var self$68 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var $x_73 = new $c_T2(self$67, y$67);
+  var self$68 = $m_Lio_github_edadma_dal_ComplexRationalType$();
   var y$68 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$64$1, r$64$1) => {
     var l$65 = $as_jl_Number(l$64$1);
     var r$65 = $as_jl_Number(r$64$1);
-    var _1$36 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var this$198 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$65));
-    var that$6 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$65);
-    var _2$27 = this$198.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$6).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$36, _2$27);
+    var _1$32 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$22 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$65)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$65));
+    return new $c_T2(_1$32, _2$22);
   }));
-  var $x_63 = new $c_T2(self$68, y$68);
-  var self$69 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var $x_72 = new $c_T2(self$68, y$68);
+  var self$69 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
   var y$69 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$65$1, r$65$1) => {
     var l$66 = $as_jl_Number(l$65$1);
     var r$66 = $as_jl_Number(r$65$1);
-    var _1$37 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var this$202 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$66));
-    var that$7 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$66);
-    var _2$28 = this$202.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$7).inverse__Lio_github_edadma_numbers_Quaternion());
-    return new $c_T2(_1$37, _2$28);
+    var _1$33 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$23 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$66)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$66));
+    return new $c_T2(_1$33, _2$23);
   }));
-  var funcs$4 = $x_76.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_75, $x_74, $x_73, $x_72, $x_71, $x_70, $x_69, $x_68, $x_67, $x_66, $x_65, $x_64, $x_63, new $c_T2(self$69, y$69)]));
-  this.define__s_Symbol__sci_Seq__V(op$4, funcs$4);
-  var this$205 = $m_s_Symbol$();
-  var op$5 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$205, "^"));
-  var $x_90 = $m_sr_ScalaRunTime$();
-  var self$70 = $m_Lio_github_edadma_dal_IntType$();
+  var $x_71 = new $c_T2(self$69, y$69);
+  var self$70 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
   var y$70 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$66$1, r$66$1) => {
     var l$67 = $as_jl_Number(l$66$1);
     var r$67 = $as_jl_Number(r$66$1);
-    return this.bigIntPow__jl_Number__jl_Number__T2(l$67, r$67);
+    var _1$34 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$24 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$67)).$div__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$67));
+    return new $c_T2(_1$34, _2$24);
   }));
-  var $x_89 = new $c_T2(self$70, y$70);
-  var self$71 = $m_Lio_github_edadma_dal_LongType$();
+  var $x_70 = new $c_T2(self$70, y$70);
+  var self$71 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
   var y$71 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$67$1, r$67$1) => {
     var l$68 = $as_jl_Number(l$67$1);
     var r$68 = $as_jl_Number(r$67$1);
-    return this.bigIntPow__jl_Number__jl_Number__T2(l$68, r$68);
+    var _1$35 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var this$202 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$68));
+    var that$4 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$68);
+    var _2$25 = this$202.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$4).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$35, _2$25);
   }));
-  var $x_88 = new $c_T2(self$71, y$71);
-  var self$72 = $m_Lio_github_edadma_dal_BigIntType$();
+  var $x_69 = new $c_T2(self$71, y$71);
+  var self$72 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
   var y$72 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$68$1, r$68$1) => {
     var l$69 = $as_jl_Number(l$68$1);
     var r$69 = $as_jl_Number(r$68$1);
-    return this.bigIntPow__jl_Number__jl_Number__T2(l$69, r$69);
+    var _1$36 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var this$206 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$69));
+    var that$5 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$69);
+    var _2$26 = this$206.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$5).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$36, _2$26);
   }));
-  var $x_87 = new $c_T2(self$72, y$72);
-  var self$73 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$74 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$69$1, r$69$1) => {
+  var $x_68 = new $c_T2(self$72, y$72);
+  var self$73 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var y$73 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$69$1, r$69$1) => {
     var l$70 = $as_jl_Number(l$69$1);
     var r$70 = $as_jl_Number(r$69$1);
-    if ($isInt(r$70)) {
-      var x3 = $as_jl_Integer(r$70);
-      return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$70)).$up__I__Lio_github_edadma_numbers_Rational($uI(x3)));
-    } else if ((r$70 instanceof $c_s_math_BigInt)) {
-      var x2 = $as_s_math_BigInt(r$70);
-      var _1$38 = $m_Lio_github_edadma_dal_RationalType$();
-      var _2$29 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$70)).$up__s_math_BigInt__Lio_github_edadma_numbers_Rational(x2);
-      return new $c_T2(_1$38, _2$29);
-    } else {
-      var _1$39 = $m_Lio_github_edadma_dal_DoubleType$();
-      var x$15 = $dp_doubleValue__D($n(l$70));
-      var y$73 = $dp_doubleValue__D($n(r$70));
-      var x$16 = $uD(Math.pow(x$15, y$73));
-      return new $c_T2(_1$39, x$16);
-    }
+    var _1$37 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var this$210 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$70));
+    var that$6 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$70);
+    var _2$27 = this$210.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$6).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$37, _2$27);
   }));
-  var $x_86 = new $c_T2(self$73, y$74);
-  var self$74 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$76 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$70$1, r$70$1) => {
+  var $x_67 = new $c_T2(self$73, y$73);
+  var self$74 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var y$74 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$70$1, r$70$1) => {
     var l$71 = $as_jl_Number(l$70$1);
     var r$71 = $as_jl_Number(r$70$1);
-    var _1$40 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$17 = $dp_doubleValue__D($n(l$71));
-    var y$75 = $dp_doubleValue__D($n(r$71));
-    var x$18 = $uD(Math.pow(x$17, y$75));
-    return new $c_T2(_1$40, x$18);
+    var _1$38 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var this$214 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$71));
+    var that$7 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$71);
+    var _2$28 = this$214.$times__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion($n(that$7).inverse__Lio_github_edadma_numbers_Quaternion());
+    return new $c_T2(_1$38, _2$28);
   }));
-  var $x_85 = new $c_T2(self$74, y$76);
-  var self$75 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$77 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$71$1, r$71$1) => {
+  var funcs$4 = $x_81.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_80, $x_79, $x_78, $x_77, $x_76, $x_75, $x_74, $x_73, $x_72, $x_71, $x_70, $x_69, $x_68, $x_67, new $c_T2(self$74, y$74)]));
+  this.define__s_Symbol__sci_Seq__V(op$4, funcs$4);
+  var this$217 = $m_s_Symbol$();
+  var op$5 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$217, "^"));
+  var $x_96 = $m_sr_ScalaRunTime$();
+  var self$75 = $m_Lio_github_edadma_dal_IntType$();
+  var y$75 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$71$1, r$71$1) => {
     var l$72 = $as_jl_Number(l$71$1);
     var r$72 = $as_jl_Number(r$71$1);
-    var _1$41 = $m_Lio_github_edadma_dal_BigDecType$();
-    var _2$30 = $m_Lio_github_edadma_numbers_BigDecimalMath$().pow__s_math_BigDecimal__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$72), this.toBigDecimal__jl_Number__s_math_BigDecimal(r$72), this.Lio_github_edadma_dal_DAL__f_bdmath);
-    return new $c_T2(_1$41, _2$30);
+    return this.bigIntPow__jl_Number__jl_Number__T2(l$72, r$72);
   }));
-  var $x_84 = new $c_T2(self$75, y$77);
-  var self$76 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$78 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$72$1, r$72$1) => {
+  var $x_95 = new $c_T2(self$75, y$75);
+  var self$76 = $m_Lio_github_edadma_dal_LongType$();
+  var y$76 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$72$1, r$72$1) => {
     var l$73 = $as_jl_Number(l$72$1);
     var r$73 = $as_jl_Number(r$72$1);
-    var _1$42 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$31 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$73)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$73));
-    return new $c_T2(_1$42, _2$31);
+    return this.bigIntPow__jl_Number__jl_Number__T2(l$73, r$73);
   }));
-  var $x_83 = new $c_T2(self$76, y$78);
-  var self$77 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$79 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$73$1, r$73$1) => {
+  var $x_94 = new $c_T2(self$76, y$76);
+  var self$77 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$77 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$73$1, r$73$1) => {
     var l$74 = $as_jl_Number(l$73$1);
     var r$74 = $as_jl_Number(r$73$1);
-    var _1$43 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$32 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$74)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$74));
-    return new $c_T2(_1$43, _2$32);
+    return this.bigIntPow__jl_Number__jl_Number__T2(l$74, r$74);
   }));
-  var $x_82 = new $c_T2(self$77, y$79);
-  var self$78 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$80 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$74$1, r$74$1) => {
+  var $x_93 = new $c_T2(self$77, y$77);
+  var self$78 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$79 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$74$1, r$74$1) => {
     var l$75 = $as_jl_Number(l$74$1);
     var r$75 = $as_jl_Number(r$74$1);
-    var _1$44 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-    var _2$33 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$75)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$75));
-    return new $c_T2(_1$44, _2$33);
+    if ($isInt(r$75)) {
+      var x3 = $as_jl_Integer(r$75);
+      return this.maybeDemote__Lio_github_edadma_numbers_SmallRational__T2($n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$75)).$up__I__Lio_github_edadma_numbers_SmallRational($uI(x3)));
+    } else if ((r$75 instanceof $c_s_math_BigInt)) {
+      var x2 = $as_s_math_BigInt(r$75);
+      var _1$39 = $m_Lio_github_edadma_dal_RationalType$();
+      var _2$29 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$75)).$up__s_math_BigInt__Lio_github_edadma_numbers_Rational(x2);
+      return new $c_T2(_1$39, _2$29);
+    } else {
+      var _1$40 = $m_Lio_github_edadma_dal_DoubleType$();
+      var x$16 = $dp_doubleValue__D($n(l$75));
+      var y$78 = $dp_doubleValue__D($n(r$75));
+      var x$17 = $uD(Math.pow(x$16, y$78));
+      return new $c_T2(_1$40, x$17);
+    }
   }));
-  var $x_81 = new $c_T2(self$78, y$80);
-  var self$79 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var $x_92 = new $c_T2(self$78, y$79);
+  var self$79 = $m_Lio_github_edadma_dal_RationalType$();
   var y$81 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$75$1, r$75$1) => {
     var l$76 = $as_jl_Number(l$75$1);
     var r$76 = $as_jl_Number(r$75$1);
-    var _1$45 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-    var _2$34 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$76)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$76));
-    return new $c_T2(_1$45, _2$34);
+    if ($isInt(r$76)) {
+      var x6 = $as_jl_Integer(r$76);
+      return this.maybeDemote__Lio_github_edadma_numbers_Rational__T2($n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$76)).$up__I__Lio_github_edadma_numbers_Rational($uI(x6)));
+    } else if ((r$76 instanceof $c_s_math_BigInt)) {
+      var x5 = $as_s_math_BigInt(r$76);
+      var _1$41 = $m_Lio_github_edadma_dal_RationalType$();
+      var _2$30 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$76)).$up__s_math_BigInt__Lio_github_edadma_numbers_Rational(x5);
+      return new $c_T2(_1$41, _2$30);
+    } else {
+      var _1$42 = $m_Lio_github_edadma_dal_DoubleType$();
+      var x$18 = $dp_doubleValue__D($n(l$76));
+      var y$80 = $dp_doubleValue__D($n(r$76));
+      var x$19 = $uD(Math.pow(x$18, y$80));
+      return new $c_T2(_1$42, x$19);
+    }
   }));
-  var $x_80 = new $c_T2(self$79, y$81);
-  var self$80 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
-  var y$82 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$76$1, r$76$1) => {
+  var $x_91 = new $c_T2(self$79, y$81);
+  var self$80 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$83 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$76$1, r$76$1) => {
     var l$77 = $as_jl_Number(l$76$1);
     var r$77 = $as_jl_Number(r$76$1);
-    var _1$46 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$35 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$77)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$77));
-    return new $c_T2(_1$46, _2$35);
+    var _1$43 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$20 = $dp_doubleValue__D($n(l$77));
+    var y$82 = $dp_doubleValue__D($n(r$77));
+    var x$21 = $uD(Math.pow(x$20, y$82));
+    return new $c_T2(_1$43, x$21);
   }));
-  var $x_79 = new $c_T2(self$80, y$82);
-  var self$81 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
-  var y$83 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$77$1, r$77$1) => {
+  var $x_90 = new $c_T2(self$80, y$83);
+  var self$81 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$84 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$77$1, r$77$1) => {
     var l$78 = $as_jl_Number(l$77$1);
     var r$78 = $as_jl_Number(r$77$1);
-    var _1$47 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$36 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$78)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$78));
-    return new $c_T2(_1$47, _2$36);
+    var _1$44 = $m_Lio_github_edadma_dal_BigDecType$();
+    var _2$31 = $m_Lio_github_edadma_numbers_BigDecimalMath$().pow__s_math_BigDecimal__s_math_BigDecimal__Lio_github_edadma_numbers_BigDecimalMath__s_math_BigDecimal(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$78), this.toBigDecimal__jl_Number__s_math_BigDecimal(r$78), this.Lio_github_edadma_dal_DAL__f_bdmath);
+    return new $c_T2(_1$44, _2$31);
   }));
-  var $x_78 = new $c_T2(self$81, y$83);
-  var self$82 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-  var y$84 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$78$1, r$78$1) => {
+  var $x_89 = new $c_T2(self$81, y$84);
+  var self$82 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
+  var y$85 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$78$1, r$78$1) => {
     var l$79 = $as_jl_Number(l$78$1);
     var r$79 = $as_jl_Number(r$78$1);
-    var _1$48 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-    var _2$37 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$79)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$79));
-    return new $c_T2(_1$48, _2$37);
+    var _1$45 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$32 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$79)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$79));
+    return new $c_T2(_1$45, _2$32);
   }));
-  var $x_77 = new $c_T2(self$82, y$84);
-  var self$83 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-  var y$85 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$79$1, r$79$1) => {
+  var $x_88 = new $c_T2(self$82, y$85);
+  var self$83 = $m_Lio_github_edadma_dal_ComplexRationalType$();
+  var y$86 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$79$1, r$79$1) => {
     var l$80 = $as_jl_Number(l$79$1);
     var r$80 = $as_jl_Number(r$79$1);
-    var _1$49 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-    var _2$38 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$80)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$80));
-    return new $c_T2(_1$49, _2$38);
+    var _1$46 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$33 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$80)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$80));
+    return new $c_T2(_1$46, _2$33);
   }));
-  var funcs$5 = $x_90.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_89, $x_88, $x_87, $x_86, $x_85, $x_84, $x_83, $x_82, $x_81, $x_80, $x_79, $x_78, $x_77, new $c_T2(self$83, y$85)]));
-  this.define__s_Symbol__sci_Seq__V(op$5, funcs$5);
-  var this$253 = $m_s_Symbol$();
-  var op$6 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$253, "mod"));
-  var $x_95 = $m_sr_ScalaRunTime$();
-  var self$84 = $m_Lio_github_edadma_dal_IntType$();
-  var y$86 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$80$1, r$80$1) => {
+  var $x_87 = new $c_T2(self$83, y$86);
+  var self$84 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+  var y$87 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$80$1, r$80$1) => {
     var l$81 = $as_jl_Number(l$80$1);
     var r$81 = $as_jl_Number(r$80$1);
-    var _1$50 = $m_Lio_github_edadma_dal_IntType$();
-    var x$19 = (($dp_intValue__I($n(l$81)) % $checkIntDivisor($dp_intValue__I($n(r$81)))) | 0);
-    return new $c_T2(_1$50, x$19);
+    var _1$47 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+    var _2$34 = $n(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$81)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$81));
+    return new $c_T2(_1$47, _2$34);
   }));
-  var $x_94 = new $c_T2(self$84, y$86);
-  var self$85 = $m_Lio_github_edadma_dal_LongType$();
-  var y$87 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$81$1, r$81$1) => {
+  var $x_86 = new $c_T2(self$84, y$87);
+  var self$85 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var y$88 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$81$1, r$81$1) => {
     var l$82 = $as_jl_Number(l$81$1);
     var r$82 = $as_jl_Number(r$81$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$82)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$82)));
+    var _1$48 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+    var _2$35 = $n(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$82)).$up__Lio_github_edadma_numbers_Complex__Lio_github_edadma_numbers_Complex(this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$82));
+    return new $c_T2(_1$48, _2$35);
   }));
-  var $x_93 = new $c_T2(self$85, y$87);
-  var self$86 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$88 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$82$1, r$82$1) => {
+  var $x_85 = new $c_T2(self$85, y$88);
+  var self$86 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var y$89 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$82$1, r$82$1) => {
     var l$83 = $as_jl_Number(l$82$1);
     var r$83 = $as_jl_Number(r$82$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$83)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$83)));
+    var _1$49 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$36 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$83)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$83));
+    return new $c_T2(_1$49, _2$36);
   }));
-  var $x_92 = new $c_T2(self$86, y$88);
-  var self$87 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$89 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$83$1, r$83$1) => {
+  var $x_84 = new $c_T2(self$86, y$89);
+  var self$87 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var y$90 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$83$1, r$83$1) => {
     var l$84 = $as_jl_Number(l$83$1);
     var r$84 = $as_jl_Number(r$83$1);
-    var _1$51 = $m_Lio_github_edadma_dal_DoubleType$();
-    var x$20 = ($dp_doubleValue__D($n(l$84)) % $dp_doubleValue__D($n(r$84)));
-    return new $c_T2(_1$51, x$20);
+    var _1$50 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$37 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$84)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$84));
+    return new $c_T2(_1$50, _2$37);
   }));
-  var $x_91 = new $c_T2(self$87, y$89);
-  var self$88 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$90 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$84$1, r$84$1) => {
+  var $x_83 = new $c_T2(self$87, y$90);
+  var self$88 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var y$91 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$84$1, r$84$1) => {
     var l$85 = $as_jl_Number(l$84$1);
     var r$85 = $as_jl_Number(r$84$1);
-    var _1$52 = $m_Lio_github_edadma_dal_BigDecType$();
-    var this$267 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$85));
-    var that$8 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$85);
-    var _2$39 = this$267.remainder__s_math_BigDecimal__s_math_BigDecimal(that$8);
-    return new $c_T2(_1$52, _2$39);
+    var _1$51 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+    var _2$38 = $n(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$85)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$85));
+    return new $c_T2(_1$51, _2$38);
   }));
-  var funcs$6 = $x_95.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_94, $x_93, $x_92, $x_91, new $c_T2(self$88, y$90)]));
-  this.define__s_Symbol__sci_Seq__V(op$6, funcs$6);
-  var this$270 = $m_s_Symbol$();
-  var op$7 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$270, "="));
-  var $x_111 = $m_sr_ScalaRunTime$();
-  var self$89 = $m_Lio_github_edadma_dal_IntType$();
-  var y$91 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$85$1, r$85$1) => {
+  var $x_82 = new $c_T2(self$88, y$91);
+  var self$89 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var y$92 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$85$1, r$85$1) => {
     var l$86 = $as_jl_Number(l$85$1);
     var r$86 = $as_jl_Number(r$85$1);
-    var b$7 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(l$86, r$86);
-    return new $c_T2(null, b$7);
+    var _1$52 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+    var _2$39 = $n(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$86)).$up__Lio_github_edadma_numbers_Quaternion__Lio_github_edadma_numbers_Quaternion(this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$86));
+    return new $c_T2(_1$52, _2$39);
   }));
-  var $x_110 = new $c_T2(self$89, y$91);
-  var self$90 = $m_Lio_github_edadma_dal_LongType$();
-  var y$92 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$86$1, r$86$1) => {
+  var funcs$5 = $x_96.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_95, $x_94, $x_93, $x_92, $x_91, $x_90, $x_89, $x_88, $x_87, $x_86, $x_85, $x_84, $x_83, $x_82, new $c_T2(self$89, y$92)]));
+  this.define__s_Symbol__sci_Seq__V(op$5, funcs$5);
+  var this$273 = $m_s_Symbol$();
+  var op$6 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$273, "mod"));
+  var $x_101 = $m_sr_ScalaRunTime$();
+  var self$90 = $m_Lio_github_edadma_dal_IntType$();
+  var y$93 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$86$1, r$86$1) => {
     var l$87 = $as_jl_Number(l$86$1);
     var r$87 = $as_jl_Number(r$86$1);
-    var $x_107 = $dp_longValue__J($n(l$87));
-    var x$21_$_lo = $x_107.l;
-    var x$21_$_hi = $x_107.h;
-    var $x_108 = $dp_longValue__J($n(r$87));
-    var x$22_$_lo = $x_108.l;
-    var x$22_$_hi = $x_108.h;
-    var b$8 = (((x$21_$_lo ^ x$22_$_lo) | (x$21_$_hi ^ x$22_$_hi)) === 0);
-    return new $c_T2(null, b$8);
+    var _1$53 = $m_Lio_github_edadma_dal_IntType$();
+    var x$22 = (($dp_intValue__I($n(l$87)) % $checkIntDivisor($dp_intValue__I($n(r$87)))) | 0);
+    return new $c_T2(_1$53, x$22);
   }));
-  var $x_109 = new $c_T2(self$90, y$92);
-  var self$91 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$93 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$87$1, r$87$1) => {
+  var $x_100 = new $c_T2(self$90, y$93);
+  var self$91 = $m_Lio_github_edadma_dal_LongType$();
+  var y$94 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$87$1, r$87$1) => {
     var l$88 = $as_jl_Number(l$87$1);
     var r$88 = $as_jl_Number(r$87$1);
-    var x$23 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$88);
-    var x$2$1 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$88);
-    var b$9 = ((x$23 === null) ? (x$2$1 === null) : $n(x$23).equals__O__Z(x$2$1));
-    return new $c_T2(null, b$9);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$88)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$88)));
   }));
-  var $x_106 = new $c_T2(self$91, y$93);
-  var self$92 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$94 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$88$1, r$88$1) => {
+  var $x_99 = new $c_T2(self$91, y$94);
+  var self$92 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$95 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$88$1, r$88$1) => {
     var l$89 = $as_jl_Number(l$88$1);
     var r$89 = $as_jl_Number(r$88$1);
-    var xn = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$89);
-    var yn = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$89);
-    var b$10 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn, yn);
-    return new $c_T2(null, b$10);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$89)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$89)));
   }));
-  var $x_105 = new $c_T2(self$92, y$94);
+  var $x_98 = new $c_T2(self$92, y$95);
   var self$93 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$95 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$89$1, r$89$1) => {
+  var y$96 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$89$1, r$89$1) => {
     var l$90 = $as_jl_Number(l$89$1);
     var r$90 = $as_jl_Number(r$89$1);
-    var b$11 = ($dp_doubleValue__D($n(l$90)) === $dp_doubleValue__D($n(r$90)));
-    return new $c_T2(null, b$11);
+    var _1$54 = $m_Lio_github_edadma_dal_DoubleType$();
+    var x$23 = ($dp_doubleValue__D($n(l$90)) % $dp_doubleValue__D($n(r$90)));
+    return new $c_T2(_1$54, x$23);
   }));
-  var $x_104 = new $c_T2(self$93, y$95);
+  var $x_97 = new $c_T2(self$93, y$96);
   var self$94 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$96 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$90$1, r$90$1) => {
+  var y$97 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$90$1, r$90$1) => {
     var l$91 = $as_jl_Number(l$90$1);
     var r$91 = $as_jl_Number(r$90$1);
-    var x$24 = this.toBigDecimal__jl_Number__s_math_BigDecimal(l$91);
-    var x$2$2 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$91);
-    var b$12 = ((x$24 === null) ? (x$2$2 === null) : $n(x$24).equals__O__Z(x$2$2));
-    return new $c_T2(null, b$12);
-  }));
-  var $x_103 = new $c_T2(self$94, y$96);
-  var self$95 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$97 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$91$1, r$91$1) => {
-    var l$92 = $as_jl_Number(l$91$1);
-    var r$92 = $as_jl_Number(r$91$1);
-    var xn$1 = this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$92);
-    var yn$1 = this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$92);
-    var b$13 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$1, yn$1);
-    return new $c_T2(null, b$13);
-  }));
-  var $x_102 = new $c_T2(self$95, y$97);
-  var self$96 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$98 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$92$1, r$92$1) => {
-    var l$93 = $as_jl_Number(l$92$1);
-    var r$93 = $as_jl_Number(r$92$1);
-    var xn$2 = this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$93);
-    var yn$2 = this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$93);
-    var b$14 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$2, yn$2);
-    return new $c_T2(null, b$14);
-  }));
-  var $x_101 = new $c_T2(self$96, y$98);
-  var self$97 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$99 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$93$1, r$93$1) => {
-    var l$94 = $as_jl_Number(l$93$1);
-    var r$94 = $as_jl_Number(r$93$1);
-    var xn$3 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$94);
-    var yn$3 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$94);
-    var b$15 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$3, yn$3);
-    return new $c_T2(null, b$15);
-  }));
-  var $x_100 = new $c_T2(self$97, y$99);
-  var self$98 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-  var y$100 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$94$1, r$94$1) => {
-    var l$95 = $as_jl_Number(l$94$1);
-    var r$95 = $as_jl_Number(r$94$1);
-    var xn$4 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$95);
-    var yn$4 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$95);
-    var b$16 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$4, yn$4);
-    return new $c_T2(null, b$16);
-  }));
-  var $x_99 = new $c_T2(self$98, y$100);
-  var self$99 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
-  var y$101 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$95$1, r$95$1) => {
-    var l$96 = $as_jl_Number(l$95$1);
-    var r$96 = $as_jl_Number(r$95$1);
-    var xn$5 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$96);
-    var yn$5 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$96);
-    var b$17 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$5, yn$5);
-    return new $c_T2(null, b$17);
-  }));
-  var $x_98 = new $c_T2(self$99, y$101);
-  var self$100 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
-  var y$102 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$96$1, r$96$1) => {
-    var l$97 = $as_jl_Number(l$96$1);
-    var r$97 = $as_jl_Number(r$96$1);
-    var xn$6 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$97);
-    var yn$6 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$97);
-    var b$18 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$6, yn$6);
-    return new $c_T2(null, b$18);
-  }));
-  var $x_97 = new $c_T2(self$100, y$102);
-  var self$101 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-  var y$103 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$97$1, r$97$1) => {
-    var l$98 = $as_jl_Number(l$97$1);
-    var r$98 = $as_jl_Number(r$97$1);
-    var xn$7 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$98);
-    var yn$7 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$98);
-    var b$19 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$7, yn$7);
-    return new $c_T2(null, b$19);
-  }));
-  var $x_96 = new $c_T2(self$101, y$103);
-  var self$102 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-  var y$104 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$98$1, r$98$1) => {
-    var l$99 = $as_jl_Number(l$98$1);
-    var r$99 = $as_jl_Number(r$98$1);
-    var xn$8 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$99);
-    var yn$8 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$99);
-    var b$20 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$8, yn$8);
-    return new $c_T2(null, b$20);
-  }));
-  var funcs$7 = $x_111.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_110, $x_109, $x_106, $x_105, $x_104, $x_103, $x_102, $x_101, $x_100, $x_99, $x_98, $x_97, $x_96, new $c_T2(self$102, y$104)]));
-  this.define__s_Symbol__sci_Seq__V(op$7, funcs$7);
-  var this$314 = $m_s_Symbol$();
-  var op$8 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$314, "!="));
-  var $x_127 = $m_sr_ScalaRunTime$();
-  var self$103 = $m_Lio_github_edadma_dal_IntType$();
-  var y$105 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$99$1, r$99$1) => {
-    var l$100 = $as_jl_Number(l$99$1);
-    var r$100 = $as_jl_Number(r$99$1);
-    var b$21 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(l$100, r$100));
-    return new $c_T2(null, b$21);
-  }));
-  var $x_126 = new $c_T2(self$103, y$105);
-  var self$104 = $m_Lio_github_edadma_dal_LongType$();
-  var y$106 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$100$1, r$100$1) => {
-    var l$101 = $as_jl_Number(l$100$1);
-    var r$101 = $as_jl_Number(r$100$1);
-    var $x_123 = $dp_longValue__J($n(l$101));
-    var x$25_$_lo = $x_123.l;
-    var x$25_$_hi = $x_123.h;
-    var $x_124 = $dp_longValue__J($n(r$101));
-    var x$26_$_lo = $x_124.l;
-    var x$26_$_hi = $x_124.h;
-    var b$22 = (((x$25_$_lo ^ x$26_$_lo) | (x$25_$_hi ^ x$26_$_hi)) !== 0);
-    return new $c_T2(null, b$22);
-  }));
-  var $x_125 = new $c_T2(self$104, y$106);
-  var self$105 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$107 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$101$1, r$101$1) => {
-    var l$102 = $as_jl_Number(l$101$1);
-    var r$102 = $as_jl_Number(r$101$1);
-    var x$27 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$102);
-    var x$2$3 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$102);
-    var b$23 = (!((x$27 === null) ? (x$2$3 === null) : $n(x$27).equals__O__Z(x$2$3)));
-    return new $c_T2(null, b$23);
-  }));
-  var $x_122 = new $c_T2(self$105, y$107);
-  var self$106 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$108 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$102$1, r$102$1) => {
-    var l$103 = $as_jl_Number(l$102$1);
-    var r$103 = $as_jl_Number(r$102$1);
-    var xn$9 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$103);
-    var yn$9 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$103);
-    var b$24 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$9, yn$9));
-    return new $c_T2(null, b$24);
-  }));
-  var $x_121 = new $c_T2(self$106, y$108);
-  var self$107 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$109 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$103$1, r$103$1) => {
-    var l$104 = $as_jl_Number(l$103$1);
-    var r$104 = $as_jl_Number(r$103$1);
-    var b$25 = ($dp_doubleValue__D($n(l$104)) !== $dp_doubleValue__D($n(r$104)));
-    return new $c_T2(null, b$25);
-  }));
-  var $x_120 = new $c_T2(self$107, y$109);
-  var self$108 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$110 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$104$1, r$104$1) => {
-    var l$105 = $as_jl_Number(l$104$1);
-    var r$105 = $as_jl_Number(r$104$1);
-    var x$28 = this.toBigDecimal__jl_Number__s_math_BigDecimal(l$105);
-    var x$2$4 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$105);
-    var b$26 = (!((x$28 === null) ? (x$2$4 === null) : $n(x$28).equals__O__Z(x$2$4)));
-    return new $c_T2(null, b$26);
-  }));
-  var $x_119 = new $c_T2(self$108, y$110);
-  var self$109 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
-  var y$111 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$105$1, r$105$1) => {
-    var l$106 = $as_jl_Number(l$105$1);
-    var r$106 = $as_jl_Number(r$105$1);
-    var xn$10 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$106);
-    var yn$10 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$106);
-    var b$27 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$10, yn$10));
-    return new $c_T2(null, b$27);
-  }));
-  var $x_118 = new $c_T2(self$109, y$111);
-  var self$110 = $m_Lio_github_edadma_dal_ComplexRationalType$();
-  var y$112 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$106$1, r$106$1) => {
-    var l$107 = $as_jl_Number(l$106$1);
-    var r$107 = $as_jl_Number(r$106$1);
-    var xn$11 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$107);
-    var yn$11 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$107);
-    var b$28 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$11, yn$11));
-    return new $c_T2(null, b$28);
-  }));
-  var $x_117 = new $c_T2(self$110, y$112);
-  var self$111 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
-  var y$113 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$107$1, r$107$1) => {
-    var l$108 = $as_jl_Number(l$107$1);
-    var r$108 = $as_jl_Number(r$107$1);
-    var xn$12 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$108);
-    var yn$12 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$108);
-    var b$29 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$12, yn$12));
-    return new $c_T2(null, b$29);
-  }));
-  var $x_116 = new $c_T2(self$111, y$113);
-  var self$112 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
-  var y$114 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$108$1, r$108$1) => {
-    var l$109 = $as_jl_Number(l$108$1);
-    var r$109 = $as_jl_Number(r$108$1);
-    var xn$13 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$109);
-    var yn$13 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$109);
-    var b$30 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$13, yn$13));
-    return new $c_T2(null, b$30);
-  }));
-  var $x_115 = new $c_T2(self$112, y$114);
-  var self$113 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
-  var y$115 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$109$1, r$109$1) => {
-    var l$110 = $as_jl_Number(l$109$1);
-    var r$110 = $as_jl_Number(r$109$1);
-    var xn$14 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$110);
-    var yn$14 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$110);
-    var b$31 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$14, yn$14));
-    return new $c_T2(null, b$31);
-  }));
-  var $x_114 = new $c_T2(self$113, y$115);
-  var self$114 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
-  var y$116 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$110$1, r$110$1) => {
-    var l$111 = $as_jl_Number(l$110$1);
-    var r$111 = $as_jl_Number(r$110$1);
-    var xn$15 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$111);
-    var yn$15 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$111);
-    var b$32 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$15, yn$15));
-    return new $c_T2(null, b$32);
-  }));
-  var $x_113 = new $c_T2(self$114, y$116);
-  var self$115 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
-  var y$117 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$111$1, r$111$1) => {
-    var l$112 = $as_jl_Number(l$111$1);
-    var r$112 = $as_jl_Number(r$111$1);
-    var xn$16 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$112);
-    var yn$16 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$112);
-    var b$33 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$16, yn$16));
-    return new $c_T2(null, b$33);
-  }));
-  var $x_112 = new $c_T2(self$115, y$117);
-  var self$116 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
-  var y$118 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$112$1, r$112$1) => {
-    var l$113 = $as_jl_Number(l$112$1);
-    var r$113 = $as_jl_Number(r$112$1);
-    var xn$17 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$113);
-    var yn$17 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$113);
-    var b$34 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$17, yn$17));
-    return new $c_T2(null, b$34);
-  }));
-  var funcs$8 = $x_127.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_126, $x_125, $x_122, $x_121, $x_120, $x_119, $x_118, $x_117, $x_116, $x_115, $x_114, $x_113, $x_112, new $c_T2(self$116, y$118)]));
-  this.define__s_Symbol__sci_Seq__V(op$8, funcs$8);
-  var this$358 = $m_s_Symbol$();
-  var op$9 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$358, "<"));
-  var $x_135 = $m_sr_ScalaRunTime$();
-  var self$117 = $m_Lio_github_edadma_dal_IntType$();
-  var y$119 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$113$1, r$113$1) => {
-    var l$114 = $as_jl_Number(l$113$1);
-    var r$114 = $as_jl_Number(r$113$1);
-    var b$35 = ($dp_intValue__I($n(l$114)) < $dp_intValue__I($n(r$114)));
-    return new $c_T2(null, b$35);
-  }));
-  var $x_134 = new $c_T2(self$117, y$119);
-  var self$118 = $m_Lio_github_edadma_dal_LongType$();
-  var y$120 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$114$1, r$114$1) => {
-    var l$115 = $as_jl_Number(l$114$1);
-    var r$115 = $as_jl_Number(r$114$1);
-    var $x_131 = $dp_longValue__J($n(l$115));
-    var x$29_$_lo = $x_131.l;
-    var x$29_$_hi = $x_131.h;
-    var $x_132 = $dp_longValue__J($n(r$115));
-    var x$30_$_lo = $x_132.l;
-    var x$30_$_hi = $x_132.h;
-    var b$36 = ((x$29_$_hi === x$30_$_hi) ? ((x$29_$_lo >>> 0) < (x$30_$_lo >>> 0)) : (x$29_$_hi < x$30_$_hi));
-    return new $c_T2(null, b$36);
-  }));
-  var $x_133 = new $c_T2(self$118, y$120);
-  var self$119 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$121 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$115$1, r$115$1) => {
-    var l$116 = $as_jl_Number(l$115$1);
-    var r$116 = $as_jl_Number(r$115$1);
-    var this$367 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$116));
-    var that$9 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$116);
-    var b$37 = $f_s_math_Ordered__$less__O__Z(this$367, that$9);
-    return new $c_T2(null, b$37);
-  }));
-  var $x_130 = new $c_T2(self$119, y$121);
-  var self$120 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$122 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$116$1, r$116$1) => {
-    var l$117 = $as_jl_Number(l$116$1);
-    var r$117 = $as_jl_Number(r$116$1);
-    var this$371 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$117));
-    var that$10 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$117);
-    var b$38 = $f_s_math_Ordered__$less__O__Z(this$371, that$10);
-    return new $c_T2(null, b$38);
-  }));
-  var $x_129 = new $c_T2(self$120, y$122);
-  var self$121 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$123 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$117$1, r$117$1) => {
-    var l$118 = $as_jl_Number(l$117$1);
-    var r$118 = $as_jl_Number(r$117$1);
-    var b$39 = ($dp_doubleValue__D($n(l$118)) < $dp_doubleValue__D($n(r$118)));
-    return new $c_T2(null, b$39);
-  }));
-  var $x_128 = new $c_T2(self$121, y$123);
-  var self$122 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$124 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$118$1, r$118$1) => {
-    var l$119 = $as_jl_Number(l$118$1);
-    var r$119 = $as_jl_Number(r$118$1);
-    var this$378 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$119));
-    var that$11 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$119);
-    var b$40 = $f_s_math_Ordered__$less__O__Z(this$378, that$11);
-    return new $c_T2(null, b$40);
-  }));
-  var funcs$9 = $x_135.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_134, $x_133, $x_130, $x_129, $x_128, new $c_T2(self$122, y$124)]));
-  this.define__s_Symbol__sci_Seq__V(op$9, funcs$9);
-  var this$381 = $m_s_Symbol$();
-  var op$10 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$381, ">"));
-  var $x_143 = $m_sr_ScalaRunTime$();
-  var self$123 = $m_Lio_github_edadma_dal_IntType$();
-  var y$125 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$119$1, r$119$1) => {
-    var l$120 = $as_jl_Number(l$119$1);
-    var r$120 = $as_jl_Number(r$119$1);
-    var b$41 = ($dp_intValue__I($n(l$120)) > $dp_intValue__I($n(r$120)));
-    return new $c_T2(null, b$41);
-  }));
-  var $x_142 = new $c_T2(self$123, y$125);
-  var self$124 = $m_Lio_github_edadma_dal_LongType$();
-  var y$126 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$120$1, r$120$1) => {
-    var l$121 = $as_jl_Number(l$120$1);
-    var r$121 = $as_jl_Number(r$120$1);
-    var $x_139 = $dp_longValue__J($n(l$121));
-    var x$31_$_lo = $x_139.l;
-    var x$31_$_hi = $x_139.h;
-    var $x_140 = $dp_longValue__J($n(r$121));
-    var x$32_$_lo = $x_140.l;
-    var x$32_$_hi = $x_140.h;
-    var b$42 = ((x$31_$_hi === x$32_$_hi) ? ((x$31_$_lo >>> 0) > (x$32_$_lo >>> 0)) : (x$31_$_hi > x$32_$_hi));
-    return new $c_T2(null, b$42);
-  }));
-  var $x_141 = new $c_T2(self$124, y$126);
-  var self$125 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$127 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$121$1, r$121$1) => {
-    var l$122 = $as_jl_Number(l$121$1);
-    var r$122 = $as_jl_Number(r$121$1);
-    var this$390 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$122));
-    var that$12 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$122);
-    var b$43 = $f_s_math_Ordered__$greater__O__Z(this$390, that$12);
-    return new $c_T2(null, b$43);
-  }));
-  var $x_138 = new $c_T2(self$125, y$127);
-  var self$126 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$128 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$122$1, r$122$1) => {
-    var l$123 = $as_jl_Number(l$122$1);
-    var r$123 = $as_jl_Number(r$122$1);
-    var this$394 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$123));
-    var that$13 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$123);
-    var b$44 = $f_s_math_Ordered__$greater__O__Z(this$394, that$13);
-    return new $c_T2(null, b$44);
-  }));
-  var $x_137 = new $c_T2(self$126, y$128);
-  var self$127 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$129 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$123$1, r$123$1) => {
-    var l$124 = $as_jl_Number(l$123$1);
-    var r$124 = $as_jl_Number(r$123$1);
-    var b$45 = ($dp_doubleValue__D($n(l$124)) > $dp_doubleValue__D($n(r$124)));
-    return new $c_T2(null, b$45);
-  }));
-  var $x_136 = new $c_T2(self$127, y$129);
-  var self$128 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$130 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$124$1, r$124$1) => {
-    var l$125 = $as_jl_Number(l$124$1);
-    var r$125 = $as_jl_Number(r$124$1);
-    var this$401 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$125));
-    var that$14 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$125);
-    var b$46 = $f_s_math_Ordered__$greater__O__Z(this$401, that$14);
-    return new $c_T2(null, b$46);
-  }));
-  var funcs$10 = $x_143.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_142, $x_141, $x_138, $x_137, $x_136, new $c_T2(self$128, y$130)]));
-  this.define__s_Symbol__sci_Seq__V(op$10, funcs$10);
-  var this$404 = $m_s_Symbol$();
-  var op$11 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$404, "<="));
-  var $x_151 = $m_sr_ScalaRunTime$();
-  var self$129 = $m_Lio_github_edadma_dal_IntType$();
-  var y$131 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$125$1, r$125$1) => {
-    var l$126 = $as_jl_Number(l$125$1);
-    var r$126 = $as_jl_Number(r$125$1);
-    var b$47 = ($dp_intValue__I($n(l$126)) <= $dp_intValue__I($n(r$126)));
-    return new $c_T2(null, b$47);
-  }));
-  var $x_150 = new $c_T2(self$129, y$131);
-  var self$130 = $m_Lio_github_edadma_dal_LongType$();
-  var y$132 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$126$1, r$126$1) => {
-    var l$127 = $as_jl_Number(l$126$1);
-    var r$127 = $as_jl_Number(r$126$1);
-    var $x_147 = $dp_longValue__J($n(l$127));
-    var x$33_$_lo = $x_147.l;
-    var x$33_$_hi = $x_147.h;
-    var $x_148 = $dp_longValue__J($n(r$127));
-    var x$34_$_lo = $x_148.l;
-    var x$34_$_hi = $x_148.h;
-    var b$48 = ((x$33_$_hi === x$34_$_hi) ? ((x$33_$_lo >>> 0) <= (x$34_$_lo >>> 0)) : (x$33_$_hi < x$34_$_hi));
-    return new $c_T2(null, b$48);
-  }));
-  var $x_149 = new $c_T2(self$130, y$132);
-  var self$131 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$133 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$127$1, r$127$1) => {
-    var l$128 = $as_jl_Number(l$127$1);
-    var r$128 = $as_jl_Number(r$127$1);
-    var this$413 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$128));
-    var that$15 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$128);
-    var b$49 = $f_s_math_Ordered__$less$eq__O__Z(this$413, that$15);
-    return new $c_T2(null, b$49);
-  }));
-  var $x_146 = new $c_T2(self$131, y$133);
-  var self$132 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$134 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$128$1, r$128$1) => {
-    var l$129 = $as_jl_Number(l$128$1);
-    var r$129 = $as_jl_Number(r$128$1);
-    var this$417 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$129));
-    var that$16 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$129);
-    var b$50 = $f_s_math_Ordered__$less$eq__O__Z(this$417, that$16);
-    return new $c_T2(null, b$50);
-  }));
-  var $x_145 = new $c_T2(self$132, y$134);
-  var self$133 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$135 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$129$1, r$129$1) => {
-    var l$130 = $as_jl_Number(l$129$1);
-    var r$130 = $as_jl_Number(r$129$1);
-    var b$51 = ($dp_doubleValue__D($n(l$130)) <= $dp_doubleValue__D($n(r$130)));
-    return new $c_T2(null, b$51);
-  }));
-  var $x_144 = new $c_T2(self$133, y$135);
-  var self$134 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$136 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$130$1, r$130$1) => {
-    var l$131 = $as_jl_Number(l$130$1);
-    var r$131 = $as_jl_Number(r$130$1);
-    var this$424 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$131));
-    var that$17 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$131);
-    var b$52 = $f_s_math_Ordered__$less$eq__O__Z(this$424, that$17);
-    return new $c_T2(null, b$52);
-  }));
-  var funcs$11 = $x_151.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_150, $x_149, $x_146, $x_145, $x_144, new $c_T2(self$134, y$136)]));
-  this.define__s_Symbol__sci_Seq__V(op$11, funcs$11);
-  var this$427 = $m_s_Symbol$();
-  var op$12 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$427, ">="));
-  var $x_159 = $m_sr_ScalaRunTime$();
-  var self$135 = $m_Lio_github_edadma_dal_IntType$();
-  var y$137 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$131$1, r$131$1) => {
-    var l$132 = $as_jl_Number(l$131$1);
-    var r$132 = $as_jl_Number(r$131$1);
-    var b$53 = ($dp_intValue__I($n(l$132)) >= $dp_intValue__I($n(r$132)));
-    return new $c_T2(null, b$53);
-  }));
-  var $x_158 = new $c_T2(self$135, y$137);
-  var self$136 = $m_Lio_github_edadma_dal_LongType$();
-  var y$138 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$132$1, r$132$1) => {
-    var l$133 = $as_jl_Number(l$132$1);
-    var r$133 = $as_jl_Number(r$132$1);
-    var $x_155 = $dp_longValue__J($n(l$133));
-    var x$35_$_lo = $x_155.l;
-    var x$35_$_hi = $x_155.h;
-    var $x_156 = $dp_longValue__J($n(r$133));
-    var x$36_$_lo = $x_156.l;
-    var x$36_$_hi = $x_156.h;
-    var b$54 = ((x$35_$_hi === x$36_$_hi) ? ((x$35_$_lo >>> 0) >= (x$36_$_lo >>> 0)) : (x$35_$_hi > x$36_$_hi));
-    return new $c_T2(null, b$54);
-  }));
-  var $x_157 = new $c_T2(self$136, y$138);
-  var self$137 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$139 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$133$1, r$133$1) => {
-    var l$134 = $as_jl_Number(l$133$1);
-    var r$134 = $as_jl_Number(r$133$1);
-    var this$436 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$134));
-    var that$18 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$134);
-    var b$55 = $f_s_math_Ordered__$greater$eq__O__Z(this$436, that$18);
-    return new $c_T2(null, b$55);
-  }));
-  var $x_154 = new $c_T2(self$137, y$139);
-  var self$138 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$140 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$134$1, r$134$1) => {
-    var l$135 = $as_jl_Number(l$134$1);
-    var r$135 = $as_jl_Number(r$134$1);
-    var this$440 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$135));
-    var that$19 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$135);
-    var b$56 = $f_s_math_Ordered__$greater$eq__O__Z(this$440, that$19);
-    return new $c_T2(null, b$56);
-  }));
-  var $x_153 = new $c_T2(self$138, y$140);
-  var self$139 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$141 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$135$1, r$135$1) => {
-    var l$136 = $as_jl_Number(l$135$1);
-    var r$136 = $as_jl_Number(r$135$1);
-    var b$57 = ($dp_doubleValue__D($n(l$136)) >= $dp_doubleValue__D($n(r$136)));
-    return new $c_T2(null, b$57);
-  }));
-  var $x_152 = new $c_T2(self$139, y$141);
-  var self$140 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$142 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$136$1, r$136$1) => {
-    var l$137 = $as_jl_Number(l$136$1);
-    var r$137 = $as_jl_Number(r$136$1);
-    var this$447 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$137));
-    var that$20 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$137);
-    var b$58 = $f_s_math_Ordered__$greater$eq__O__Z(this$447, that$20);
-    return new $c_T2(null, b$58);
-  }));
-  var funcs$12 = $x_159.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_158, $x_157, $x_154, $x_153, $x_152, new $c_T2(self$140, y$142)]));
-  this.define__s_Symbol__sci_Seq__V(op$12, funcs$12);
-  var this$450 = $m_s_Symbol$();
-  var op$13 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$450, "div"));
-  var $x_165 = $m_sr_ScalaRunTime$();
-  var self$141 = $m_Lio_github_edadma_dal_IntType$();
-  var y$143 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$137$1, r$137$1) => {
-    var l$138 = $as_jl_Number(l$137$1);
-    var r$138 = $as_jl_Number(r$137$1);
-    var b$59 = ((($dp_intValue__I($n(r$138)) % $checkIntDivisor($dp_intValue__I($n(l$138)))) | 0) === 0);
-    return new $c_T2(null, b$59);
-  }));
-  var $x_164 = new $c_T2(self$141, y$143);
-  var self$142 = $m_Lio_github_edadma_dal_LongType$();
-  var y$144 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$138$1, r$138$1) => {
-    var l$139 = $as_jl_Number(l$138$1);
-    var r$139 = $as_jl_Number(r$138$1);
-    var $x_160 = $dp_longValue__J($n(r$139));
-    var x$37_$_lo = $x_160.l;
-    var x$37_$_hi = $x_160.h;
-    var $x_161 = $dp_longValue__J($n(l$139));
-    var x$38_$_lo = $x_161.l;
-    var x$38_$_hi = $x_161.h;
-    var $x_162 = $m_RTLong$().remainder__I__I__I__I__J(x$37_$_lo, x$37_$_hi, x$38_$_lo, x$38_$_hi);
-    var x$39_$_lo = $x_162.l;
-    var x$39_$_hi = $x_162.h;
-    var b$60 = ((x$39_$_lo | x$39_$_hi) === 0);
-    return new $c_T2(null, b$60);
-  }));
-  var $x_163 = new $c_T2(self$142, y$144);
-  var self$143 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$145 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$139$1, r$139$1) => {
-    var l$140 = $as_jl_Number(l$139$1);
-    var r$140 = $as_jl_Number(r$139$1);
-    var xn$18 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$140)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$140));
-    var b$61 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$18, 0);
-    return new $c_T2(null, b$61);
-  }));
-  var funcs$13 = $x_165.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_164, $x_163, new $c_T2(self$143, y$145)]));
-  this.define__s_Symbol__sci_Seq__V(op$13, funcs$13);
-  var this$461 = $m_s_Symbol$();
-  var op$14 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$461, "\\"));
-  var $x_171 = $m_sr_ScalaRunTime$();
-  var self$144 = $m_Lio_github_edadma_dal_IntType$();
-  var y$146 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$140$1, r$140$1) => {
-    var l$141 = $as_jl_Number(l$140$1);
-    var r$141 = $as_jl_Number(r$140$1);
-    var _1$53 = $m_Lio_github_edadma_dal_IntType$();
-    var x$40 = (($dp_intValue__I($n(l$141)) / $checkIntDivisor($dp_intValue__I($n(r$141)))) | 0);
-    return new $c_T2(_1$53, x$40);
-  }));
-  var $x_170 = new $c_T2(self$144, y$146);
-  var self$145 = $m_Lio_github_edadma_dal_LongType$();
-  var y$147 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$141$1, r$141$1) => {
-    var l$142 = $as_jl_Number(l$141$1);
-    var r$142 = $as_jl_Number(r$141$1);
-    var _1$54 = $m_Lio_github_edadma_dal_LongType$();
-    var $x_166 = $dp_longValue__J($n(l$142));
-    var x$41_$_lo = $x_166.l;
-    var x$41_$_hi = $x_166.h;
-    var $x_167 = $dp_longValue__J($n(r$142));
-    var x$42_$_lo = $x_167.l;
-    var x$42_$_hi = $x_167.h;
-    var $x_168 = $m_RTLong$().divide__I__I__I__I__J(x$41_$_lo, x$41_$_hi, x$42_$_lo, x$42_$_hi);
-    var x$43_$_lo = $x_168.l;
-    var x$43_$_hi = $x_168.h;
-    return new $c_T2(_1$54, $bL(x$43_$_lo, x$43_$_hi));
-  }));
-  var $x_169 = new $c_T2(self$145, y$147);
-  var self$146 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$148 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$142$1, r$142$1) => {
-    var l$143 = $as_jl_Number(l$142$1);
-    var r$143 = $as_jl_Number(r$142$1);
-    var _1$55 = $m_Lio_github_edadma_dal_BigIntType$();
-    var _2$40 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$143)).$div__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$143));
+    var _1$55 = $m_Lio_github_edadma_dal_BigDecType$();
+    var this$287 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$91));
+    var that$8 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$91);
+    var _2$40 = this$287.remainder__s_math_BigDecimal__s_math_BigDecimal(that$8);
     return new $c_T2(_1$55, _2$40);
   }));
-  var funcs$14 = $x_171.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_170, $x_169, new $c_T2(self$146, y$148)]));
-  this.define__s_Symbol__sci_Seq__V(op$14, funcs$14);
-  var this$473 = $m_s_Symbol$();
-  var op$15 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$473, "and"));
-  var $x_176 = $m_sr_ScalaRunTime$();
-  var self$147 = $m_Lio_github_edadma_dal_IntType$();
-  var y$149 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$143$1, r$143$1) => {
+  var funcs$6 = $x_101.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_100, $x_99, $x_98, $x_97, new $c_T2(self$94, y$97)]));
+  this.define__s_Symbol__sci_Seq__V(op$6, funcs$6);
+  var this$290 = $m_s_Symbol$();
+  var op$7 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$290, "="));
+  var $x_118 = $m_sr_ScalaRunTime$();
+  var self$95 = $m_Lio_github_edadma_dal_IntType$();
+  var y$98 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$91$1, r$91$1) => {
+    var l$92 = $as_jl_Number(l$91$1);
+    var r$92 = $as_jl_Number(r$91$1);
+    var b$14 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(l$92, r$92);
+    return new $c_T2(null, b$14);
+  }));
+  var $x_117 = new $c_T2(self$95, y$98);
+  var self$96 = $m_Lio_github_edadma_dal_LongType$();
+  var y$99 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$92$1, r$92$1) => {
+    var l$93 = $as_jl_Number(l$92$1);
+    var r$93 = $as_jl_Number(r$92$1);
+    var $x_114 = $dp_longValue__J($n(l$93));
+    var x$24_$_lo = $x_114.l;
+    var x$24_$_hi = $x_114.h;
+    var $x_115 = $dp_longValue__J($n(r$93));
+    var x$25_$_lo = $x_115.l;
+    var x$25_$_hi = $x_115.h;
+    var b$15 = (((x$24_$_lo ^ x$25_$_lo) | (x$24_$_hi ^ x$25_$_hi)) === 0);
+    return new $c_T2(null, b$15);
+  }));
+  var $x_116 = new $c_T2(self$96, y$99);
+  var self$97 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$100 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$93$1, r$93$1) => {
+    var l$94 = $as_jl_Number(l$93$1);
+    var r$94 = $as_jl_Number(r$93$1);
+    var x$26 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$94);
+    var x$2$1 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$94);
+    var b$16 = ((x$26 === null) ? (x$2$1 === null) : $n(x$26).equals__O__Z(x$2$1));
+    return new $c_T2(null, b$16);
+  }));
+  var $x_113 = new $c_T2(self$97, y$100);
+  var self$98 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$101 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$94$1, r$94$1) => {
+    var l$95 = $as_jl_Number(l$94$1);
+    var r$95 = $as_jl_Number(r$94$1);
+    var xn = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$95);
+    var yn = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$95);
+    var b$17 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn, yn);
+    return new $c_T2(null, b$17);
+  }));
+  var $x_112 = new $c_T2(self$98, y$101);
+  var self$99 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$102 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$95$1, r$95$1) => {
+    var l$96 = $as_jl_Number(l$95$1);
+    var r$96 = $as_jl_Number(r$95$1);
+    var xn$1 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$96);
+    var yn$1 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$96);
+    var b$18 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$1, yn$1);
+    return new $c_T2(null, b$18);
+  }));
+  var $x_111 = new $c_T2(self$99, y$102);
+  var self$100 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$103 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$96$1, r$96$1) => {
+    var l$97 = $as_jl_Number(l$96$1);
+    var r$97 = $as_jl_Number(r$96$1);
+    var b$19 = ($dp_doubleValue__D($n(l$97)) === $dp_doubleValue__D($n(r$97)));
+    return new $c_T2(null, b$19);
+  }));
+  var $x_110 = new $c_T2(self$100, y$103);
+  var self$101 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$104 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$97$1, r$97$1) => {
+    var l$98 = $as_jl_Number(l$97$1);
+    var r$98 = $as_jl_Number(r$97$1);
+    var x$27 = this.toBigDecimal__jl_Number__s_math_BigDecimal(l$98);
+    var x$2$2 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$98);
+    var b$20 = ((x$27 === null) ? (x$2$2 === null) : $n(x$27).equals__O__Z(x$2$2));
+    return new $c_T2(null, b$20);
+  }));
+  var $x_109 = new $c_T2(self$101, y$104);
+  var self$102 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
+  var y$105 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$98$1, r$98$1) => {
+    var l$99 = $as_jl_Number(l$98$1);
+    var r$99 = $as_jl_Number(r$98$1);
+    var xn$2 = this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(l$99);
+    var yn$2 = this.toComplexBigInt__jl_Number__Lio_github_edadma_numbers_ComplexBigInt(r$99);
+    var b$21 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$2, yn$2);
+    return new $c_T2(null, b$21);
+  }));
+  var $x_108 = new $c_T2(self$102, y$105);
+  var self$103 = $m_Lio_github_edadma_dal_ComplexRationalType$();
+  var y$106 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$99$1, r$99$1) => {
+    var l$100 = $as_jl_Number(l$99$1);
+    var r$100 = $as_jl_Number(r$99$1);
+    var xn$3 = this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(l$100);
+    var yn$3 = this.toComplexRational__jl_Number__Lio_github_edadma_numbers_ComplexRational(r$100);
+    var b$22 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$3, yn$3);
+    return new $c_T2(null, b$22);
+  }));
+  var $x_107 = new $c_T2(self$103, y$106);
+  var self$104 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+  var y$107 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$100$1, r$100$1) => {
+    var l$101 = $as_jl_Number(l$100$1);
+    var r$101 = $as_jl_Number(r$100$1);
+    var xn$4 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$101);
+    var yn$4 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$101);
+    var b$23 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$4, yn$4);
+    return new $c_T2(null, b$23);
+  }));
+  var $x_106 = new $c_T2(self$104, y$107);
+  var self$105 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var y$108 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$101$1, r$101$1) => {
+    var l$102 = $as_jl_Number(l$101$1);
+    var r$102 = $as_jl_Number(r$101$1);
+    var xn$5 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$102);
+    var yn$5 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$102);
+    var b$24 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$5, yn$5);
+    return new $c_T2(null, b$24);
+  }));
+  var $x_105 = new $c_T2(self$105, y$108);
+  var self$106 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var y$109 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$102$1, r$102$1) => {
+    var l$103 = $as_jl_Number(l$102$1);
+    var r$103 = $as_jl_Number(r$102$1);
+    var xn$6 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$103);
+    var yn$6 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$103);
+    var b$25 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$6, yn$6);
+    return new $c_T2(null, b$25);
+  }));
+  var $x_104 = new $c_T2(self$106, y$109);
+  var self$107 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var y$110 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$103$1, r$103$1) => {
+    var l$104 = $as_jl_Number(l$103$1);
+    var r$104 = $as_jl_Number(r$103$1);
+    var xn$7 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$104);
+    var yn$7 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$104);
+    var b$26 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$7, yn$7);
+    return new $c_T2(null, b$26);
+  }));
+  var $x_103 = new $c_T2(self$107, y$110);
+  var self$108 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var y$111 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$104$1, r$104$1) => {
+    var l$105 = $as_jl_Number(l$104$1);
+    var r$105 = $as_jl_Number(r$104$1);
+    var xn$8 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$105);
+    var yn$8 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$105);
+    var b$27 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$8, yn$8);
+    return new $c_T2(null, b$27);
+  }));
+  var $x_102 = new $c_T2(self$108, y$111);
+  var self$109 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var y$112 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$105$1, r$105$1) => {
+    var l$106 = $as_jl_Number(l$105$1);
+    var r$106 = $as_jl_Number(r$105$1);
+    var xn$9 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$106);
+    var yn$9 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$106);
+    var b$28 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$9, yn$9);
+    return new $c_T2(null, b$28);
+  }));
+  var funcs$7 = $x_118.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_117, $x_116, $x_113, $x_112, $x_111, $x_110, $x_109, $x_108, $x_107, $x_106, $x_105, $x_104, $x_103, $x_102, new $c_T2(self$109, y$112)]));
+  this.define__s_Symbol__sci_Seq__V(op$7, funcs$7);
+  var this$337 = $m_s_Symbol$();
+  var op$8 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$337, "!="));
+  var $x_135 = $m_sr_ScalaRunTime$();
+  var self$110 = $m_Lio_github_edadma_dal_IntType$();
+  var y$113 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$106$1, r$106$1) => {
+    var l$107 = $as_jl_Number(l$106$1);
+    var r$107 = $as_jl_Number(r$106$1);
+    var b$29 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(l$107, r$107));
+    return new $c_T2(null, b$29);
+  }));
+  var $x_134 = new $c_T2(self$110, y$113);
+  var self$111 = $m_Lio_github_edadma_dal_LongType$();
+  var y$114 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$107$1, r$107$1) => {
+    var l$108 = $as_jl_Number(l$107$1);
+    var r$108 = $as_jl_Number(r$107$1);
+    var $x_131 = $dp_longValue__J($n(l$108));
+    var x$28_$_lo = $x_131.l;
+    var x$28_$_hi = $x_131.h;
+    var $x_132 = $dp_longValue__J($n(r$108));
+    var x$29_$_lo = $x_132.l;
+    var x$29_$_hi = $x_132.h;
+    var b$30 = (((x$28_$_lo ^ x$29_$_lo) | (x$28_$_hi ^ x$29_$_hi)) !== 0);
+    return new $c_T2(null, b$30);
+  }));
+  var $x_133 = new $c_T2(self$111, y$114);
+  var self$112 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$115 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$108$1, r$108$1) => {
+    var l$109 = $as_jl_Number(l$108$1);
+    var r$109 = $as_jl_Number(r$108$1);
+    var x$30 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$109);
+    var x$2$3 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$109);
+    var b$31 = (!((x$30 === null) ? (x$2$3 === null) : $n(x$30).equals__O__Z(x$2$3)));
+    return new $c_T2(null, b$31);
+  }));
+  var $x_130 = new $c_T2(self$112, y$115);
+  var self$113 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$116 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$109$1, r$109$1) => {
+    var l$110 = $as_jl_Number(l$109$1);
+    var r$110 = $as_jl_Number(r$109$1);
+    var xn$10 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$110);
+    var yn$10 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$110);
+    var b$32 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$10, yn$10));
+    return new $c_T2(null, b$32);
+  }));
+  var $x_129 = new $c_T2(self$113, y$116);
+  var self$114 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$117 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$110$1, r$110$1) => {
+    var l$111 = $as_jl_Number(l$110$1);
+    var r$111 = $as_jl_Number(r$110$1);
+    var xn$11 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$111);
+    var yn$11 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$111);
+    var b$33 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$11, yn$11));
+    return new $c_T2(null, b$33);
+  }));
+  var $x_128 = new $c_T2(self$114, y$117);
+  var self$115 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$118 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$111$1, r$111$1) => {
+    var l$112 = $as_jl_Number(l$111$1);
+    var r$112 = $as_jl_Number(r$111$1);
+    var b$34 = ($dp_doubleValue__D($n(l$112)) !== $dp_doubleValue__D($n(r$112)));
+    return new $c_T2(null, b$34);
+  }));
+  var $x_127 = new $c_T2(self$115, y$118);
+  var self$116 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$119 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$112$1, r$112$1) => {
+    var l$113 = $as_jl_Number(l$112$1);
+    var r$113 = $as_jl_Number(r$112$1);
+    var x$31 = this.toBigDecimal__jl_Number__s_math_BigDecimal(l$113);
+    var x$2$4 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$113);
+    var b$35 = (!((x$31 === null) ? (x$2$4 === null) : $n(x$31).equals__O__Z(x$2$4)));
+    return new $c_T2(null, b$35);
+  }));
+  var $x_126 = new $c_T2(self$116, y$119);
+  var self$117 = $m_Lio_github_edadma_dal_ComplexBigIntType$();
+  var y$120 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$113$1, r$113$1) => {
+    var l$114 = $as_jl_Number(l$113$1);
+    var r$114 = $as_jl_Number(r$113$1);
+    var xn$12 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$114);
+    var yn$12 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$114);
+    var b$36 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$12, yn$12));
+    return new $c_T2(null, b$36);
+  }));
+  var $x_125 = new $c_T2(self$117, y$120);
+  var self$118 = $m_Lio_github_edadma_dal_ComplexRationalType$();
+  var y$121 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$114$1, r$114$1) => {
+    var l$115 = $as_jl_Number(l$114$1);
+    var r$115 = $as_jl_Number(r$114$1);
+    var xn$13 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$115);
+    var yn$13 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$115);
+    var b$37 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$13, yn$13));
+    return new $c_T2(null, b$37);
+  }));
+  var $x_124 = new $c_T2(self$118, y$121);
+  var self$119 = $m_Lio_github_edadma_dal_ComplexDoubleType$();
+  var y$122 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$115$1, r$115$1) => {
+    var l$116 = $as_jl_Number(l$115$1);
+    var r$116 = $as_jl_Number(r$115$1);
+    var xn$14 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(l$116);
+    var yn$14 = this.toComplexDouble__jl_Number__Lio_github_edadma_numbers_ComplexDouble(r$116);
+    var b$38 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$14, yn$14));
+    return new $c_T2(null, b$38);
+  }));
+  var $x_123 = new $c_T2(self$119, y$122);
+  var self$120 = $m_Lio_github_edadma_dal_ComplexBigDecType$();
+  var y$123 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$116$1, r$116$1) => {
+    var l$117 = $as_jl_Number(l$116$1);
+    var r$117 = $as_jl_Number(r$116$1);
+    var xn$15 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(l$117);
+    var yn$15 = this.toComplexBigDecimal__jl_Number__Lio_github_edadma_numbers_ComplexBigDecimal(r$117);
+    var b$39 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$15, yn$15));
+    return new $c_T2(null, b$39);
+  }));
+  var $x_122 = new $c_T2(self$120, y$123);
+  var self$121 = $m_Lio_github_edadma_dal_QuaternionBigIntType$();
+  var y$124 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$117$1, r$117$1) => {
+    var l$118 = $as_jl_Number(l$117$1);
+    var r$118 = $as_jl_Number(r$117$1);
+    var xn$16 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(l$118);
+    var yn$16 = this.toQuaternionBigInt__jl_Number__Lio_github_edadma_numbers_QuaternionBigInt(r$118);
+    var b$40 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$16, yn$16));
+    return new $c_T2(null, b$40);
+  }));
+  var $x_121 = new $c_T2(self$121, y$124);
+  var self$122 = $m_Lio_github_edadma_dal_QuaternionRationalType$();
+  var y$125 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$118$1, r$118$1) => {
+    var l$119 = $as_jl_Number(l$118$1);
+    var r$119 = $as_jl_Number(r$118$1);
+    var xn$17 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(l$119);
+    var yn$17 = this.toQuaternionRational__jl_Number__Lio_github_edadma_numbers_QuaternionRational(r$119);
+    var b$41 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$17, yn$17));
+    return new $c_T2(null, b$41);
+  }));
+  var $x_120 = new $c_T2(self$122, y$125);
+  var self$123 = $m_Lio_github_edadma_dal_QuaternionDoubleType$();
+  var y$126 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$119$1, r$119$1) => {
+    var l$120 = $as_jl_Number(l$119$1);
+    var r$120 = $as_jl_Number(r$119$1);
+    var xn$18 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(l$120);
+    var yn$18 = this.toQuaternionDouble__jl_Number__Lio_github_edadma_numbers_QuaternionDouble(r$120);
+    var b$42 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$18, yn$18));
+    return new $c_T2(null, b$42);
+  }));
+  var $x_119 = new $c_T2(self$123, y$126);
+  var self$124 = $m_Lio_github_edadma_dal_QuaternionBigDecType$();
+  var y$127 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$120$1, r$120$1) => {
+    var l$121 = $as_jl_Number(l$120$1);
+    var r$121 = $as_jl_Number(r$120$1);
+    var xn$19 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(l$121);
+    var yn$19 = this.toQuaternionBigDecimal__jl_Number__Lio_github_edadma_numbers_QuaternionBigDecimal(r$121);
+    var b$43 = (!$m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$19, yn$19));
+    return new $c_T2(null, b$43);
+  }));
+  var funcs$8 = $x_135.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_134, $x_133, $x_130, $x_129, $x_128, $x_127, $x_126, $x_125, $x_124, $x_123, $x_122, $x_121, $x_120, $x_119, new $c_T2(self$124, y$127)]));
+  this.define__s_Symbol__sci_Seq__V(op$8, funcs$8);
+  var this$384 = $m_s_Symbol$();
+  var op$9 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$384, "<"));
+  var $x_144 = $m_sr_ScalaRunTime$();
+  var self$125 = $m_Lio_github_edadma_dal_IntType$();
+  var y$128 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$121$1, r$121$1) => {
+    var l$122 = $as_jl_Number(l$121$1);
+    var r$122 = $as_jl_Number(r$121$1);
+    var b$44 = ($dp_intValue__I($n(l$122)) < $dp_intValue__I($n(r$122)));
+    return new $c_T2(null, b$44);
+  }));
+  var $x_143 = new $c_T2(self$125, y$128);
+  var self$126 = $m_Lio_github_edadma_dal_LongType$();
+  var y$129 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$122$1, r$122$1) => {
+    var l$123 = $as_jl_Number(l$122$1);
+    var r$123 = $as_jl_Number(r$122$1);
+    var $x_140 = $dp_longValue__J($n(l$123));
+    var x$32_$_lo = $x_140.l;
+    var x$32_$_hi = $x_140.h;
+    var $x_141 = $dp_longValue__J($n(r$123));
+    var x$33_$_lo = $x_141.l;
+    var x$33_$_hi = $x_141.h;
+    var b$45 = ((x$32_$_hi === x$33_$_hi) ? ((x$32_$_lo >>> 0) < (x$33_$_lo >>> 0)) : (x$32_$_hi < x$33_$_hi));
+    return new $c_T2(null, b$45);
+  }));
+  var $x_142 = new $c_T2(self$126, y$129);
+  var self$127 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$130 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$123$1, r$123$1) => {
+    var l$124 = $as_jl_Number(l$123$1);
+    var r$124 = $as_jl_Number(r$123$1);
+    var this$393 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$124));
+    var that$9 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$124);
+    var b$46 = $f_s_math_Ordered__$less__O__Z(this$393, that$9);
+    return new $c_T2(null, b$46);
+  }));
+  var $x_139 = new $c_T2(self$127, y$130);
+  var self$128 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$131 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$124$1, r$124$1) => {
+    var l$125 = $as_jl_Number(l$124$1);
+    var r$125 = $as_jl_Number(r$124$1);
+    var this$397 = $n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$125));
+    var that$10 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$125);
+    var b$47 = $f_s_math_Ordered__$less__O__Z(this$397, that$10);
+    return new $c_T2(null, b$47);
+  }));
+  var $x_138 = new $c_T2(self$128, y$131);
+  var self$129 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$132 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$125$1, r$125$1) => {
+    var l$126 = $as_jl_Number(l$125$1);
+    var r$126 = $as_jl_Number(r$125$1);
+    var this$401 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$126));
+    var that$11 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$126);
+    var b$48 = $f_s_math_Ordered__$less__O__Z(this$401, that$11);
+    return new $c_T2(null, b$48);
+  }));
+  var $x_137 = new $c_T2(self$129, y$132);
+  var self$130 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$133 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$126$1, r$126$1) => {
+    var l$127 = $as_jl_Number(l$126$1);
+    var r$127 = $as_jl_Number(r$126$1);
+    var b$49 = ($dp_doubleValue__D($n(l$127)) < $dp_doubleValue__D($n(r$127)));
+    return new $c_T2(null, b$49);
+  }));
+  var $x_136 = new $c_T2(self$130, y$133);
+  var self$131 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$134 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$127$1, r$127$1) => {
+    var l$128 = $as_jl_Number(l$127$1);
+    var r$128 = $as_jl_Number(r$127$1);
+    var this$408 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$128));
+    var that$12 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$128);
+    var b$50 = $f_s_math_Ordered__$less__O__Z(this$408, that$12);
+    return new $c_T2(null, b$50);
+  }));
+  var funcs$9 = $x_144.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_143, $x_142, $x_139, $x_138, $x_137, $x_136, new $c_T2(self$131, y$134)]));
+  this.define__s_Symbol__sci_Seq__V(op$9, funcs$9);
+  var this$411 = $m_s_Symbol$();
+  var op$10 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$411, ">"));
+  var $x_153 = $m_sr_ScalaRunTime$();
+  var self$132 = $m_Lio_github_edadma_dal_IntType$();
+  var y$135 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$128$1, r$128$1) => {
+    var l$129 = $as_jl_Number(l$128$1);
+    var r$129 = $as_jl_Number(r$128$1);
+    var b$51 = ($dp_intValue__I($n(l$129)) > $dp_intValue__I($n(r$129)));
+    return new $c_T2(null, b$51);
+  }));
+  var $x_152 = new $c_T2(self$132, y$135);
+  var self$133 = $m_Lio_github_edadma_dal_LongType$();
+  var y$136 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$129$1, r$129$1) => {
+    var l$130 = $as_jl_Number(l$129$1);
+    var r$130 = $as_jl_Number(r$129$1);
+    var $x_149 = $dp_longValue__J($n(l$130));
+    var x$34_$_lo = $x_149.l;
+    var x$34_$_hi = $x_149.h;
+    var $x_150 = $dp_longValue__J($n(r$130));
+    var x$35_$_lo = $x_150.l;
+    var x$35_$_hi = $x_150.h;
+    var b$52 = ((x$34_$_hi === x$35_$_hi) ? ((x$34_$_lo >>> 0) > (x$35_$_lo >>> 0)) : (x$34_$_hi > x$35_$_hi));
+    return new $c_T2(null, b$52);
+  }));
+  var $x_151 = new $c_T2(self$133, y$136);
+  var self$134 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$137 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$130$1, r$130$1) => {
+    var l$131 = $as_jl_Number(l$130$1);
+    var r$131 = $as_jl_Number(r$130$1);
+    var this$420 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$131));
+    var that$13 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$131);
+    var b$53 = $f_s_math_Ordered__$greater__O__Z(this$420, that$13);
+    return new $c_T2(null, b$53);
+  }));
+  var $x_148 = new $c_T2(self$134, y$137);
+  var self$135 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$138 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$131$1, r$131$1) => {
+    var l$132 = $as_jl_Number(l$131$1);
+    var r$132 = $as_jl_Number(r$131$1);
+    var this$424 = $n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$132));
+    var that$14 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$132);
+    var b$54 = $f_s_math_Ordered__$greater__O__Z(this$424, that$14);
+    return new $c_T2(null, b$54);
+  }));
+  var $x_147 = new $c_T2(self$135, y$138);
+  var self$136 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$139 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$132$1, r$132$1) => {
+    var l$133 = $as_jl_Number(l$132$1);
+    var r$133 = $as_jl_Number(r$132$1);
+    var this$428 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$133));
+    var that$15 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$133);
+    var b$55 = $f_s_math_Ordered__$greater__O__Z(this$428, that$15);
+    return new $c_T2(null, b$55);
+  }));
+  var $x_146 = new $c_T2(self$136, y$139);
+  var self$137 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$140 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$133$1, r$133$1) => {
+    var l$134 = $as_jl_Number(l$133$1);
+    var r$134 = $as_jl_Number(r$133$1);
+    var b$56 = ($dp_doubleValue__D($n(l$134)) > $dp_doubleValue__D($n(r$134)));
+    return new $c_T2(null, b$56);
+  }));
+  var $x_145 = new $c_T2(self$137, y$140);
+  var self$138 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$141 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$134$1, r$134$1) => {
+    var l$135 = $as_jl_Number(l$134$1);
+    var r$135 = $as_jl_Number(r$134$1);
+    var this$435 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$135));
+    var that$16 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$135);
+    var b$57 = $f_s_math_Ordered__$greater__O__Z(this$435, that$16);
+    return new $c_T2(null, b$57);
+  }));
+  var funcs$10 = $x_153.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_152, $x_151, $x_148, $x_147, $x_146, $x_145, new $c_T2(self$138, y$141)]));
+  this.define__s_Symbol__sci_Seq__V(op$10, funcs$10);
+  var this$438 = $m_s_Symbol$();
+  var op$11 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$438, "<="));
+  var $x_162 = $m_sr_ScalaRunTime$();
+  var self$139 = $m_Lio_github_edadma_dal_IntType$();
+  var y$142 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$135$1, r$135$1) => {
+    var l$136 = $as_jl_Number(l$135$1);
+    var r$136 = $as_jl_Number(r$135$1);
+    var b$58 = ($dp_intValue__I($n(l$136)) <= $dp_intValue__I($n(r$136)));
+    return new $c_T2(null, b$58);
+  }));
+  var $x_161 = new $c_T2(self$139, y$142);
+  var self$140 = $m_Lio_github_edadma_dal_LongType$();
+  var y$143 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$136$1, r$136$1) => {
+    var l$137 = $as_jl_Number(l$136$1);
+    var r$137 = $as_jl_Number(r$136$1);
+    var $x_158 = $dp_longValue__J($n(l$137));
+    var x$36_$_lo = $x_158.l;
+    var x$36_$_hi = $x_158.h;
+    var $x_159 = $dp_longValue__J($n(r$137));
+    var x$37_$_lo = $x_159.l;
+    var x$37_$_hi = $x_159.h;
+    var b$59 = ((x$36_$_hi === x$37_$_hi) ? ((x$36_$_lo >>> 0) <= (x$37_$_lo >>> 0)) : (x$36_$_hi < x$37_$_hi));
+    return new $c_T2(null, b$59);
+  }));
+  var $x_160 = new $c_T2(self$140, y$143);
+  var self$141 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$144 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$137$1, r$137$1) => {
+    var l$138 = $as_jl_Number(l$137$1);
+    var r$138 = $as_jl_Number(r$137$1);
+    var this$447 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$138));
+    var that$17 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$138);
+    var b$60 = $f_s_math_Ordered__$less$eq__O__Z(this$447, that$17);
+    return new $c_T2(null, b$60);
+  }));
+  var $x_157 = new $c_T2(self$141, y$144);
+  var self$142 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$145 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$138$1, r$138$1) => {
+    var l$139 = $as_jl_Number(l$138$1);
+    var r$139 = $as_jl_Number(r$138$1);
+    var this$451 = $n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$139));
+    var that$18 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$139);
+    var b$61 = $f_s_math_Ordered__$less$eq__O__Z(this$451, that$18);
+    return new $c_T2(null, b$61);
+  }));
+  var $x_156 = new $c_T2(self$142, y$145);
+  var self$143 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$146 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$139$1, r$139$1) => {
+    var l$140 = $as_jl_Number(l$139$1);
+    var r$140 = $as_jl_Number(r$139$1);
+    var this$455 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$140));
+    var that$19 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$140);
+    var b$62 = $f_s_math_Ordered__$less$eq__O__Z(this$455, that$19);
+    return new $c_T2(null, b$62);
+  }));
+  var $x_155 = new $c_T2(self$143, y$146);
+  var self$144 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$147 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$140$1, r$140$1) => {
+    var l$141 = $as_jl_Number(l$140$1);
+    var r$141 = $as_jl_Number(r$140$1);
+    var b$63 = ($dp_doubleValue__D($n(l$141)) <= $dp_doubleValue__D($n(r$141)));
+    return new $c_T2(null, b$63);
+  }));
+  var $x_154 = new $c_T2(self$144, y$147);
+  var self$145 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$148 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$141$1, r$141$1) => {
+    var l$142 = $as_jl_Number(l$141$1);
+    var r$142 = $as_jl_Number(r$141$1);
+    var this$462 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$142));
+    var that$20 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$142);
+    var b$64 = $f_s_math_Ordered__$less$eq__O__Z(this$462, that$20);
+    return new $c_T2(null, b$64);
+  }));
+  var funcs$11 = $x_162.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_161, $x_160, $x_157, $x_156, $x_155, $x_154, new $c_T2(self$145, y$148)]));
+  this.define__s_Symbol__sci_Seq__V(op$11, funcs$11);
+  var this$465 = $m_s_Symbol$();
+  var op$12 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$465, ">="));
+  var $x_171 = $m_sr_ScalaRunTime$();
+  var self$146 = $m_Lio_github_edadma_dal_IntType$();
+  var y$149 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$142$1, r$142$1) => {
+    var l$143 = $as_jl_Number(l$142$1);
+    var r$143 = $as_jl_Number(r$142$1);
+    var b$65 = ($dp_intValue__I($n(l$143)) >= $dp_intValue__I($n(r$143)));
+    return new $c_T2(null, b$65);
+  }));
+  var $x_170 = new $c_T2(self$146, y$149);
+  var self$147 = $m_Lio_github_edadma_dal_LongType$();
+  var y$150 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$143$1, r$143$1) => {
     var l$144 = $as_jl_Number(l$143$1);
     var r$144 = $as_jl_Number(r$143$1);
-    var _1$56 = $m_Lio_github_edadma_dal_IntType$();
-    var x$44 = ($dp_intValue__I($n(l$144)) & $dp_intValue__I($n(r$144)));
-    return new $c_T2(_1$56, x$44);
+    var $x_167 = $dp_longValue__J($n(l$144));
+    var x$38_$_lo = $x_167.l;
+    var x$38_$_hi = $x_167.h;
+    var $x_168 = $dp_longValue__J($n(r$144));
+    var x$39_$_lo = $x_168.l;
+    var x$39_$_hi = $x_168.h;
+    var b$66 = ((x$38_$_hi === x$39_$_hi) ? ((x$38_$_lo >>> 0) >= (x$39_$_lo >>> 0)) : (x$38_$_hi > x$39_$_hi));
+    return new $c_T2(null, b$66);
   }));
-  var $x_175 = new $c_T2(self$147, y$149);
-  var self$148 = $m_Lio_github_edadma_dal_LongType$();
-  var y$150 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$144$1, r$144$1) => {
+  var $x_169 = new $c_T2(self$147, y$150);
+  var self$148 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$151 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$144$1, r$144$1) => {
     var l$145 = $as_jl_Number(l$144$1);
     var r$145 = $as_jl_Number(r$144$1);
-    var _1$57 = $m_Lio_github_edadma_dal_IntType$();
-    var $x_172 = $dp_longValue__J($n(l$145));
-    var x$45_$_lo = $x_172.l;
-    var x$45_$_hi = $x_172.h;
-    var $x_173 = $dp_longValue__J($n(r$145));
-    var x$46_$_lo = $x_173.l;
-    var x$46_$_hi = $x_173.h;
-    var lo$3 = (x$45_$_lo & x$46_$_lo);
-    var hi$3 = (x$45_$_hi & x$46_$_hi);
-    return new $c_T2(_1$57, $bL(lo$3, hi$3));
+    var this$474 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$145));
+    var that$21 = $m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$145);
+    var b$67 = $f_s_math_Ordered__$greater$eq__O__Z(this$474, that$21);
+    return new $c_T2(null, b$67);
   }));
-  var $x_174 = new $c_T2(self$148, y$150);
-  var self$149 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$151 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$145$1, r$145$1) => {
+  var $x_166 = new $c_T2(self$148, y$151);
+  var self$149 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$152 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$145$1, r$145$1) => {
     var l$146 = $as_jl_Number(l$145$1);
     var r$146 = $as_jl_Number(r$145$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$146)).$amp__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$146)));
+    var this$478 = $n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$146));
+    var that$22 = this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$146);
+    var b$68 = $f_s_math_Ordered__$greater$eq__O__Z(this$478, that$22);
+    return new $c_T2(null, b$68);
   }));
-  var funcs$15 = $x_176.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_175, $x_174, new $c_T2(self$149, y$151)]));
-  this.define__s_Symbol__sci_Seq__V(op$15, funcs$15);
-  var this$485 = $m_s_Symbol$();
-  var op$16 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$485, "or"));
-  var $x_181 = $m_sr_ScalaRunTime$();
-  var self$150 = $m_Lio_github_edadma_dal_IntType$();
-  var y$152 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$146$1, r$146$1) => {
+  var $x_165 = new $c_T2(self$149, y$152);
+  var self$150 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$153 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$146$1, r$146$1) => {
     var l$147 = $as_jl_Number(l$146$1);
     var r$147 = $as_jl_Number(r$146$1);
-    var _1$58 = $m_Lio_github_edadma_dal_IntType$();
-    var x$47 = ($dp_intValue__I($n(l$147)) | $dp_intValue__I($n(r$147)));
-    return new $c_T2(_1$58, x$47);
+    var this$482 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$147));
+    var that$23 = $m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$147);
+    var b$69 = $f_s_math_Ordered__$greater$eq__O__Z(this$482, that$23);
+    return new $c_T2(null, b$69);
   }));
-  var $x_180 = new $c_T2(self$150, y$152);
-  var self$151 = $m_Lio_github_edadma_dal_LongType$();
-  var y$153 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$147$1, r$147$1) => {
+  var $x_164 = new $c_T2(self$150, y$153);
+  var self$151 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$154 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$147$1, r$147$1) => {
     var l$148 = $as_jl_Number(l$147$1);
     var r$148 = $as_jl_Number(r$147$1);
-    var _1$59 = $m_Lio_github_edadma_dal_IntType$();
-    var $x_177 = $dp_longValue__J($n(l$148));
-    var x$48_$_lo = $x_177.l;
-    var x$48_$_hi = $x_177.h;
-    var $x_178 = $dp_longValue__J($n(r$148));
-    var x$49_$_lo = $x_178.l;
-    var x$49_$_hi = $x_178.h;
-    var lo$4 = (x$48_$_lo | x$49_$_lo);
-    var hi$4 = (x$48_$_hi | x$49_$_hi);
-    return new $c_T2(_1$59, $bL(lo$4, hi$4));
+    var b$70 = ($dp_doubleValue__D($n(l$148)) >= $dp_doubleValue__D($n(r$148)));
+    return new $c_T2(null, b$70);
   }));
-  var $x_179 = new $c_T2(self$151, y$153);
-  var self$152 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$154 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$148$1, r$148$1) => {
+  var $x_163 = new $c_T2(self$151, y$154);
+  var self$152 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$155 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$148$1, r$148$1) => {
     var l$149 = $as_jl_Number(l$148$1);
     var r$149 = $as_jl_Number(r$148$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$149)).$bar__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$149)));
+    var this$489 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$149));
+    var that$24 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$149);
+    var b$71 = $f_s_math_Ordered__$greater$eq__O__Z(this$489, that$24);
+    return new $c_T2(null, b$71);
   }));
-  var funcs$16 = $x_181.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_180, $x_179, new $c_T2(self$152, y$154)]));
-  this.define__s_Symbol__sci_Seq__V(op$16, funcs$16);
-  var this$497 = $m_s_Symbol$();
-  var op$17 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$497, "xor"));
-  var $x_186 = $m_sr_ScalaRunTime$();
+  var funcs$12 = $x_171.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_170, $x_169, $x_166, $x_165, $x_164, $x_163, new $c_T2(self$152, y$155)]));
+  this.define__s_Symbol__sci_Seq__V(op$12, funcs$12);
+  var this$492 = $m_s_Symbol$();
+  var op$13 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$492, "div"));
+  var $x_177 = $m_sr_ScalaRunTime$();
   var self$153 = $m_Lio_github_edadma_dal_IntType$();
-  var y$155 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$149$1, r$149$1) => {
+  var y$156 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$149$1, r$149$1) => {
     var l$150 = $as_jl_Number(l$149$1);
     var r$150 = $as_jl_Number(r$149$1);
-    var _1$60 = $m_Lio_github_edadma_dal_IntType$();
-    var x$50 = ($dp_intValue__I($n(l$150)) ^ $dp_intValue__I($n(r$150)));
-    return new $c_T2(_1$60, x$50);
+    var b$72 = ((($dp_intValue__I($n(r$150)) % $checkIntDivisor($dp_intValue__I($n(l$150)))) | 0) === 0);
+    return new $c_T2(null, b$72);
   }));
-  var $x_185 = new $c_T2(self$153, y$155);
+  var $x_176 = new $c_T2(self$153, y$156);
   var self$154 = $m_Lio_github_edadma_dal_LongType$();
-  var y$156 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$150$1, r$150$1) => {
+  var y$157 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$150$1, r$150$1) => {
     var l$151 = $as_jl_Number(l$150$1);
     var r$151 = $as_jl_Number(r$150$1);
-    var _1$61 = $m_Lio_github_edadma_dal_IntType$();
-    var $x_182 = $dp_longValue__J($n(l$151));
-    var x$51_$_lo = $x_182.l;
-    var x$51_$_hi = $x_182.h;
-    var $x_183 = $dp_longValue__J($n(r$151));
-    var x$52_$_lo = $x_183.l;
-    var x$52_$_hi = $x_183.h;
-    var lo$5 = (x$51_$_lo ^ x$52_$_lo);
-    var hi$5 = (x$51_$_hi ^ x$52_$_hi);
-    return new $c_T2(_1$61, $bL(lo$5, hi$5));
+    var $x_172 = $dp_longValue__J($n(r$151));
+    var x$40_$_lo = $x_172.l;
+    var x$40_$_hi = $x_172.h;
+    var $x_173 = $dp_longValue__J($n(l$151));
+    var x$41_$_lo = $x_173.l;
+    var x$41_$_hi = $x_173.h;
+    var $x_174 = $m_RTLong$().remainder__I__I__I__I__J(x$40_$_lo, x$40_$_hi, x$41_$_lo, x$41_$_hi);
+    var x$42_$_lo = $x_174.l;
+    var x$42_$_hi = $x_174.h;
+    var b$73 = ((x$42_$_lo | x$42_$_hi) === 0);
+    return new $c_T2(null, b$73);
   }));
-  var $x_184 = new $c_T2(self$154, y$156);
+  var $x_175 = new $c_T2(self$154, y$157);
   var self$155 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$157 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$151$1, r$151$1) => {
+  var y$158 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$151$1, r$151$1) => {
     var l$152 = $as_jl_Number(l$151$1);
     var r$152 = $as_jl_Number(r$151$1);
-    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$152)).$up__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$152)));
+    var xn$20 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$152)).$percent__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$152));
+    var b$74 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn$20, 0);
+    return new $c_T2(null, b$74);
   }));
-  var funcs$17 = $x_186.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_185, $x_184, new $c_T2(self$155, y$157)]));
-  this.define__s_Symbol__sci_Seq__V(op$17, funcs$17);
-  var this$509 = $m_s_Symbol$();
-  var op$18 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$509, "compare"));
-  var $x_194 = $m_sr_ScalaRunTime$();
+  var funcs$13 = $x_177.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_176, $x_175, new $c_T2(self$155, y$158)]));
+  this.define__s_Symbol__sci_Seq__V(op$13, funcs$13);
+  var this$503 = $m_s_Symbol$();
+  var op$14 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$503, "\\"));
+  var $x_183 = $m_sr_ScalaRunTime$();
   var self$156 = $m_Lio_github_edadma_dal_IntType$();
   var y$159 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$152$1, r$152$1) => {
     var l$153 = $as_jl_Number(l$152$1);
     var r$153 = $as_jl_Number(r$152$1);
-    var _1$62 = $m_Lio_github_edadma_dal_IntType$();
-    var x$53 = $dp_intValue__I($n(l$153));
-    var this$512 = new $c_sr_RichInt(x$53);
-    var y$158 = $dp_intValue__I($n(r$153));
-    $m_s_math_Ordering$Int$();
-    var x$54 = this$512.sr_RichInt__f_self;
-    var x$55 = ((x$54 === y$158) ? 0 : ((x$54 < y$158) ? (-1) : 1));
-    return new $c_T2(_1$62, x$55);
+    var _1$56 = $m_Lio_github_edadma_dal_IntType$();
+    var x$43 = (($dp_intValue__I($n(l$153)) / $checkIntDivisor($dp_intValue__I($n(r$153)))) | 0);
+    return new $c_T2(_1$56, x$43);
   }));
-  var $x_193 = new $c_T2(self$156, y$159);
+  var $x_182 = new $c_T2(self$156, y$159);
   var self$157 = $m_Lio_github_edadma_dal_LongType$();
-  var y$161 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$153$1, r$153$1) => {
+  var y$160 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$153$1, r$153$1) => {
     var l$154 = $as_jl_Number(l$153$1);
     var r$154 = $as_jl_Number(r$153$1);
-    var _1$63 = $m_Lio_github_edadma_dal_IntType$();
-    var $x_190 = $dp_longValue__J($n(l$154));
-    var x$56_$_lo = $x_190.l;
-    var x$56_$_hi = $x_190.h;
-    var this$521 = new $c_sr_RichLong(x$56_$_lo, x$56_$_hi);
-    var $x_191 = $dp_longValue__J($n(r$154));
-    var y$160_$_lo = $x_191.l;
-    var y$160_$_hi = $x_191.h;
-    var x$57_$_lo = this$521.sr_RichLong__f_self_$lo;
-    var x$57_$_hi = this$521.sr_RichLong__f_self_$hi;
-    var x$58 = ((x$57_$_hi === y$160_$_hi) ? ((x$57_$_lo === y$160_$_lo) ? 0 : (((x$57_$_lo >>> 0) < (y$160_$_lo >>> 0)) ? (-1) : 1)) : ((x$57_$_hi < y$160_$_hi) ? (-1) : 1));
-    return new $c_T2(_1$63, x$58);
+    var _1$57 = $m_Lio_github_edadma_dal_LongType$();
+    var $x_178 = $dp_longValue__J($n(l$154));
+    var x$44_$_lo = $x_178.l;
+    var x$44_$_hi = $x_178.h;
+    var $x_179 = $dp_longValue__J($n(r$154));
+    var x$45_$_lo = $x_179.l;
+    var x$45_$_hi = $x_179.h;
+    var $x_180 = $m_RTLong$().divide__I__I__I__I__J(x$44_$_lo, x$44_$_hi, x$45_$_lo, x$45_$_hi);
+    var x$46_$_lo = $x_180.l;
+    var x$46_$_hi = $x_180.h;
+    return new $c_T2(_1$57, $bL(x$46_$_lo, x$46_$_hi));
   }));
-  var $x_192 = new $c_T2(self$157, y$161);
+  var $x_181 = new $c_T2(self$157, y$160);
   var self$158 = $m_Lio_github_edadma_dal_BigIntType$();
-  var y$162 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$154$1, r$154$1) => {
+  var y$161 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$154$1, r$154$1) => {
     var l$155 = $as_jl_Number(l$154$1);
     var r$155 = $as_jl_Number(r$154$1);
-    var _1$64 = $m_Lio_github_edadma_dal_IntType$();
-    var x$59 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$155)).compare__s_math_BigInt__I($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$155));
-    return new $c_T2(_1$64, x$59);
+    var _1$58 = $m_Lio_github_edadma_dal_BigIntType$();
+    var _2$41 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$155)).$div__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$155));
+    return new $c_T2(_1$58, _2$41);
   }));
-  var $x_189 = new $c_T2(self$158, y$162);
-  var self$159 = $m_Lio_github_edadma_dal_RationalType$();
-  var y$163 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$155$1, r$155$1) => {
+  var funcs$14 = $x_183.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_182, $x_181, new $c_T2(self$158, y$161)]));
+  this.define__s_Symbol__sci_Seq__V(op$14, funcs$14);
+  var this$515 = $m_s_Symbol$();
+  var op$15 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$515, "and"));
+  var $x_188 = $m_sr_ScalaRunTime$();
+  var self$159 = $m_Lio_github_edadma_dal_IntType$();
+  var y$162 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$155$1, r$155$1) => {
     var l$156 = $as_jl_Number(l$155$1);
     var r$156 = $as_jl_Number(r$155$1);
-    var _1$65 = $m_Lio_github_edadma_dal_IntType$();
-    var x$60 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$156)).compare__Lio_github_edadma_numbers_Rational__I($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$156));
-    return new $c_T2(_1$65, x$60);
+    var _1$59 = $m_Lio_github_edadma_dal_IntType$();
+    var x$47 = ($dp_intValue__I($n(l$156)) & $dp_intValue__I($n(r$156)));
+    return new $c_T2(_1$59, x$47);
   }));
-  var $x_188 = new $c_T2(self$159, y$163);
-  var self$160 = $m_Lio_github_edadma_dal_DoubleType$();
-  var y$165 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$156$1, r$156$1) => {
+  var $x_187 = new $c_T2(self$159, y$162);
+  var self$160 = $m_Lio_github_edadma_dal_LongType$();
+  var y$163 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$156$1, r$156$1) => {
     var l$157 = $as_jl_Number(l$156$1);
     var r$157 = $as_jl_Number(r$156$1);
-    var _1$66 = $m_Lio_github_edadma_dal_IntType$();
-    var x$61 = $dp_doubleValue__D($n(l$157));
-    var this$538 = new $c_sr_RichDouble(x$61);
-    var y$164 = $dp_doubleValue__D($n(r$157));
-    var x$62 = this$538.sr_RichDouble__f_self;
-    var x$63 = $m_jl_Double$().compare__D__D__I(x$62, y$164);
-    return new $c_T2(_1$66, x$63);
+    var _1$60 = $m_Lio_github_edadma_dal_IntType$();
+    var $x_184 = $dp_longValue__J($n(l$157));
+    var x$48_$_lo = $x_184.l;
+    var x$48_$_hi = $x_184.h;
+    var $x_185 = $dp_longValue__J($n(r$157));
+    var x$49_$_lo = $x_185.l;
+    var x$49_$_hi = $x_185.h;
+    var lo$3 = (x$48_$_lo & x$49_$_lo);
+    var hi$3 = (x$48_$_hi & x$49_$_hi);
+    return new $c_T2(_1$60, $bL(lo$3, hi$3));
   }));
-  var $x_187 = new $c_T2(self$160, y$165);
-  var self$161 = $m_Lio_github_edadma_dal_BigDecType$();
-  var y$166 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$157$1, r$157$1) => {
+  var $x_186 = new $c_T2(self$160, y$163);
+  var self$161 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$164 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$157$1, r$157$1) => {
     var l$158 = $as_jl_Number(l$157$1);
     var r$158 = $as_jl_Number(r$157$1);
-    var _1$67 = $m_Lio_github_edadma_dal_IntType$();
-    var this$545 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$158));
-    var that$21 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$158);
-    var x$64 = $n(this$545.s_math_BigDecimal__f_bigDecimal).compareTo__Ljava_math_BigDecimal__I($n(that$21).s_math_BigDecimal__f_bigDecimal);
-    return new $c_T2(_1$67, x$64);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$158)).$amp__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$158)));
   }));
-  var funcs$18 = $x_194.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_193, $x_192, $x_189, $x_188, $x_187, new $c_T2(self$161, y$166)]));
+  var funcs$15 = $x_188.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_187, $x_186, new $c_T2(self$161, y$164)]));
+  this.define__s_Symbol__sci_Seq__V(op$15, funcs$15);
+  var this$527 = $m_s_Symbol$();
+  var op$16 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$527, "or"));
+  var $x_193 = $m_sr_ScalaRunTime$();
+  var self$162 = $m_Lio_github_edadma_dal_IntType$();
+  var y$165 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$158$1, r$158$1) => {
+    var l$159 = $as_jl_Number(l$158$1);
+    var r$159 = $as_jl_Number(r$158$1);
+    var _1$61 = $m_Lio_github_edadma_dal_IntType$();
+    var x$50 = ($dp_intValue__I($n(l$159)) | $dp_intValue__I($n(r$159)));
+    return new $c_T2(_1$61, x$50);
+  }));
+  var $x_192 = new $c_T2(self$162, y$165);
+  var self$163 = $m_Lio_github_edadma_dal_LongType$();
+  var y$166 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$159$1, r$159$1) => {
+    var l$160 = $as_jl_Number(l$159$1);
+    var r$160 = $as_jl_Number(r$159$1);
+    var _1$62 = $m_Lio_github_edadma_dal_IntType$();
+    var $x_189 = $dp_longValue__J($n(l$160));
+    var x$51_$_lo = $x_189.l;
+    var x$51_$_hi = $x_189.h;
+    var $x_190 = $dp_longValue__J($n(r$160));
+    var x$52_$_lo = $x_190.l;
+    var x$52_$_hi = $x_190.h;
+    var lo$4 = (x$51_$_lo | x$52_$_lo);
+    var hi$4 = (x$51_$_hi | x$52_$_hi);
+    return new $c_T2(_1$62, $bL(lo$4, hi$4));
+  }));
+  var $x_191 = new $c_T2(self$163, y$166);
+  var self$164 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$167 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$160$1, r$160$1) => {
+    var l$161 = $as_jl_Number(l$160$1);
+    var r$161 = $as_jl_Number(r$160$1);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$161)).$bar__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$161)));
+  }));
+  var funcs$16 = $x_193.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_192, $x_191, new $c_T2(self$164, y$167)]));
+  this.define__s_Symbol__sci_Seq__V(op$16, funcs$16);
+  var this$539 = $m_s_Symbol$();
+  var op$17 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$539, "xor"));
+  var $x_198 = $m_sr_ScalaRunTime$();
+  var self$165 = $m_Lio_github_edadma_dal_IntType$();
+  var y$168 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$161$1, r$161$1) => {
+    var l$162 = $as_jl_Number(l$161$1);
+    var r$162 = $as_jl_Number(r$161$1);
+    var _1$63 = $m_Lio_github_edadma_dal_IntType$();
+    var x$53 = ($dp_intValue__I($n(l$162)) ^ $dp_intValue__I($n(r$162)));
+    return new $c_T2(_1$63, x$53);
+  }));
+  var $x_197 = new $c_T2(self$165, y$168);
+  var self$166 = $m_Lio_github_edadma_dal_LongType$();
+  var y$169 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$162$1, r$162$1) => {
+    var l$163 = $as_jl_Number(l$162$1);
+    var r$163 = $as_jl_Number(r$162$1);
+    var _1$64 = $m_Lio_github_edadma_dal_IntType$();
+    var $x_194 = $dp_longValue__J($n(l$163));
+    var x$54_$_lo = $x_194.l;
+    var x$54_$_hi = $x_194.h;
+    var $x_195 = $dp_longValue__J($n(r$163));
+    var x$55_$_lo = $x_195.l;
+    var x$55_$_hi = $x_195.h;
+    var lo$5 = (x$54_$_lo ^ x$55_$_lo);
+    var hi$5 = (x$54_$_hi ^ x$55_$_hi);
+    return new $c_T2(_1$64, $bL(lo$5, hi$5));
+  }));
+  var $x_196 = new $c_T2(self$166, y$169);
+  var self$167 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$170 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$163$1, r$163$1) => {
+    var l$164 = $as_jl_Number(l$163$1);
+    var r$164 = $as_jl_Number(r$163$1);
+    return this.maybeDemote__s_math_BigInt__T2($n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$164)).$up__s_math_BigInt__s_math_BigInt($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$164)));
+  }));
+  var funcs$17 = $x_198.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_197, $x_196, new $c_T2(self$167, y$170)]));
+  this.define__s_Symbol__sci_Seq__V(op$17, funcs$17);
+  var this$551 = $m_s_Symbol$();
+  var op$18 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$551, "compare"));
+  var $x_207 = $m_sr_ScalaRunTime$();
+  var self$168 = $m_Lio_github_edadma_dal_IntType$();
+  var y$172 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$164$1, r$164$1) => {
+    var l$165 = $as_jl_Number(l$164$1);
+    var r$165 = $as_jl_Number(r$164$1);
+    var _1$65 = $m_Lio_github_edadma_dal_IntType$();
+    var x$56 = $dp_intValue__I($n(l$165));
+    var this$554 = new $c_sr_RichInt(x$56);
+    var y$171 = $dp_intValue__I($n(r$165));
+    $m_s_math_Ordering$Int$();
+    var x$57 = this$554.sr_RichInt__f_self;
+    var x$58 = ((x$57 === y$171) ? 0 : ((x$57 < y$171) ? (-1) : 1));
+    return new $c_T2(_1$65, x$58);
+  }));
+  var $x_206 = new $c_T2(self$168, y$172);
+  var self$169 = $m_Lio_github_edadma_dal_LongType$();
+  var y$174 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$165$1, r$165$1) => {
+    var l$166 = $as_jl_Number(l$165$1);
+    var r$166 = $as_jl_Number(r$165$1);
+    var _1$66 = $m_Lio_github_edadma_dal_IntType$();
+    var $x_203 = $dp_longValue__J($n(l$166));
+    var x$59_$_lo = $x_203.l;
+    var x$59_$_hi = $x_203.h;
+    var this$563 = new $c_sr_RichLong(x$59_$_lo, x$59_$_hi);
+    var $x_204 = $dp_longValue__J($n(r$166));
+    var y$173_$_lo = $x_204.l;
+    var y$173_$_hi = $x_204.h;
+    var x$60_$_lo = this$563.sr_RichLong__f_self_$lo;
+    var x$60_$_hi = this$563.sr_RichLong__f_self_$hi;
+    var x$61 = ((x$60_$_hi === y$173_$_hi) ? ((x$60_$_lo === y$173_$_lo) ? 0 : (((x$60_$_lo >>> 0) < (y$173_$_lo >>> 0)) ? (-1) : 1)) : ((x$60_$_hi < y$173_$_hi) ? (-1) : 1));
+    return new $c_T2(_1$66, x$61);
+  }));
+  var $x_205 = new $c_T2(self$169, y$174);
+  var self$170 = $m_Lio_github_edadma_dal_BigIntType$();
+  var y$175 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$166$1, r$166$1) => {
+    var l$167 = $as_jl_Number(l$166$1);
+    var r$167 = $as_jl_Number(r$166$1);
+    var _1$67 = $m_Lio_github_edadma_dal_IntType$();
+    var x$62 = $n($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(l$167)).compare__s_math_BigInt__I($m_Lio_github_edadma_dal_package$().toBigInt__jl_Number__s_math_BigInt(r$167));
+    return new $c_T2(_1$67, x$62);
+  }));
+  var $x_202 = new $c_T2(self$170, y$175);
+  var self$171 = $m_Lio_github_edadma_dal_SmallRationalType$();
+  var y$176 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$167$1, r$167$1) => {
+    var l$168 = $as_jl_Number(l$167$1);
+    var r$168 = $as_jl_Number(r$167$1);
+    var _1$68 = $m_Lio_github_edadma_dal_IntType$();
+    var x$63 = $n(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(l$168)).compare__Lio_github_edadma_numbers_SmallRational__I(this.toSmallRational__jl_Number__Lio_github_edadma_numbers_SmallRational(r$168));
+    return new $c_T2(_1$68, x$63);
+  }));
+  var $x_201 = new $c_T2(self$171, y$176);
+  var self$172 = $m_Lio_github_edadma_dal_RationalType$();
+  var y$177 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$168$1, r$168$1) => {
+    var l$169 = $as_jl_Number(l$168$1);
+    var r$169 = $as_jl_Number(r$168$1);
+    var _1$69 = $m_Lio_github_edadma_dal_IntType$();
+    var x$64 = $n($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(l$169)).compare__Lio_github_edadma_numbers_Rational__I($m_Lio_github_edadma_dal_package$().toRational__jl_Number__Lio_github_edadma_numbers_Rational(r$169));
+    return new $c_T2(_1$69, x$64);
+  }));
+  var $x_200 = new $c_T2(self$172, y$177);
+  var self$173 = $m_Lio_github_edadma_dal_DoubleType$();
+  var y$179 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$169$1, r$169$1) => {
+    var l$170 = $as_jl_Number(l$169$1);
+    var r$170 = $as_jl_Number(r$169$1);
+    var _1$70 = $m_Lio_github_edadma_dal_IntType$();
+    var x$65 = $dp_doubleValue__D($n(l$170));
+    var this$584 = new $c_sr_RichDouble(x$65);
+    var y$178 = $dp_doubleValue__D($n(r$170));
+    var x$66 = this$584.sr_RichDouble__f_self;
+    var x$67 = $m_jl_Double$().compare__D__D__I(x$66, y$178);
+    return new $c_T2(_1$70, x$67);
+  }));
+  var $x_199 = new $c_T2(self$173, y$179);
+  var self$174 = $m_Lio_github_edadma_dal_BigDecType$();
+  var y$180 = new $c_sr_AbstractFunction2_$$Lambda$286cbfc6187197affcadc8465aaec93d6b7d20dc(((l$170$1, r$170$1) => {
+    var l$171 = $as_jl_Number(l$170$1);
+    var r$171 = $as_jl_Number(r$170$1);
+    var _1$71 = $m_Lio_github_edadma_dal_IntType$();
+    var this$591 = $n(this.toBigDecimal__jl_Number__s_math_BigDecimal(l$171));
+    var that$25 = this.toBigDecimal__jl_Number__s_math_BigDecimal(r$171);
+    var x$68 = $n(this$591.s_math_BigDecimal__f_bigDecimal).compareTo__Ljava_math_BigDecimal__I($n(that$25).s_math_BigDecimal__f_bigDecimal);
+    return new $c_T2(_1$71, x$68);
+  }));
+  var funcs$18 = $x_207.wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$x_206, $x_205, $x_202, $x_201, $x_200, $x_199, new $c_T2(self$174, y$180)]));
   this.define__s_Symbol__sci_Seq__V(op$18, funcs$18);
 }
 $c_Lio_github_edadma_dal_QuaternionDAL$.prototype = new $h_Lio_github_edadma_dal_DAL();
@@ -27779,9 +28220,9 @@ $c_Lio_github_edadma_dal_DALNumber.prototype.equals__O__Z = (function(x$0) {
   if ((this === x$0)) {
     return true;
   } else if ((x$0 instanceof $c_Lio_github_edadma_dal_DALNumber)) {
-    var x366 = $as_Lio_github_edadma_dal_DALNumber(x$0);
+    var x369 = $as_Lio_github_edadma_dal_DALNumber(x$0);
     var x = this.Lio_github_edadma_dal_DALNumber__f_typ;
-    var x$2 = $n(x366).Lio_github_edadma_dal_DALNumber__f_typ;
+    var x$2 = $n(x369).Lio_github_edadma_dal_DALNumber__f_typ;
     if ((x === null)) {
       var $x_2 = (x$2 === null);
     } else {
@@ -27790,13 +28231,13 @@ $c_Lio_github_edadma_dal_DALNumber.prototype.equals__O__Z = (function(x$0) {
     }
     if ($x_2) {
       var xn = this.Lio_github_edadma_dal_DALNumber__f_value;
-      var yn = $n(x366).Lio_github_edadma_dal_DALNumber__f_value;
+      var yn = $n(x369).Lio_github_edadma_dal_DALNumber__f_value;
       var $x_1 = $m_sr_BoxesRunTime$().equalsNumNum__jl_Number__jl_Number__Z(xn, yn);
     } else {
       var $x_1 = false;
     }
     if ($x_1) {
-      $n(x366);
+      $n(x369);
       return true;
     } else {
       return false;
@@ -30380,6 +30821,26 @@ var $d_Lio_github_edadma_numbers_Rational = new $TypeData().initClass($c_Lio_git
   jl_Comparable: 1,
   s_math_Ordered: 1
 }));
+function $ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational(b, e) {
+  var e$tailLocal1 = e;
+  var b$tailLocal1 = b;
+  while (true) {
+    if ((e$tailLocal1 === 1)) {
+      return b$tailLocal1;
+    } else if (((1 & e$tailLocal1) === 1)) {
+      var $x_2 = $n(b$tailLocal1);
+      var $x_1 = $n(b$tailLocal1).$times__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b$tailLocal1);
+      var num = ((e$tailLocal1 - 1) | 0);
+      return $x_2.$times__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational($ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational($x_1, (((num + ((num >>> 31) | 0)) | 0) >> 1)));
+    } else {
+      var b$tailLocal1$tmp1 = $n(b$tailLocal1).$times__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational(b$tailLocal1);
+      var num$1 = e$tailLocal1;
+      var e$tailLocal1$tmp1 = (((num$1 + ((num$1 >>> 31) | 0)) | 0) >> 1);
+      b$tailLocal1 = b$tailLocal1$tmp1;
+      e$tailLocal1 = e$tailLocal1$tmp1;
+    }
+  }
+}
 /** @constructor */
 function $c_Lio_github_edadma_numbers_SmallRational(n_$_lo, n_$_hi, d_$_lo, d_$_hi) {
   this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo = 0;
@@ -30454,6 +30915,102 @@ $c_Lio_github_edadma_numbers_SmallRational.prototype.isWhole__Z = (function() {
   var x_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
   var x_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
   return (((1 ^ x_$_lo) | x_$_hi) === 0);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.$times__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  var x_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+  var x_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+  var x$1_$_lo = $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+  var x$1_$_hi = $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+  var a0 = (65535 & x_$_lo);
+  var a1 = ((x_$_lo >>> 16) | 0);
+  var b0 = (65535 & x$1_$_lo);
+  var b1 = ((x$1_$_lo >>> 16) | 0);
+  var a0b0 = Math.imul(a0, b0);
+  var a1b0 = Math.imul(a1, b0);
+  var a0b1 = Math.imul(a0, b1);
+  var lo = ((a0b0 + (((a1b0 + a0b1) | 0) << 16)) | 0);
+  var c1part = ((((a0b0 >>> 16) | 0) + a0b1) | 0);
+  var hi = ((((((((Math.imul(x_$_lo, x$1_$_hi) + Math.imul(x_$_hi, x$1_$_lo)) | 0) + Math.imul(a1, b1)) | 0) + ((c1part >>> 16) | 0)) | 0) + (((((65535 & c1part) + a1b0) | 0) >>> 16) | 0)) | 0);
+  var x$2_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
+  var x$2_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
+  var x$3_$_lo = $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
+  var x$3_$_hi = $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
+  var a0$1 = (65535 & x$2_$_lo);
+  var a1$1 = ((x$2_$_lo >>> 16) | 0);
+  var b0$1 = (65535 & x$3_$_lo);
+  var b1$1 = ((x$3_$_lo >>> 16) | 0);
+  var a0b0$1 = Math.imul(a0$1, b0$1);
+  var a1b0$1 = Math.imul(a1$1, b0$1);
+  var a0b1$1 = Math.imul(a0$1, b1$1);
+  var lo$1 = ((a0b0$1 + (((a1b0$1 + a0b1$1) | 0) << 16)) | 0);
+  var c1part$1 = ((((a0b0$1 >>> 16) | 0) + a0b1$1) | 0);
+  var hi$1 = ((((((((Math.imul(x$2_$_lo, x$3_$_hi) + Math.imul(x$2_$_hi, x$3_$_lo)) | 0) + Math.imul(a1$1, b1$1)) | 0) + ((c1part$1 >>> 16) | 0)) | 0) + (((((65535 & c1part$1) + a1b0$1) | 0) >>> 16) | 0)) | 0);
+  return new $c_Lio_github_edadma_numbers_SmallRational(lo, hi, lo$1, hi$1);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.addExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  var $x_4 = $m_Lio_github_edadma_numbers_SmallRational$();
+  var $x_3 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var $x_2 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J($n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var $x_1 = $x_4.checkAddOverflow__J__J__J($x_3.l, $x_3.h, $x_2.l, $x_2.h);
+  var newNum_$_lo = $x_1.l;
+  var newNum_$_hi = $x_1.h;
+  var $x_5 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var newDen_$_lo = $x_5.l;
+  var newDen_$_hi = $x_5.h;
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  return new $c_Lio_github_edadma_numbers_SmallRational(newNum_$_lo, newNum_$_hi, newDen_$_lo, newDen_$_hi);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.multiplyExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  var $x_1 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi);
+  var newNum_$_lo = $x_1.l;
+  var newNum_$_hi = $x_1.h;
+  var $x_2 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var newDen_$_lo = $x_2.l;
+  var newDen_$_hi = $x_2.h;
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  return new $c_Lio_github_edadma_numbers_SmallRational(newNum_$_lo, newNum_$_hi, newDen_$_lo, newDen_$_hi);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.subtractExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  var $x_4 = $m_Lio_github_edadma_numbers_SmallRational$();
+  var $x_3 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var $x_2 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J($n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var $x_1 = $x_4.checkSubtractOverflow__J__J__J($x_3.l, $x_3.h, $x_2.l, $x_2.h);
+  var newNum_$_lo = $x_1.l;
+  var newNum_$_hi = $x_1.h;
+  var $x_5 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var newDen_$_lo = $x_5.l;
+  var newDen_$_hi = $x_5.h;
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  return new $c_Lio_github_edadma_numbers_SmallRational(newNum_$_lo, newNum_$_hi, newDen_$_lo, newDen_$_hi);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.divideExact__Lio_github_edadma_numbers_SmallRational__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  if ($n(that).isZero__Z()) {
+    $m_s_sys_package$().error__T__E("division by zero");
+  }
+  var $x_1 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_denominator_$hi);
+  var newNum_$_lo = $x_1.l;
+  var newNum_$_hi = $x_1.h;
+  var $x_2 = $m_Lio_github_edadma_numbers_SmallRational$().checkMultiplyOverflow__J__J__J(this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo, this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$lo, $n(that).Lio_github_edadma_numbers_SmallRational__f_numerator_$hi);
+  var newDen_$_lo = $x_2.l;
+  var newDen_$_hi = $x_2.h;
+  $m_Lio_github_edadma_numbers_SmallRational$();
+  return new $c_Lio_github_edadma_numbers_SmallRational(newNum_$_lo, newNum_$_hi, newDen_$_lo, newDen_$_hi);
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.$up__I__Lio_github_edadma_numbers_SmallRational = (function(that) {
+  return (this.isZero__Z() ? ((that === 0) ? $m_s_sys_package$().error__T__E("0^0 is undefined") : $m_Lio_github_edadma_numbers_SmallRational$().ZERO__Lio_github_edadma_numbers_SmallRational()) : ((that === 0) ? $m_Lio_github_edadma_numbers_SmallRational$().ONE__Lio_github_edadma_numbers_SmallRational() : ((that < 0) ? $ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational(this.inv__Lio_github_edadma_numbers_SmallRational(), ((-that) | 0)) : $ps_Lio_github_edadma_numbers_SmallRational___pow$1__Lio_github_edadma_numbers_SmallRational__I__Lio_github_edadma_numbers_SmallRational(this, that))));
+});
+$c_Lio_github_edadma_numbers_SmallRational.prototype.inv__Lio_github_edadma_numbers_SmallRational = (function() {
+  if (this.isZero__Z()) {
+    $m_s_sys_package$().error__T__E("no inverse");
+  } else {
+    $m_Lio_github_edadma_numbers_SmallRational$();
+    var n_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$lo;
+    var n_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_denominator_$hi;
+    var d_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
+    var d_$_hi = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$hi;
+    return new $c_Lio_github_edadma_numbers_SmallRational(n_$_lo, n_$_hi, d_$_lo, d_$_hi);
+  }
 });
 $c_Lio_github_edadma_numbers_SmallRational.prototype.doubleValue__D = (function() {
   var x_$_lo = this.Lio_github_edadma_numbers_SmallRational__f_numerator_$lo;
