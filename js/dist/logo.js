@@ -29995,51 +29995,69 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$20() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$20.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x314 = $as_sci_Seq($n(x)._2__O());
+    var x317 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x314 !== null)) {
-      if (($n(x314).lengthCompare__I__I(1) === 0)) {
-        var x316 = $as_Lio_github_edadma_logo_LogoValue($n(x314).apply__I__O(0));
-        var n = $m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x316);
-        if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
-          var x311 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
-          var _1 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_re;
-          var _2 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_im;
+    if ((x317 !== null)) {
+      if (($n(x317).lengthCompare__I__I(1) === 0)) {
+        var x319 = $as_Lio_github_edadma_logo_LogoValue($n(x317).apply__I__O(0));
+        var n = $m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x319);
+        if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionDouble)) {
+          var x314 = $as_Lio_github_edadma_numbers_QuaternionDouble(n);
+          var _1 = $n(x314).Lio_github_edadma_numbers_QuaternionDouble__f_a;
+          var _2 = $n(x314).Lio_github_edadma_numbers_QuaternionDouble__f_b;
           var \u03b45$___1 = _1;
           var \u03b45$___2 = _2;
-        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
-          var x310 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
-          var _1$1 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
-          var _2$1 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionBigInt)) {
+          var x313 = $as_Lio_github_edadma_numbers_QuaternionBigInt(n);
+          var _1$1 = $n($n(x313).Lio_github_edadma_numbers_QuaternionBigInt__f_a).doubleValue__D();
+          var _2$1 = $n($n(x313).Lio_github_edadma_numbers_QuaternionBigInt__f_b).doubleValue__D();
           var \u03b45$___1 = _1$1;
           var \u03b45$___2 = _2$1;
-        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
-          var x309 = $as_Lio_github_edadma_numbers_ComplexRational(n);
-          var _1$2 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
-          var _2$2 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_QuaternionRational)) {
+          var x312 = $as_Lio_github_edadma_numbers_QuaternionRational(n);
+          var _1$2 = $n($n(x312).Lio_github_edadma_numbers_QuaternionRational__f_a).doubleValue__D();
+          var _2$2 = $n($n(x312).Lio_github_edadma_numbers_QuaternionRational__f_b).doubleValue__D();
           var \u03b45$___1 = _1$2;
           var \u03b45$___2 = _2$2;
-        } else if (false) {
-          var x308 = $as_Lio_github_edadma_numbers_ComplexSmallRational(n);
-          var _1$3 = $n($n(x308).re__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
-          var _2$3 = $n($n(x308).im__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexDouble)) {
+          var x311 = $as_Lio_github_edadma_numbers_ComplexDouble(n);
+          var _1$3 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_re;
+          var _2$3 = $n(x311).Lio_github_edadma_numbers_ComplexDouble__f_im;
           var \u03b45$___1 = _1$3;
           var \u03b45$___2 = _2$3;
-        } else {
-          var _1$4 = $dp_doubleValue__D($n(n));
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexBigInt)) {
+          var x310 = $as_Lio_github_edadma_numbers_ComplexBigInt(n);
+          var _1$4 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_re).doubleValue__D();
+          var _2$4 = $n($n(x310).Lio_github_edadma_numbers_ComplexBigInt__f_im).doubleValue__D();
           var \u03b45$___1 = _1$4;
+          var \u03b45$___2 = _2$4;
+        } else if ((n instanceof $c_Lio_github_edadma_numbers_ComplexRational)) {
+          var x309 = $as_Lio_github_edadma_numbers_ComplexRational(n);
+          var _1$5 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_re).doubleValue__D();
+          var _2$5 = $n($n(x309).Lio_github_edadma_numbers_ComplexRational__f_im).doubleValue__D();
+          var \u03b45$___1 = _1$5;
+          var \u03b45$___2 = _2$5;
+        } else if (false) {
+          var x308 = $as_Lio_github_edadma_numbers_ComplexSmallRational(n);
+          var _1$6 = $n($n(x308).re__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
+          var _2$6 = $n($n(x308).im__Lio_github_edadma_numbers_SmallRational()).doubleValue__D();
+          var \u03b45$___1 = _1$6;
+          var \u03b45$___2 = _2$6;
+        } else {
+          var _1$7 = $dp_doubleValue__D($n(n));
+          var \u03b45$___1 = _1$7;
           var \u03b45$___2 = 0.0;
         }
         var newx = $uD(\u03b45$___1);
         var newy = $uD(\u03b45$___2);
         if ($n(ctx).Lio_github_edadma_logo_Logo__f_pen) {
-          var this$10 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_draws);
+          var this$13 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_draws);
           var x1 = $n(ctx).Lio_github_edadma_logo_Logo__f_x;
           var y1 = $n(ctx).Lio_github_edadma_logo_Logo__f_y;
           var color = $n(ctx).Lio_github_edadma_logo_Logo__f_color;
           var width = $n(ctx).Lio_github_edadma_logo_Logo__f_width;
           var elem = new $c_Lio_github_edadma_logo_DrawLine(x1, y1, newx, newy, color, width);
-          this$10.addOne__O__scm_ListBuffer(elem);
+          this$13.addOne__O__scm_ListBuffer(elem);
         }
         $n(ctx).Lio_github_edadma_logo_Logo__f_x = newx;
         $n(ctx).Lio_github_edadma_logo_Logo__f_y = newy;
@@ -30273,14 +30291,14 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$29() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$29.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x373 = $as_sci_Seq($n(x)._2__O());
+    var x376 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x373 !== null)) {
-      if (($n(x373).lengthCompare__I__I(2) === 0)) {
-        var x375 = $as_Lio_github_edadma_logo_LogoValue($n(x373).apply__I__O(0));
-        var x376 = $as_Lio_github_edadma_logo_LogoValue($n(x373).apply__I__O(1));
-        var times = $dp_intValue__I($n($m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x375)));
-        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x376);
+    if ((x376 !== null)) {
+      if (($n(x376).lengthCompare__I__I(2) === 0)) {
+        var x378 = $as_Lio_github_edadma_logo_LogoValue($n(x376).apply__I__O(0));
+        var x379 = $as_Lio_github_edadma_logo_LogoValue($n(x376).apply__I__O(1));
+        var times = $dp_intValue__I($n($m_Lio_github_edadma_logo_package$package$().number__Lio_github_edadma_logo_LogoValue__jl_Number(x378)));
+        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x379);
         var isEmpty = (times < 1);
         if ((!isEmpty)) {
           var i = 1;
@@ -30382,14 +30400,14 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$31() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$31.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x391 = $as_sci_Seq($n(x)._2__O());
+    var x394 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x391 !== null)) {
-      if (($n(x391).lengthCompare__I__I(2) === 0)) {
-        var x393 = $as_Lio_github_edadma_logo_LogoValue($n(x391).apply__I__O(0));
-        var x394 = $as_Lio_github_edadma_logo_LogoValue($n(x391).apply__I__O(1));
-        var cond = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x393);
-        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x394);
+    if ((x394 !== null)) {
+      if (($n(x394).lengthCompare__I__I(2) === 0)) {
+        var x396 = $as_Lio_github_edadma_logo_LogoValue($n(x394).apply__I__O(0));
+        var x397 = $as_Lio_github_edadma_logo_LogoValue($n(x394).apply__I__O(1));
+        var cond = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x396);
+        var body = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x397);
         return (cond ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(body) : new $c_Lio_github_edadma_logo_LogoNull());
       }
     }
@@ -30414,16 +30432,16 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$32() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$32.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x404 = $as_sci_Seq($n(x)._2__O());
+    var x407 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x404 !== null)) {
-      if (($n(x404).lengthCompare__I__I(3) === 0)) {
-        var x406 = $as_Lio_github_edadma_logo_LogoValue($n(x404).apply__I__O(0));
-        var x407 = $as_Lio_github_edadma_logo_LogoValue($n(x404).apply__I__O(1));
-        var x408 = $as_Lio_github_edadma_logo_LogoValue($n(x404).apply__I__O(2));
-        var condv = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x406);
-        var yesv = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x407);
-        var nov = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x408);
+    if ((x407 !== null)) {
+      if (($n(x407).lengthCompare__I__I(3) === 0)) {
+        var x409 = $as_Lio_github_edadma_logo_LogoValue($n(x407).apply__I__O(0));
+        var x410 = $as_Lio_github_edadma_logo_LogoValue($n(x407).apply__I__O(1));
+        var x411 = $as_Lio_github_edadma_logo_LogoValue($n(x407).apply__I__O(2));
+        var condv = $m_Lio_github_edadma_logo_package$package$().boolean__Lio_github_edadma_logo_LogoValue__Z(x409);
+        var yesv = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x410);
+        var nov = $m_Lio_github_edadma_logo_package$package$().list__Lio_github_edadma_logo_LogoValue__sci_Seq(x411);
         return (condv ? $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(yesv) : $n(ctx).interp__sci_Seq__Lio_github_edadma_logo_LogoValue(nov));
       }
     }
@@ -30448,15 +30466,15 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$33() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$33.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x417 = $as_sci_Seq($n(x)._2__O());
+    var x420 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x417 !== null)) {
-      if (($n(x417).lengthCompare__I__I(2) === 0)) {
-        var x419 = $as_Lio_github_edadma_logo_LogoValue($n(x417).apply__I__O(0));
-        var x420 = $as_Lio_github_edadma_logo_LogoValue($n(x417).apply__I__O(1));
+    if ((x420 !== null)) {
+      if (($n(x420).lengthCompare__I__I(2) === 0)) {
+        var x422 = $as_Lio_github_edadma_logo_LogoValue($n(x420).apply__I__O(0));
+        var x423 = $as_Lio_github_edadma_logo_LogoValue($n(x420).apply__I__O(1));
         var this$5 = $n($n(ctx).Lio_github_edadma_logo_Logo__f_vars);
-        var key = $n(x419).toString__T();
-        $p_scm_HashMap__put0__O__O__Z__s_Some(this$5, key, x420, false);
+        var key = $n(x422).toString__T();
+        $p_scm_HashMap__put0__O__O__Z__s_Some(this$5, key, x423, false);
         return (void 0);
       }
     }
@@ -30481,12 +30499,12 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$34() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$34.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x428 = $as_sci_Seq($n(x)._2__O());
+    var x431 = $as_sci_Seq($n(x)._2__O());
     var ctx = $as_Lio_github_edadma_logo_Logo($n(x)._1__O());
-    if ((x428 !== null)) {
-      if (($n(x428).lengthCompare__I__I(1) === 0)) {
-        var x430 = $as_Lio_github_edadma_logo_LogoValue($n(x428).apply__I__O(0));
-        return $n(ctx).interp__T__Lio_github_edadma_logo_LogoValue($n(x430).toString__T());
+    if ((x431 !== null)) {
+      if (($n(x431).lengthCompare__I__I(1) === 0)) {
+        var x433 = $as_Lio_github_edadma_logo_LogoValue($n(x431).apply__I__O(0));
+        return $n(ctx).interp__T__Lio_github_edadma_logo_LogoValue($n(x433).toString__T());
       }
     }
   }
@@ -30510,11 +30528,11 @@ function $h_Lio_github_edadma_logo_Procedure$package$$anon$35() {
 $h_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype = $c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype;
 $c_Lio_github_edadma_logo_Procedure$package$$anon$35.prototype.applyOrElse__T2__F1__O = (function(x, default$1) {
   if ((x !== null)) {
-    var x438 = $as_sci_Seq($n(x)._2__O());
-    if ((x438 !== null)) {
-      if (($n(x438).lengthCompare__I__I(1) === 0)) {
-        var x440 = $as_Lio_github_edadma_logo_LogoValue($n(x438).apply__I__O(0));
-        throw new $c_Lio_github_edadma_logo_OutputException(x440);
+    var x441 = $as_sci_Seq($n(x)._2__O());
+    if ((x441 !== null)) {
+      if (($n(x441).lengthCompare__I__I(1) === 0)) {
+        var x443 = $as_Lio_github_edadma_logo_LogoValue($n(x441).apply__I__O(0));
+        throw new $c_Lio_github_edadma_logo_OutputException(x443);
       }
     }
   }

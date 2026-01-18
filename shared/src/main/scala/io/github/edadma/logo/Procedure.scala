@@ -1,7 +1,7 @@
 package io.github.edadma.logo
 
 import io.github.edadma.dal.QuaternionDAL
-import io.github.edadma.numbers.{ComplexDouble, ComplexBigInt, ComplexRational, ComplexSmallRational, QuaternionBigInt}
+import io.github.edadma.numbers.{ComplexDouble, ComplexBigInt, ComplexRational, ComplexSmallRational, QuaternionBigInt, QuaternionDouble, QuaternionRational}
 
 import scala.language.postfixOps
 import scala.math.{E, Pi}
@@ -271,6 +271,9 @@ val builtin =
         case (ctx, Seq(c)) =>
           val n = number(c)
           val (newx, newy) = n match
+            case q: QuaternionDouble     => (q.a, q.b)
+            case q: QuaternionBigInt     => (q.a.doubleValue, q.b.doubleValue)
+            case q: QuaternionRational   => (q.a.doubleValue, q.b.doubleValue)
             case c: ComplexDouble        => (c.re, c.im)
             case c: ComplexBigInt        => (c.re.doubleValue, c.im.doubleValue)
             case c: ComplexRational      => (c.re.doubleValue, c.im.doubleValue)
