@@ -127,9 +127,24 @@ abstract class Logo:
     @tailrec
     def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
       toks match
-        case LogoWord(op @ ("*" | "/")) :: tail =>
+        case LogoWord("*") :: tail =>
           val (right, rest) = evalPower(tail)
-          val result = logoNumber(QuaternionDAL.compute(op, number(left), number(right)))
+          val result = logoNumber(QuaternionDAL.compute("*", number(left), number(right)))
+          loop(result, rest)
+        case LogoWord("/") :: tail =>
+          // Exact arithmetic division
+          val (right, rest) = evalPower(tail)
+          val result = logoNumber(QuaternionDAL.compute("/", number(left), number(right)))
+          loop(result, rest)
+        case LogoWord("\\") :: tail =>
+          // Float division - always returns Double
+          val (right, rest) = evalPower(tail)
+          val result = logoNumber(number(left).doubleValue / number(right).doubleValue)
+          loop(result, rest)
+        case LogoWord("//") :: tail =>
+          // Floor division - returns integer
+          val (right, rest) = evalPower(tail)
+          val result = logoNumber(math.floor(number(left).doubleValue / number(right).doubleValue).toLong)
           loop(result, rest)
         case _ => (left, toks)
 

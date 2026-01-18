@@ -5,7 +5,7 @@ import io.github.edadma.char_reader.CharReader
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 
-private val operatorChars = Set('+', '*', '/', '^', '=', '<', '>')
+private val operatorChars = Set('+', '*', '/', '\\', '^', '=', '<', '>')
 private def isOperatorChar(c: Char): Boolean = operatorChars.contains(c)
 private def isTokenBoundary(r: CharReader, inList: Boolean): Boolean =
   r.ch.isWhitespace || r.ch == '[' || r.ch == ']' || (!inList && isOperatorChar(r.ch))
@@ -47,8 +47,17 @@ def tokenize(r: CharReader): Seq[LogoValue] =
           else
             buf += LogoWord(">").pos(r2)
             tokenize(r3, listDepth, false)
+        case '/' if !inList =>
+          // Handle / and //
+          val r3 = r2.next
+          if !r3.eoi && r3.ch == '/' then
+            buf += LogoWord("//").pos(r2)
+            tokenize(r3.next, listDepth, false)
+          else
+            buf += LogoWord("/").pos(r2)
+            tokenize(r3, listDepth, false)
         case c if !inList && isOperatorChar(c) =>
-          // Single-char operators: + * / ^ =
+          // Single-char operators: + * ^ =
           buf += LogoWord(c.toString).pos(r2)
           tokenize(r2.next, listDepth, false)
         case '-' if !inList =>

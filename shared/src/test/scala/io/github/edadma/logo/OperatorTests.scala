@@ -218,3 +218,40 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "no space complex" in {
     eval("2+3*4") shouldBe "14"
   }
+
+  // Division operator tests
+  "exact division integers" in {
+    eval("5 / 2") shouldBe "5/2" // exact rational
+  }
+
+  "exact division even" in {
+    eval("6 / 2") shouldBe "3"
+  }
+
+  "float division" in {
+    eval("5 \\ 2") shouldBe "2.5"
+  }
+
+  "float division even" in {
+    eval("6 \\ 2") shouldBe "3"
+  }
+
+  "floor division" in {
+    eval("5 // 2") shouldBe "2"
+  }
+
+  "floor division even" in {
+    eval("6 // 2") shouldBe "3"
+  }
+
+  "floor division negative" in {
+    eval("-7 // 2") shouldBe "-4" // floor(-3.5) = -4
+  }
+
+  "no space float division" in {
+    eval("5\\2") shouldBe "2.5"
+  }
+
+  "no space floor division" in {
+    eval("5//2") shouldBe "2"
+  }
