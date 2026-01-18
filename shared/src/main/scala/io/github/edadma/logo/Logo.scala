@@ -154,6 +154,11 @@ abstract class Logo:
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r), tail)
+        else if s.head == ':' then
+          val name = s.tail.toLowerCase
+          vars.get(name) match
+            case Some(v) => (v, tail)
+            case None    => tok.r.error(s"unknown variable '$name'")
         else if s.head.isDigit || (s.head == '-' && s != "-") then (logoNumber(s, tok.r), tail)
         else
           lookup(s) match

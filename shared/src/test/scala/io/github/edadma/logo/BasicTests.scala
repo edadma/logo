@@ -61,3 +61,21 @@ class BasicTests extends AnyFreeSpec with Matchers with Test:
         |""".stripMargin,
     ) shouldBe "128"
   }
+
+  // Colon syntax for variable references
+  "colon variable reference" in {
+    eval("make \"x 42 :x") shouldBe "42"
+  }
+
+  "colon variable in expression" in {
+    eval("make \"x 10 :x + 5") shouldBe "15"
+  }
+
+  "colon variable shadows builtin" in {
+    // :sum gets the variable, not the builtin procedure
+    eval("make \"sum 99 :sum") shouldBe "99"
+  }
+
+  "colon undefined variable error" in {
+    an[Exception] should be thrownBy eval(":undefined")
+  }
