@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo JS Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+    .editor {
+      flex: 1;
+    }
+    .canvas-container {
+      flex: 1;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin: 10px 5px 10px 0;
+      cursor: pointer;
+    }
+    .output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      height: calc(7 * 1.4em + 20px);
+      overflow-y: auto;
+      margin: 0;
+    }
+    label {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Logo Interpreter</h1>
+
+  <div class="container">
+    <div class="editor">
+      <h3>Program</h3>
+      <textarea id="program">; Draw a square
+repeat 4 [
+  forward 100
+  right 90
+]</textarea>
+      <div>
+        <button id="run">Run (Ctrl+R)</button>
+        <button id="clear">Clear</button>
+        <label>
+          <input type="checkbox" id="pathRendering" checked>
+          Path Rendering
+        </label>
+      </div>
+      <h3>Command</h3>
+      <input type="text" id="command" placeholder="Enter command and press Enter" style="width: 100%; padding: 10px; font-family: monospace;">
+      <h3>Output</h3>
+      <pre id="output" class="output"></pre>
+    </div>
+
+    <div class="canvas-container">
+      <h3>Canvas</h3>
+      <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+  </div>
+
+  <h3>Examples</h3>
+  <div>
+    <button onclick="loadExample('square')">Square</button>
+    <button onclick="loadExample('circle')">Circle</button>
+    <button onclick="loadExample('spiral')">Spiral</button>
+    <button onclick="loadExample('star')">Star</button>
+    <button onclick="loadExample('tree')">Tree</button>
+    <button onclick="loadExample('sine')">Sine Wave</button>
+  </div>
+
+  <script type="module">
+    import { Logo } from './dist/logo.js';
+
+    const canvas = document.getElementById('canvas');
+    const program = document.getElementById('program');
+    const command = document.getElementById('command');
+    const output = document.getElementById('output');
+    const pathToggle = document.getElementById('pathRendering');
+
+    // Initialize Logo
+    const logo = new Logo(canvas);
+
+    // Set up output handler for print statements
+    logo.setOutputHandler((text) => {
+      output.textContent += text + '\n';
+    });
+
+    document.getElementById('run').addEventListener('click', () => {
+      runProgram();
+    });
+
+    document.getElementById('clear').addEventListener('click', () => {
+      logo.clear();
+      output.textContent = '';
+    });
+
+    pathToggle.addEventListener('change', () => {
+      logo.setPathRendering(pathToggle.checked);
+    });
+
+    command.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && command.value) {
+        try {
+          logo.execute(command.value);
+          command.value = '';
+        } catch (err) {
+          output.textContent += 'Error: ' + err.message + '\n';
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'r') {
+        e.preventDefault();
+        runProgram();
+      }
+    });
+
+    function runProgram() {
+      output.textContent = '';  // Clear output before run
+      try {
+        logo.clear();
+        logo.run(program.value);
+      } catch (err) {
+        output.textContent += 'Error: ' + err.message + '\n';
+      }
+    }
+
+      // Make loadExample available globally
+      window.loadExample = (name) => {
+        const examples = {
+          square: `; Draw a square
+repeat 4 [
+  forward 100
+  right 90
+]`,
+          circle: `; Draw a circle using small steps
+repeat 360 [
+  forward 2
+  right 1
+]`,
+          spiral: `; Draw a spiral
+make "i 1
+repeat 100 [
+  forward :i * 2
+  right 45
+  make "i :i + 1
+]`,
+          star: `; Draw a 5-pointed star
+repeat 5 [
+  forward 100
+  right 144
+]`,
+          tree: `; Draw a simple tree
+to tree :size
+  if :size < 5 [stop]
+  forward :size
+  left 30
+  tree :size * 0.7
+  right 60
+  tree :size * 0.7
+  left 30
+  back :size
+end
+
+tree 60`,
+          sine: `; Draw a sine wave
+make "x 0
+make "amplitude 50
+make "scaling 25
+
+penup
+setxy scaling * x 0
+pendown
+
+repeat 500 [
+  make "y amplitude * sin x
+  setxy scaling * x y
+  make "x x + 0.02
+]`
+        };
+        program.value = examples[name] || '';
+      };
+
+    // Initial render
+    logo.render();
+  </script>
+</body>
+</html>

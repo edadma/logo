@@ -29,6 +29,16 @@ abstract class Logo:
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
 
+  // Output handler - if set, print uses this instead of println
+  private[logo] var outputHandler: Option[String => Unit] = None
+
+  def setOutputHandler(handler: String => Unit): Unit = outputHandler = Some(handler)
+  def clearOutputHandler(): Unit = outputHandler = None
+
+  private[logo] def output(s: String): Unit = outputHandler match
+    case Some(handler) => handler(s)
+    case None          => println(s)
+
   event()
 
   def drawing: Seq[Draw]                       = draws.toSeq
@@ -189,7 +199,7 @@ abstract class Logo:
 
   private def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
-      case List(EOIToken())                                => (LogoNull(), Seq(EOIToken()))
+      case (eoi @ EOIToken()) :: _                         => (LogoNull().pos(eoi.r), Seq(eoi))
       case (v: (LogoNumber | LogoList | LogoNull)) :: tail => (v, tail)
       case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)

@@ -1,0 +1,59 @@
+{
+  "name": "@edadma/logo",
+  "version": "0.0.1",
+  "description": "Logo programming language interpreter with React component",
+  "main": "dist/logo.js",
+  "module": "dist/logo.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "react"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/logo.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./react": {
+      "import": "./react/index.ts",
+      "types": "./react/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "npm run build:scala && npm run build:react",
+    "build:scala": "cd .. && sbt logoJS/fullLinkJS && cp js/target/scala-3.7.4/logo-opt/main.js js/dist/logo.js",
+    "build:react": "tsc --project tsconfig.react.json",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "logo",
+    "programming",
+    "turtle",
+    "graphics",
+    "education",
+    "react",
+    "canvas"
+  ],
+  "author": "Edward A. Maxedon, Sr.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edadma/logo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edadma/logo/issues"
+  },
+  "homepage": "https://github.com/edadma/logo#readme",
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

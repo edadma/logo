@@ -23,6 +23,10 @@ def tokenize(r: CharReader): Seq[LogoValue] =
     if r2.eoi then buf += EOIToken().pos(r2)
     else
       r2.ch match
+        case ';' =>
+          // Comment - skip to end of line
+          val (_, r3) = r2.consume(r => r.ch == '\n' || r.ch == '\r' || r.eoi)
+          tokenize(r3, listDepth, true)
         case '[' =>
           buf += LogoWord("[").pos(r2)
           tokenize(r2.next, listDepth + 1, false)

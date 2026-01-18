@@ -38,7 +38,7 @@ val builtin =
       "print",
       1,
       1,
-      (_, args) => println(args.mkString(" ")),
+      (ctx, args) => ctx.output(args.mkString(" ")),
     ),
     BuiltinVariadic(
       "list",
@@ -261,6 +261,7 @@ val builtin =
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
           ctx.x = newx
           ctx.y = newy
+          ctx.event()
       },
     ),
     BuiltinProcedure(
