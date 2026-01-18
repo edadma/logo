@@ -321,3 +321,38 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "nested variadic" in {
     eval("(sum (product 2 3) 4)") shouldBe "10"
   }
+
+  // list variadic
+  "list default args" in {
+    eval("list 1 2") shouldBe "1 2"
+  }
+
+  "list variadic" in {
+    eval("(list 1 2 3 4)") shouldBe "1 2 3 4"
+  }
+
+  "list empty" in {
+    eval("(list)") shouldBe ""
+  }
+
+  // word variadic
+  "word default args" in {
+    eval("word \"a \"b") shouldBe "ab"
+  }
+
+  "word variadic" in {
+    eval("(word \"a \"b \"c \"d)") shouldBe "abcd"
+  }
+
+  // sentence variadic
+  "sentence default args" in {
+    eval("sentence 1 2") shouldBe "1 2"
+  }
+
+  "sentence flattens lists" in {
+    eval("(sentence [1 2] 3 [4 5])") shouldBe "1 2 3 4 5"
+  }
+
+  "se alias" in {
+    eval("(se 1 2 3)") shouldBe "1 2 3"
+  }

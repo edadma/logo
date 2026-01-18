@@ -26,7 +26,35 @@ val builtin =
     BuiltinFunction0("j", () => QuaternionBigInt(0, 0, 1, 0)),
     BuiltinFunction0("k", () => QuaternionBigInt(0, 0, 0, 1)),
     BuiltinFunction1("random", limit => QuaternionDAL.compute("*", scala.math.random, limit)),
-    BuiltinProcedure("print", 1, { case (_, Seq(arg)) => println(arg) }),
+    BuiltinVariadic(
+      "print",
+      1,
+      1,
+      (_, args) => println(args.mkString(" ")),
+    ),
+    BuiltinVariadic(
+      "list",
+      2,
+      0,
+      (_, args) => LogoList(args, args :+ EOIToken()),
+    ),
+    BuiltinVariadic(
+      "word",
+      2,
+      0,
+      (_, args) => LogoWord(args.map(_.toString).mkString),
+    ),
+    BuiltinVariadic(
+      "sentence",
+      2,
+      0,
+      (_, args) =>
+        val flat = args.flatMap {
+          case LogoList(elems, _) => elems
+          case v                  => Seq(v)
+        }
+        LogoList(flat, flat :+ EOIToken()),
+    ),
     BuiltinVariadic(
       "sum",
       2,
@@ -361,4 +389,6 @@ val synonyms =
     "rnd"          -> "random",
     "aleatoire"    -> "random",
     "alt"          -> "random",
+    "se"           -> "sentence",
+    "pr"           -> "print",
   ) map ((s, p) => s -> builtin(p)) toMap
