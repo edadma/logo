@@ -89,14 +89,27 @@ class LogicTests extends AnyFreeSpec with Matchers with Test:
 
   // Logic in control flow - test that logical operators work with if
   "if with and true" in {
-    // and returns true, so body executes and returns 1
-    eval("if and true true [1]") shouldBe "1"
+    // and returns true, so body executes and sets x to 1
+    eval("make \"x 0 if and true true [make \"x 1] x") shouldBe "1"
+  }
+
+  "if with and false" in {
+    // and returns false, so body doesn't execute and x stays 0
+    eval("make \"x 0 if and true false [make \"x 1] x") shouldBe "0"
   }
 
   "if with or true" in {
-    eval("if or false true [1]") shouldBe "1"
+    eval("make \"x 0 if or false true [make \"x 1] x") shouldBe "1"
+  }
+
+  "if with or false" in {
+    eval("make \"x 0 if or false false [make \"x 1] x") shouldBe "0"
   }
 
   "if with not true" in {
-    eval("if not false [1]") shouldBe "1"
+    eval("make \"x 0 if not false [make \"x 1] x") shouldBe "1"
+  }
+
+  "if with not false" in {
+    eval("make \"x 0 if not true [make \"x 1] x") shouldBe "0"
   }
