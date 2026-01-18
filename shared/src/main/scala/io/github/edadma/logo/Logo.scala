@@ -28,6 +28,7 @@ abstract class Logo:
   private[logo] val draws                  = new ListBuffer[Draw]
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
+  private[logo] val repcountStack          = new mutable.Stack[Int]
 
   // Output handler - if set, print uses this instead of println
   private[logo] var outputHandler: Option[String => Unit] = None

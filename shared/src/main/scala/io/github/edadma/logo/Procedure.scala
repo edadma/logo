@@ -351,8 +351,19 @@ val builtin =
           val times = number(left).intValue
           val body  = list(right)
 
-          for _ <- 1 to times do
-            ctx.interp(body)
+          for i <- 1 to times do
+            ctx.repcountStack.push(i)
+            try ctx.interp(body)
+            finally ctx.repcountStack.pop()
+      },
+    ),
+    BuiltinProcedure(
+      "repcount",
+      0,
+      {
+        case (ctx, _) =>
+          if ctx.repcountStack.isEmpty then 0
+          else ctx.repcountStack.top
       },
     ),
     BuiltinProcedure(

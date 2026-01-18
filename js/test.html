@@ -218,23 +218,19 @@ make "radius 100
 penup
 setc :radius
 pendown
-make "k 1
 repeat :n [
-  make "angle 2 * pi * :k / :n
+  make "angle 2 * pi * repcount / :n
   setc :radius * e ^ (:angle * i)
-  make "k :k + 1
 ]
 
 ; Mark each root with a dot
 penup
-make "k 0
 repeat :n [
-  make "angle 2 * pi * :k / :n
+  make "angle 2 * pi * (repcount - 1) / :n
   setc :radius * e ^ (:angle * i)
   pendown
   forward 1
   penup
-  make "k :k + 1
 ]`
         };
         program.value = examples[name] || '';

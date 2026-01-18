@@ -78,3 +78,46 @@ class ControlFlowTests extends AnyFreeSpec with Matchers with Test:
         |""".stripMargin,
     ) shouldBe "yes"
   }
+
+  "repcount basic" in {
+    run(
+      """
+        |repeat 5 [print repcount]
+        |""".stripMargin,
+    ) shouldBe "1\n2\n3\n4\n5"
+  }
+
+  "repcount in expression" in {
+    run(
+      """
+        |make "sum 0
+        |repeat 4 [make "sum :sum + repcount]
+        |print :sum
+        |""".stripMargin,
+    ) shouldBe "10"
+  }
+
+  "repcount nested inner" in {
+    run(
+      """
+        |repeat 2 [
+        |  repeat 3 [print repcount]
+        |]
+        |""".stripMargin,
+    ) shouldBe "1\n2\n3\n1\n2\n3"
+  }
+
+  "repcount nested outer" in {
+    run(
+      """
+        |repeat 3 [
+        |  make "outer repcount
+        |  repeat 2 [print :outer]
+        |]
+        |""".stripMargin,
+    ) shouldBe "1\n1\n2\n2\n3\n3"
+  }
+
+  "repcount outside repeat" in {
+    run("print repcount") shouldBe "0"
+  }
