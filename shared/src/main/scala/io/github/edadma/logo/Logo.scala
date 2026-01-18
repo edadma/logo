@@ -170,7 +170,7 @@ abstract class Logo:
         case LogoWord("//") :: tail =>
           // Floor division - returns integer
           val (right, rest) = evalPower(tail)
-          val result = logoNumber(math.floor(number(left).doubleValue / number(right).doubleValue).toLong)
+          val result = logoNumber((math.floor(number(left).doubleValue / number(right).doubleValue).toLong).toDouble)
           loop(result, rest)
         case _ => (left, toks)
 
