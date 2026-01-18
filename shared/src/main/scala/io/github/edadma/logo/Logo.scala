@@ -207,6 +207,12 @@ abstract class Logo:
                   case b: Boolean   => LogoBoolean(b)
                   case ()           => LogoNull()
                 (res.pos(tok.r), rest2)
+              case Some(up @ UserProcedure(name, reqParams, optParams, restParam, _))
+                  if optParams.nonEmpty || restParam.isDefined =>
+                // User-defined variadic procedure call - collect args until )
+                val (args, rest2) = evalArgsUntilParen(name, reqParams.length, rest)
+                val result = callUserProc(up, args)
+                (result.pos(tok.r), rest2)
               case _ =>
                 // Not a variadic procedure - treat as expression grouping
                 val (value, rest2) = eval(tail)
@@ -223,9 +229,10 @@ abstract class Logo:
         // Define a user procedure: to name :param1 :param2 ... body... end
         tail match
           case LogoWord(procName) :: rest =>
-            val (params, bodyStart) = collectParams(rest)
+            val (requiredParams, optionalParams, restParam, bodyStart) = collectParams(rest)
             val (body, afterEnd) = collectUntilEnd(bodyStart)
-            procedures(procName.toLowerCase) = UserProcedure(procName.toLowerCase, params, body)
+            procedures(procName.toLowerCase) =
+              UserProcedure(procName.toLowerCase, requiredParams, optionalParams, restParam, body)
             (LogoNull().pos(tok.r), afterEnd)
           case _ => tok.r.error("expected procedure name after 'to'")
       case (tok @ LogoWord(s)) :: tail =>
@@ -269,29 +276,47 @@ abstract class Logo:
                   case ()           => LogoNull()
 
               (res.pos(tok.r), rest)
-            case Some(UserProcedure(name, params, body)) =>
-              // Call user-defined procedure
-              val (vals, rest) = evalargs(name, params.length, tail)
-              val result = callUserProc(params, vals, body)
+            case Some(up @ UserProcedure(name, reqParams, optParams, restParam, body)) =>
+              // Call user-defined procedure - without parens, only evaluate required params
+              // Optional params get their default values
+              val (vals, rest) = evalargs(name, reqParams.length, tail)
+              val result = callUserProc(up, vals)
               (result.pos(tok.r), rest)
             case Some(v: LogoValue) => (v, tail)
             case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
         end if
 
-  // Collect parameter names (tokens starting with :) until we hit something else
-  private def collectParams(toks: Seq[LogoValue]): (Seq[String], Seq[LogoValue]) =
-    val params = new ListBuffer[String]
+  // Collect parameter definitions: :required [:optional default] [:rest]
+  private def collectParams(
+      toks: Seq[LogoValue],
+  ): (Seq[String], Seq[(String, LogoValue)], Option[String], Seq[LogoValue]) =
+    val requiredParams = new ListBuffer[String]
+    val optionalParams = new ListBuffer[(String, LogoValue)]
+    var restParam: Option[String] = None
 
     @tailrec
     def loop(toks: Seq[LogoValue]): Seq[LogoValue] =
       toks match
         case LogoWord(s) :: rest if s.startsWith(":") =>
-          params += s.tail.toLowerCase
+          // Required parameter
+          requiredParams += s.tail.toLowerCase
           loop(rest)
+        case LogoList(elems, _) :: rest =>
+          // Optional or rest parameter: [:name] or [:name default]
+          elems match
+            case Seq(LogoWord(name)) if name.startsWith(":") =>
+              // Rest parameter (no default value)
+              restParam = Some(name.tail.toLowerCase)
+              loop(rest)
+            case Seq(LogoWord(name), default) if name.startsWith(":") =>
+              // Optional parameter with default
+              optionalParams += ((name.tail.toLowerCase, default))
+              loop(rest)
+            case _ => toks // Not a param, stop collecting
         case _ => toks
 
     val rest = loop(toks)
-    (params.toSeq, rest)
+    (requiredParams.toSeq, optionalParams.toSeq, restParam, rest)
 
   // Collect tokens until we see "end"
   private def collectUntilEnd(toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
@@ -311,12 +336,29 @@ abstract class Logo:
     (body.toSeq, rest)
 
   // Call a user-defined procedure
-  private def callUserProc(params: Seq[String], args: Seq[LogoValue], body: Seq[LogoValue]): LogoValue =
-    // Save current variable bindings for parameters (for proper scoping)
-    val savedVars = params.map(p => p -> vars.get(p))
+  private def callUserProc(proc: UserProcedure, args: Seq[LogoValue]): LogoValue =
+    val UserProcedure(_, reqParams, optParams, restParam, body) = proc
 
-    // Bind parameters to arguments
-    params.zip(args).foreach { case (param, arg) => vars(param) = arg }
+    // Collect all param names for scoping
+    val allParams = reqParams ++ optParams.map(_._1) ++ restParam.toSeq
+
+    // Save current variable bindings for parameters (for proper scoping)
+    val savedVars = allParams.map(p => p -> vars.get(p))
+
+    // Bind required parameters
+    reqParams.zip(args.take(reqParams.length)).foreach { case (param, arg) => vars(param) = arg }
+
+    // Bind optional parameters (use provided args or defaults)
+    val optArgs = args.drop(reqParams.length)
+    optParams.zipWithIndex.foreach { case ((param, default), i) =>
+      vars(param) = if i < optArgs.length then optArgs(i) else default
+    }
+
+    // Bind rest parameter to remaining args as a list
+    restParam.foreach { param =>
+      val restArgs = args.drop(reqParams.length + optParams.length)
+      vars(param) = LogoList(restArgs, restArgs :+ EOIToken())
+    }
 
     try
       // Execute the body (add EOI token for proper termination)

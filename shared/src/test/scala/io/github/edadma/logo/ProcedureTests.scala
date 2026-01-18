@@ -84,3 +84,77 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
       |quadruple 3
       |""".stripMargin) shouldBe "12"
   }
+
+  // Optional parameters tests
+  "procedure with optional param - use default" in {
+    eval("""
+      |to increment :x [:by 1]
+      |  output :x + :by
+      |end
+      |(increment 5)
+      |""".stripMargin) shouldBe "6"
+  }
+
+  "procedure with optional param - override default" in {
+    eval("""
+      |to increment :x [:by 1]
+      |  output :x + :by
+      |end
+      |(increment 5 10)
+      |""".stripMargin) shouldBe "15"
+  }
+
+  "procedure with multiple optional params - defaults" in {
+    eval("""
+      |to add3 :a [:b 0] [:c 0]
+      |  output :a + :b + :c
+      |end
+      |(add3 5)
+      |""".stripMargin) shouldBe "5"
+  }
+
+  "procedure with multiple optional params - some provided" in {
+    eval("""
+      |to add3 :a [:b 0] [:c 0]
+      |  output :a + :b + :c
+      |end
+      |(add3 5 10)
+      |""".stripMargin) shouldBe "15"
+  }
+
+  "procedure with multiple optional params - all provided" in {
+    eval("""
+      |to add3 :a [:b 0] [:c 0]
+      |  output :a + :b + :c
+      |end
+      |(add3 5 10 20)
+      |""".stripMargin) shouldBe "35"
+  }
+
+  // Rest parameter tests
+  "procedure with rest param - returns list" in {
+    eval("""
+      |to mylist [:items]
+      |  output :items
+      |end
+      |(mylist 1 2 3)
+      |""".stripMargin) shouldBe "1 2 3"
+  }
+
+  "procedure with rest param - empty" in {
+    eval("""
+      |to mylist [:items]
+      |  output :items
+      |end
+      |(mylist)
+      |""".stripMargin) shouldBe ""
+  }
+
+  "procedure with required and rest params" in {
+    eval("""
+      |to prepend :first [:rest]
+      |  output sentence :first :rest
+      |end
+      |(prepend 1 2 3 4)
+      |""".stripMargin) shouldBe "1 2 3 4"
+  }

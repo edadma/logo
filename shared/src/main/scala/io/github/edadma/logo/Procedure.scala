@@ -17,8 +17,14 @@ case class BuiltinFunction2(name: String, func: (Number, Number) => Number) exte
 // Variadic: defaultArgs is used without parens, with parens accepts minArgs or more
 case class BuiltinVariadic(name: String, defaultArgs: Int, minArgs: Int, func: (Logo, Seq[LogoValue]) => Any)
     extends Procedure
-// User-defined procedure
-case class UserProcedure(name: String, params: Seq[String], body: Seq[LogoValue]) extends Procedure
+// User-defined procedure with optional and rest params
+case class UserProcedure(
+    name: String,
+    requiredParams: Seq[String],
+    optionalParams: Seq[(String, LogoValue)], // (name, default)
+    restParam: Option[String],
+    body: Seq[LogoValue],
+) extends Procedure
 
 val builtin =
   List[Procedure](
