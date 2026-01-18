@@ -93,6 +93,24 @@ abstract class Logo:
 
     (args map number, rest)
 
+  private def evalArgsUntilParen(name: String, minArgs: Int, toks: Seq[LogoValue]): (Seq[LogoValue], Seq[LogoValue]) =
+    val buf = new ListBuffer[LogoValue]
+
+    @tailrec
+    def loop(toks: Seq[LogoValue]): Seq[LogoValue] =
+      toks match
+        case LogoWord(")") :: rest => rest
+        case (eoi: EOIToken) :: _  => eoi.r.error(s"expected closing parenthesis for variadic call to '$name'")
+        case _ =>
+          val (arg, rest) = eval(toks)
+          buf += arg
+          loop(rest)
+
+    val rest = loop(toks)
+    if buf.size < minArgs then
+      problem(null, s"'$name' requires at least $minArgs argument(s), got ${buf.size}")
+    (buf.toSeq, rest)
+
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalComparison(toks)
 
   private def evalComparison(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
@@ -168,11 +186,31 @@ abstract class Logo:
       case (tok @ LogoWord("true" | "false")) :: tail      => (LogoBoolean(tok.toString == "true").pos(tok.r), tail)
       case (tok @ LogoWord("null")) :: tail                => (LogoNull().pos(tok.r), tail)
       case (tok @ LogoWord("(")) :: tail =>
-        // Parenthesized expression - evaluate and expect closing paren
-        val (value, rest) = eval(tail)
-        rest match
-          case LogoWord(")") :: rest2 => (value.pos(tok.r), rest2)
-          case other                  => tok.r.error("expected closing parenthesis")
+        // Check if this is a variadic procedure call or expression grouping
+        tail match
+          case (procTok @ LogoWord(procName)) :: rest if !procName.head.isDigit && procName.head != '"' && procName.head != ':' =>
+            lookup(procName) match
+              case Some(BuiltinVariadic(name, _, minArgs, func)) =>
+                // Variadic procedure call - collect args until )
+                val (args, rest2) = evalArgsUntilParen(name, minArgs, rest)
+                val res = func(this, args) match
+                  case v: LogoValue => v
+                  case n: Number    => logoNumber(n)
+                  case b: Boolean   => LogoBoolean(b)
+                  case ()           => LogoNull()
+                (res.pos(tok.r), rest2)
+              case _ =>
+                // Not a variadic procedure - treat as expression grouping
+                val (value, rest2) = eval(tail)
+                rest2 match
+                  case LogoWord(")") :: rest3 => (value.pos(tok.r), rest3)
+                  case _                      => tok.r.error("expected closing parenthesis")
+          case _ =>
+            // Expression grouping
+            val (value, rest) = eval(tail)
+            rest match
+              case LogoWord(")") :: rest2 => (value.pos(tok.r), rest2)
+              case _                      => tok.r.error("expected closing parenthesis")
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then (LogoWord(s.tail).pos(tok.r), tail)
         else if s.head == ':' then
@@ -195,6 +233,17 @@ abstract class Logo:
               (logoNumber(func(a, b)).pos(tok.r), rest)
             case Some(BuiltinProcedure(name, args, func)) =>
               val (vals, rest) = evalargs(name, args, tail)
+              val res =
+                func(this, vals) match
+                  case v: LogoValue => v
+                  case n: Number    => logoNumber(n)
+                  case b: Boolean   => LogoBoolean(b)
+                  case ()           => LogoNull()
+
+              (res.pos(tok.r), rest)
+            case Some(BuiltinVariadic(name, defaultArgs, _, func)) =>
+              // Without parens, use defaultArgs count
+              val (vals, rest) = evalargs(name, defaultArgs, tail)
               val res =
                 func(this, vals) match
                   case v: LogoValue => v

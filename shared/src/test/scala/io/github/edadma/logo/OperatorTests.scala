@@ -284,3 +284,40 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
   "parentheses in comparison" in {
     eval("(2 + 3) = 5") shouldBe "true"
   }
+
+  // Variadic procedure tests
+  "sum default args" in {
+    eval("sum 3 4") shouldBe "7"
+  }
+
+  "sum variadic zero args" in {
+    eval("(sum)") shouldBe "0"
+  }
+
+  "sum variadic one arg" in {
+    eval("(sum 5)") shouldBe "5"
+  }
+
+  "sum variadic many args" in {
+    eval("(sum 1 2 3 4 5)") shouldBe "15"
+  }
+
+  "product default args" in {
+    eval("product 3 4") shouldBe "12"
+  }
+
+  "product variadic zero args" in {
+    eval("(product)") shouldBe "1"
+  }
+
+  "product variadic many args" in {
+    eval("(product 2 3 4)") shouldBe "24"
+  }
+
+  "variadic in expression" in {
+    eval("(sum 1 2 3) + 4") shouldBe "10"
+  }
+
+  "nested variadic" in {
+    eval("(sum (product 2 3) 4)") shouldBe "10"
+  }

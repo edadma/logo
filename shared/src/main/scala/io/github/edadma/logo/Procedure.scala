@@ -14,6 +14,9 @@ case class BuiltinProcedure(name: String, args: Int, func: PartialFunction[(Logo
 case class BuiltinFunction0(name: String, func: () => Number)               extends Procedure
 case class BuiltinFunction1(name: String, func: Number => Number)           extends Procedure
 case class BuiltinFunction2(name: String, func: (Number, Number) => Number) extends Procedure
+// Variadic: defaultArgs is used without parens, with parens accepts minArgs or more
+case class BuiltinVariadic(name: String, defaultArgs: Int, minArgs: Int, func: (Logo, Seq[LogoValue]) => Any)
+    extends Procedure
 
 val builtin =
   List[Procedure](
@@ -24,9 +27,19 @@ val builtin =
     BuiltinFunction0("k", () => QuaternionBigInt(0, 0, 0, 1)),
     BuiltinFunction1("random", limit => QuaternionDAL.compute("*", scala.math.random, limit)),
     BuiltinProcedure("print", 1, { case (_, Seq(arg)) => println(arg) }),
-    BuiltinFunction2("sum", QuaternionDAL.compute("+", _, _)),
+    BuiltinVariadic(
+      "sum",
+      2,
+      0,
+      (_, args) => args.map(number).reduceOption(QuaternionDAL.compute("+", _, _)).getOrElse(0),
+    ),
     BuiltinFunction2("difference", QuaternionDAL.compute("-", _, _)),
-    BuiltinFunction2("product", QuaternionDAL.compute("*", _, _)),
+    BuiltinVariadic(
+      "product",
+      2,
+      0,
+      (_, args) => args.map(number).reduceOption(QuaternionDAL.compute("*", _, _)).getOrElse(1),
+    ),
     BuiltinFunction2("quotient", QuaternionDAL.compute("/", _, _)),
     BuiltinFunction2("remainder", QuaternionDAL.compute("mod", _, _)),
     BuiltinFunction2("pow", QuaternionDAL.compute("^", _, _)),
