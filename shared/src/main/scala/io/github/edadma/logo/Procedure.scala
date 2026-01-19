@@ -236,6 +236,95 @@ val builtin =
     BuiltinFunction1("sqrt", QuaternionDAL.sqrtFunction),
     BuiltinFunction1("exp", QuaternionDAL.expFunction),
     BuiltinFunction1("ln", QuaternionDAL.lnFunction),
+    // Numeric functions
+    BuiltinProcedure(
+      "abs",
+      1,
+      { case (_, Seq(n)) => math.abs(number(n).doubleValue) },
+    ),
+    BuiltinProcedure(
+      "int",
+      1,
+      { case (_, Seq(n)) => number(n).longValue },
+    ),
+    BuiltinProcedure(
+      "round",
+      1,
+      { case (_, Seq(n)) => math.round(number(n).doubleValue) },
+    ),
+    // Character/ASCII conversion
+    BuiltinProcedure(
+      "ascii",
+      1,
+      {
+        case (_, Seq(LogoWord(s))) if s.nonEmpty => s.head.toInt
+        case (_, Seq(other))                     => problem(null, s"'ascii' requires a non-empty word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "char",
+      1,
+      { case (_, Seq(n)) => LogoWord(number(n).intValue.toChar.toString) },
+    ),
+    // List/word operations
+    BuiltinProcedure(
+      "reverse",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          val rev = elems.reverse
+          LogoList(rev, rev :+ EOIToken())
+        case (_, Seq(LogoWord(s))) => LogoWord(s.reverse)
+        case (_, Seq(other))       => problem(null, s"'reverse' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "pick",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'pick' requires non-empty list")
+          else elems(scala.util.Random.nextInt(elems.length))
+        case (_, Seq(LogoWord(s))) =>
+          if s.isEmpty then problem(null, "'pick' requires non-empty word")
+          else LogoWord(s(scala.util.Random.nextInt(s.length)).toString)
+        case (_, Seq(other)) => problem(null, s"'pick' requires a list or word, got $other")
+      },
+    ),
+    // Variable access
+    BuiltinProcedure(
+      "thing",
+      1,
+      {
+        case (ctx, Seq(name)) =>
+          val varName = name.toString.toLowerCase
+          ctx.vars.get(varName) match
+            case Some(v) => v
+            case None    => problem(null, s"'thing' unknown variable '$varName'")
+      },
+    ),
+    // Output procedures
+    BuiltinVariadic(
+      "type",
+      1,
+      1,
+      (ctx, args) => ctx.outputNoNewline(args.mkString(" ")),
+    ),
+    BuiltinVariadic(
+      "show",
+      1,
+      1,
+      (ctx, args) =>
+        ctx.output(
+          args
+            .map {
+              case LogoWord(s)        => s"\"$s"
+              case LogoList(elems, _) => elems.mkString("[", " ", "]")
+              case v                  => v.toString
+            }
+            .mkString(" "),
+        ),
+    ),
     BuiltinProcedure(
       "equalp",
       2,
@@ -412,6 +501,37 @@ val builtin =
       },
     ),
     BuiltinProcedure(
+      "setx",
+      1,
+      {
+        case (ctx, Seq(x)) =>
+          val newx = number(x).doubleValue
+          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, ctx.y, ctx.color, ctx.width)
+          ctx.x = newx
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "sety",
+      1,
+      {
+        case (ctx, Seq(y)) =>
+          val newy = number(y).doubleValue
+          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, ctx.x, newy, ctx.color, ctx.width)
+          ctx.y = newy
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "setheading",
+      1,
+      {
+        case (ctx, Seq(h)) =>
+          ctx.heading = ctx.computeHeading(number(h).doubleValue)
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
       "setc",
       1,
       {
@@ -567,6 +687,8 @@ val synonyms =
     "empty?"       -> "emptyp",
     "list?"        -> "listp",
     "word?"        -> "wordp",
+    "seth"         -> "setheading",
+    "mod"          -> "remainder",
     "number?"      -> "numberp",
     "member?"      -> "memberp",
   ) map ((s, p) => s -> builtin(p)) toMap

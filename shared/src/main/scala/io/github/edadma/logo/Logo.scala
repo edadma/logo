@@ -58,6 +58,10 @@ abstract class Logo:
     case Some(handler) => handler(s)
     case None          => println(s)
 
+  private[logo] def outputNoNewline(s: String): Unit = outputHandler match
+    case Some(handler) => handler(s)
+    case None          => print(s)
+
   event()
 
   def drawing: Seq[Draw]                       = draws.toSeq
