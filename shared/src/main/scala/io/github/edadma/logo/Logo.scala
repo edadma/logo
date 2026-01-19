@@ -17,6 +17,8 @@ case class Done(value: LogoValue) extends EvalResult
 case class More(thunk: () => EvalResult) extends EvalResult
 // Pending procedure call - trampoline handles it to avoid stack growth
 case class PendingCall(proc: UserProcedure, args: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
+// Pending repeat loop - trampoline handles iteration to avoid stack growth
+case class PendingRepeatLoop(i: Int, times: Int, body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
 abstract class Logo:
   def event(): Unit
@@ -82,6 +84,7 @@ abstract class Logo:
         case Done(v) => return v
         case More(thunk) => current = thunk()
         case PendingCall(proc, args, k) => current = executeProcedure(proc, args, k)
+        case PendingRepeatLoop(i, times, body, k) => current = executeRepeatIteration(i, times, body, k)
     throw new RuntimeException("unreachable")
 
   // Execute a procedure call - sets up params, evaluates body, cleans up
@@ -117,6 +120,24 @@ abstract class Logo:
     // Return body evaluation - trampoline will continue with it
     interp(body :+ EOIToken(), bodyK)
 
+  // Execute one iteration of a repeat loop
+  private def executeRepeatIteration(i: Int, times: Int, body: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    if i > times || pendingReturn.isDefined then
+      // Done with loop or early exit via output/stop
+      More(() => k(LogoNull()))
+    else
+      repcountStack.push(i)
+      // After this iteration, continue with next iteration (or finish)
+      val iterK: (LogoValue, Seq[LogoValue]) => EvalResult = { (_, _) =>
+        repcountStack.pop()
+        // Check for output/stop after each iteration
+        if pendingReturn.isDefined then
+          More(() => k(LogoNull()))
+        else
+          PendingRepeatLoop(i + 1, times, body, k)
+      }
+      interp(body :+ EOIToken(), iterK)
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
@@ -129,23 +150,57 @@ abstract class Logo:
   // CPS interpreter - processes statements with continuation
   // All continuation invocations wrapped in More() to ensure trampoline handles them
   private def interp(toks: Seq[LogoValue], k: (LogoValue, Seq[LogoValue]) => EvalResult): EvalResult =
-    val (value, rest) = eval(toks)
-    // Check for pending output/stop - don't clear it here, let caller handle it
+    // Check for pending output/stop BEFORE evaluating - prevents side effects from eval
     if pendingReturn.isDefined then
       More(() => k(pendingReturn.get, Seq(EOIToken()))) // Return immediately with the pending value
     else
+      val (value, rest) = eval(toks)
+      // Helper to continue after a control structure
+      def continue(result: LogoValue): EvalResult =
+        rest match
+          case (eoi: EOIToken) :: _ => More(() => k(result, rest))
+          case _ => More(() => interp(rest, k))
+
       value match
         case PendingCallMarker(proc, args) =>
           // User procedure call - return PendingCall for trampoline to handle
-          PendingCall(proc, args, result => {
-            rest match
-              case (eoi: EOIToken) :: _ => More(() => k(result, rest))
-              case _ => More(() => interp(rest, k))
-          })
+          PendingCall(proc, args, result => continue(result))
+
+        case PendingIf(cond, body) =>
+          if cond then
+            // Execute body with continuation that continues after if
+            interp(body :+ EOIToken(), (result, _) => continue(result))
+          else
+            continue(LogoNull())
+
+        case PendingIfElse(cond, yesBody, noBody) =>
+          val body = if cond then yesBody else noBody
+          interp(body :+ EOIToken(), (result, _) => continue(result))
+
+        case PendingRepeat(times, body) =>
+          // Start repeat loop - trampoline handles iterations
+          PendingRepeatLoop(1, times, body, _ => continue(LogoNull()))
+
+        case PendingRun(code) =>
+          // Parse and interpret the code with continuation
+          val tokens = transform(tokenize(CharReader.fromString(code)))
+          interp(tokens :+ EOIToken(), (result, _) => continue(result))
+
+        case PendingOutput(arg) =>
+          arg match
+            case PendingCallMarker(proc, args) =>
+              // Tail call optimization: execute the procedure and use its result as output
+              PendingCall(proc, args, result => {
+                pendingReturn = Some(result)
+                continue(LogoNull())
+              })
+            case other =>
+              // Regular output - resolve and set pendingReturn
+              pendingReturn = Some(resolvePendingCall(other))
+              continue(LogoNull())
+
         case _ =>
-          rest match
-            case (eoi: EOIToken) :: _ => More(() => k(value, rest))
-            case _ => More(() => interp(rest, k))
+          continue(value)
 
   // Execute a pending call immediately and return the result
   // Used when we need the value in an expression (not at statement level)
@@ -330,6 +385,32 @@ abstract class Logo:
             rest match
               case LogoWord(")") :: rest2 => (value.pos(tok.r), rest2)
               case _                      => tok.r.error("expected closing parenthesis")
+      // Control structures as special forms - return pending markers for CPS handling
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "if" || w.toLowerCase == "si" =>
+        val (Seq(condVal, bodyVal), rest) = evalargs("if", 2, tail)
+        val cond = boolean(resolvePendingCall(condVal))
+        val body = list(bodyVal)
+        (PendingIf(cond, body).pos(tok.r), rest)
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "ifelse" || w.toLowerCase == "siou" =>
+        val (Seq(condVal, yesVal, noVal), rest) = evalargs("ifelse", 3, tail)
+        val cond = boolean(resolvePendingCall(condVal))
+        val yesBody = list(yesVal)
+        val noBody = list(noVal)
+        (PendingIfElse(cond, yesBody, noBody).pos(tok.r), rest)
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "repeat" || w.toLowerCase == "repete" =>
+        val (Seq(timesVal, bodyVal), rest) = evalargs("repeat", 2, tail)
+        val times = number(resolvePendingCall(timesVal)).intValue
+        val body = list(bodyVal)
+        (PendingRepeat(times, body).pos(tok.r), rest)
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "run" =>
+        val (Seq(codeVal), rest) = evalargs("run", 1, tail)
+        val code = resolvePendingCall(codeVal).toString
+        (PendingRun(code).pos(tok.r), rest)
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "output" || w.toLowerCase == "op" =>
+        // output is a special form to enable tail call optimization
+        // Don't resolve the argument - if it's a pending call, we'll do a tail call
+        val (arg, rest) = eval(tail)
+        (PendingOutput(arg).pos(tok.r), rest)
       case (tok @ LogoWord("to")) :: tail =>
         // Define a user procedure: to name :param1 :param2 ... body... end
         tail match

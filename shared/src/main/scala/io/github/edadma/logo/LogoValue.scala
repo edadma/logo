@@ -30,6 +30,17 @@ case class LogoList(list: Seq[LogoValue], terminated: Seq[LogoValue]) extends Lo
     case v                    => v.toString
   } mkString " "
 case class EOIToken() extends LogoValue { override def toString: String = "" }
-// Marker for pending user procedure call - eval returns this instead of executing
+
+// Markers for pending operations - eval returns these, interp handles them with CPS
 case class PendingCallMarker(proc: UserProcedure, args: Seq[LogoValue]) extends LogoValue:
   override def toString: String = s"<pending:${proc.name}>"
+case class PendingIf(cond: Boolean, body: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:if>"
+case class PendingIfElse(cond: Boolean, yesBody: Seq[LogoValue], noBody: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:ifelse>"
+case class PendingRepeat(times: Int, body: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:repeat>"
+case class PendingRun(code: String) extends LogoValue:
+  override def toString: String = "<pending:run>"
+case class PendingOutput(value: LogoValue) extends LogoValue:
+  override def toString: String = "<pending:output>"

@@ -347,22 +347,6 @@ val builtin =
       },
     ),
     BuiltinProcedure(
-      "repeat",
-      2,
-      {
-        case (ctx, Seq(left, right)) =>
-          val times = number(left).intValue
-          val body  = list(right)
-
-          var i = 1
-          while i <= times && ctx.pendingReturn.isEmpty do
-            ctx.repcountStack.push(i)
-            ctx.interp(body)
-            ctx.repcountStack.pop()
-            i += 1
-      },
-    ),
-    BuiltinProcedure(
       "repcount",
       0,
       {
@@ -372,49 +356,10 @@ val builtin =
       },
     ),
     BuiltinProcedure(
-      "if",
-      2,
-      {
-        case (ctx, Seq(left, right)) =>
-          val cond = boolean(left)
-          val body = list(right)
-
-          if cond then ctx.interp(body) else LogoNull()
-      },
-    ),
-    BuiltinProcedure(
-      "ifelse",
-      3,
-      {
-        case (ctx, Seq(cond, yes, no)) =>
-          val condv = boolean(cond)
-          val yesv  = list(yes)
-          val nov   = list(no)
-
-          if condv then ctx.interp(yesv) else ctx.interp(nov)
-      },
-    ),
-    BuiltinProcedure(
       "make",
       2,
       {
         case (ctx, Seq(name, value)) => ctx.vars(name.toString) = value
-      },
-    ),
-    BuiltinProcedure(
-      "run",
-      1,
-      {
-        case (ctx, Seq(code)) =>
-          // Convert list to string and re-parse to enable operator splitting
-          ctx.interp(code.toString)
-      },
-    ),
-    BuiltinProcedure(
-      "output",
-      1,
-      {
-        case (ctx, Seq(value)) => ctx.doOutput(value)
       },
     ),
     BuiltinProcedure(
@@ -464,14 +409,10 @@ val synonyms =
     "origine"      -> "home",
     "placexy"      -> "setxy",
     "texte"        -> "label",
-    "repete"       -> "repeat",
-    "si"           -> "if",
-    "siou"         -> "ifelse",
     "rends"        -> "make",
     "rnd"          -> "random",
     "aleatoire"    -> "random",
     "alt"          -> "random",
     "se"           -> "sentence",
     "pr"           -> "print",
-    "op"           -> "output",
   ) map ((s, p) => s -> builtin(p)) toMap
