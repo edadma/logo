@@ -163,13 +163,31 @@ interface TurtleState {
 - `stop` - Stop procedure
 
 ### Math
-- `sum`, `difference`, `product`, `quotient`
-- `sin`, `cos`, `tan`, `sqrt`, `pow`
-- Infix operators: `+`, `-`, `*`, `/`, `^`, `=`, `<`, `>`
+- `sum`, `difference`, `product`, `quotient`, `remainder`
+- `sin`, `cos`, `tan`, `sqrt`, `pow`, `exp`, `ln`, `log10`
+- `asin`, `acos`, `atan`, `atan2` - inverse trig (complex-aware)
+- `abs`, `int`, `round`, `floor`, `ceiling`, `sign`
+- `min`, `max` - variadic min/max
+- `random` - random number
+- `pi`, `e` - constants
+- Infix operators: `+`, `-`, `*`, `/`, `^`, `=`, `<`, `>`, `<=`, `>=`
+
+### Strings
+- `lowercase`, `uppercase` - case conversion
+- `ascii`, `char` - character codes
 
 ### Variables
 - `make "name <value>` - Set variable
 - `:name` - Get variable value
+- `thing "name` - Get variable value
+
+### Lists
+- `first`, `last`, `butfirst` (`bf`), `butlast` (`bl`)
+- `fput`, `lput`, `item`, `count`
+- `list`, `sentence` (`se`), `word`
+- `range` / `iseq` - generate sequences: `range 5` → `[0 1 2 3 4]`
+- `reverse`, `pick` - list utilities
+- `emptyp`, `listp`, `wordp`, `numberp`, `memberp` - predicates
 
 ## License
 
