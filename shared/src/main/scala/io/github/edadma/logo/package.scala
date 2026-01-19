@@ -54,8 +54,8 @@ def boolean(v: LogoValue): Boolean =
 
 def list(v: LogoValue): Seq[LogoValue] =
   v match
-    case LogoList(_, l) => l
-    case _              => v.r.error("expected a list")
+    case LogoList(elems, _) => elems
+    case _                  => v.r.error("expected a list")
 
 def normalizeAngle(angle: Double): Double =
   angle % (2 * Pi) match

@@ -19,6 +19,10 @@ case class More(thunk: () => EvalResult) extends EvalResult
 case class PendingCall(proc: UserProcedure, args: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 // Pending repeat loop - trampoline handles iteration to avoid stack growth
 case class PendingRepeatLoop(i: Int, times: Int, body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
+// Pending for loop - trampoline handles iteration
+case class PendingForLoop(varName: String, current: Double, end: Double, step: Double, body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
+// Pending while loop - trampoline handles iteration
+case class PendingWhileLoop(conditionCode: Seq[LogoValue], body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
 // CPS continuation type aliases
 type EvalK = (LogoValue, Seq[LogoValue]) => EvalResult
@@ -93,6 +97,8 @@ abstract class Logo:
         case More(thunk) => current = thunk()
         case PendingCall(proc, args, k) => current = executeProcedure(proc, args, k)
         case PendingRepeatLoop(i, times, body, k) => current = executeRepeatIteration(i, times, body, k)
+        case PendingForLoop(varName, current_, end, step, body, k) => current = executeForIteration(varName, current_, end, step, body, k)
+        case PendingWhileLoop(conditionCode, body, k) => current = executeWhileIteration(conditionCode, body, k)
     throw new RuntimeException("unreachable")
 
   // Execute a procedure call - sets up params, evaluates body, cleans up
@@ -146,6 +152,52 @@ abstract class Logo:
       }
       interp(body :+ EOIToken(), iterK)
 
+  // Execute one iteration of a for loop
+  private def executeForIteration(varName: String, current: Double, end: Double, step: Double, body: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    val done = if step > 0 then current > end else current < end
+    if done || pendingReturn.isDefined then
+      // Done with loop or early exit via output/stop
+      More(() => k(LogoNull()))
+    else
+      // Save and set loop variable
+      val savedVar = vars.get(varName)
+      vars(varName) = LogoNumber(current)
+      // After this iteration, continue with next iteration (or finish)
+      val iterK: (LogoValue, Seq[LogoValue]) => EvalResult = { (_, _) =>
+        // Restore variable if it existed before, otherwise remove
+        savedVar match
+          case Some(v) => vars(varName) = v
+          case None    => vars.remove(varName)
+        // Check for output/stop after each iteration
+        if pendingReturn.isDefined then
+          More(() => k(LogoNull()))
+        else
+          PendingForLoop(varName, current + step, end, step, body, k)
+      }
+      interp(body :+ EOIToken(), iterK)
+
+  // Execute while loop - evaluate condition, then body if true
+  private def executeWhileIteration(conditionCode: Seq[LogoValue], body: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    if pendingReturn.isDefined then
+      More(() => k(LogoNull()))
+    else
+      // Evaluate condition
+      interp(conditionCode :+ EOIToken(), { (condResult, _) =>
+        resolveThenContinue(condResult, { condVal =>
+          if !boolean(condVal) then
+            // Condition false, done with loop
+            More(() => k(LogoNull()))
+          else
+            // Condition true, execute body then loop
+            interp(body :+ EOIToken(), { (_, _) =>
+              if pendingReturn.isDefined then
+                More(() => k(LogoNull()))
+              else
+                PendingWhileLoop(conditionCode, body, k)
+            })
+        })
+      })
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
@@ -189,6 +241,14 @@ abstract class Logo:
           case PendingRepeat(times, body) =>
             // Start repeat loop - trampoline handles iterations
             PendingRepeatLoop(1, times, body, _ => continue(LogoNull()))
+
+          case PendingFor(varName, start, end, step, body) =>
+            // Start for loop - trampoline handles iterations
+            PendingForLoop(varName, start, end, step, body, _ => continue(LogoNull()))
+
+          case PendingWhile(conditionCode, body) =>
+            // Start while loop - trampoline handles iterations
+            PendingWhileLoop(conditionCode, body, _ => continue(LogoNull()))
 
           case PendingRun(code) =>
             // Parse and interpret the code with continuation
@@ -482,6 +542,70 @@ abstract class Logo:
             val body = list(args(1))
             More(() => k(PendingRepeat(times, body).pos(tok.r), rest))
           })
+        })
+
+      // UCB Logo for: for [var start end step] [body]
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "for" =>
+        evalargsCPS("for", 2, tail, Seq.empty, { (args, rest) =>
+          val controlList = list(args(0))
+          val body = list(args(1))
+
+          // Helper to evaluate a value from the control list
+          def evalControlVal(v: LogoValue): Double =
+            v match
+              case LogoNumber(n) => n.doubleValue
+              case LogoWord(s) =>
+                // Try to parse as number first
+                try
+                  s.toDouble
+                catch
+                  case _: NumberFormatException =>
+                    if s.startsWith(":") then
+                      // Variable reference
+                      val varName = s.tail.toLowerCase
+                      vars.get(varName) match
+                        case Some(n) => number(n).doubleValue
+                        case None => problem(v.r, s"unknown variable '$varName'")
+                    else
+                      // Try to evaluate as expression
+                      number(interp(s"print $s")).doubleValue // This is a hack, we need better approach
+              case other => problem(v.r, s"expected a number in for control list, got ${other.getClass.getSimpleName}")
+
+          // Parse control list - handle negative numbers which may be tokenized as two tokens
+          // [i 1 5] -> 3 elements, [i 1 5 1] -> 4 elements, [i 1 5 - 1] -> 5 elements (negative step)
+          val (varName, startNum, endNum, stepNum) = controlList match
+            case Seq(LogoWord(v), s, e, LogoWord("-"), step) =>
+              // Negative step: [var start end - step]
+              (v.toLowerCase, evalControlVal(s), evalControlVal(e), -evalControlVal(step))
+            case Seq(LogoWord(v), s, e, step) =>
+              (v.toLowerCase, evalControlVal(s), evalControlVal(e), evalControlVal(step))
+            case Seq(LogoWord(v), s, e) =>
+              val sv = evalControlVal(s)
+              val ev = evalControlVal(e)
+              // Default step: 1 if start <= end, -1 otherwise
+              (v.toLowerCase, sv, ev, if sv <= ev then 1.0 else -1.0)
+            case other =>
+              tok.r.error(s"'for' control list must be [var start end] or [var start end step], got ${other.length} elements: ${other.map(_.getClass.getSimpleName).mkString(", ")}")
+
+          More(() => k(PendingFor(varName, startNum, endNum, stepNum, body).pos(tok.r), rest))
+        })
+
+      // UCB Logo while: while [condition] [body]
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "while" =>
+        evalargsCPS("while", 2, tail, Seq.empty, { (args, rest) =>
+          val conditionCode = list(args(0))
+          val body = list(args(1))
+          More(() => k(PendingWhile(conditionCode, body).pos(tok.r), rest))
+        })
+
+      // UCB Logo until: until [condition] [body] - loop while condition is FALSE
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "until" =>
+        evalargsCPS("until", 2, tail, Seq.empty, { (args, rest) =>
+          val conditionCode = list(args(0))
+          val body = list(args(1))
+          // Wrap condition with NOT to invert it
+          val invertedCondition = Seq(LogoWord("not")) ++ conditionCode
+          More(() => k(PendingWhile(invertedCondition, body).pos(tok.r), rest))
         })
 
       case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "run" =>

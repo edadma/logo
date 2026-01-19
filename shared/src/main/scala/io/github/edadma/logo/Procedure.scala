@@ -672,6 +672,97 @@ val builtin =
           LogoList(elems, elems :+ EOIToken())
       },
     ),
+    // UCB Logo: setitem - destructively set item in list variable
+    // setitem index varname value
+    BuiltinProcedure(
+      "setitem",
+      3,
+      {
+        case (ctx, Seq(idx, varName, value)) =>
+          val i       = number(idx).intValue
+          val name    = varName.toString.toLowerCase
+          val listVal = ctx.vars.getOrElse(name, problem(null, s"'setitem' unknown variable '$name'"))
+          listVal match
+            case LogoList(elems, _) =>
+              if i < 1 || i > elems.length then problem(null, s"'setitem' index $i out of range 1..${elems.length}")
+              val newElems = elems.updated(i - 1, value)
+              ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
+              LogoNull()
+            case _ => problem(null, s"'setitem' variable '$name' is not a list")
+      },
+    ),
+    // UCB Logo: push - add to front of list in variable
+    // push "varname value
+    BuiltinProcedure(
+      "push",
+      2,
+      {
+        case (ctx, Seq(varName, value)) =>
+          val name    = varName.toString.toLowerCase
+          val listVal = ctx.vars.getOrElse(name, problem(null, s"'push' unknown variable '$name'"))
+          listVal match
+            case LogoList(elems, _) =>
+              val newElems = value +: elems
+              ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
+              LogoNull()
+            case _ => problem(null, s"'push' variable '$name' is not a list")
+      },
+    ),
+    // UCB Logo: pop - remove and return first element from list in variable
+    // pop "varname
+    BuiltinProcedure(
+      "pop",
+      1,
+      {
+        case (ctx, Seq(varName)) =>
+          val name    = varName.toString.toLowerCase
+          val listVal = ctx.vars.getOrElse(name, problem(null, s"'pop' unknown variable '$name'"))
+          listVal match
+            case LogoList(elems, _) =>
+              if elems.isEmpty then problem(null, "'pop' cannot pop from empty list")
+              val first    = elems.head
+              val newElems = elems.tail
+              ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
+              first
+            case _ => problem(null, s"'pop' variable '$name' is not a list")
+      },
+    ),
+    // UCB Logo: queue - add to end of list in variable
+    // queue "varname value
+    BuiltinProcedure(
+      "queue",
+      2,
+      {
+        case (ctx, Seq(varName, value)) =>
+          val name    = varName.toString.toLowerCase
+          val listVal = ctx.vars.getOrElse(name, problem(null, s"'queue' unknown variable '$name'"))
+          listVal match
+            case LogoList(elems, _) =>
+              val newElems = elems :+ value
+              ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
+              LogoNull()
+            case _ => problem(null, s"'queue' variable '$name' is not a list")
+      },
+    ),
+    // UCB Logo: dequeue - same as pop (remove and return first element)
+    // dequeue "varname
+    BuiltinProcedure(
+      "dequeue",
+      1,
+      {
+        case (ctx, Seq(varName)) =>
+          val name    = varName.toString.toLowerCase
+          val listVal = ctx.vars.getOrElse(name, problem(null, s"'dequeue' unknown variable '$name'"))
+          listVal match
+            case LogoList(elems, _) =>
+              if elems.isEmpty then problem(null, "'dequeue' cannot dequeue from empty list")
+              val first    = elems.head
+              val newElems = elems.tail
+              ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
+              first
+            case _ => problem(null, s"'dequeue' variable '$name' is not a list")
+      },
+    ),
     // ============================================================================
     // UCB Logo Higher-Order Functions (Template-based)
     // ============================================================================
