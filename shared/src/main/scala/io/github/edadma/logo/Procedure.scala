@@ -26,6 +26,12 @@ case class UserProcedure(
     body: Seq[LogoValue],
 ) extends Procedure
 
+// State for gensym and random
+private var gensymCounter: Long = 0
+
+object RandomState:
+  var generator: scala.util.Random = new scala.util.Random()
+
 val builtin =
   List[Procedure](
     BuiltinFunction0("pi", () => Pi),
@@ -33,7 +39,11 @@ val builtin =
     BuiltinFunction0("i", () => QuaternionBigInt(0, 1, 0, 0)),
     BuiltinFunction0("j", () => QuaternionBigInt(0, 0, 1, 0)),
     BuiltinFunction0("k", () => QuaternionBigInt(0, 0, 0, 1)),
-    BuiltinFunction1("random", limit => QuaternionDAL.compute("*", scala.math.random, limit)),
+    BuiltinProcedure(
+      "random",
+      1,
+      { case (_, Seq(limit)) => QuaternionDAL.compute("*", RandomState.generator.nextDouble(), number(limit)) },
+    ),
     BuiltinVariadic(
       "print",
       1,
@@ -210,6 +220,23 @@ val builtin =
         case (_, Seq(_, other)) => problem(null, s"'memberp' requires a list or word as second argument, got $other")
       },
     ),
+    // UCB Logo: beforep - word1 comes before word2 in ASCII collating sequence
+    BuiltinProcedure(
+      "beforep",
+      2,
+      {
+        case (_, Seq(a, b)) => a.toString.compareTo(b.toString) < 0
+      },
+    ),
+    // UCB Logo: substringp - word1 is substring of word2
+    BuiltinProcedure(
+      "substringp",
+      2,
+      {
+        case (_, Seq(LogoWord(sub), LogoWord(str))) => str.contains(sub)
+        case (_, Seq(a, b))                          => b.toString.contains(a.toString)
+      },
+    ),
     BuiltinVariadic(
       "sum",
       2,
@@ -225,11 +252,29 @@ val builtin =
     ),
     BuiltinFunction2("quotient", QuaternionDAL.compute("/", _, _)),
     BuiltinFunction2("remainder", QuaternionDAL.compute("mod", _, _)),
+    // UCB Logo modulo: result has same sign as divisor (floored division)
+    BuiltinProcedure(
+      "modulo",
+      2,
+      {
+        case (_, Seq(a, b)) =>
+          val dividend = number(a).doubleValue
+          val divisor  = number(b).doubleValue
+          val rem      = dividend % divisor
+          if (rem == 0 || (rem > 0) == (divisor > 0)) rem
+          else rem + divisor
+      },
+    ),
     BuiltinFunction2("pow", QuaternionDAL.compute("^", _, _)),
     BuiltinFunction1("negate", QuaternionDAL.negate),
-    BuiltinFunction1("sin", QuaternionDAL.sinFunction),
-    BuiltinFunction1("cos", QuaternionDAL.cosFunction),
-    BuiltinFunction1("tan", QuaternionDAL.tanFunction),
+    // UCB Logo: sin/cos/tan take DEGREES, radsin/radcos/radtan take radians
+    BuiltinFunction1("sin", n => QuaternionDAL.sinFunction(QuaternionDAL.compute("*", n, Pi / 180))),
+    BuiltinFunction1("cos", n => QuaternionDAL.cosFunction(QuaternionDAL.compute("*", n, Pi / 180))),
+    BuiltinFunction1("tan", n => QuaternionDAL.tanFunction(QuaternionDAL.compute("*", n, Pi / 180))),
+    // Radian versions
+    BuiltinFunction1("radsin", QuaternionDAL.sinFunction),
+    BuiltinFunction1("radcos", QuaternionDAL.cosFunction),
+    BuiltinFunction1("radtan", QuaternionDAL.tanFunction),
     BuiltinFunction1("sinh", QuaternionDAL.sinhFunction),
     BuiltinFunction1("cosh", QuaternionDAL.coshFunction),
     BuiltinFunction1("tanh", QuaternionDAL.tanhFunction),
@@ -237,10 +282,56 @@ val builtin =
     BuiltinFunction1("exp", QuaternionDAL.expFunction),
     BuiltinFunction1("ln", QuaternionDAL.lnFunction),
     BuiltinFunction1("log10", n => QuaternionDAL.compute("/", QuaternionDAL.lnFunction(n), math.log(10))),
-    BuiltinFunction1("asin", QuaternionDAL.asinFunction),
-    BuiltinFunction1("acos", QuaternionDAL.acosFunction),
-    BuiltinFunction1("atan", QuaternionDAL.atanFunction),
-    BuiltinFunction2("atan2", (y, x) => math.atan2(y.doubleValue, x.doubleValue)),
+    // UCB Logo: asin/acos/atan return DEGREES
+    BuiltinFunction1("asin", n => QuaternionDAL.compute("*", QuaternionDAL.asinFunction(n), 180 / Pi)),
+    BuiltinFunction1("acos", n => QuaternionDAL.compute("*", QuaternionDAL.acosFunction(n), 180 / Pi)),
+    BuiltinFunction1("atan", n => QuaternionDAL.compute("*", QuaternionDAL.atanFunction(n), 180 / Pi)),
+    BuiltinFunction2("atan2", (y, x) => math.toDegrees(math.atan2(y.doubleValue, x.doubleValue))),
+    // Radian versions
+    BuiltinFunction1("radarcsin", QuaternionDAL.asinFunction),
+    BuiltinFunction1("radarccos", QuaternionDAL.acosFunction),
+    BuiltinFunction1("radarctan", QuaternionDAL.atanFunction),
+    // Bitwise operations
+    BuiltinProcedure(
+      "bitand",
+      2,
+      { case (_, Seq(a, b)) => number(a).longValue & number(b).longValue },
+    ),
+    BuiltinProcedure(
+      "bitor",
+      2,
+      { case (_, Seq(a, b)) => number(a).longValue | number(b).longValue },
+    ),
+    BuiltinProcedure(
+      "bitxor",
+      2,
+      { case (_, Seq(a, b)) => number(a).longValue ^ number(b).longValue },
+    ),
+    BuiltinProcedure(
+      "bitnot",
+      1,
+      { case (_, Seq(n)) => ~number(n).longValue },
+    ),
+    BuiltinProcedure(
+      "ashift",
+      2,
+      {
+        case (_, Seq(n, bits)) =>
+          val num   = number(n).longValue
+          val shift = number(bits).intValue
+          if shift >= 0 then num << shift else num >> -shift // arithmetic shift
+      },
+    ),
+    BuiltinProcedure(
+      "lshift",
+      2,
+      {
+        case (_, Seq(n, bits)) =>
+          val num   = number(n).longValue
+          val shift = number(bits).intValue
+          if shift >= 0 then num << shift else num >>> -shift // logical shift
+      },
+    ),
     // Numeric functions
     BuiltinProcedure(
       "abs",
@@ -355,6 +446,143 @@ val builtin =
           if step > 0 then (from until to by step).map(n => LogoNumber(n))
           else (from until to by step).map(n => LogoNumber(n))
         LogoList(elems, elems :+ EOIToken()),
+    ),
+    // UCB Logo: member returns tail starting with item, or empty if not found
+    BuiltinProcedure(
+      "member",
+      2,
+      {
+        case (_, Seq(elem, LogoList(elems, _))) =>
+          val idx = elems.indexOf(elem)
+          if idx < 0 then LogoList(Seq.empty, Seq(EOIToken()))
+          else
+            val tail = elems.drop(idx)
+            LogoList(tail, tail :+ EOIToken())
+        case (_, Seq(LogoWord(c), LogoWord(s))) =>
+          val idx = s.indexOf(c)
+          if idx < 0 then LogoWord("")
+          else LogoWord(s.substring(idx))
+        case (_, Seq(_, other)) => problem(null, s"'member' requires a list or word as second argument, got $other")
+      },
+    ),
+    // UCB Logo: remove all occurrences of thing from list/word
+    BuiltinProcedure(
+      "remove",
+      2,
+      {
+        case (_, Seq(elem, LogoList(elems, _))) =>
+          val filtered = elems.filterNot(_ == elem)
+          LogoList(filtered, filtered :+ EOIToken())
+        case (_, Seq(LogoWord(c), LogoWord(s))) =>
+          LogoWord(s.filterNot(ch => ch.toString == c))
+        case (_, Seq(_, other)) => problem(null, s"'remove' requires a list or word as second argument, got $other")
+      },
+    ),
+    // UCB Logo: remove duplicate elements from list
+    BuiltinProcedure(
+      "remdup",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          val unique = elems.distinct
+          LogoList(unique, unique :+ EOIToken())
+        case (_, Seq(LogoWord(s))) =>
+          LogoWord(s.distinct)
+        case (_, Seq(other)) => problem(null, s"'remdup' requires a list or word, got $other")
+      },
+    ),
+    // UCB Logo: combine - if second arg is word, concatenate; if list, fput
+    BuiltinProcedure(
+      "combine",
+      2,
+      {
+        case (_, Seq(LogoWord(a), LogoWord(b))) => LogoWord(a + b)
+        case (_, Seq(elem, LogoList(elems, _))) =>
+          val newList = elem +: elems
+          LogoList(newList, newList :+ EOIToken())
+        case (_, Seq(a, b)) => problem(null, s"'combine' invalid arguments: $a, $b")
+      },
+    ),
+    // UCB Logo: firsts - list of first of each member
+    BuiltinProcedure(
+      "firsts",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          val firsts = elems.map {
+            case LogoList(inner, _) if inner.nonEmpty => inner.head
+            case LogoWord(s) if s.nonEmpty           => LogoWord(s.head.toString)
+            case other                               => problem(null, s"'firsts' element has no first: $other")
+          }
+          LogoList(firsts, firsts :+ EOIToken())
+        case (_, Seq(other)) => problem(null, s"'firsts' requires a list, got $other")
+      },
+    ),
+    // UCB Logo: butfirsts - list of butfirst of each member
+    BuiltinProcedure(
+      "butfirsts",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          val bfs = elems.map {
+            case LogoList(inner, _) if inner.nonEmpty =>
+              val rest = inner.tail
+              LogoList(rest, rest :+ EOIToken())
+            case LogoWord(s) if s.nonEmpty => LogoWord(s.tail)
+            case other                     => problem(null, s"'butfirsts' element has no butfirst: $other")
+          }
+          LogoList(bfs, bfs :+ EOIToken())
+        case (_, Seq(other)) => problem(null, s"'butfirsts' requires a list, got $other")
+      },
+    ),
+    // UCB Logo: gensym - generate unique symbol G1, G2, G3...
+    BuiltinProcedure(
+      "gensym",
+      0,
+      {
+        case (_, _) =>
+          gensymCounter += 1
+          LogoWord(s"G$gensymCounter")
+      },
+    ),
+    // UCB Logo: quoted - prepend quote to word
+    BuiltinProcedure(
+      "quoted",
+      1,
+      {
+        case (_, Seq(LogoWord(s))) => LogoWord("\"" + s)
+        case (_, Seq(v))           => LogoWord("\"" + v.toString)
+      },
+    ),
+    // UCB Logo: rerandom - reset random number generator (optionally with seed)
+    // defaultArgs=1 means it takes 1 arg when called normally, minArgs=0 allows (rerandom)
+    BuiltinVariadic(
+      "rerandom",
+      1,
+      0,
+      (_, args) =>
+        args match
+          case Seq() =>
+            RandomState.generator = new scala.util.Random()
+          case Seq(seed) =>
+            RandomState.generator = new scala.util.Random(number(seed).longValue)
+          case _ => problem(null, "'rerandom' takes 0 or 1 argument")
+        LogoNull(),
+    ),
+    // UCB Logo: rseq - real sequence (like iseq but returns decimals)
+    BuiltinProcedure(
+      "rseq",
+      3,
+      {
+        case (_, Seq(from, to, count)) =>
+          val start = number(from).doubleValue
+          val end   = number(to).doubleValue
+          val n     = number(count).intValue
+          if n < 1 then problem(null, "'rseq' count must be at least 1")
+          val step  = if n == 1 then 0.0 else (end - start) / (n - 1)
+          val elems = (0 until n).map(i => LogoNumber(start + i * step))
+          LogoList(elems, elems :+ EOIToken())
+      },
     ),
     // Variable access
     BuiltinProcedure(
@@ -761,4 +989,14 @@ val synonyms =
     "arcsin"       -> "asin",
     "arccos"       -> "acos",
     "ceil"         -> "ceiling",
+    "minus"        -> "negate",
+    "before?"      -> "beforep",
+    "substring?"   -> "substringp",
+    "bfs"          -> "butfirsts",
+    "equal?"       -> "equalp",
+    "notequal?"    -> "notequalp",
+    "less?"        -> "lessp",
+    "greater?"     -> "greaterp",
+    "lessequal?"   -> "lessequalp",
+    "greaterequal?" -> "greaterequalp",
   ) map ((s, p) => s -> builtin(p)) toMap

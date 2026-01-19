@@ -25,17 +25,17 @@ class Function2Tests extends AnyFreeSpec with Matchers with Test:
   }
 
   // ============================================================================
-  // atan2
+  // atan2 (UCB Logo: returns degrees)
   // ============================================================================
 
-  "atan2 basic" in {
-    eval("atan2 1 1") shouldBe (scala.math.Pi / 4).toString
+  "atan2 returns 45 degrees" in {
+    eval("atan2 1 1").toDouble shouldBe (45.0 +- 0.0001)
   }
 
-  "atan2 y=0 x=1" in {
-    eval("atan2 0 1") shouldBe "0"
+  "atan2 y=0 x=1 returns 0 degrees" in {
+    eval("atan2 0 1").toDouble shouldBe 0.0
   }
 
-  "atan2 y=1 x=0" in {
-    eval("atan2 1 0") shouldBe (scala.math.Pi / 2).toString
+  "atan2 y=1 x=0 returns 90 degrees" in {
+    eval("atan2 1 0").toDouble shouldBe (90.0 +- 0.0001)
   }

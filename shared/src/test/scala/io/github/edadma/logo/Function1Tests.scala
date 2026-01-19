@@ -6,25 +6,25 @@ import org.scalatest.matchers.should.Matchers
 import scala.math.*
 
 class Function1Tests extends AnyFreeSpec with Matchers with Test:
-  // Trig functions
+  // Trig functions (UCB Logo: degrees)
   "sin" in {
-    eval("sin 0") shouldBe "0"
+    eval("sin 0").toDouble shouldBe 0.0
   }
 
-  "sin pi/2" in {
-    eval("sin pi / 2") shouldBe "1"
+  "sin 90 degrees" in {
+    eval("sin 90").toDouble shouldBe (1.0 +- 0.0001)
   }
 
   "cos" in {
-    eval("cos 0") shouldBe "1"
+    eval("cos 0").toDouble shouldBe (1.0 +- 0.0001)
   }
 
-  "cos pi" in {
-    eval("cos pi") shouldBe "-1"
+  "cos 180 degrees" in {
+    eval("cos 180").toDouble shouldBe (-1.0 +- 0.0001)
   }
 
   "tan" in {
-    eval("tan 0") shouldBe "0"
+    eval("tan 0").toDouble shouldBe 0.0
   }
 
   // Hyperbolic functions
@@ -76,20 +76,21 @@ class Function1Tests extends AnyFreeSpec with Matchers with Test:
   // Inverse Trigonometric Functions
   // ============================================================================
 
+  // Inverse trig now returns degrees (UCB Logo standard)
   "asin 0" in {
-    eval("asin 0") shouldBe "0"
+    eval("asin 0").toDouble shouldBe 0.0
   }
 
-  "asin 1" in {
-    eval("asin 1") shouldBe (Pi / 2).toString
+  "asin 1 returns 90 degrees" in {
+    eval("asin 1").toDouble shouldBe (90.0 +- 0.0001)
   }
 
-  "asin -1" in {
-    eval("asin -1") shouldBe (-Pi / 2).toString
+  "asin -1 returns -90 degrees" in {
+    eval("asin -1").toDouble shouldBe (-90.0 +- 0.0001)
   }
 
   "arcsin alias" in {
-    eval("arcsin 0") shouldBe "0"
+    eval("arcsin 0").toDouble shouldBe 0.0
   }
 
   "asin of imaginary i" in {
@@ -102,20 +103,20 @@ class Function1Tests extends AnyFreeSpec with Matchers with Test:
     result should include("i") // should return complex, not NaN
   }
 
-  "acos 1" in {
-    eval("acos 1") shouldBe "0"
+  "acos 1 returns 0 degrees" in {
+    eval("acos 1").toDouble shouldBe 0.0
   }
 
-  "acos 0" in {
-    eval("acos 0") shouldBe (Pi / 2).toString
+  "acos 0 returns 90 degrees" in {
+    eval("acos 0").toDouble shouldBe (90.0 +- 0.0001)
   }
 
-  "acos -1" in {
-    eval("acos -1") shouldBe Pi.toString
+  "acos -1 returns 180 degrees" in {
+    eval("acos -1").toDouble shouldBe (180.0 +- 0.0001)
   }
 
   "arccos alias" in {
-    eval("arccos 1") shouldBe "0"
+    eval("arccos 1").toDouble shouldBe 0.0
   }
 
   "acos of imaginary i" in {
@@ -129,15 +130,15 @@ class Function1Tests extends AnyFreeSpec with Matchers with Test:
   }
 
   "atan 0" in {
-    eval("atan 0") shouldBe "0"
+    eval("atan 0").toDouble shouldBe 0.0
   }
 
-  "atan 1" in {
-    eval("atan 1") shouldBe (Pi / 4).toString
+  "atan 1 returns 45 degrees" in {
+    eval("atan 1").toDouble shouldBe (45.0 +- 0.0001)
   }
 
   "arctan alias" in {
-    eval("arctan 0") shouldBe "0"
+    eval("arctan 0").toDouble shouldBe 0.0
   }
 
   "atan of imaginary i/2" in {
