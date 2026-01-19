@@ -27,6 +27,14 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
     eval("last \"hello") shouldBe "o"
   }
 
+  "last of single element list" in {
+    eval("last [x]") shouldBe "x"
+  }
+
+  "last of single character word" in {
+    eval("last \"a") shouldBe "a"
+  }
+
   // butfirst
   "butfirst of list" in {
     eval("butfirst [a b c]") shouldBe "b c"
@@ -59,6 +67,10 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
 
   "butlast of word" in {
     eval("butlast \"hello") shouldBe "hell"
+  }
+
+  "butlast to empty" in {
+    eval("butlast [a]") shouldBe ""
   }
 
   // fput
@@ -144,6 +156,10 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
     eval("wordp [a b]") shouldBe "false"
   }
 
+  "word? alias" in {
+    eval("word? \"test") shouldBe "true"
+  }
+
   // numberp
   "numberp true for number" in {
     eval("numberp 42") shouldBe "true"
@@ -151,6 +167,10 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
 
   "numberp false for word" in {
     eval("numberp \"hello") shouldBe "false"
+  }
+
+  "number? alias" in {
+    eval("number? 3.14") shouldBe "true"
   }
 
   // memberp
@@ -164,6 +184,10 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
 
   "memberp for character in word" in {
     eval("memberp \"e \"hello") shouldBe "true"
+  }
+
+  "member? alias" in {
+    eval("member? \"x [a x b]") shouldBe "true"
   }
 
   // Combination tests
