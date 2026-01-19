@@ -30,3 +30,6 @@ case class LogoList(list: Seq[LogoValue], terminated: Seq[LogoValue]) extends Lo
     case v                    => v.toString
   } mkString " "
 case class EOIToken() extends LogoValue { override def toString: String = "" }
+// Marker for pending user procedure call - eval returns this instead of executing
+case class PendingCallMarker(proc: UserProcedure, args: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = s"<pending:${proc.name}>"

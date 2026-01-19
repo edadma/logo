@@ -354,10 +354,12 @@ val builtin =
           val times = number(left).intValue
           val body  = list(right)
 
-          for i <- 1 to times do
+          var i = 1
+          while i <= times && ctx.pendingReturn.isEmpty do
             ctx.repcountStack.push(i)
-            try ctx.interp(body)
-            finally ctx.repcountStack.pop()
+            ctx.interp(body)
+            ctx.repcountStack.pop()
+            i += 1
       },
     ),
     BuiltinProcedure(
@@ -412,14 +414,14 @@ val builtin =
       "output",
       1,
       {
-        case (_, Seq(value)) => throw OutputException(value)
+        case (ctx, Seq(value)) => ctx.doOutput(value)
       },
     ),
     BuiltinProcedure(
       "stop",
       0,
       {
-        case _ => throw StopException()
+        case (ctx, _) => ctx.doStop()
       },
     ),
   ) map (p => p.name -> p) toMap

@@ -158,3 +158,77 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
       |(prepend 1 2 3 4)
       |""".stripMargin) shouldBe "1 2 3 4"
   }
+
+  // CPS control flow tests
+  "output in nested if" in {
+    eval("""
+      |to test :x
+      |  if :x > 0 [
+      |    if :x > 5 [output "big]
+      |    output "small
+      |  ]
+      |  output "negative
+      |end
+      |test 10
+      |""".stripMargin) shouldBe "big"
+  }
+
+  "stop in nested repeat" in {
+    run("""
+      |to test
+      |  repeat 5 [
+      |    print repcount
+      |    if repcount = 3 [stop]
+      |  ]
+      |  print "done
+      |end
+      |test
+      |""".stripMargin) shouldBe "1\n2\n3"
+  }
+
+  "output propagates through repeat" in {
+    eval("""
+      |to find :target
+      |  repeat 10 [
+      |    if repcount = :target [output repcount * 10]
+      |  ]
+      |  output 0
+      |end
+      |find 5
+      |""".stripMargin) shouldBe "50"
+  }
+
+  "mutual recursion with output" in {
+    eval("""
+      |to iseven :n
+      |  if :n = 0 [output true]
+      |  output isodd :n - 1
+      |end
+      |to isodd :n
+      |  if :n = 0 [output false]
+      |  output iseven :n - 1
+      |end
+      |iseven 4
+      |""".stripMargin) shouldBe "true"
+  }
+
+  "deep recursion countdown" in {
+    run("""
+      |to countdown :n
+      |  if :n = 0 [print "done stop]
+      |  countdown :n - 1
+      |end
+      |countdown 100
+      |""".stripMargin) shouldBe "done"
+  }
+
+  "very deep recursion" in {
+    // This tests TCO - would overflow stack without it
+    run("""
+      |to countdown :n
+      |  if :n = 0 [print "done stop]
+      |  countdown :n - 1
+      |end
+      |countdown 50000
+      |""".stripMargin) shouldBe "done"
+  }

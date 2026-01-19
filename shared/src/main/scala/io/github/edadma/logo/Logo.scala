@@ -11,9 +11,12 @@ import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
 import scala.math.{Pi, cos, sin, toRadians}
 
-// Exceptions for control flow in user procedures
-case class OutputException(value: LogoValue) extends Exception
-case class StopException()                   extends Exception
+// CPS evaluation result - for trampolining
+sealed trait EvalResult
+case class Done(value: LogoValue) extends EvalResult
+case class More(thunk: () => EvalResult) extends EvalResult
+// Pending procedure call - trampoline handles it to avoid stack growth
+case class PendingCall(proc: UserProcedure, args: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
 abstract class Logo:
   def event(): Unit
@@ -29,6 +32,15 @@ abstract class Logo:
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
   private[logo] val repcountStack          = new mutable.Stack[Int]
+
+  // CPS: Pending control flow from output/stop
+  private[logo] var pendingReturn: Option[LogoValue] = None
+
+  // Set by output builtin - invoke this to return a value from the current procedure
+  private[logo] def doOutput(value: LogoValue): Unit = pendingReturn = Some(value)
+
+  // Set by stop builtin - invoke this to return null from the current procedure
+  private[logo] def doStop(): Unit = pendingReturn = Some(LogoNull())
 
   // Output handler - if set, print uses this instead of println
   private[logo] var outputHandler: Option[String => Unit] = None
@@ -61,20 +73,88 @@ abstract class Logo:
     pen = true
     width = 1
 
+  // Trampoline - iteratively evaluates thunks until Done
+  // Uses explicit while loop to ensure no stack growth on any platform
+  private def trampoline(initial: EvalResult): LogoValue =
+    var current: EvalResult = initial
+    while true do
+      current match
+        case Done(v) => return v
+        case More(thunk) => current = thunk()
+        case PendingCall(proc, args, k) => current = executeProcedure(proc, args, k)
+    throw new RuntimeException("unreachable")
+
+  // Execute a procedure call - sets up params, evaluates body, cleans up
+  private def executeProcedure(proc: UserProcedure, args: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    val UserProcedure(_, reqParams, optParams, restParam, body) = proc
+    val allParams = reqParams ++ optParams.map(_._1) ++ restParam.toSeq
+    val savedVars = allParams.map(p => p -> vars.get(p))
+
+    // Bind parameters
+    reqParams.zip(args.take(reqParams.length)).foreach { case (param, arg) => vars(param) = arg }
+    val optArgs = args.drop(reqParams.length)
+    optParams.zipWithIndex.foreach { case ((param, default), i) =>
+      vars(param) = if i < optArgs.length then optArgs(i) else default
+    }
+    restParam.foreach { param =>
+      val restArgs = args.drop(reqParams.length + optParams.length)
+      vars(param) = LogoList(restArgs, restArgs :+ EOIToken())
+    }
+
+    // Continuation that cleans up and calls k
+    // IMPORTANT: Return More() to avoid direct continuation calls that grow stack
+    val bodyK: (LogoValue, Seq[LogoValue]) => EvalResult = { (result, _) =>
+      val returnValue = pendingReturn.getOrElse(result)
+      pendingReturn = None
+      // Restore variables
+      savedVars.foreach {
+        case (param, Some(v)) => vars(param) = v
+        case (param, None)    => vars.remove(param)
+      }
+      More(() => k(returnValue))
+    }
+
+    // Return body evaluation - trampoline will continue with it
+    interp(body :+ EOIToken(), bodyK)
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
-
     val tokens = transform(tokenize(r))
-
     interp(tokens)
 
-  @tailrec
-  final def interp(toks: Seq[LogoValue]): LogoValue =
-    val (value, rest) = eval(toks)
+  def interp(toks: Seq[LogoValue]): LogoValue =
+    trampoline(interp(toks, (v, _) => Done(v)))
 
-    if rest.head.isInstanceOf[EOIToken] then value
-    else interp(rest)
+  // CPS interpreter - processes statements with continuation
+  // All continuation invocations wrapped in More() to ensure trampoline handles them
+  private def interp(toks: Seq[LogoValue], k: (LogoValue, Seq[LogoValue]) => EvalResult): EvalResult =
+    val (value, rest) = eval(toks)
+    // Check for pending output/stop - don't clear it here, let caller handle it
+    if pendingReturn.isDefined then
+      More(() => k(pendingReturn.get, Seq(EOIToken()))) // Return immediately with the pending value
+    else
+      value match
+        case PendingCallMarker(proc, args) =>
+          // User procedure call - return PendingCall for trampoline to handle
+          PendingCall(proc, args, result => {
+            rest match
+              case (eoi: EOIToken) :: _ => More(() => k(result, rest))
+              case _ => More(() => interp(rest, k))
+          })
+        case _ =>
+          rest match
+            case (eoi: EOIToken) :: _ => More(() => k(value, rest))
+            case _ => More(() => interp(rest, k))
+
+  // Execute a pending call immediately and return the result
+  // Used when we need the value in an expression (not at statement level)
+  private def resolvePendingCall(value: LogoValue): LogoValue =
+    value match
+      case PendingCallMarker(proc, args) =>
+        // Execute the call through the trampoline
+        trampoline(PendingCall(proc, args, v => Done(v)))
+      case v => v
 
   def lookup(proc: String): Option[Procedure | LogoValue] =
     val lower = proc.toLowerCase
@@ -99,8 +179,8 @@ abstract class Logo:
         toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
       else
         val (arg, rest) = eval(toks)
-
-        buf += arg
+        // Resolve pending calls since we need the actual value
+        buf += resolvePendingCall(arg)
         evalargs(count - 1, rest)
 
     val rest = evalargs(count, toks)
@@ -122,7 +202,8 @@ abstract class Logo:
         case (eoi: EOIToken) :: _  => eoi.r.error(s"expected closing parenthesis for variadic call to '$name'")
         case _ =>
           val (arg, rest) = eval(toks)
-          buf += arg
+          // Resolve pending calls since we need the actual value
+          buf += resolvePendingCall(arg)
           loop(rest)
 
     val rest = loop(toks)
@@ -133,10 +214,12 @@ abstract class Logo:
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalComparison(toks)
 
   private def evalComparison(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
-    val (left, rest) = evalAdditive(toks)
+    val (left0, rest) = evalAdditive(toks)
     rest match
       case LogoWord(op @ ("=" | "<>" | "<" | ">" | "<=" | ">=")) :: tail =>
-        val (right, rest2) = evalAdditive(tail)
+        val (right0, rest2) = evalAdditive(tail)
+        val left = resolvePendingCall(left0)
+        val right = resolvePendingCall(right0)
         val result = op match
           case "="  => LogoBoolean(left == right)
           case "<>" => LogoBoolean(left != right)
@@ -145,15 +228,17 @@ abstract class Logo:
           case "<=" => LogoBoolean(QuaternionDAL.relate("<=", number(left), number(right)))
           case ">=" => LogoBoolean(QuaternionDAL.relate(">=", number(left), number(right)))
         (result.pos(left.r), rest2)
-      case _ => (left, rest)
+      case _ => (left0, rest)
 
   private def evalAdditive(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     @tailrec
     def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
       toks match
         case LogoWord(op @ ("+" | "-")) :: tail =>
-          val (right, rest) = evalMultiplicative(tail)
-          val result = logoNumber(QuaternionDAL.compute(op, number(left), number(right)))
+          val (right0, rest) = evalMultiplicative(tail)
+          val left1 = resolvePendingCall(left)
+          val right = resolvePendingCall(right0)
+          val result = logoNumber(QuaternionDAL.compute(op, number(left1), number(right)))
           loop(result, rest)
         case _ => (left, toks)
 
@@ -165,23 +250,31 @@ abstract class Logo:
     def loop(left: LogoValue, toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
       toks match
         case LogoWord("*") :: tail =>
-          val (right, rest) = evalPower(tail)
-          val result = logoNumber(QuaternionDAL.compute("*", number(left), number(right)))
+          val (right0, rest) = evalPower(tail)
+          val left1 = resolvePendingCall(left)
+          val right = resolvePendingCall(right0)
+          val result = logoNumber(QuaternionDAL.compute("*", number(left1), number(right)))
           loop(result, rest)
         case LogoWord("/") :: tail =>
           // Exact arithmetic division
-          val (right, rest) = evalPower(tail)
-          val result = logoNumber(QuaternionDAL.compute("/", number(left), number(right)))
+          val (right0, rest) = evalPower(tail)
+          val left1 = resolvePendingCall(left)
+          val right = resolvePendingCall(right0)
+          val result = logoNumber(QuaternionDAL.compute("/", number(left1), number(right)))
           loop(result, rest)
         case LogoWord("\\") :: tail =>
           // Float division - always returns Double
-          val (right, rest) = evalPower(tail)
-          val result = logoNumber(number(left).doubleValue / number(right).doubleValue)
+          val (right0, rest) = evalPower(tail)
+          val left1 = resolvePendingCall(left)
+          val right = resolvePendingCall(right0)
+          val result = logoNumber(number(left1).doubleValue / number(right).doubleValue)
           loop(result, rest)
         case LogoWord("//") :: tail =>
           // Floor division - returns integer
-          val (right, rest) = evalPower(tail)
-          val result = logoNumber((math.floor(number(left).doubleValue / number(right).doubleValue).toLong).toDouble)
+          val (right0, rest) = evalPower(tail)
+          val left1 = resolvePendingCall(left)
+          val right = resolvePendingCall(right0)
+          val result = logoNumber((math.floor(number(left1).doubleValue / number(right).doubleValue).toLong).toDouble)
           loop(result, rest)
         case _ => (left, toks)
 
@@ -190,13 +283,15 @@ abstract class Logo:
 
   // Power is right-associative: 2^3^2 = 2^(3^2) = 2^9 = 512
   private def evalPower(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
-    val (left, rest) = evalPrimary(toks)
+    val (left0, rest) = evalPrimary(toks)
     rest match
       case LogoWord("^") :: tail =>
-        val (right, rest2) = evalPower(tail) // right-associative: recurse instead of loop
+        val (right0, rest2) = evalPower(tail) // right-associative: recurse instead of loop
+        val left = resolvePendingCall(left0)
+        val right = resolvePendingCall(right0)
         val result = logoNumber(QuaternionDAL.compute("^", number(left), number(right)))
         (result.pos(left.r), rest2)
-      case _ => (left, rest)
+      case _ => (left0, rest)
 
   private def evalPrimary(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) =
     toks match
@@ -222,8 +317,7 @@ abstract class Logo:
                   if optParams.nonEmpty || restParam.isDefined =>
                 // User-defined variadic procedure call - collect args until )
                 val (args, rest2) = evalArgsUntilParen(name, reqParams.length, rest)
-                val result = callUserProc(up, args)
-                (result.pos(tok.r), rest2)
+                (PendingCallMarker(up, args).pos(tok.r), rest2)
               case _ =>
                 // Not a variadic procedure - treat as expression grouping
                 val (value, rest2) = eval(tail)
@@ -291,8 +385,7 @@ abstract class Logo:
               // Call user-defined procedure - without parens, only evaluate required params
               // Optional params get their default values
               val (vals, rest) = evalargs(name, reqParams.length, tail)
-              val result = callUserProc(up, vals)
-              (result.pos(tok.r), rest)
+              (PendingCallMarker(up, vals).pos(tok.r), rest)
             case Some(v: LogoValue) => (v, tail)
             case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
         end if
@@ -345,41 +438,3 @@ abstract class Logo:
 
     val rest = loop(toks)
     (body.toSeq, rest)
-
-  // Call a user-defined procedure
-  private def callUserProc(proc: UserProcedure, args: Seq[LogoValue]): LogoValue =
-    val UserProcedure(_, reqParams, optParams, restParam, body) = proc
-
-    // Collect all param names for scoping
-    val allParams = reqParams ++ optParams.map(_._1) ++ restParam.toSeq
-
-    // Save current variable bindings for parameters (for proper scoping)
-    val savedVars = allParams.map(p => p -> vars.get(p))
-
-    // Bind required parameters
-    reqParams.zip(args.take(reqParams.length)).foreach { case (param, arg) => vars(param) = arg }
-
-    // Bind optional parameters (use provided args or defaults)
-    val optArgs = args.drop(reqParams.length)
-    optParams.zipWithIndex.foreach { case ((param, default), i) =>
-      vars(param) = if i < optArgs.length then optArgs(i) else default
-    }
-
-    // Bind rest parameter to remaining args as a list
-    restParam.foreach { param =>
-      val restArgs = args.drop(reqParams.length + optParams.length)
-      vars(param) = LogoList(restArgs, restArgs :+ EOIToken())
-    }
-
-    try
-      // Execute the body (add EOI token for proper termination)
-      interp(body :+ EOIToken())
-    catch
-      case OutputException(value) => value
-      case StopException()        => LogoNull()
-    finally
-      // Restore previous variable bindings
-      savedVars.foreach {
-        case (param, Some(v)) => vars(param) = v
-        case (param, None)    => vars.remove(param)
-      }
