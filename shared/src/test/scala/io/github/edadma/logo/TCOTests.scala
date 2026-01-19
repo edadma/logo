@@ -235,3 +235,39 @@ class TCOTests extends AnyFreeSpec with Matchers with Test:
     // 10 -> b, 9 -> c, 8 -> a, 7 -> b, 6 -> c, 5 -> a, 4 -> b, 3 -> c, 2 -> a, 1 -> b, 0 -> b
     result shouldBe "b"
   }
+
+  // ============================================================================
+  // List Processing with TCO
+  // ============================================================================
+
+  "list length with accumulator" in {
+    val result = run("""
+      |to length :lst
+      |  output lengthhelper :lst 0
+      |end
+      |
+      |to lengthhelper :lst :acc
+      |  if emptyp :lst [output :acc]
+      |  output lengthhelper butfirst :lst :acc + 1
+      |end
+      |
+      |print length [a b c d e]
+    """.stripMargin)
+    result shouldBe "5"
+  }
+
+  "reverse list with accumulator" in {
+    val result = run("""
+      |to myreverse :lst
+      |  output reversehelper :lst []
+      |end
+      |
+      |to reversehelper :lst :acc
+      |  if emptyp :lst [output :acc]
+      |  output reversehelper butfirst :lst fput first :lst :acc
+      |end
+      |
+      |print myreverse [1 2 3 4 5]
+    """.stripMargin)
+    result shouldBe "5 4 3 2 1"
+  }

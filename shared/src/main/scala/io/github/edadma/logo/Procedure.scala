@@ -63,6 +63,153 @@ val builtin =
         }
         LogoList(flat, flat :+ EOIToken()),
     ),
+    // List/word primitives
+    BuiltinProcedure(
+      "first",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'first' requires non-empty list")
+          else elems.head
+        case (_, Seq(LogoWord(s))) =>
+          if s.isEmpty then problem(null, "'first' requires non-empty word")
+          else LogoWord(s.head.toString)
+        case (_, Seq(other)) => problem(null, s"'first' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "last",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'last' requires non-empty list")
+          else elems.last
+        case (_, Seq(LogoWord(s))) =>
+          if s.isEmpty then problem(null, "'last' requires non-empty word")
+          else LogoWord(s.last.toString)
+        case (_, Seq(other)) => problem(null, s"'last' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "butfirst",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'butfirst' requires non-empty list")
+          else
+            val rest = elems.tail
+            LogoList(rest, rest :+ EOIToken())
+        case (_, Seq(LogoWord(s))) =>
+          if s.isEmpty then problem(null, "'butfirst' requires non-empty word")
+          else LogoWord(s.tail)
+        case (_, Seq(other)) => problem(null, s"'butfirst' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "butlast",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'butlast' requires non-empty list")
+          else
+            val init = elems.init
+            LogoList(init, init :+ EOIToken())
+        case (_, Seq(LogoWord(s))) =>
+          if s.isEmpty then problem(null, "'butlast' requires non-empty word")
+          else LogoWord(s.init)
+        case (_, Seq(other)) => problem(null, s"'butlast' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "fput",
+      2,
+      {
+        case (_, Seq(elem, LogoList(elems, _))) =>
+          val newList = elem +: elems
+          LogoList(newList, newList :+ EOIToken())
+        case (_, Seq(LogoWord(c), LogoWord(s))) if c.length == 1 =>
+          LogoWord(c + s)
+        case (_, Seq(_, other)) => problem(null, s"'fput' requires a list or word as second argument, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "lput",
+      2,
+      {
+        case (_, Seq(elem, LogoList(elems, _))) =>
+          val newList = elems :+ elem
+          LogoList(newList, newList :+ EOIToken())
+        case (_, Seq(LogoWord(c), LogoWord(s))) if c.length == 1 =>
+          LogoWord(s + c)
+        case (_, Seq(_, other)) => problem(null, s"'lput' requires a list or word as second argument, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "item",
+      2,
+      {
+        case (_, Seq(idx, LogoList(elems, _))) =>
+          val i = number(idx).intValue
+          if i < 1 || i > elems.length then problem(null, s"'item' index $i out of range 1..${elems.length}")
+          else elems(i - 1) // Logo uses 1-based indexing
+        case (_, Seq(idx, LogoWord(s))) =>
+          val i = number(idx).intValue
+          if i < 1 || i > s.length then problem(null, s"'item' index $i out of range 1..${s.length}")
+          else LogoWord(s(i - 1).toString)
+        case (_, Seq(_, other)) => problem(null, s"'item' requires a list or word as second argument, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "count",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) => elems.length
+        case (_, Seq(LogoWord(s)))        => s.length
+        case (_, Seq(other))              => problem(null, s"'count' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "emptyp",
+      1,
+      {
+        case (_, Seq(LogoList(elems, _))) => elems.isEmpty
+        case (_, Seq(LogoWord(s)))        => s.isEmpty
+        case (_, Seq(other))              => problem(null, s"'emptyp' requires a list or word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "listp",
+      1,
+      {
+        case (_, Seq(_: LogoList)) => true
+        case (_, Seq(_))           => false
+      },
+    ),
+    BuiltinProcedure(
+      "wordp",
+      1,
+      {
+        case (_, Seq(_: LogoWord)) => true
+        case (_, Seq(_))           => false
+      },
+    ),
+    BuiltinProcedure(
+      "numberp",
+      1,
+      {
+        case (_, Seq(_: LogoNumber)) => true
+        case (_, Seq(_))             => false
+      },
+    ),
+    BuiltinProcedure(
+      "memberp",
+      2,
+      {
+        case (_, Seq(elem, LogoList(elems, _))) => elems.contains(elem)
+        case (_, Seq(LogoWord(c), LogoWord(s))) => s.contains(c)
+        case (_, Seq(_, other)) => problem(null, s"'memberp' requires a list or word as second argument, got $other")
+      },
+    ),
     BuiltinVariadic(
       "sum",
       2,
@@ -415,4 +562,11 @@ val synonyms =
     "alt"          -> "random",
     "se"           -> "sentence",
     "pr"           -> "print",
+    "bf"           -> "butfirst",
+    "bl"           -> "butlast",
+    "empty?"       -> "emptyp",
+    "list?"        -> "listp",
+    "word?"        -> "wordp",
+    "number?"      -> "numberp",
+    "member?"      -> "memberp",
   ) map ((s, p) => s -> builtin(p)) toMap
