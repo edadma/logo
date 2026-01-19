@@ -20,6 +20,10 @@ case class PendingCall(proc: UserProcedure, args: Seq[LogoValue], k: LogoValue =
 // Pending repeat loop - trampoline handles iteration to avoid stack growth
 case class PendingRepeatLoop(i: Int, times: Int, body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
+// CPS continuation type aliases
+type EvalK = (LogoValue, Seq[LogoValue]) => EvalResult
+type ArgsK = (Seq[LogoValue], Seq[LogoValue]) => EvalResult
+
 abstract class Logo:
   def event(): Unit
 
@@ -154,62 +158,75 @@ abstract class Logo:
     if pendingReturn.isDefined then
       More(() => k(pendingReturn.get, Seq(EOIToken()))) // Return immediately with the pending value
     else
-      val (value, rest) = eval(toks)
-      // Helper to continue after a control structure
-      def continue(result: LogoValue): EvalResult =
-        rest match
-          case (eoi: EOIToken) :: _ => More(() => k(result, rest))
-          case _ => More(() => interp(rest, k))
+      // Use CPS evaluation - continuation receives (value, rest)
+      evalCPS(toks, { (value, rest) =>
+        // Helper to continue after a statement
+        def continue(result: LogoValue): EvalResult =
+          rest match
+            case (eoi: EOIToken) :: _ => More(() => k(result, rest))
+            case _                    => More(() => interp(rest, k))
 
-      value match
-        case PendingCallMarker(proc, args) =>
-          // User procedure call - return PendingCall for trampoline to handle
-          PendingCall(proc, args, result => continue(result))
+        value match
+          case PendingCallMarker(proc, args) =>
+            // User procedure call - return PendingCall for trampoline to handle
+            PendingCall(proc, args, result => continue(result))
 
-        case PendingIf(cond, body) =>
-          if cond then
-            // Execute body with continuation that continues after if
-            interp(body :+ EOIToken(), (result, _) => continue(result))
-          else
-            continue(LogoNull())
-
-        case PendingIfElse(cond, yesBody, noBody) =>
-          val body = if cond then yesBody else noBody
-          interp(body :+ EOIToken(), (result, _) => continue(result))
-
-        case PendingRepeat(times, body) =>
-          // Start repeat loop - trampoline handles iterations
-          PendingRepeatLoop(1, times, body, _ => continue(LogoNull()))
-
-        case PendingRun(code) =>
-          // Parse and interpret the code with continuation
-          val tokens = transform(tokenize(CharReader.fromString(code)))
-          interp(tokens :+ EOIToken(), (result, _) => continue(result))
-
-        case PendingOutput(arg) =>
-          arg match
-            case PendingCallMarker(proc, args) =>
-              // Tail call optimization: execute the procedure and use its result as output
-              PendingCall(proc, args, result => {
-                pendingReturn = Some(result)
-                continue(LogoNull())
-              })
-            case other =>
-              // Regular output - resolve and set pendingReturn
-              pendingReturn = Some(resolvePendingCall(other))
+          case PendingIf(cond, body) =>
+            if cond then
+              // Execute body with continuation that continues after if
+              interp(body :+ EOIToken(), (result, _) => continue(result))
+            else
               continue(LogoNull())
 
-        case _ =>
-          continue(value)
+          case PendingIfElse(cond, yesBody, noBody) =>
+            val body = if cond then yesBody else noBody
+            interp(body :+ EOIToken(), (result, _) => continue(result))
+
+          case PendingRepeat(times, body) =>
+            // Start repeat loop - trampoline handles iterations
+            PendingRepeatLoop(1, times, body, _ => continue(LogoNull()))
+
+          case PendingRun(code) =>
+            // Parse and interpret the code with continuation
+            val tokens = transform(tokenize(CharReader.fromString(code)))
+            interp(tokens :+ EOIToken(), (result, _) => continue(result))
+
+          case PendingOutput(arg) =>
+            arg match
+              case PendingCallMarker(proc, args) =>
+                // Tail call optimization: execute the procedure and use its result as output
+                PendingCall(proc, args, result => {
+                  pendingReturn = Some(result)
+                  continue(LogoNull())
+                })
+              case other =>
+                // Regular output - resolve through CPS
+                resolveThenContinue(other, { resolved =>
+                  pendingReturn = Some(resolved)
+                  continue(LogoNull())
+                })
+
+          case _ =>
+            continue(value)
+      })
 
   // Execute a pending call immediately and return the result
   // Used when we need the value in an expression (not at statement level)
+  // NOTE: This is being phased out - use resolveThenContinue for full CPS
   private def resolvePendingCall(value: LogoValue): LogoValue =
     value match
       case PendingCallMarker(proc, args) =>
         // Execute the call through the trampoline
         trampoline(PendingCall(proc, args, v => Done(v)))
       case v => v
+
+  // CPS helper: resolve a value through continuation, handling pending calls
+  private def resolveThenContinue(value: LogoValue, k: LogoValue => EvalResult): EvalResult =
+    value match
+      case PendingCallMarker(proc, args) =>
+        PendingCall(proc, args, k)
+      case v =>
+        More(() => k(v))
 
   def lookup(proc: String): Option[Procedure | LogoValue] =
     val lower = proc.toLowerCase
@@ -265,6 +282,52 @@ abstract class Logo:
     if buf.size < minArgs then
       problem(null, s"'$name' requires at least $minArgs argument(s), got ${buf.size}")
     (buf.toSeq, rest)
+
+  // ============================================================================
+  // CPS Evaluation Functions
+  // ============================================================================
+
+  // CPS version of evalargs - collects arguments through continuations
+  private def evalargsCPS(
+      name: String,
+      count: Int,
+      toks: Seq[LogoValue],
+      acc: Seq[LogoValue],
+      k: ArgsK,
+  ): EvalResult =
+    if count == 0 then
+      More(() => k(acc, toks))
+    else if toks.isEmpty || toks.head.isInstanceOf[EOIToken] then
+      if toks.nonEmpty then toks.head.r.error(s"unexpected end of input while evaluating argument(s) for '$name'")
+      else problem(null, s"unexpected end of input while evaluating argument(s) for '$name'")
+    else
+      evalCPS(toks, { (arg, rest) =>
+        resolveThenContinue(arg, { value =>
+          More(() => evalargsCPS(name, count - 1, rest, acc :+ value, k))
+        })
+      })
+
+  // CPS version of evalArgsUntilParen - for variadic calls
+  private def evalArgsUntilParenCPS(
+      name: String,
+      minArgs: Int,
+      toks: Seq[LogoValue],
+      acc: Seq[LogoValue],
+      k: ArgsK,
+  ): EvalResult =
+    toks match
+      case LogoWord(")") :: rest =>
+        if acc.size < minArgs then
+          problem(null, s"'$name' requires at least $minArgs argument(s), got ${acc.size}")
+        More(() => k(acc, rest))
+      case (eoi: EOIToken) :: _ =>
+        eoi.r.error(s"expected closing parenthesis for variadic call to '$name'")
+      case _ =>
+        evalCPS(toks, { (arg, rest) =>
+          resolveThenContinue(arg, { value =>
+            More(() => evalArgsUntilParenCPS(name, minArgs, rest, acc :+ value, k))
+          })
+        })
 
   def eval(toks: Seq[LogoValue]): (LogoValue, Seq[LogoValue]) = evalComparison(toks)
 
@@ -470,6 +533,285 @@ abstract class Logo:
             case Some(v: LogoValue) => (v, tail)
             case Some(p: Procedure) => problem(tok.r, s"procedure of unknown type: '${p.name}'")
         end if
+
+  // ============================================================================
+  // CPS Evaluation - Expression Parsers
+  // ============================================================================
+
+  // Top-level CPS evaluation
+  def evalCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    evalComparisonCPS(toks, k)
+
+  // Comparison: = <> < > <= >=
+  private def evalComparisonCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    evalAdditiveCPS(toks, { (left0, rest) =>
+      rest match
+        case LogoWord(op @ ("=" | "<>" | "<" | ">" | "<=" | ">=")) :: tail =>
+          evalAdditiveCPS(tail, { (right0, rest2) =>
+            resolveThenContinue(left0, { left =>
+              resolveThenContinue(right0, { right =>
+                val result = op match
+                  case "="  => LogoBoolean(left == right)
+                  case "<>" => LogoBoolean(left != right)
+                  case "<"  => LogoBoolean(QuaternionDAL.relate("<", number(left), number(right)))
+                  case ">"  => LogoBoolean(QuaternionDAL.relate(">", number(left), number(right)))
+                  case "<=" => LogoBoolean(QuaternionDAL.relate("<=", number(left), number(right)))
+                  case ">=" => LogoBoolean(QuaternionDAL.relate(">=", number(left), number(right)))
+                More(() => k(result.pos(left.r), rest2))
+              })
+            })
+          })
+        case _ =>
+          More(() => k(left0, rest))
+    })
+
+  // Additive: + -
+  private def evalAdditiveCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    evalMultiplicativeCPS(toks, { (left, rest) =>
+      evalAdditiveContinue(left, rest, k)
+    })
+
+  private def evalAdditiveContinue(left: LogoValue, toks: Seq[LogoValue], k: EvalK): EvalResult =
+    toks match
+      case LogoWord(op @ ("+" | "-")) :: tail =>
+        evalMultiplicativeCPS(tail, { (right0, rest) =>
+          resolveThenContinue(left, { leftVal =>
+            resolveThenContinue(right0, { rightVal =>
+              val result = logoNumber(QuaternionDAL.compute(op, number(leftVal), number(rightVal)))
+              More(() => evalAdditiveContinue(result.pos(leftVal.r), rest, k))
+            })
+          })
+        })
+      case _ =>
+        More(() => k(left, toks))
+
+  // Multiplicative: * / \ //
+  private def evalMultiplicativeCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    evalPowerCPS(toks, { (left, rest) =>
+      evalMultiplicativeContinue(left, rest, k)
+    })
+
+  private def evalMultiplicativeContinue(left: LogoValue, toks: Seq[LogoValue], k: EvalK): EvalResult =
+    toks match
+      case LogoWord("*") :: tail =>
+        evalPowerCPS(tail, { (right0, rest) =>
+          resolveThenContinue(left, { leftVal =>
+            resolveThenContinue(right0, { rightVal =>
+              val result = logoNumber(QuaternionDAL.compute("*", number(leftVal), number(rightVal)))
+              More(() => evalMultiplicativeContinue(result.pos(leftVal.r), rest, k))
+            })
+          })
+        })
+      case LogoWord("/") :: tail =>
+        evalPowerCPS(tail, { (right0, rest) =>
+          resolveThenContinue(left, { leftVal =>
+            resolveThenContinue(right0, { rightVal =>
+              val result = logoNumber(QuaternionDAL.compute("/", number(leftVal), number(rightVal)))
+              More(() => evalMultiplicativeContinue(result.pos(leftVal.r), rest, k))
+            })
+          })
+        })
+      case LogoWord("\\") :: tail =>
+        evalPowerCPS(tail, { (right0, rest) =>
+          resolveThenContinue(left, { leftVal =>
+            resolveThenContinue(right0, { rightVal =>
+              val result = logoNumber(number(leftVal).doubleValue / number(rightVal).doubleValue)
+              More(() => evalMultiplicativeContinue(result.pos(leftVal.r), rest, k))
+            })
+          })
+        })
+      case LogoWord("//") :: tail =>
+        evalPowerCPS(tail, { (right0, rest) =>
+          resolveThenContinue(left, { leftVal =>
+            resolveThenContinue(right0, { rightVal =>
+              val result = logoNumber((math.floor(number(leftVal).doubleValue / number(rightVal).doubleValue).toLong).toDouble)
+              More(() => evalMultiplicativeContinue(result.pos(leftVal.r), rest, k))
+            })
+          })
+        })
+      case _ =>
+        More(() => k(left, toks))
+
+  // Power: ^ (right-associative)
+  private def evalPowerCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    evalPrimaryCPS(toks, { (left0, rest) =>
+      rest match
+        case LogoWord("^") :: tail =>
+          evalPowerCPS(tail, { (right0, rest2) =>
+            resolveThenContinue(left0, { left =>
+              resolveThenContinue(right0, { right =>
+                val result = logoNumber(QuaternionDAL.compute("^", number(left), number(right)))
+                More(() => k(result.pos(left.r), rest2))
+              })
+            })
+          })
+        case _ =>
+          More(() => k(left0, rest))
+    })
+
+  // Primary expressions - CPS version
+  private def evalPrimaryCPS(toks: Seq[LogoValue], k: EvalK): EvalResult =
+    toks match
+      case (eoi @ EOIToken()) :: _ =>
+        More(() => k(LogoNull().pos(eoi.r), Seq(eoi)))
+
+      case (v: (LogoNumber | LogoList | LogoNull)) :: tail =>
+        More(() => k(v, tail))
+
+      case (tok @ LogoWord("true" | "false")) :: tail =>
+        More(() => k(LogoBoolean(tok.toString == "true").pos(tok.r), tail))
+
+      case (tok @ LogoWord("null")) :: tail =>
+        More(() => k(LogoNull().pos(tok.r), tail))
+
+      case (tok @ LogoWord("(")) :: tail =>
+        // Check if this is a variadic procedure call or expression grouping
+        tail match
+          case (procTok @ LogoWord(procName)) :: rest if !procName.head.isDigit && procName.head != '"' && procName.head != ':' =>
+            lookup(procName) match
+              case Some(BuiltinVariadic(name, _, minArgs, func)) =>
+                evalArgsUntilParenCPS(name, minArgs, rest, Seq.empty, { (args, rest2) =>
+                  val res = func(this, args) match
+                    case v: LogoValue => v
+                    case n: Number    => logoNumber(n)
+                    case b: Boolean   => LogoBoolean(b)
+                    case ()           => LogoNull()
+                  More(() => k(res.pos(tok.r), rest2))
+                })
+              case Some(up @ UserProcedure(name, reqParams, optParams, restParam, _))
+                  if optParams.nonEmpty || restParam.isDefined =>
+                evalArgsUntilParenCPS(name, reqParams.length, rest, Seq.empty, { (args, rest2) =>
+                  More(() => k(PendingCallMarker(up, args).pos(tok.r), rest2))
+                })
+              case _ =>
+                // Not a variadic procedure - treat as expression grouping
+                evalCPS(tail, { (value, rest2) =>
+                  rest2 match
+                    case LogoWord(")") :: rest3 => More(() => k(value.pos(tok.r), rest3))
+                    case _                      => tok.r.error("expected closing parenthesis")
+                })
+          case _ =>
+            // Expression grouping
+            evalCPS(tail, { (value, rest) =>
+              rest match
+                case LogoWord(")") :: rest2 => More(() => k(value.pos(tok.r), rest2))
+                case _                      => tok.r.error("expected closing parenthesis")
+            })
+
+      // Control structures as special forms
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "if" || w.toLowerCase == "si" =>
+        evalargsCPS("if", 2, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { condVal =>
+            val cond = boolean(condVal)
+            val body = list(args(1))
+            More(() => k(PendingIf(cond, body).pos(tok.r), rest))
+          })
+        })
+
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "ifelse" || w.toLowerCase == "siou" =>
+        evalargsCPS("ifelse", 3, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { condVal =>
+            val cond = boolean(condVal)
+            val yesBody = list(args(1))
+            val noBody = list(args(2))
+            More(() => k(PendingIfElse(cond, yesBody, noBody).pos(tok.r), rest))
+          })
+        })
+
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "repeat" || w.toLowerCase == "repete" =>
+        evalargsCPS("repeat", 2, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { timesVal =>
+            val times = number(timesVal).intValue
+            val body = list(args(1))
+            More(() => k(PendingRepeat(times, body).pos(tok.r), rest))
+          })
+        })
+
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "run" =>
+        evalargsCPS("run", 1, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { codeVal =>
+            val code = codeVal.toString
+            More(() => k(PendingRun(code).pos(tok.r), rest))
+          })
+        })
+
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "output" || w.toLowerCase == "op" =>
+        // output is a special form - don't resolve the argument for tail call optimization
+        evalCPS(tail, { (arg, rest) =>
+          More(() => k(PendingOutput(arg).pos(tok.r), rest))
+        })
+
+      case (tok @ LogoWord("to")) :: tail =>
+        // Define a user procedure
+        tail match
+          case LogoWord(procName) :: rest =>
+            val (requiredParams, optionalParams, restParam, bodyStart) = collectParams(rest)
+            val (body, afterEnd) = collectUntilEnd(bodyStart)
+            procedures(procName.toLowerCase) =
+              UserProcedure(procName.toLowerCase, requiredParams, optionalParams, restParam, body)
+            More(() => k(LogoNull().pos(tok.r), afterEnd))
+          case _ => tok.r.error("expected procedure name after 'to'")
+
+      case (tok @ LogoWord(s)) :: tail =>
+        if s.head == '"' then
+          More(() => k(LogoWord(s.tail).pos(tok.r), tail))
+        else if s.head == ':' then
+          val name = s.tail.toLowerCase
+          vars.get(name) match
+            case Some(v) => More(() => k(v, tail))
+            case None    => tok.r.error(s"unknown variable '$name'")
+        else if s.head.isDigit || (s.head == '-' && s != "-") then
+          More(() => k(logoNumber(s, tok.r), tail))
+        else
+          lookup(s) match
+            case None =>
+              tok.r.error(s"unknown procedure, variable, or constant '$s'")
+
+            case Some(BuiltinFunction0(_, func)) =>
+              More(() => k(logoNumber(func()).pos(tok.r), tail))
+
+            case Some(BuiltinFunction1(name, func)) =>
+              evalargsCPS(name, 1, tail, Seq.empty, { (args, rest) =>
+                val n = number(args.head)
+                More(() => k(logoNumber(func(n)).pos(tok.r), rest))
+              })
+
+            case Some(BuiltinFunction2(name, func)) =>
+              evalargsCPS(name, 2, tail, Seq.empty, { (args, rest) =>
+                val Seq(a, b) = args.map(number)
+                More(() => k(logoNumber(func(a, b)).pos(tok.r), rest))
+              })
+
+            case Some(BuiltinProcedure(name, argc, func)) =>
+              evalargsCPS(name, argc, tail, Seq.empty, { (vals, rest) =>
+                val res = func(this, vals) match
+                  case v: LogoValue => v
+                  case n: Number    => logoNumber(n)
+                  case b: Boolean   => LogoBoolean(b)
+                  case ()           => LogoNull()
+                More(() => k(res.pos(tok.r), rest))
+              })
+
+            case Some(BuiltinVariadic(name, defaultArgs, _, func)) =>
+              evalargsCPS(name, defaultArgs, tail, Seq.empty, { (vals, rest) =>
+                val res = func(this, vals) match
+                  case v: LogoValue => v
+                  case n: Number    => logoNumber(n)
+                  case b: Boolean   => LogoBoolean(b)
+                  case ()           => LogoNull()
+                More(() => k(res.pos(tok.r), rest))
+              })
+
+            case Some(up @ UserProcedure(name, reqParams, optParams, restParam, body)) =>
+              evalargsCPS(name, reqParams.length, tail, Seq.empty, { (vals, rest) =>
+                More(() => k(PendingCallMarker(up, vals).pos(tok.r), rest))
+              })
+
+            case Some(v: LogoValue) =>
+              More(() => k(v, tail))
+
+            case Some(p: Procedure) =>
+              problem(tok.r, s"procedure of unknown type: '${p.name}'")
 
   // Collect parameter definitions: :required [:optional default] [:rest]
   private def collectParams(

@@ -135,18 +135,18 @@ class TCOTests extends AnyFreeSpec with Matchers with Test:
     result shouldBe "3628800"
   }
 
-  // Tree recursion test disabled - needs investigation
-  // "tree recursion" in {
-  //   val result = run("""
-  //     |to fib :n
-  //     |  if :n <= 1 [output :n]
-  //     |  output fib :n - 1 + fib :n - 2
-  //     |end
-  //     |
-  //     |print fib 10
-  //   """.stripMargin)
-  //   result shouldBe "55"
-  // }
+  // Tree recursion - now works with full CPS
+  "tree recursion" in {
+    val result = run("""
+      |to fib :n
+      |  if :n <= 1 [output :n]
+      |  output (fib :n - 1) + (fib :n - 2)
+      |end
+      |
+      |print fib 20
+    """.stripMargin)
+    result shouldBe "6765"
+  }
 
   // ============================================================================
   // Edge Cases
@@ -176,22 +176,22 @@ class TCOTests extends AnyFreeSpec with Matchers with Test:
     result shouldBe "3\n2\n1"
   }
 
-  // Disabled - procedure results in expressions cause nested trampolines
-  // "nested procedure calls" in {
-  //   val result = run("""
-  //     |to outer :n
-  //     |  if :n = 0 [output 0]
-  //     |  output inner :n
-  //     |end
-  //     |
-  //     |to inner :n
-  //     |  output outer :n - 1 + 1
-  //     |end
-  //     |
-  //     |print outer 5
-  //   """.stripMargin)
-  //   result shouldBe "5"
-  // }
+  // Nested procedure calls - now works with full CPS
+  "nested procedure calls" in {
+    val result = run("""
+      |to outer :n
+      |  if :n = 0 [output 0]
+      |  output inner :n
+      |end
+      |
+      |to inner :n
+      |  output (outer :n - 1) + 1
+      |end
+      |
+      |print outer 5
+    """.stripMargin)
+    result shouldBe "5"
+  }
 
   // ============================================================================
   // Practical Examples
