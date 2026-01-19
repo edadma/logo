@@ -121,3 +121,51 @@ class ControlFlowTests extends AnyFreeSpec with Matchers with Test:
   "repcount outside repeat" in {
     run("print repcount") shouldBe "0"
   }
+
+  // ============================================================================
+  // output ifelse - properly resolves pending ifelse
+  // ============================================================================
+
+  "output ifelse true" in {
+    val result = run("""
+      |to test :x
+      |  output ifelse :x > 5 ["big] ["small]
+      |end
+      |print test 10
+    """.stripMargin)
+    result shouldBe "big"
+  }
+
+  "output ifelse false" in {
+    val result = run("""
+      |to test :x
+      |  output ifelse :x > 5 ["big] ["small]
+      |end
+      |print test 3
+    """.stripMargin)
+    result shouldBe "small"
+  }
+
+  "output ifelse with expression result" in {
+    val result = run("""
+      |to double :x
+      |  output ifelse :x > 0 [:x * 2] [0]
+      |end
+      |print double 5
+      |print double -3
+    """.stripMargin)
+    result shouldBe "10\n0"
+  }
+
+  "nested output ifelse" in {
+    val result = run("""
+      |to grade :score
+      |  output ifelse :score >= 90 ["A] [ifelse :score >= 80 ["B] [ifelse :score >= 70 ["C] ["F]]]
+      |end
+      |print grade 95
+      |print grade 85
+      |print grade 75
+      |print grade 50
+    """.stripMargin)
+    result shouldBe "A\nB\nC\nF"
+  }

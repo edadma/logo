@@ -214,11 +214,21 @@ abstract class Logo:
             continue(value)
       })
 
-  // CPS helper: resolve a value through continuation, handling pending calls
+  // CPS helper: resolve a value through continuation, handling pending operations
   private def resolveThenContinue(value: LogoValue, k: LogoValue => EvalResult): EvalResult =
     value match
       case PendingCallMarker(proc, args) =>
         PendingCall(proc, args, k)
+      case PendingIfElse(cond, yesBody, noBody) =>
+        // Evaluate the appropriate branch and continue with result
+        val body = if cond then yesBody else noBody
+        interp(body :+ EOIToken(), (result, _) => resolveThenContinue(result, k))
+      case PendingIf(cond, body) =>
+        if cond then interp(body :+ EOIToken(), (result, _) => resolveThenContinue(result, k))
+        else More(() => k(LogoNull()))
+      case PendingRun(code) =>
+        val tokens = transform(tokenize(CharReader.fromString(code)))
+        interp(tokens :+ EOIToken(), (result, _) => resolveThenContinue(result, k))
       case v =>
         More(() => k(v))
 

@@ -366,11 +366,9 @@ class HigherOrderTests extends AnyFreeSpec with Matchers with Test:
     }
 
     "reduce user procedure" in {
-      // Note: using if/output pattern instead of output ifelse to avoid pending resolution issue
       val result = run("""
         |to bigger :a :b
-        |  if :a > :b [output :a]
-        |  output :b
+        |  output ifelse :a > :b [:a] [:b]
         |end
         |print reduce "bigger [5 2 8 3 1]
       """.stripMargin)
