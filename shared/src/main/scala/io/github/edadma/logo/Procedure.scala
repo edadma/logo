@@ -32,6 +32,94 @@ private var gensymCounter: Long = 0
 object RandomState:
   var generator: scala.util.Random = new scala.util.Random()
 
+// UCB Logo template system for higher-order functions
+object Template:
+  // Apply a template to a single value, return the result
+  def apply1(ctx: Logo, template: LogoValue, value: LogoValue): LogoValue =
+    template match
+      case LogoWord(procName) =>
+        // Word template: call procedure with value as argument
+        val code = s"$procName ${formatArg(value)}"
+        ctx.interp(code)
+      case LogoList(elems, _) =>
+        // List template: substitute ? with value and run
+        val substituted = elems.map(substituteOne(_, value))
+        val code = substituted.map(formatValue).mkString(" ")
+        ctx.interp(code)
+      case _ =>
+        problem(null, s"template must be a word or list, got $template")
+
+  // Apply a binary template to two values (for reduce)
+  def apply2(ctx: Logo, template: LogoValue, val1: LogoValue, val2: LogoValue): LogoValue =
+    template match
+      case LogoWord(procName) =>
+        // Word template: call procedure with two arguments
+        val code = s"$procName ${formatArg(val1)} ${formatArg(val2)}"
+        ctx.interp(code)
+      case LogoList(elems, _) =>
+        // List template: substitute ?1 and ?2 (or first ? and second ?)
+        val substituted = elems.map(substituteTwo(_, val1, val2))
+        val code = substituted.map(formatValue).mkString(" ")
+        ctx.interp(code)
+      case _ =>
+        problem(null, s"template must be a word or list, got $template")
+
+  // Convert a value to its "code form" - words get quoted
+  private def toCodeForm(value: LogoValue): LogoValue =
+    value match
+      case LogoWord(s)    => LogoWord("\"" + s)
+      case LogoBoolean(b) => LogoWord(if b then "\"true" else "\"false")
+      case other          => other
+
+  // Substitute ? with value in a single element
+  private def substituteOne(elem: LogoValue, value: LogoValue): LogoValue =
+    elem match
+      case LogoWord("?") => toCodeForm(value)
+      case LogoWord(s) if s == "?1" => toCodeForm(value)
+      case LogoList(inner, _) =>
+        val subst = inner.map(substituteOne(_, value))
+        LogoList(subst, subst :+ EOIToken())
+      case other => other
+
+  // Substitute ?1 and ?2 with values in a single element
+  private def substituteTwo(elem: LogoValue, val1: LogoValue, val2: LogoValue): LogoValue =
+    elem match
+      case LogoWord("?") => toCodeForm(val1)      // First ? becomes ?1
+      case LogoWord("?1") => toCodeForm(val1)
+      case LogoWord("?2") => toCodeForm(val2)
+      case LogoList(inner, _) =>
+        val subst = inner.map(substituteTwo(_, val1, val2))
+        LogoList(subst, subst :+ EOIToken())
+      case other => other
+
+  // Substitute ?n with value (for apply with multiple args)
+  def substituteNth(elem: LogoValue, n: Int, value: LogoValue): LogoValue =
+    elem match
+      case LogoWord(s) if s == s"?$n" => toCodeForm(value)
+      case LogoWord("?") if n == 1   => toCodeForm(value)
+      case LogoList(inner, _) =>
+        val subst = inner.map(substituteNth(_, n, value))
+        LogoList(subst, subst :+ EOIToken())
+      case other => other
+
+  // Format a LogoValue for code generation
+  def formatValue(v: LogoValue): String =
+    v match
+      case LogoWord(s)        => s
+      case LogoNumber(n)      => n.toString
+      case LogoBoolean(b)     => if b then "true" else "false"
+      case LogoList(elems, _) => elems.map(formatValue).mkString("[", " ", "]")
+      case _                  => v.toString
+
+  // Format a value as an argument (add quote for words)
+  def formatArg(v: LogoValue): String =
+    v match
+      case LogoWord(s)        => s"\"$s"
+      case LogoNumber(n)      => n.toString
+      case LogoBoolean(b)     => if b then "\"true" else "\"false"
+      case LogoList(elems, _) => elems.map(formatValue).mkString("[", " ", "]")
+      case _                  => v.toString
+
 val builtin =
   List[Procedure](
     BuiltinFunction0("pi", () => Pi),
@@ -582,6 +670,128 @@ val builtin =
           val step  = if n == 1 then 0.0 else (end - start) / (n - 1)
           val elems = (0 until n).map(i => LogoNumber(start + i * step))
           LogoList(elems, elems :+ EOIToken())
+      },
+    ),
+    // ============================================================================
+    // UCB Logo Higher-Order Functions (Template-based)
+    // ============================================================================
+    // APPLY template list - call procedure/template with list items as arguments
+    BuiltinProcedure(
+      "apply",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(args, _))) =>
+          template match
+            case LogoWord(procName) =>
+              // Call procedure with args - use parentheses for variadic support
+              val argStr = args.map(Template.formatArg).mkString(" ")
+              val code = s"($procName $argStr)"
+              ctx.interp(code)
+            case LogoList(elems, _) =>
+              // List template - substitute ?1, ?2, ... with args
+              val substituted = elems.map { elem =>
+                args.zipWithIndex.foldLeft(elem) { case (e, (arg, i)) =>
+                  Template.substituteNth(e, i + 1, arg)
+                }
+              }
+              val code = substituted.map(Template.formatValue).mkString(" ")
+              ctx.interp(code)
+            case _ => problem(null, "'apply' first argument must be a word or list template")
+        case (_, Seq(_, other)) => problem(null, s"'apply' second argument must be a list, got $other")
+      },
+    ),
+    // INVOKE procname list - same as apply but first arg is explicitly a procedure name
+    BuiltinProcedure(
+      "invoke",
+      2,
+      {
+        case (ctx, Seq(procName, LogoList(args, _))) =>
+          // Use parentheses for variadic support
+          val argStr = args.map(Template.formatArg).mkString(" ")
+          val code = s"(${procName.toString} $argStr)"
+          ctx.interp(code)
+        case (_, Seq(_, other)) => problem(null, s"'invoke' second argument must be a list, got $other")
+      },
+    ),
+    // FOREACH template list - apply template to each element for side effects
+    BuiltinProcedure(
+      "foreach",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          elems.foreach(elem => Template.apply1(ctx, template, elem))
+          LogoNull()
+        case (_, Seq(_, other)) => problem(null, s"'foreach' second argument must be a list, got $other")
+      },
+    ),
+    // MAP template list - apply template to each element, return list of results
+    BuiltinProcedure(
+      "map",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          val results = elems.map(elem => Template.apply1(ctx, template, elem))
+          LogoList(results, results :+ EOIToken())
+        case (_, Seq(_, other)) => problem(null, s"'map' second argument must be a list, got $other")
+      },
+    ),
+    // MAP.SE template list - like map but flattens results with sentence
+    BuiltinProcedure(
+      "map.se",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          val results = elems.flatMap { elem =>
+            Template.apply1(ctx, template, elem) match
+              case LogoList(inner, _) => inner
+              case other              => Seq(other)
+          }
+          LogoList(results, results :+ EOIToken())
+        case (_, Seq(_, other)) => problem(null, s"'map.se' second argument must be a list, got $other")
+      },
+    ),
+    // FILTER template list - keep elements where template returns true
+    BuiltinProcedure(
+      "filter",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          val results = elems.filter { elem =>
+            Template.apply1(ctx, template, elem) match
+              case LogoBoolean(b) => b
+              case other          => problem(null, s"'filter' template must return true/false, got $other")
+          }
+          LogoList(results, results :+ EOIToken())
+        case (_, Seq(_, other)) => problem(null, s"'filter' second argument must be a list, got $other")
+      },
+    ),
+    // FIND template list - return first element where template returns true, or empty list
+    BuiltinProcedure(
+      "find",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          elems.find { elem =>
+            Template.apply1(ctx, template, elem) match
+              case LogoBoolean(b) => b
+              case other          => problem(null, s"'find' template must return true/false, got $other")
+          } match
+            case Some(found) => found
+            case None        => LogoList(Seq.empty, Seq(EOIToken()))
+        case (_, Seq(_, other)) => problem(null, s"'find' second argument must be a list, got $other")
+      },
+    ),
+    // REDUCE template list - fold list with binary template
+    BuiltinProcedure(
+      "reduce",
+      2,
+      {
+        case (ctx, Seq(template, LogoList(elems, _))) =>
+          if elems.isEmpty then problem(null, "'reduce' requires non-empty list")
+          elems.tail.foldLeft(elems.head) { (acc, elem) =>
+            Template.apply2(ctx, template, acc, elem)
+          }
+        case (_, Seq(_, other)) => problem(null, s"'reduce' second argument must be a list, got $other")
       },
     ),
     // Variable access

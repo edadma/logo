@@ -188,13 +188,13 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
 
   "output propagates through repeat" in {
     eval("""
-      |to find :target
+      |to findtarget :target
       |  repeat 10 [
       |    if repcount = :target [output repcount * 10]
       |  ]
       |  output 0
       |end
-      |find 5
+      |findtarget 5
       |""".stripMargin) shouldBe "50"
   }
 
