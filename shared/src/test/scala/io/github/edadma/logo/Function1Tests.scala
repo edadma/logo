@@ -71,3 +71,96 @@ class Function1Tests extends AnyFreeSpec with Matchers with Test:
     result should be >= 0.0
     result should be < 10.0
   }
+
+  // ============================================================================
+  // Inverse Trigonometric Functions
+  // ============================================================================
+
+  "asin 0" in {
+    eval("asin 0") shouldBe "0"
+  }
+
+  "asin 1" in {
+    eval("asin 1") shouldBe (Pi / 2).toString
+  }
+
+  "asin -1" in {
+    eval("asin -1") shouldBe (-Pi / 2).toString
+  }
+
+  "arcsin alias" in {
+    eval("arcsin 0") shouldBe "0"
+  }
+
+  "asin of imaginary i" in {
+    val result = eval("asin i")
+    result should include("i")
+  }
+
+  "asin auto-promotes to complex when |x| > 1" in {
+    val result = eval("asin 2")
+    result should include("i") // should return complex, not NaN
+  }
+
+  "acos 1" in {
+    eval("acos 1") shouldBe "0"
+  }
+
+  "acos 0" in {
+    eval("acos 0") shouldBe (Pi / 2).toString
+  }
+
+  "acos -1" in {
+    eval("acos -1") shouldBe Pi.toString
+  }
+
+  "arccos alias" in {
+    eval("arccos 1") shouldBe "0"
+  }
+
+  "acos of imaginary i" in {
+    val result = eval("acos i")
+    result should include("i")
+  }
+
+  "acos auto-promotes to complex when |x| > 1" in {
+    val result = eval("acos 2")
+    result should include("i") // should return complex, not NaN
+  }
+
+  "atan 0" in {
+    eval("atan 0") shouldBe "0"
+  }
+
+  "atan 1" in {
+    eval("atan 1") shouldBe (Pi / 4).toString
+  }
+
+  "arctan alias" in {
+    eval("arctan 0") shouldBe "0"
+  }
+
+  "atan of imaginary i/2" in {
+    val result = eval("atan (i / 2)")
+    result should include("i")
+  }
+
+  // ============================================================================
+  // Logarithms
+  // ============================================================================
+
+  "log10 1" in {
+    eval("log10 1") shouldBe "0"
+  }
+
+  "log10 10" in {
+    eval("log10 10") shouldBe "1"
+  }
+
+  "log10 100" in {
+    eval("log10 100") shouldBe "2"
+  }
+
+  "log10 1000" in {
+    eval("log10 1000").toDouble shouldBe 3.0 +- 1e-10
+  }

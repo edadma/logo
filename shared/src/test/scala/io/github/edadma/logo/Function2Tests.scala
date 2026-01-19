@@ -23,3 +23,19 @@ class Function2Tests extends AnyFreeSpec with Matchers with Test:
   "pow negative exponent" in {
     eval("pow 2 -1") shouldBe "1/2" // DAL returns exact rational
   }
+
+  // ============================================================================
+  // atan2
+  // ============================================================================
+
+  "atan2 basic" in {
+    eval("atan2 1 1") shouldBe (scala.math.Pi / 4).toString
+  }
+
+  "atan2 y=0 x=1" in {
+    eval("atan2 0 1") shouldBe "0"
+  }
+
+  "atan2 y=1 x=0" in {
+    eval("atan2 1 0") shouldBe (scala.math.Pi / 2).toString
+  }

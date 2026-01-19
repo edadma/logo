@@ -236,6 +236,11 @@ val builtin =
     BuiltinFunction1("sqrt", QuaternionDAL.sqrtFunction),
     BuiltinFunction1("exp", QuaternionDAL.expFunction),
     BuiltinFunction1("ln", QuaternionDAL.lnFunction),
+    BuiltinFunction1("log10", n => QuaternionDAL.compute("/", QuaternionDAL.lnFunction(n), math.log(10))),
+    BuiltinFunction1("asin", QuaternionDAL.asinFunction),
+    BuiltinFunction1("acos", QuaternionDAL.acosFunction),
+    BuiltinFunction1("atan", QuaternionDAL.atanFunction),
+    BuiltinFunction2("atan2", (y, x) => math.atan2(y.doubleValue, x.doubleValue)),
     // Numeric functions
     BuiltinProcedure(
       "abs",
@@ -252,6 +257,33 @@ val builtin =
       1,
       { case (_, Seq(n)) => math.round(number(n).doubleValue) },
     ),
+    BuiltinProcedure(
+      "floor",
+      1,
+      { case (_, Seq(n)) => math.floor(number(n).doubleValue).toLong },
+    ),
+    BuiltinProcedure(
+      "ceiling",
+      1,
+      { case (_, Seq(n)) => math.ceil(number(n).doubleValue).toLong },
+    ),
+    BuiltinProcedure(
+      "sign",
+      1,
+      { case (_, Seq(n)) => math.signum(number(n).doubleValue).toInt },
+    ),
+    BuiltinVariadic(
+      "min",
+      2,
+      2,
+      (_, args) => args.map(number).reduce((a, b) => if QuaternionDAL.relate("<", a, b) then a else b),
+    ),
+    BuiltinVariadic(
+      "max",
+      2,
+      2,
+      (_, args) => args.map(number).reduce((a, b) => if QuaternionDAL.relate(">", a, b) then a else b),
+    ),
     // Character/ASCII conversion
     BuiltinProcedure(
       "ascii",
@@ -265,6 +297,22 @@ val builtin =
       "char",
       1,
       { case (_, Seq(n)) => LogoWord(number(n).intValue.toChar.toString) },
+    ),
+    BuiltinProcedure(
+      "lowercase",
+      1,
+      {
+        case (_, Seq(LogoWord(s))) => LogoWord(s.toLowerCase)
+        case (_, Seq(other))       => problem(null, s"'lowercase' requires a word, got $other")
+      },
+    ),
+    BuiltinProcedure(
+      "uppercase",
+      1,
+      {
+        case (_, Seq(LogoWord(s))) => LogoWord(s.toUpperCase)
+        case (_, Seq(other))       => problem(null, s"'uppercase' requires a word, got $other")
+      },
     ),
     // List/word operations
     BuiltinProcedure(
@@ -290,6 +338,23 @@ val builtin =
           else LogoWord(s(scala.util.Random.nextInt(s.length)).toString)
         case (_, Seq(other)) => problem(null, s"'pick' requires a list or word, got $other")
       },
+    ),
+    BuiltinVariadic(
+      "range",
+      1,
+      1,
+      (_, args) =>
+        val nums = args.map(number)
+        val (from, to, step) = nums match
+          case Seq(end)             => (0L, end.longValue, 1L)
+          case Seq(start, end)      => (start.longValue, end.longValue, 1L)
+          case Seq(start, end, stp) => (start.longValue, end.longValue, stp.longValue)
+          case _ => problem(null, "'range' takes 1 to 3 arguments: [from] to [step]")
+        if step == 0 then problem(null, "'range' step cannot be zero")
+        val elems: Seq[LogoValue] =
+          if step > 0 then (from until to by step).map(n => LogoNumber(n))
+          else (from until to by step).map(n => LogoNumber(n))
+        LogoList(elems, elems :+ EOIToken()),
     ),
     // Variable access
     BuiltinProcedure(
@@ -691,4 +756,9 @@ val synonyms =
     "mod"          -> "remainder",
     "number?"      -> "numberp",
     "member?"      -> "memberp",
+    "iseq"         -> "range",
+    "arctan"       -> "atan",
+    "arcsin"       -> "asin",
+    "arccos"       -> "acos",
+    "ceil"         -> "ceiling",
   ) map ((s, p) => s -> builtin(p)) toMap

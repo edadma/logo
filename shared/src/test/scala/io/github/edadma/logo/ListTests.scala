@@ -202,3 +202,35 @@ class ListTests extends AnyFreeSpec with Matchers with Test:
   "fput first to butfirst" in {
     eval("fput first [a b c] butfirst [a b c]") shouldBe "a b c"
   }
+
+  // ============================================================================
+  // Range: generate integer sequences
+  // ============================================================================
+
+  "range single arg" in {
+    eval("range 5") shouldBe "0 1 2 3 4"
+  }
+
+  "range two args" in {
+    eval("(range 1 5)") shouldBe "1 2 3 4"
+  }
+
+  "range with step" in {
+    eval("(range 0 10 2)") shouldBe "0 2 4 6 8"
+  }
+
+  "range negative step" in {
+    eval("(range 5 0 -1)") shouldBe "5 4 3 2 1"
+  }
+
+  "range empty" in {
+    eval("range 0") shouldBe ""
+  }
+
+  "range start equals end" in {
+    eval("(range 5 5)") shouldBe ""
+  }
+
+  "iseq alias" in {
+    eval("(iseq 1 4)") shouldBe "1 2 3"
+  }

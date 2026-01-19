@@ -53,6 +53,70 @@ class BuiltinTests extends AnyFreeSpec with Matchers with Test:
     eval("round -3.7") shouldBe "-4"
   }
 
+  "floor positive" in {
+    eval("floor 3.7") shouldBe "3"
+  }
+
+  "floor negative" in {
+    eval("floor -3.2") shouldBe "-4"
+  }
+
+  "floor integer" in {
+    eval("floor 5") shouldBe "5"
+  }
+
+  "ceiling positive" in {
+    eval("ceiling 3.2") shouldBe "4"
+  }
+
+  "ceiling negative" in {
+    eval("ceiling -3.7") shouldBe "-3"
+  }
+
+  "ceiling integer" in {
+    eval("ceiling 5") shouldBe "5"
+  }
+
+  "ceil alias" in {
+    eval("ceil 2.1") shouldBe "3"
+  }
+
+  "sign positive" in {
+    eval("sign 42") shouldBe "1"
+  }
+
+  "sign negative" in {
+    eval("sign -17") shouldBe "-1"
+  }
+
+  "sign zero" in {
+    eval("sign 0") shouldBe "0"
+  }
+
+  "min two args" in {
+    eval("min 5 3") shouldBe "3"
+  }
+
+  "min with negative" in {
+    eval("min -10 5") shouldBe "-10"
+  }
+
+  "min variadic" in {
+    eval("(min 5 3 8 1 9)") shouldBe "1"
+  }
+
+  "max two args" in {
+    eval("max 5 3") shouldBe "5"
+  }
+
+  "max with negative" in {
+    eval("max -10 5") shouldBe "5"
+  }
+
+  "max variadic" in {
+    eval("(max 5 3 8 1 9)") shouldBe "9"
+  }
+
   // ============================================================================
   // Character/ASCII: ascii, char
   // ============================================================================
@@ -87,6 +151,34 @@ class BuiltinTests extends AnyFreeSpec with Matchers with Test:
 
   "ascii char roundtrip" in {
     eval("char ascii \"X") shouldBe "X"
+  }
+
+  // ============================================================================
+  // String Case: lowercase, uppercase
+  // ============================================================================
+
+  "lowercase basic" in {
+    eval("lowercase \"HELLO") shouldBe "hello"
+  }
+
+  "lowercase mixed" in {
+    eval("lowercase \"HeLLo") shouldBe "hello"
+  }
+
+  "lowercase already lower" in {
+    eval("lowercase \"world") shouldBe "world"
+  }
+
+  "uppercase basic" in {
+    eval("uppercase \"hello") shouldBe "HELLO"
+  }
+
+  "uppercase mixed" in {
+    eval("uppercase \"HeLLo") shouldBe "HELLO"
+  }
+
+  "uppercase already upper" in {
+    eval("uppercase \"WORLD") shouldBe "WORLD"
   }
 
   // ============================================================================
