@@ -95,8 +95,9 @@ repeat 4 [
     <button onclick="loadExample('spiral')">Spiral</button>
     <button onclick="loadExample('star')">Star</button>
     <button onclick="loadExample('tree')">Tree</button>
+    <button onclick="loadExample('forloop')">For Loop</button>
+    <button onclick="loadExample('flower')">Flower</button>
     <button onclick="loadExample('sine')">Sine Wave</button>
-    <button onclick="loadExample('roots')">Roots of Unity</button>
   </div>
 
   <script type="module">
@@ -157,32 +158,30 @@ repeat 4 [
       }
     }
 
-      // Make loadExample available globally
-      window.loadExample = (name) => {
-        const examples = {
-          square: `; Draw a square
+    // Make loadExample available globally
+    window.loadExample = (name) => {
+      const examples = {
+        square: `; Draw a square
 repeat 4 [
   forward 100
   right 90
 ]`,
-          circle: `; Draw a circle using small steps
+        circle: `; Draw a circle using small steps
 repeat 360 [
   forward 2
   right 1
 ]`,
-          spiral: `; Draw a spiral
-make "i 1
-repeat 100 [
+        spiral: `; Draw a spiral using for loop
+for [i 1 100] [
   forward :i * 2
   right 45
-  make "i :i + 1
 ]`,
-          star: `; Draw a 5-pointed star
+        star: `; Draw a 5-pointed star
 repeat 5 [
   forward 100
   right 144
 ]`,
-          tree: `; Draw a simple tree
+        tree: `; Draw a recursive tree
 to tree :size
   if :size < 5 [stop]
   forward :size
@@ -195,39 +194,32 @@ to tree :size
 end
 
 tree 60`,
-          sine: `; Draw a sine wave
-make "x 0
-make "amplitude 50
-make "scaling 25
-
-penup
-setxy scaling * x 0
-pendown
-
-repeat 500 [
-  make "y amplitude * sin x
-  setxy scaling * x y
-  make "x x + 0.02
+        forloop: `; Demonstrate for loop with step
+; for [var start end step] [body]
+for [i 10 100 10] [
+  forward :i
+  right 90
 ]`,
-          roots: `; Draw nth roots of unity
-; These are solutions to z^n = 1
-make "n 5
-make "radius 100
-
-; Draw polygon connecting roots
+        flower: `; Draw a flower pattern
+repeat 36 [
+  right 10
+  repeat 6 [
+    forward 50
+    right 60
+  ]
+]`,
+        sine: `; Draw a sine wave
 penup
-setc :radius
+setxy -200 0
 pendown
-make "k 1
-repeat :n [
-  make "angle 2 * pi * :k / :n
-  make "point :radius * e ^ (:angle * i)
-  setc :point
-  make "k :k + 1
+
+for [x 0 400] [
+  make "y 50 * sin :x / 25
+  setxy :x - 200 :y
 ]`
-        };
-        program.value = examples[name] || '';
       };
+      program.value = examples[name] || '';
+    };
 
     // Initial render
     logo.render();

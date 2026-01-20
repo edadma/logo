@@ -1,18 +1,19 @@
 {
   "name": "@edadma/logo",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Logo programming language interpreter with React component",
   "main": "dist/logo.js",
   "module": "dist/logo.js",
-  "types": "dist/types/index.d.ts",
+  "types": "src/index.d.ts",
   "files": [
     "dist",
+    "src",
     "react"
   ],
   "exports": {
     ".": {
       "import": "./dist/logo.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./src/index.d.ts"
     },
     "./react": {
       "import": "./react/index.ts",
