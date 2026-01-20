@@ -23,6 +23,8 @@ case class PendingRepeatLoop(i: Int, times: Int, body: Seq[LogoValue], k: LogoVa
 case class PendingForLoop(varName: String, current: Double, end: Double, step: Double, body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 // Pending while loop - trampoline handles iteration
 case class PendingWhileLoop(conditionCode: Seq[LogoValue], body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
+// Pending forever loop - runs until stop
+case class PendingForeverLoop(body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
 // CPS continuation type aliases
 type EvalK = (LogoValue, Seq[LogoValue]) => EvalResult
@@ -140,6 +142,7 @@ abstract class Logo:
         case PendingRepeatLoop(i, times, body, k) => current = executeRepeatIteration(i, times, body, k)
         case PendingForLoop(varName, current_, end, step, body, k) => current = executeForIteration(varName, current_, end, step, body, k)
         case PendingWhileLoop(conditionCode, body, k) => current = executeWhileIteration(conditionCode, body, k)
+        case PendingForeverLoop(body, k) => current = executeForeverIteration(body, k)
     throw new RuntimeException("unreachable")
 
   // Execute a procedure call - sets up params, evaluates body, cleans up
@@ -239,6 +242,19 @@ abstract class Logo:
         })
       })
 
+  // Execute one iteration of a forever loop
+  private def executeForeverIteration(body: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    if pendingReturn.isDefined then
+      More(() => k(LogoNull()))
+    else
+      // Execute body then loop again
+      interp(body :+ EOIToken(), { (_, _) =>
+        if pendingReturn.isDefined then
+          More(() => k(LogoNull()))
+        else
+          PendingForeverLoop(body, k)
+      })
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
@@ -290,6 +306,10 @@ abstract class Logo:
           case PendingWhile(conditionCode, body) =>
             // Start while loop - trampoline handles iterations
             PendingWhileLoop(conditionCode, body, _ => continue(LogoNull()))
+
+          case PendingForever(body) =>
+            // Start forever loop - trampoline handles iterations until stop
+            PendingForeverLoop(body, _ => continue(LogoNull()))
 
           case PendingRun(code) =>
             // Parse and interpret the code with continuation
@@ -647,6 +667,13 @@ abstract class Logo:
           // Wrap condition with NOT to invert it
           val invertedCondition = Seq(LogoWord("not")) ++ conditionCode
           More(() => k(PendingWhile(invertedCondition, body).pos(tok.r), rest))
+        })
+
+      // UCB Logo forever: forever [body] - loop until stop is called
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "forever" =>
+        evalargsCPS("forever", 1, tail, Seq.empty, { (args, rest) =>
+          val body = list(args(0))
+          More(() => k(PendingForever(body).pos(tok.r), rest))
         })
 
       case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "run" =>

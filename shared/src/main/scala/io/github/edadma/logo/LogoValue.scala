@@ -48,3 +48,5 @@ case class PendingFor(varName: String, start: Double, end: Double, step: Double,
   override def toString: String = "<pending:for>"
 case class PendingWhile(conditionCode: Seq[LogoValue], body: Seq[LogoValue]) extends LogoValue:
   override def toString: String = "<pending:while>"
+case class PendingForever(body: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:forever>"
