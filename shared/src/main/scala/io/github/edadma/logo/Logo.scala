@@ -35,6 +35,7 @@ abstract class Logo:
   private[logo] var y: Double              = 0
   private[logo] var heading: Double        = Pi / 2
   private[logo] var color: (Int, Int, Int) = colorMap("black")
+  private[logo] var defaultColor: (Int, Int, Int) = colorMap("black")
   private[logo] var pen: Boolean           = true
   private[logo] var width: Double          = 1
   private[logo] var show: Boolean          = true
@@ -83,9 +84,13 @@ abstract class Logo:
   def clearscreen(): Unit =
     draws.clear()
     home()
-    color = colorMap("black")
+    color = defaultColor
     pen = true
     width = 1
+
+  def setDefaultColor(c: (Int, Int, Int)): Unit =
+    defaultColor = c
+    color = c
 
   // Trampoline - iteratively evaluates thunks until Done
   // Uses explicit while loop to ensure no stack growth on any platform

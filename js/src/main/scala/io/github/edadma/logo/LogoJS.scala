@@ -41,6 +41,7 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   private var usePathRendering: Boolean = true
   private var autoRender: Boolean = true
   private var initialized: Boolean = false
+  private var backgroundColor: String = "white"
 
   private val logo = new Logo:
     def event(): Unit = if initialized && autoRender then render()
@@ -71,6 +72,32 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   def setAutoRender(enabled: Boolean): Unit =
     autoRender = enabled
 
+  /** Set the canvas background color */
+  def setBackgroundColor(color: String): Unit =
+    backgroundColor = color
+    render()
+
+  /** Set the default pen color (used after clear) */
+  def setForegroundColor(color: String): Unit =
+    val rgb = parseColor(color)
+    logo.setDefaultColor(rgb)
+    render()
+
+  /** Parse a CSS color string to RGB tuple */
+  private def parseColor(color: String): (Int, Int, Int) =
+    // Use canvas to parse any CSS color
+    ctx.fillStyle = color
+    val parsed = ctx.fillStyle.asInstanceOf[String]
+    if parsed.startsWith("#") then
+      val hex = parsed.drop(1)
+      if hex.length == 6 then
+        val r = Integer.parseInt(hex.substring(0, 2), 16)
+        val g = Integer.parseInt(hex.substring(2, 4), 16)
+        val b = Integer.parseInt(hex.substring(4, 6), 16)
+        (r, g, b)
+      else (0, 0, 0)
+    else (0, 0, 0)
+
   /** Set a callback for print output (instead of console) */
   def setOutputHandler(handler: js.Function1[String, Unit]): Unit =
     logo.setOutputHandler(s => handler(s))
@@ -85,7 +112,7 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     val height = canvas.height
 
     // Clear canvas
-    ctx.fillStyle = "white"
+    ctx.fillStyle = backgroundColor
     ctx.fillRect(0, 0, width, height)
 
     // Set up coordinate system (origin at center, y-up)

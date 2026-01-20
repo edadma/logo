@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run build:scala && npm run build:react",
-    "build:scala": "cd .. && sbt logoJS/fullLinkJS && cp js/target/scala-3.7.4/logo-opt/main.js js/dist/logo.js",
+    "build:scala": "cd .. && sbt logoJS/fullLinkJS && cp js/target/scala-3.7.4/logo-opt/main.js js/dist/logo.js && cp js/target/scala-3.7.4/logo-opt/main.js.map js/dist/",
     "build:react": "tsc --project tsconfig.react.json",
     "prepublishOnly": "npm run build"
   },

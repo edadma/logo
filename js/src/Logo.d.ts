@@ -46,6 +46,12 @@ export declare class Logo {
   /** Enable or disable automatic rendering after each command */
   setAutoRender(enabled: boolean): void
 
+  /** Set the canvas background color */
+  setBackgroundColor(color: string): void
+
+  /** Set the default pen color (used after clear) */
+  setForegroundColor(color: string): void
+
   /** Set a callback for print output */
   setOutputHandler(handler: (text: string) => void): void
 
