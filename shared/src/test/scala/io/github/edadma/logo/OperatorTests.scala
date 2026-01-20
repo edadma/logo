@@ -20,14 +20,6 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
     eval("difference 3 4") shouldBe "-1"
   }
 
-  "arithmetic 5" in {
-    eval("+ 3 4") shouldBe "7"
-  }
-
-  "arithmetic 6" in {
-    eval("- 3 4") shouldBe "-1"
-  }
-
   "arithmetic 7" in {
     eval("remainder 10 4") shouldBe "2"
   }
@@ -355,4 +347,85 @@ class OperatorTests extends AnyFreeSpec with Matchers with Test:
 
   "se alias" in {
     eval("(se 1 2 3)") shouldBe "1 2 3"
+  }
+
+  // Unary minus tests
+  "unary minus simple" in {
+    eval("-5") shouldBe "-5"
+  }
+
+  "unary minus in parentheses" in {
+    eval("(-5)") shouldBe "-5"
+  }
+
+  "unary minus with variable" in {
+    run(
+      """
+        |make "x 7
+        |print -:x
+        |""".stripMargin,
+    ) shouldBe "-7"
+  }
+
+  "unary minus variable in parentheses" in {
+    run(
+      """
+        |make "x 7
+        |print (-:x)
+        |""".stripMargin,
+    ) shouldBe "-7"
+  }
+
+  "unary minus in addition" in {
+    eval("(-3) + 5") shouldBe "2"
+  }
+
+  "unary minus in subtraction" in {
+    eval("5 - (-3)") shouldBe "8"
+  }
+
+  "unary minus as left operand in multiplication" in {
+    eval("(-3) * 4") shouldBe "-12"
+  }
+
+  "unary minus in division" in {
+    eval("(-12) / 4") shouldBe "-3"
+  }
+
+  "unary minus expression then divide" in {
+    eval("(-5 + 3) / 2") shouldBe "-1"
+  }
+
+  "unary minus with function call" in {
+    eval("(-sqrt 16)") shouldBe "-4"
+  }
+
+  "double unary minus" in {
+    eval("--5") shouldBe "5"
+  }
+
+  "unary minus in complex expression" in {
+    eval("(-3 + 7) * (-2)") shouldBe "-8"
+  }
+
+  "unary minus variable expression divided" in {
+    run(
+      """
+        |make "a 5
+        |make "b 3
+        |print (-:a + :b) / 2
+        |""".stripMargin,
+    ) shouldBe "-1"
+  }
+
+  "unary minus without parentheses in division" in {
+    eval("-12 / 4") shouldBe "-3"
+  }
+
+  "unary minus binds tighter than division" in {
+    eval("-8 / 2") shouldBe "-4"
+  }
+
+  "unary minus binds tighter than multiplication" in {
+    eval("-3 * 4") shouldBe "-12"
   }

@@ -1341,6 +1341,26 @@ lazy val builtin: Map[String, Procedure] =
       },
     ),
     BuiltinProcedure(
+      "local",
+      1,
+      {
+        case (ctx, Seq(name)) =>
+          ctx.declareLocal(name.toString.toLowerCase)
+          LogoNull()
+      },
+    ),
+    BuiltinProcedure(
+      "localmake",
+      2,
+      {
+        case (ctx, Seq(name, value)) =>
+          val varName = name.toString.toLowerCase
+          ctx.declareLocal(varName)
+          ctx.vars(varName) = value
+          LogoNull()
+      },
+    ),
+    BuiltinProcedure(
       "stop",
       0,
       {
@@ -1434,10 +1454,6 @@ lazy val builtin: Map[String, Procedure] =
 
 lazy val synonyms: Map[String, Procedure] =
   List(
-    "+"            -> "sum",
-    "-"            -> "difference",
-    "*"            -> "product",
-    "/"            -> "quotient",
     "dis"          -> "print",
     "fd"           -> "forward",
     "avance"       -> "forward",

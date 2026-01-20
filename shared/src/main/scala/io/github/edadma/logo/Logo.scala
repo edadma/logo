@@ -52,6 +52,17 @@ abstract class Logo:
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
   private[logo] val repcountStack          = new mutable.Stack[Int]
 
+  // Local variable support: stack of frames, each frame is a list of (varname, saved value)
+  private[logo] val localVarsStack         = new mutable.Stack[mutable.ListBuffer[(String, Option[LogoValue])]]
+
+  // Declare a variable as local to the current procedure
+  private[logo] def declareLocal(name: String): Unit =
+    if localVarsStack.nonEmpty then
+      val frame = localVarsStack.top
+      // Only add if not already declared local in this frame
+      if !frame.exists(_._1 == name) then
+        frame += ((name, vars.get(name)))
+
   // Screen boundary settings
   private[logo] var screenMode: ScreenMode = WindowMode
   private[logo] var screenBounds: (Double, Double, Double, Double) = (-500, -500, 500, 500)  // (minX, minY, maxX, maxY)
@@ -151,6 +162,9 @@ abstract class Logo:
     val allParams = reqParams ++ optParams.map(_._1) ++ restParam.toSeq
     val savedVars = allParams.map(p => p -> vars.get(p))
 
+    // Push a new frame for local variables
+    localVarsStack.push(new mutable.ListBuffer[(String, Option[LogoValue])])
+
     // Bind parameters
     reqParams.zip(args.take(reqParams.length)).foreach { case (param, arg) => vars(param) = arg }
     val optArgs = args.drop(reqParams.length)
@@ -167,7 +181,15 @@ abstract class Logo:
     val bodyK: (LogoValue, Seq[LogoValue]) => EvalResult = { (result, _) =>
       val returnValue = pendingReturn.getOrElse(result)
       pendingReturn = None
-      // Restore variables
+
+      // Restore local variables declared with local/localmake
+      val localFrame = localVarsStack.pop()
+      localFrame.foreach {
+        case (name, Some(v)) => vars(name) = v
+        case (name, None)    => vars.remove(name)
+      }
+
+      // Restore parameter variables
       savedVars.foreach {
         case (param, Some(v)) => vars(param) = v
         case (param, None)    => vars.remove(param)
@@ -700,6 +722,15 @@ abstract class Logo:
               UserProcedure(procName.toLowerCase, requiredParams, optionalParams, restParam, body)
             More(() => k(LogoNull().pos(tok.r), afterEnd))
           case _ => tok.r.error("expected procedure name after 'to'")
+
+      // Unary minus - must be before generic LogoWord case
+      case (tok @ LogoWord("-")) :: tail =>
+        evalPrimaryCPS(tail, { (operand0, rest) =>
+          resolveThenContinue(operand0, { operand =>
+            val result = logoNumber(QuaternionDAL.negate(number(operand)))
+            More(() => k(result.pos(tok.r), rest))
+          })
+        })
 
       case (tok @ LogoWord(s)) :: tail =>
         if s.head == '"' then
