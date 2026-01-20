@@ -11,6 +11,17 @@ import scala.math.Pi
 trait LogoDrawing extends js.Object:
   val lines: js.Array[LineData] = js.native
   val labels: js.Array[LabelData] = js.native
+  val arcs: js.Array[ArcData] = js.native
+
+@js.native
+trait ArcData extends js.Object:
+  val x: Double = js.native
+  val y: Double = js.native
+  val heading: Double = js.native
+  val angle: Double = js.native
+  val radius: Double = js.native
+  val color: String = js.native
+  val width: Double = js.native
 
 @js.native
 trait LineData extends js.Object:
@@ -134,6 +145,7 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   def getDrawing(): LogoDrawing =
     val lines = js.Array[LineData]()
     val labels = js.Array[LabelData]()
+    val arcs = js.Array[ArcData]()
 
     logo.drawing.foreach {
       case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
@@ -145,9 +157,14 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
         labels.push(js.Dynamic.literal(
           x = x, y = y, heading = heading, text = text
         ).asInstanceOf[LabelData])
+      case DrawArc(x, y, heading, angle, radius, (r, g, b), width) =>
+        arcs.push(js.Dynamic.literal(
+          x = x, y = y, heading = heading, angle = angle, radius = radius,
+          color = s"rgb($r,$g,$b)", width = width
+        ).asInstanceOf[ArcData])
     }
 
-    js.Dynamic.literal(lines = lines, labels = labels).asInstanceOf[LogoDrawing]
+    js.Dynamic.literal(lines = lines, labels = labels, arcs = arcs).asInstanceOf[LogoDrawing]
 
   /** Get the current turtle state */
   def getTurtle(): TurtleState =
@@ -200,6 +217,10 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
         lastX = x2
         lastY = y2
 
+      case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
+        flushPath()
+        renderArc(x, y, heading, angleDeg, radius, color, width)
+
       case DrawLabel(x, y, heading, text) =>
         flushPath()
         renderLabel(x, y, heading, text)
@@ -217,6 +238,9 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
         ctx.lineTo(x2, y2)
         ctx.stroke()
 
+      case DrawArc(x, y, heading, angleDeg, radius, (r, g, b), width) =>
+        renderArc(x, y, heading, angleDeg, radius, (r, g, b), width)
+
       case DrawLabel(x, y, heading, text) =>
         renderLabel(x, y, heading, text)
     }
@@ -230,6 +254,36 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     ctx.font = "20px sans-serif"
     ctx.fillText(text, 0, 0)
     ctx.restore()
+
+  private def renderArc(x: Double, y: Double, heading: Double, angleDeg: Double, radius: Double, color: (Int, Int, Int), width: Double): Unit =
+    val (r, g, b) = color
+    // For positive angle: center is to the left of turtle (perpendicular)
+    // For negative angle: center is to the right
+    val sign = if angleDeg >= 0 then 1.0 else -1.0
+    val absAngle = math.abs(angleDeg)
+
+    // Center is perpendicular to turtle's heading
+    // heading is in radians (internal: 0=east, CCW positive)
+    // Perpendicular to the left: heading + π/2
+    val perpAngle = heading + sign * Pi / 2
+    val cx = x + radius * math.cos(perpAngle)
+    val cy = y + radius * math.sin(perpAngle)
+
+    // Start angle: from center to turtle position
+    val startAngle = math.atan2(y - cy, x - cx)
+
+    // End angle: sweep by angleDeg (converted to radians)
+    // Positive angleDeg = CCW on circle (which is forward/right from turtle's view)
+    val sweepRad = math.toRadians(absAngle)
+    val endAngle = if angleDeg >= 0 then startAngle - sweepRad else startAngle + sweepRad
+
+    ctx.strokeStyle = s"rgb($r,$g,$b)"
+    ctx.lineWidth = width
+    ctx.lineCap = "round"
+    ctx.beginPath()
+    // counterclockwise parameter: true for positive angle (sweep is subtracted)
+    ctx.arc(cx, cy, radius, startAngle, endAngle, angleDeg >= 0)
+    ctx.stroke()
 
   private def drawTurtle(x: Double, y: Double, heading: Double): Unit =
     val w = 15.0

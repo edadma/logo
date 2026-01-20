@@ -201,6 +201,10 @@ object LogoPlayground extends SimpleSwingApplication:
 
             currentPath.lineTo(x2, y2)
 
+          case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
+            flushPath()
+            renderArc(gr, x, y, heading, angleDeg, radius, color, width)
+
           case DrawLabel(x, y, heading, text) =>
             flushPath()
             renderLabel(gr, x, y, heading, text)
@@ -220,6 +224,9 @@ object LogoPlayground extends SimpleSwingApplication:
             val roundedY2 = Math.round(y2).toInt
 
             gr.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
+
+          case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
+            renderArc(gr, x, y, heading, angleDeg, radius, color, width)
 
           case DrawLabel(x, y, heading, text) =>
             renderLabel(gr, x, y, heading, text)
@@ -242,6 +249,35 @@ object LogoPlayground extends SimpleSwingApplication:
         // Restore the original transformation
         gr.setTransform(originalTransform)
       end renderLabel
+
+      private def renderArc(gr: Graphics2D, x: Double, y: Double, heading: Double, angleDeg: Double, radius: Double, color: (Int, Int, Int), width: Double): Unit =
+        val (r, g, b) = color
+        gr.setColor(new Color(r, g, b))
+        gr.setStroke(new BasicStroke(width.toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND))
+
+        // For positive angle: center is to the left of turtle (perpendicular)
+        val sign = if angleDeg >= 0 then 1.0 else -1.0
+        val absAngle = math.abs(angleDeg)
+
+        // Center is perpendicular to turtle's heading
+        val perpAngle = heading + sign * math.Pi / 2
+        val cx = x + radius * math.cos(perpAngle)
+        val cy = y + radius * math.sin(perpAngle)
+
+        // Start angle: from center to turtle position (in degrees for Arc2D)
+        val startAngleRad = math.atan2(y - cy, x - cx)
+        val startAngleDeg = math.toDegrees(startAngleRad)
+
+        // Arc2D uses degrees, counterclockwise positive
+        // For positive Logo angle, we sweep clockwise (negative in Arc2D terms)
+        val arc = new java.awt.geom.Arc2D.Double(
+          cx - radius, cy - radius, radius * 2, radius * 2,
+          startAngleDeg,
+          if angleDeg >= 0 then absAngle else -absAngle,
+          java.awt.geom.Arc2D.OPEN
+        )
+        gr.draw(arc)
+      end renderArc
 
       def drawTurtle(g: Graphics2D, x: Double, y: Double, heading: Double): Unit = {
         // Define the turtle shape in local coordinates (tail at (0, 0), pointing upwards)

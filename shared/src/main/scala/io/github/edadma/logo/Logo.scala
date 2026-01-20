@@ -28,6 +28,12 @@ case class PendingWhileLoop(conditionCode: Seq[LogoValue], body: Seq[LogoValue],
 type EvalK = (LogoValue, Seq[LogoValue]) => EvalResult
 type ArgsK = (Seq[LogoValue], Seq[LogoValue]) => EvalResult
 
+// Screen boundary modes
+sealed trait ScreenMode
+case object WindowMode extends ScreenMode  // No boundaries, turtle can go anywhere (default)
+case object FenceMode extends ScreenMode   // Error if turtle tries to leave bounds
+case object WrapMode extends ScreenMode    // Turtle wraps around to opposite side
+
 abstract class Logo:
   def event(): Unit
 
@@ -43,6 +49,36 @@ abstract class Logo:
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
   private[logo] val repcountStack          = new mutable.Stack[Int]
+
+  // Screen boundary settings
+  private[logo] var screenMode: ScreenMode = WindowMode
+  private[logo] var screenBounds: (Double, Double, Double, Double) = (-500, -500, 500, 500)  // (minX, minY, maxX, maxY)
+
+  def setScreenBounds(minX: Double, minY: Double, maxX: Double, maxY: Double): Unit =
+    screenBounds = (minX, minY, maxX, maxY)
+
+  // Apply screen mode to a new position, returns adjusted (x, y) or throws error
+  private[logo] def applyScreenMode(newX: Double, newY: Double): (Double, Double) =
+    val (minX, minY, maxX, maxY) = screenBounds
+    val width = maxX - minX
+    val height = maxY - minY
+
+    screenMode match
+      case WindowMode => (newX, newY)
+      case FenceMode =>
+        if newX < minX || newX > maxX || newY < minY || newY > maxY then
+          problem(null, s"Turtle out of bounds at ($newX, $newY)")
+        (newX, newY)
+      case WrapMode =>
+        val wrappedX =
+          if newX < minX then maxX - (minX - newX) % width
+          else if newX > maxX then minX + (newX - maxX) % width
+          else newX
+        val wrappedY =
+          if newY < minY then maxY - (minY - newY) % height
+          else if newY > maxY then minY + (newY - maxY) % height
+          else newY
+        (wrappedX, wrappedY)
 
   // CPS: Pending control flow from output/stop
   private[logo] var pendingReturn: Option[LogoValue] = None

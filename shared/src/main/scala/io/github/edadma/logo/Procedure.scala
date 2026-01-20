@@ -120,7 +120,7 @@ object Template:
       case LogoList(elems, _) => elems.map(formatValue).mkString("[", " ", "]")
       case _                  => v.toString
 
-val builtin =
+lazy val builtin: Map[String, Procedure] =
   List[Procedure](
     BuiltinFunction0("pi", () => Pi),
     BuiltinFunction0("e", () => E),
@@ -297,6 +297,71 @@ val builtin =
       {
         case (_, Seq(_: LogoNumber)) => true
         case (_, Seq(_))             => false
+      },
+    ),
+    // Workspace inspection procedures
+    BuiltinProcedure(
+      "namep",
+      1,
+      {
+        case (ctx, Seq(name)) =>
+          ctx.vars.contains(name.toString.toLowerCase)
+      },
+    ),
+    BuiltinProcedure(
+      "definedp",
+      1,
+      {
+        case (ctx, Seq(name)) =>
+          val lower = name.toString.toLowerCase
+          ctx.procedures.contains(lower) || builtin.contains(lower) || synonyms.contains(lower)
+      },
+    ),
+    BuiltinProcedure(
+      "primitivep",
+      1,
+      {
+        case (_, Seq(name)) =>
+          val lower = name.toString.toLowerCase
+          builtin.contains(lower) || synonyms.contains(lower)
+      },
+    ),
+    BuiltinProcedure(
+      "procedurep",
+      1,
+      {
+        case (ctx, Seq(name)) =>
+          ctx.procedures.contains(name.toString.toLowerCase)
+      },
+    ),
+    BuiltinProcedure(
+      "procedures",
+      0,
+      {
+        case (ctx, _) =>
+          val names = ctx.procedures.keys.toSeq.sorted.map(LogoWord(_))
+          LogoList(names, names :+ EOIToken())
+      },
+    ),
+    BuiltinProcedure(
+      "primitives",
+      0,
+      {
+        case (_, _) =>
+          val names = (builtin.keys ++ synonyms.keys).toSeq.distinct.sorted.map(LogoWord(_))
+          LogoList(names, names :+ EOIToken())
+      },
+    ),
+    BuiltinProcedure(
+      "names",
+      0,
+      {
+        case (ctx, _) =>
+          // UCB Logo format: [[] [varname1 varname2 ...]]
+          val varNames = ctx.vars.keys.toSeq.sorted.map(LogoWord(_))
+          val emptyList = LogoList(Seq.empty, Seq(EOIToken()))
+          val namesList = LogoList(varNames, varNames :+ EOIToken())
+          LogoList(Seq(emptyList, namesList), Seq(emptyList, namesList, EOIToken()))
       },
     ),
     BuiltinProcedure(
@@ -987,7 +1052,8 @@ val builtin =
       1,
       {
         case (ctx, Seq(distance)) =>
-          val (x2, y2) = ctx.computeEndpoint(number(distance).doubleValue)
+          val (rawX, rawY) = ctx.computeEndpoint(number(distance).doubleValue)
+          val (x2, y2) = ctx.applyScreenMode(rawX, rawY)
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
@@ -1009,7 +1075,8 @@ val builtin =
       1,
       {
         case (ctx, Seq(distance)) =>
-          val (x2, y2) = ctx.computeEndpoint(-number(distance).doubleValue)
+          val (rawX, rawY) = ctx.computeEndpoint(-number(distance).doubleValue)
+          val (x2, y2) = ctx.applyScreenMode(rawX, rawY)
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
           ctx.x = x2
@@ -1085,8 +1152,9 @@ val builtin =
       2,
       {
         case (ctx, Seq(x, y)) =>
-          val newx = number(x).doubleValue
-          val newy = number(y).doubleValue
+          val rawX = number(x).doubleValue
+          val rawY = number(y).doubleValue
+          val (newx, newy) = ctx.applyScreenMode(rawX, rawY)
 
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
           ctx.x = newx
@@ -1099,7 +1167,8 @@ val builtin =
       1,
       {
         case (ctx, Seq(x)) =>
-          val newx = number(x).doubleValue
+          val rawX = number(x).doubleValue
+          val (newx, _) = ctx.applyScreenMode(rawX, ctx.y)
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, ctx.y, ctx.color, ctx.width)
           ctx.x = newx
           ctx.event()
@@ -1110,7 +1179,8 @@ val builtin =
       1,
       {
         case (ctx, Seq(y)) =>
-          val newy = number(y).doubleValue
+          val rawY = number(y).doubleValue
+          val (_, newy) = ctx.applyScreenMode(ctx.x, rawY)
           if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, ctx.x, newy, ctx.color, ctx.width)
           ctx.y = newy
           ctx.event()
@@ -1161,6 +1231,51 @@ val builtin =
       "pos",
       0,
       { case (ctx, _) => ComplexDouble(ctx.x, ctx.y) },
+    ),
+    // towards: heading toward a point
+    BuiltinProcedure(
+      "towards",
+      1,
+      {
+        case (ctx, Seq(LogoList(Seq(tx, ty), _))) =>
+          val targetX = number(tx).doubleValue
+          val targetY = number(ty).doubleValue
+          val dx = targetX - ctx.x
+          val dy = targetY - ctx.y
+          // Convert from math angle (radians, 0=east, CCW) to Logo heading (degrees, 0=north, CW)
+          val angleRad = math.atan2(dy, dx)
+          val logoDeg = 90 - math.toDegrees(angleRad)
+          // Normalize to 0-360
+          if logoDeg < 0 then logoDeg + 360 else if logoDeg >= 360 then logoDeg - 360 else logoDeg
+        case (_, Seq(other)) => problem(null, s"'towards' requires a list [x y], got $other")
+      },
+    ),
+    // distance: distance to a point
+    BuiltinProcedure(
+      "distance",
+      1,
+      {
+        case (ctx, Seq(LogoList(Seq(tx, ty), _))) =>
+          val targetX = number(tx).doubleValue
+          val targetY = number(ty).doubleValue
+          val dx = targetX - ctx.x
+          val dy = targetY - ctx.y
+          math.sqrt(dx * dx + dy * dy)
+        case (_, Seq(other)) => problem(null, s"'distance' requires a list [x y], got $other")
+      },
+    ),
+    // arc: draw an arc (angle in degrees, radius)
+    BuiltinProcedure(
+      "arc",
+      2,
+      {
+        case (ctx, Seq(angle, radius)) =>
+          val angleDeg = number(angle).doubleValue
+          val r = number(radius).doubleValue
+          if ctx.pen then
+            ctx.draws += DrawArc(ctx.x, ctx.y, ctx.heading, angleDeg, r, ctx.color, ctx.width)
+          ctx.event()
+      },
     ),
     BuiltinProcedure(
       "heading",
@@ -1230,9 +1345,64 @@ val builtin =
         case (ctx, _) => ctx.doStop()
       },
     ),
+    // Screen boundary modes
+    BuiltinProcedure(
+      "window",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.screenMode = WindowMode
+          LogoNull()
+      },
+    ),
+    BuiltinProcedure(
+      "fence",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.screenMode = FenceMode
+          LogoNull()
+      },
+    ),
+    BuiltinProcedure(
+      "wrap",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.screenMode = WrapMode
+          LogoNull()
+      },
+    ),
+    BuiltinProcedure(
+      "screenmode",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.screenMode match
+            case WindowMode => LogoWord("window")
+            case FenceMode  => LogoWord("fence")
+            case WrapMode   => LogoWord("wrap")
+      },
+    ),
+    // pendownp / pendown? - true if pen is down
+    BuiltinProcedure(
+      "pendownp",
+      0,
+      {
+        case (ctx, _) => ctx.pen
+      },
+    ),
+    // shownp / shown? - true if turtle is visible
+    BuiltinProcedure(
+      "shownp",
+      0,
+      {
+        case (ctx, _) => ctx.show
+      },
+    ),
   ) map (p => p.name -> p) toMap
 
-val synonyms =
+lazy val synonyms: Map[String, Procedure] =
   List(
     "+"            -> "sum",
     "-"            -> "difference",
@@ -1300,4 +1470,10 @@ val synonyms =
     "greater?"     -> "greaterp",
     "lessequal?"   -> "lessequalp",
     "greaterequal?" -> "greaterequalp",
+    "name?"         -> "namep",
+    "defined?"      -> "definedp",
+    "primitive?"    -> "primitivep",
+    "procedure?"    -> "procedurep",
+    "pendown?"      -> "pendownp",
+    "shown?"        -> "shownp",
   ) map ((s, p) => s -> builtin(p)) toMap
