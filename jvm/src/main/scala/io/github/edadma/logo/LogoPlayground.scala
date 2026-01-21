@@ -1,7 +1,5 @@
 package io.github.edadma.logo
 
-import pprint.pprintln
-
 import java.awt.event.{ActionEvent, InputEvent, KeyEvent}
 import java.awt.geom.{AffineTransform, Path2D}
 import java.awt.{BasicStroke, Color, Font, Insets, RenderingHints, Toolkit, Frame as awtFrame}

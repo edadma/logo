@@ -1,9 +1,9 @@
 {
   "name": "@edadma/logo",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Logo programming language interpreter with React component",
-  "main": "dist/logo.js",
-  "module": "dist/logo.js",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
   "types": "src/index.d.ts",
   "files": [
     "dist",
@@ -12,7 +12,7 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/logo.js",
+      "import": "./dist/main.js",
       "types": "./src/index.d.ts"
     },
     "./react": {
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run build:scala && npm run build:react",
-    "build:scala": "cd .. && sbt logoJS/fullLinkJS && cp js/target/scala-3.7.4/logo-opt/main.js js/dist/logo.js && cp js/target/scala-3.7.4/logo-opt/main.js.map js/dist/",
+    "build:scala": "cd .. && sbt logoJS/fullLinkJS && cp js/target/scala-3.7.4/logo-opt/main.js js/target/scala-3.7.4/logo-opt/main.js.map js/dist/",
     "build:react": "tsc --project tsconfig.react.json",
     "prepublishOnly": "npm run build"
   },
