@@ -374,3 +374,198 @@ class BuiltinTests extends AnyFreeSpec with Matchers with Test:
   "mod with negative" in {
     eval("mod -17 5") shouldBe "-2"
   }
+
+  // ============================================================================
+  // Number Formatting: form
+  // ============================================================================
+
+  "form basic decimal" in {
+    eval("form 3.14159 8 3") shouldBe "   3.142"
+  }
+
+  "form zero precision" in {
+    eval("form 42 5 0") shouldBe "   42"
+  }
+
+  "form exact width" in {
+    eval("form 3.14 4 2") shouldBe "3.14"
+  }
+
+  "form exceeds width" in {
+    eval("form 12345.678 5 2") shouldBe "12345.68"
+  }
+
+  "form negative number" in {
+    eval("form -3.14159 8 2") shouldBe "   -3.14"
+  }
+
+  "form zero" in {
+    eval("form 0 5 2") shouldBe " 0.00"
+  }
+
+  "form large precision" in {
+    eval("form 1.5 10 5") shouldBe "   1.50000"
+  }
+
+  "form integer as input" in {
+    eval("form 42 6 2") shouldBe " 42.00"
+  }
+
+  "form small number" in {
+    eval("form 0.001 8 4") shouldBe "  0.0010"
+  }
+
+  "form width 1" in {
+    eval("form 5 1 0") shouldBe "5"
+  }
+
+  "form in expression" in {
+    eval("""
+      |make "formatted form 99.5 6 1
+      |:formatted
+    """.stripMargin) shouldBe "  99.5"
+  }
+
+  // ============================================================================
+  // ignore - discard a value
+  // ============================================================================
+
+  "ignore discards value" in {
+    run("""
+      |ignore 42
+      |print "done
+    """.stripMargin) shouldBe "done"
+  }
+
+  "ignore with expression" in {
+    run("""
+      |ignore 3 + 4
+      |print "done
+    """.stripMargin) shouldBe "done"
+  }
+
+  "ignore with procedure output" in {
+    run("""
+      |to double :x
+      |  output :x * 2
+      |end
+      |ignore double 5
+      |print "done
+    """.stripMargin) shouldBe "done"
+  }
+
+  "ignore returns null" in {
+    // ignore should not output anything, so using it in expression context should give null
+    eval("ignore 42") shouldBe "null"
+  }
+
+  // ============================================================================
+  // parse - convert text to token list
+  // ============================================================================
+
+  "parse simple word" in {
+    eval("parse \"hello") shouldBe "hello"
+  }
+
+  "parse numbers" in {
+    eval("parse \"42") shouldBe "42"
+  }
+
+  "parse returns list" in {
+    eval("listp parse \"hello") shouldBe "true"
+  }
+
+  "parse multiple tokens" in {
+    eval("count parse [hello world]") shouldBe "2"
+  }
+
+  "parse list from word" in {
+    run("print parse [1 2 3]") shouldBe "1 2 3"
+  }
+
+  // ============================================================================
+  // runparse - parse with variable substitution
+  // ============================================================================
+
+  "runparse simple" in {
+    eval("runparse \"hello") shouldBe "hello"
+  }
+
+  "runparse substitutes variable" in {
+    run("""
+      |make "x 42
+      |print first runparse ":x
+    """.stripMargin) shouldBe "42"
+  }
+
+  "runparse with list" in {
+    run("""
+      |make "x 10
+      |make "y 20
+      |print runparse [:x :y]
+    """.stripMargin) shouldBe "10 20"
+  }
+
+  "runparse returns list" in {
+    eval("listp runparse \"hello") shouldBe "true"
+  }
+
+  // ============================================================================
+  // runresult - run code and wrap output in list
+  // ============================================================================
+
+  "runresult with output" in {
+    eval("runresult [output 42]") shouldBe "42"
+  }
+
+  "runresult wraps in list" in {
+    eval("count runresult [output 42]") shouldBe "1"
+  }
+
+  "runresult no output gives empty list" in {
+    eval("count runresult [print 42]") shouldBe "0"
+  }
+
+  "runresult with procedure" in {
+    run("""
+      |to double :x
+      |  output :x * 2
+      |end
+      |print first runresult [double 5]
+    """.stripMargin) shouldBe "10"
+  }
+
+  "runresult empty list for stop" in {
+    run("""
+      |to myproc
+      |  print "hello
+      |  stop
+      |end
+      |print count runresult [myproc]
+    """.stripMargin) shouldBe "hello\n0"
+  }
+
+  "runresult with expression output" in {
+    eval("first runresult [output 3 + 4]") shouldBe "7"
+  }
+
+  "runresult nested" in {
+    eval("first runresult [output first runresult [output 99]]") shouldBe "99"
+  }
+
+  "runresult preserves outer context" in {
+    run("""
+      |to outer
+      |  make "result runresult [output 42]
+      |  output first :result
+      |end
+      |print outer
+    """.stripMargin) shouldBe "42"
+  }
+
+  "runresult in arithmetic" in {
+    run("""
+      |make "result runresult [output 42]
+      |print (first :result) + 1
+    """.stripMargin) shouldBe "43"
+  }

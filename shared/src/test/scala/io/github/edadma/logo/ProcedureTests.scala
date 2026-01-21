@@ -42,13 +42,13 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
 
   "procedure with stop" in {
     run("""
-      |to test :x
+      |to mytest :x
       |  if :x < 0 [stop]
       |  print :x
       |end
-      |test 5
-      |test -1
-      |test 3
+      |mytest 5
+      |mytest -1
+      |mytest 3
       |""".stripMargin) shouldBe "5\n3"
   }
 
@@ -64,11 +64,11 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
 
   "procedure scope - params don't leak" in {
     eval("""
-      |to test :x
+      |to mytest :x
       |  output :x + 1
       |end
       |make "x 100
-      |test 5
+      |mytest 5
       |:x
       |""".stripMargin) shouldBe "100"
   }
@@ -162,27 +162,27 @@ class ProcedureTests extends AnyFreeSpec with Matchers with Test:
   // CPS control flow tests
   "output in nested if" in {
     eval("""
-      |to test :x
+      |to mytest :x
       |  if :x > 0 [
       |    if :x > 5 [output "big]
       |    output "small
       |  ]
       |  output "negative
       |end
-      |test 10
+      |mytest 10
       |""".stripMargin) shouldBe "big"
   }
 
   "stop in nested repeat" in {
     run("""
-      |to test
+      |to mytest
       |  repeat 5 [
       |    print repcount
       |    if repcount = 3 [stop]
       |  ]
       |  print "done
       |end
-      |test
+      |mytest
       |""".stripMargin) shouldBe "1\n2\n3"
   }
 

@@ -23,6 +23,8 @@ case class PendingForLoop(varName: String, current: Double, end: Double, step: D
 case class PendingWhileLoop(conditionCode: Seq[LogoValue], body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 // Pending forever loop - runs until stop
 case class PendingForeverLoop(body: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
+// Pending do.while loop - runs body first, then checks condition
+case class PendingDoWhileLoop(body: Seq[LogoValue], conditionCode: Seq[LogoValue], k: LogoValue => EvalResult) extends EvalResult
 
 // CPS continuation type aliases
 type EvalK = (LogoValue, Seq[LogoValue]) => EvalResult
@@ -34,21 +36,36 @@ case object WindowMode extends ScreenMode  // No boundaries, turtle can go anywh
 case object FenceMode extends ScreenMode   // Error if turtle tries to leave bounds
 case object WrapMode extends ScreenMode    // Turtle wraps around to opposite side
 
+// Pen modes
+sealed trait PenMode
+case object PaintMode extends PenMode   // Normal drawing
+case object EraseMode extends PenMode   // Erase (draw in background color)
+case object ReverseMode extends PenMode // XOR drawing (invert colors)
+
 abstract class Logo:
   def event(): Unit
+
+  // Input methods - override in platform-specific implementations
+  def readLine(): String = scala.io.StdIn.readLine()
+  def readChar(): Int = System.in.read()
 
   private[logo] var x: Double              = 0
   private[logo] var y: Double              = 0
   private[logo] var heading: Double        = Pi / 2
   private[logo] var color: (Int, Int, Int) = colorMap("black")
   private[logo] var defaultColor: (Int, Int, Int) = colorMap("black")
+  private[logo] var backgroundColor: (Int, Int, Int) = colorMap("white")
   private[logo] var pen: Boolean           = true
+  private[logo] var penMode: PenMode       = PaintMode
   private[logo] var width: Double          = 1
   private[logo] var show: Boolean          = true
   private[logo] val draws                  = new ListBuffer[Draw]
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
   private[logo] val repcountStack          = new mutable.Stack[Int]
+
+  // Test result for test/iftrue/iffalse - stack to support nested procedures
+  private[logo] val testResultStack        = new mutable.Stack[Boolean]
 
   // Local variable support: stack of frames, each frame is a list of (varname, saved value)
   private[logo] val localVarsStack         = new mutable.Stack[mutable.ListBuffer[(String, Option[LogoValue])]]
@@ -133,7 +150,11 @@ abstract class Logo:
     home()
     color = defaultColor
     pen = true
+    penMode = PaintMode
     width = 1
+
+  def clean(): Unit =
+    draws.clear()
 
   def setDefaultColor(c: (Int, Int, Int)): Unit =
     defaultColor = c
@@ -152,6 +173,7 @@ abstract class Logo:
         case PendingForLoop(varName, current_, end, step, body, k) => current = executeForIteration(varName, current_, end, step, body, k)
         case PendingWhileLoop(conditionCode, body, k) => current = executeWhileIteration(conditionCode, body, k)
         case PendingForeverLoop(body, k) => current = executeForeverIteration(body, k)
+        case PendingDoWhileLoop(body, conditionCode, k) => current = executeDoWhileIteration(body, conditionCode, k)
     throw new RuntimeException("unreachable")
 
   // Execute a procedure call - sets up params, evaluates body, cleans up
@@ -275,6 +297,92 @@ abstract class Logo:
           PendingForeverLoop(body, k)
       })
 
+  // Execute one iteration of a do.while loop - runs body first, then checks condition
+  private def executeDoWhileIteration(body: Seq[LogoValue], conditionCode: Seq[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    if pendingReturn.isDefined then
+      More(() => k(LogoNull()))
+    else
+      // Execute body first
+      interp(body :+ EOIToken(), { (_, _) =>
+        if pendingReturn.isDefined then
+          More(() => k(LogoNull()))
+        else
+          // Then check condition
+          interp(conditionCode :+ EOIToken(), { (condResult, _) =>
+            if pendingReturn.isDefined then
+              More(() => k(LogoNull()))
+            else if boolean(condResult) then
+              PendingDoWhileLoop(body, conditionCode, k) // Continue looping
+            else
+              More(() => k(LogoNull())) // Done
+          })
+      })
+
+  // Execute case statement - find matching clause and execute it
+  private def executeCase(testVal: LogoValue, clauses: List[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    clauses match
+      case Nil => More(() => k(LogoNull())) // No match found
+      case clause :: rest =>
+        val clauseList = list(clause)
+        if clauseList.isEmpty then
+          More(() => k(LogoNull()))
+        else
+          val selector = clauseList.head
+          val body = clauseList.tail
+          // Check if selector is "else" or matches the test value
+          val isElse = selector match
+            case LogoWord(w) => w.toLowerCase == "else"
+            case _ => false
+          val matches = isElse || (selector match
+            case LogoList(values, _) => values.exists(v => valuesEqual(v, testVal))
+            case v => valuesEqual(v, testVal)
+          )
+          if matches then
+            if body.isEmpty then More(() => k(LogoNull()))
+            else interp(body :+ EOIToken(), (result, _) => More(() => k(result)))
+          else
+            executeCase(testVal, rest, k)
+
+  // Execute cond statement - evaluate conditions until one is true
+  private def executeCond(clauses: List[LogoValue], k: LogoValue => EvalResult): EvalResult =
+    clauses match
+      case Nil => More(() => k(LogoNull())) // No match found
+      case clause :: rest =>
+        val clauseList = list(clause)
+        if clauseList.isEmpty then
+          executeCond(rest, k)
+        else
+          val conditionOrElse = clauseList.head
+          val body = clauseList.tail
+          // Check if this is an "else" clause
+          val isElse = conditionOrElse match
+            case LogoWord(w) => w.toLowerCase == "else"
+            case _ => false
+          if isElse then
+            if body.isEmpty then More(() => k(LogoNull()))
+            else interp(body :+ EOIToken(), (result, _) => More(() => k(result)))
+          else
+            // Evaluate the condition - it can be an expression list
+            val condCode = conditionOrElse match
+              case LogoList(elems, _) => elems
+              case v => Seq(v)
+            interp(condCode :+ EOIToken(), { (condResult, _) =>
+              if boolean(condResult) then
+                if body.isEmpty then More(() => k(LogoNull()))
+                else interp(body :+ EOIToken(), (result, _) => More(() => k(result)))
+              else
+                executeCond(rest, k)
+            })
+
+  // Helper to check if two Logo values are equal
+  private def valuesEqual(a: LogoValue, b: LogoValue): Boolean =
+    (a, b) match
+      case (LogoNumber(n1), LogoNumber(n2)) => n1.doubleValue == n2.doubleValue
+      case (LogoWord(w1), LogoWord(w2)) => w1.equalsIgnoreCase(w2)
+      case (LogoBoolean(b1), LogoBoolean(b2)) => b1 == b2
+      case (LogoList(l1, _), LogoList(l2, _)) => l1.length == l2.length && l1.zip(l2).forall { case (x, y) => valuesEqual(x, y) }
+      case _ => a.toString == b.toString
+
   def interp(input: String): LogoValue = interp(CharReader.fromString(input))
 
   def interp(r: CharReader): LogoValue =
@@ -331,10 +439,47 @@ abstract class Logo:
             // Start forever loop - trampoline handles iterations until stop
             PendingForeverLoop(body, _ => continue(LogoNull()))
 
+          case PendingDoWhile(body, conditionCode) =>
+            // Start do.while loop - run body first, then check condition
+            PendingDoWhileLoop(body, conditionCode, _ => continue(LogoNull()))
+
+          case PendingCase(testVal, clauses) =>
+            // Process case clauses
+            executeCase(testVal, clauses.toList, result => continue(result))
+
+          case PendingCond(clauses) =>
+            // Process cond clauses
+            executeCond(clauses.toList, result => continue(result))
+
           case PendingRun(code) =>
             // Parse and interpret the code with continuation
             val tokens = transform(tokenize(CharReader.fromString(code)))
             interp(tokens :+ EOIToken(), (result, _) => continue(result))
+
+          case PendingRunResult(code) =>
+            // Run code and wrap any output in a list
+            val savedPendingReturn = pendingReturn
+            pendingReturn = None
+            val tokens = transform(tokenize(CharReader.fromString(code)))
+            interp(tokens :+ EOIToken(), (interpResult, _) => {
+              // Check both the interpreted result and pendingReturn
+              // Procedures return their output through interpResult (via continuation)
+              // Direct 'output' statements set pendingReturn
+              val outputVal = pendingReturn match
+                case Some(v) => Some(v)
+                case None =>
+                  interpResult match
+                    case LogoNull() => None
+                    case v => Some(v)
+              val result = outputVal match
+                case Some(v) =>
+                  val elems = Seq(v)
+                  LogoList(elems, elems :+ EOIToken())
+                case None =>
+                  LogoList(Seq.empty, Seq(EOIToken()))
+              pendingReturn = savedPendingReturn
+              continue(result)
+            })
 
           case PendingOutput(arg) =>
             arg match
@@ -370,6 +515,28 @@ abstract class Logo:
       case PendingRun(code) =>
         val tokens = transform(tokenize(CharReader.fromString(code)))
         interp(tokens :+ EOIToken(), (result, _) => resolveThenContinue(result, k))
+      case PendingRunResult(code) =>
+        // Run code and wrap any output in a list
+        val savedPendingReturn = pendingReturn
+        pendingReturn = None
+        val tokens = transform(tokenize(CharReader.fromString(code)))
+        interp(tokens :+ EOIToken(), (interpResult, _) => {
+          // Check both the interpreted result and pendingReturn
+          val outputVal = pendingReturn match
+            case Some(v) => Some(v)
+            case None =>
+              interpResult match
+                case LogoNull() => None
+                case v => Some(v)
+          val result = outputVal match
+            case Some(v) =>
+              val elems = Seq(v)
+              LogoList(elems, elems :+ EOIToken())
+            case None =>
+              LogoList(Seq.empty, Seq(EOIToken()))
+          pendingReturn = savedPendingReturn
+          More(() => k(result))
+        })
       case v =>
         More(() => k(v))
 
@@ -696,11 +863,74 @@ abstract class Logo:
           More(() => k(PendingForever(body).pos(tok.r), rest))
         })
 
+      // do.while: do.while [body] [condition] - run body first, then loop while condition is true
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "do.while" =>
+        evalargsCPS("do.while", 2, tail, Seq.empty, { (args, rest) =>
+          val body = list(args(0))
+          val conditionCode = list(args(1))
+          More(() => k(PendingDoWhile(body, conditionCode).pos(tok.r), rest))
+        })
+
+      // do.until: do.until [body] [condition] - run body first, then loop while condition is false
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "do.until" =>
+        evalargsCPS("do.until", 2, tail, Seq.empty, { (args, rest) =>
+          val body = list(args(0))
+          val conditionCode = list(args(1))
+          // Wrap condition with NOT to invert it
+          val invertedCondition = Seq(LogoWord("not")) ++ conditionCode
+          More(() => k(PendingDoWhile(body, invertedCondition).pos(tok.r), rest))
+        })
+
+      // iftrue / ift: run body if test was true
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "iftrue" || w.toLowerCase == "ift" =>
+        evalargsCPS("iftrue", 1, tail, Seq.empty, { (args, rest) =>
+          val body = list(args(0))
+          if testResultStack.isEmpty then
+            tok.r.error("iftrue without test")
+          val cond = testResultStack.top
+          More(() => k(PendingIf(cond, body).pos(tok.r), rest))
+        })
+
+      // iffalse / iff: run body if test was false
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "iffalse" || w.toLowerCase == "iff" =>
+        evalargsCPS("iffalse", 1, tail, Seq.empty, { (args, rest) =>
+          val body = list(args(0))
+          if testResultStack.isEmpty then
+            tok.r.error("iffalse without test")
+          val cond = !testResultStack.top
+          More(() => k(PendingIf(cond, body).pos(tok.r), rest))
+        })
+
+      // case: case value [[values...] instructions] ...
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "case" =>
+        evalargsCPS("case", 2, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { testVal =>
+            val clauses = list(args(1))
+            More(() => k(PendingCase(testVal, clauses).pos(tok.r), rest))
+          })
+        })
+
+      // cond: cond [[condition] instructions] ...
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "cond" =>
+        evalargsCPS("cond", 1, tail, Seq.empty, { (args, rest) =>
+          val clauses = list(args(0))
+          More(() => k(PendingCond(clauses).pos(tok.r), rest))
+        })
+
       case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "run" =>
         evalargsCPS("run", 1, tail, Seq.empty, { (args, rest) =>
           resolveThenContinue(args(0), { codeVal =>
             val code = codeVal.toString
             More(() => k(PendingRun(code).pos(tok.r), rest))
+          })
+        })
+
+      // runresult: run code and wrap output in a list (or empty list if no output)
+      case (tok @ LogoWord(w)) :: tail if w.toLowerCase == "runresult" =>
+        evalargsCPS("runresult", 1, tail, Seq.empty, { (args, rest) =>
+          resolveThenContinue(args(0), { codeVal =>
+            val code = codeVal.toString
+            More(() => k(PendingRunResult(code).pos(tok.r), rest))
           })
         })
 

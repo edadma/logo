@@ -9,12 +9,12 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
     run(
       """
         |make "x 10
-        |to test
+        |to mytest
         |  local "x
         |  make "x 20
         |  print :x
         |end
-        |test
+        |mytest
         |print :x
         |""".stripMargin
     ) shouldBe "20\n10"
@@ -23,12 +23,12 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
   "local with initially undefined variable" in {
     run(
       """
-        |to test
+        |to mytest
         |  local "y
         |  make "y 5
         |  print :y
         |end
-        |test
+        |mytest
         |print namep "y
         |""".stripMargin
     ) shouldBe "5\nfalse"
@@ -39,14 +39,14 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
       """
         |make "a 1
         |make "b 2
-        |to test
+        |to mytest
         |  local "a
         |  local "b
         |  make "a 100
         |  make "b 200
         |  print :a + :b
         |end
-        |test
+        |mytest
         |print :a + :b
         |""".stripMargin
     ) shouldBe "300\n3"
@@ -57,11 +57,11 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
     run(
       """
         |make "x 10
-        |to test
+        |to mytest
         |  localmake "x 20
         |  print :x
         |end
-        |test
+        |mytest
         |print :x
         |""".stripMargin
     ) shouldBe "20\n10"
@@ -70,11 +70,11 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
   "localmake with initially undefined variable" in {
     run(
       """
-        |to test
+        |to mytest
         |  localmake "z 42
         |  print :z
         |end
-        |test
+        |mytest
         |print namep "z
         |""".stripMargin
     ) shouldBe "42\nfalse"
@@ -132,14 +132,14 @@ class LocalTests extends AnyFreeSpec with Matchers with Test:
     run(
       """
         |make "x 10
-        |to test
+        |to mytest
         |  local "x
         |  make "x 1
         |  local "x
         |  make "x 2
         |  print :x
         |end
-        |test
+        |mytest
         |print :x
         |""".stripMargin
     ) shouldBe "2\n10"

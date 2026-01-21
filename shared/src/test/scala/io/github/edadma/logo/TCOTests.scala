@@ -92,12 +92,12 @@ class TCOTests extends AnyFreeSpec with Matchers with Test:
 
   "tail call in if body" in {
     val result = run("""
-      |to test :n
-      |  if :n > 0 [output test :n - 1]
+      |to mytest :n
+      |  if :n > 0 [output mytest :n - 1]
       |  output 42
       |end
       |
-      |print test 5
+      |print mytest 5
     """.stripMargin)
     result shouldBe "42"
   }
@@ -165,13 +165,13 @@ class TCOTests extends AnyFreeSpec with Matchers with Test:
 
   "stop in procedure" in {
     val result = run("""
-      |to test :n
+      |to mytest :n
       |  if :n = 0 [stop]
       |  print :n
-      |  test :n - 1
+      |  mytest :n - 1
       |end
       |
-      |test 3
+      |mytest 3
     """.stripMargin)
     result shouldBe "3\n2\n1"
   }

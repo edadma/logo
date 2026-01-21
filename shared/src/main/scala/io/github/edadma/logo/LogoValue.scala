@@ -50,3 +50,11 @@ case class PendingWhile(conditionCode: Seq[LogoValue], body: Seq[LogoValue]) ext
   override def toString: String = "<pending:while>"
 case class PendingForever(body: Seq[LogoValue]) extends LogoValue:
   override def toString: String = "<pending:forever>"
+case class PendingDoWhile(body: Seq[LogoValue], conditionCode: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:do.while>"
+case class PendingCase(testVal: LogoValue, clauses: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:case>"
+case class PendingCond(clauses: Seq[LogoValue]) extends LogoValue:
+  override def toString: String = "<pending:cond>"
+case class PendingRunResult(code: String) extends LogoValue:
+  override def toString: String = "<pending:runresult>"

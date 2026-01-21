@@ -72,7 +72,7 @@ class TimeTests extends AnyFreeSpec with Matchers with Test:
   "forever with immediate stop" in {
     run(
       """
-        |to test
+        |to mytest
         |  make "count 0
         |  forever [
         |    make "count :count + 1
@@ -80,7 +80,7 @@ class TimeTests extends AnyFreeSpec with Matchers with Test:
         |  ]
         |  print "after
         |end
-        |test
+        |mytest
         |print :count
         |""".stripMargin
     ) shouldBe "5"
@@ -89,7 +89,7 @@ class TimeTests extends AnyFreeSpec with Matchers with Test:
   "forever accumulates values" in {
     run(
       """
-        |to test
+        |to mytest
         |  make "sum 0
         |  make "i 1
         |  forever [
@@ -98,7 +98,7 @@ class TimeTests extends AnyFreeSpec with Matchers with Test:
         |    if :i > 10 [stop]
         |  ]
         |end
-        |test
+        |mytest
         |print :sum
         |""".stripMargin
     ) shouldBe "55"

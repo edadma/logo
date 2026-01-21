@@ -1,5 +1,6 @@
 package io.github.edadma.logo
 
+import io.github.edadma.char_reader.CharReader
 import io.github.edadma.dal.QuaternionDAL
 import io.github.edadma.numbers.{ComplexDouble, ComplexBigInt, ComplexRational, ComplexSmallRational, QuaternionBigInt, QuaternionDouble, QuaternionRational}
 
@@ -1140,6 +1141,16 @@ lazy val builtin: Map[String, Procedure] =
           ctx.event()
       },
     ),
+    // clean: erase graphics without moving turtle
+    BuiltinProcedure(
+      "clean",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.clean()
+          ctx.event()
+      },
+    ),
     BuiltinProcedure(
       "home",
       0,
@@ -1162,6 +1173,23 @@ lazy val builtin: Map[String, Procedure] =
           ctx.x = newx
           ctx.y = newy
           ctx.event()
+      },
+    ),
+    // setpos: like setxy but takes a list [x y]
+    BuiltinProcedure(
+      "setpos",
+      1,
+      {
+        case (ctx, Seq(LogoList(Seq(x, y), _))) =>
+          val rawX = number(x).doubleValue
+          val rawY = number(y).doubleValue
+          val (newx, newy) = ctx.applyScreenMode(rawX, rawY)
+
+          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
+          ctx.x = newx
+          ctx.y = newy
+          ctx.event()
+        case (_, Seq(other)) => problem(null, s"'setpos' requires a list [x y], got $other")
       },
     ),
     BuiltinProcedure(
@@ -1306,6 +1334,95 @@ lazy val builtin: Map[String, Procedure] =
           ctx.event()
       },
     ),
+    // Pen modes
+    BuiltinProcedure(
+      "penpaint",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.pen = true
+          ctx.penMode = PaintMode
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "penerase",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.pen = true
+          ctx.penMode = EraseMode
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "penreverse",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.pen = true
+          ctx.penMode = ReverseMode
+          ctx.event()
+      },
+    ),
+    BuiltinProcedure(
+      "penmode",
+      0,
+      {
+        case (ctx, _) =>
+          ctx.penMode match
+            case PaintMode   => LogoWord("paint")
+            case EraseMode   => LogoWord("erase")
+            case ReverseMode => LogoWord("reverse")
+      },
+    ),
+    // Pen queries
+    BuiltinProcedure(
+      "pensize",
+      0,
+      {
+        case (ctx, _) =>
+          val w = ctx.width
+          val elems = Seq(LogoNumber(w), LogoNumber(w))
+          LogoList(elems, elems :+ EOIToken())
+      },
+    ),
+    BuiltinProcedure(
+      "pencolor",
+      0,
+      {
+        case (ctx, _) =>
+          val (r, g, b) = ctx.color
+          val elems = Seq(LogoNumber(r), LogoNumber(g), LogoNumber(b))
+          LogoList(elems, elems :+ EOIToken())
+      },
+    ),
+    // Background color
+    BuiltinProcedure(
+      "background",
+      0,
+      {
+        case (ctx, _) =>
+          val (r, g, b) = ctx.backgroundColor
+          val elems = Seq(LogoNumber(r), LogoNumber(g), LogoNumber(b))
+          LogoList(elems, elems :+ EOIToken())
+      },
+    ),
+    BuiltinProcedure(
+      "setbackground",
+      1,
+      {
+        case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
+          ctx.backgroundColor = (number(r).intValue, number(g).intValue, number(b).intValue)
+          ctx.event()
+        case (ctx, Seq(LogoNumber(n))) =>
+          ctx.backgroundColor = colorArray(n.intValue)
+          ctx.event()
+        case (ctx, Seq(LogoWord(c))) =>
+          ctx.backgroundColor = colorMap(c)
+          ctx.event()
+      },
+    ),
     BuiltinProcedure(
       "hideturtle",
       0,
@@ -1422,6 +1539,35 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, _) => ctx.show
       },
     ),
+    // Number formatting
+    BuiltinProcedure(
+      "form",
+      3,
+      {
+        case (_, Seq(num, width, precision)) =>
+          val n = number(num).doubleValue
+          val w = number(width).intValue
+          val p = number(precision).intValue
+          val formatted = if p == 0 then f"${n.toLong}%d" else s"%.${p}f".format(n)
+          val padded = if formatted.length >= w then formatted else " " * (w - formatted.length) + formatted
+          LogoWord(padded)
+      },
+    ),
+    // Test/iftrue/iffalse for flag-based conditionals
+    BuiltinProcedure(
+      "test",
+      1,
+      {
+        case (ctx, Seq(tf)) =>
+          val result = boolean(tf)
+          if ctx.testResultStack.isEmpty then
+            ctx.testResultStack.push(result)
+          else
+            ctx.testResultStack.pop()
+            ctx.testResultStack.push(result)
+          LogoNull()
+      },
+    ),
     // Time procedures (use UTC for cross-platform compatibility)
     BuiltinProcedure(
       "time",
@@ -1448,6 +1594,78 @@ lazy val builtin: Map[String, Procedure] =
       0,
       {
         case (_, _) => System.currentTimeMillis()
+      },
+    ),
+    // ignore - discard a value (useful for side-effect operations)
+    BuiltinProcedure(
+      "ignore",
+      1,
+      {
+        case (_, _) => LogoNull()
+      },
+    ),
+    // Input procedures
+    BuiltinProcedure(
+      "readlist",
+      0,
+      {
+        case (ctx, _) =>
+          val line = ctx.readLine()
+          if line == null then LogoList(Seq.empty, Seq(EOIToken()))
+          else
+            val tokens = transform(tokenize(CharReader.fromString(line)))
+            LogoList(tokens.filterNot(_.isInstanceOf[EOIToken]), tokens)
+      },
+    ),
+    BuiltinProcedure(
+      "readword",
+      0,
+      {
+        case (ctx, _) =>
+          val line = ctx.readLine()
+          if line == null then LogoList(Seq.empty, Seq(EOIToken()))
+          else LogoWord(line)
+      },
+    ),
+    BuiltinProcedure(
+      "readchar",
+      0,
+      {
+        case (ctx, _) =>
+          val ch = ctx.readChar()
+          if ch == -1 then LogoList(Seq.empty, Seq(EOIToken()))
+          else LogoWord(ch.toChar.toString)
+      },
+    ),
+    // parse - convert a word to a list of tokens
+    BuiltinProcedure(
+      "parse",
+      1,
+      {
+        case (_, Seq(word)) =>
+          val text = word.toString
+          val tokens = transform(tokenize(CharReader.fromString(text)))
+          LogoList(tokens.filterNot(_.isInstanceOf[EOIToken]), tokens)
+      },
+    ),
+    // runparse - like parse but also substitutes variables (colon expressions)
+    BuiltinProcedure(
+      "runparse",
+      1,
+      {
+        case (ctx, Seq(wordOrList)) =>
+          val text = wordOrList match
+            case LogoList(elems, _) => elems.map(_.toString).mkString(" ")
+            case other              => other.toString
+          val tokens = transform(tokenize(CharReader.fromString(text)))
+          // Substitute variables
+          val substituted = tokens.map {
+            case LogoWord(s) if s.startsWith(":") =>
+              val varName = s.tail.toLowerCase
+              ctx.vars.getOrElse(varName, LogoWord(s))
+            case other => other
+          }
+          LogoList(substituted.filterNot(_.isInstanceOf[EOIToken]), substituted)
       },
     ),
   ) map (p => p.name -> p) toMap
@@ -1522,4 +1740,11 @@ lazy val synonyms: Map[String, Procedure] =
     "procedure?"    -> "procedurep",
     "pendown?"      -> "pendownp",
     "shown?"        -> "shownp",
+    // Pen mode synonyms
+    "ppt"           -> "penpaint",
+    "pe"            -> "penerase",
+    "px"            -> "penreverse",
+    "pc"            -> "pencolor",
+    "bg"            -> "background",
+    "setbg"         -> "setbackground",
   ) map ((s, p) => s -> builtin(p)) toMap
