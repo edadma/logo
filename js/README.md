@@ -141,6 +141,9 @@ interface TurtleState {
 - `left <angle>` / `lt` - Turn left (degrees)
 - `setxy <x> <y>` - Move to position
 - `home` - Return to center
+- `towards [x y]` - Return heading toward point
+- `distance [x y]` - Return distance to point
+- `arc <angle> <radius>` - Draw an arc
 
 ### Pen Control
 - `penup` / `pu` - Lift pen
@@ -154,6 +157,10 @@ interface TurtleState {
 
 ### Control Flow
 - `repeat <n> [commands]` - Repeat commands
+- `for [var start end step] [commands]` - For loop
+- `while [condition] [commands]` - While loop
+- `until [condition] [commands]` - Until loop
+- `forever [commands]` - Loop until stop/output
 - `if <cond> [commands]` - Conditional
 - `ifelse <cond> [yes] [no]` - If-else
 
@@ -180,6 +187,8 @@ interface TurtleState {
 - `make "name <value>` - Set variable
 - `:name` - Get variable value
 - `thing "name` - Get variable value
+- `local "name` - Declare procedure-local variable
+- `localmake "name <value>` - Declare and set local variable
 
 ### Lists
 - `first`, `last`, `butfirst` (`bf`), `butlast` (`bl`)
@@ -188,6 +197,27 @@ interface TurtleState {
 - `range` / `iseq` - generate sequences: `range 5` → `[0 1 2 3 4]`
 - `reverse`, `pick` - list utilities
 - `emptyp`, `listp`, `wordp`, `numberp`, `memberp` - predicates
+
+### Time
+- `time` - Returns `[hours minutes seconds]` (UTC)
+- `date` - Returns `[year month day]` (UTC)
+- `timemilli` - Milliseconds since epoch
+
+### Workspace Inspection
+- `namep "name` / `name? "name` - Is variable defined?
+- `definedp "name` / `defined? "name` - Is procedure defined?
+- `primitivep "name` / `primitive? "name` - Is it a primitive?
+- `procedurep "name` / `procedure? "name` - Is it a user procedure?
+- `procedures` - List all user procedures
+- `primitives` - List all primitives
+- `names` - List all variables
+
+### Higher-Order Functions
+- `map <fn> <list>` - Apply function to each element
+- `filter <fn> <list>` - Keep elements where fn returns true
+- `reduce <fn> <list>` - Reduce list to single value
+- `foreach <list> <fn>` - Execute fn for each element
+- `apply <fn> <list>` - Apply fn with list as arguments
 
 ## License
 

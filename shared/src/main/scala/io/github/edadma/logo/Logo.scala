@@ -4,8 +4,6 @@ import io.github.edadma.char_reader.CharReader
 import io.github.edadma.dal.QuaternionDAL
 
 import scala.annotation.tailrec
-import pprint.pprintln
-
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps

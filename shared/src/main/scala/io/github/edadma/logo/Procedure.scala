@@ -3,7 +3,7 @@ package io.github.edadma.logo
 import io.github.edadma.dal.QuaternionDAL
 import io.github.edadma.numbers.{ComplexDouble, ComplexBigInt, ComplexRational, ComplexSmallRational, QuaternionBigInt, QuaternionDouble, QuaternionRational}
 
-import java.time.{LocalTime, LocalDate}
+import java.time.{LocalTime, LocalDate, ZoneOffset}
 
 import scala.language.postfixOps
 import scala.math.{E, Pi}
@@ -1422,13 +1422,13 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, _) => ctx.show
       },
     ),
-    // Time procedures
+    // Time procedures (use UTC for cross-platform compatibility)
     BuiltinProcedure(
       "time",
       0,
       {
         case (_, _) =>
-          val now = LocalTime.now()
+          val now = LocalTime.now(ZoneOffset.UTC)
           val elems = Seq(LogoNumber(now.getHour), LogoNumber(now.getMinute), LogoNumber(now.getSecond))
           LogoList(elems, elems :+ EOIToken())
       },
@@ -1438,7 +1438,7 @@ lazy val builtin: Map[String, Procedure] =
       0,
       {
         case (_, _) =>
-          val today = LocalDate.now()
+          val today = LocalDate.now(ZoneOffset.UTC)
           val elems = Seq(LogoNumber(today.getYear), LogoNumber(today.getMonthValue), LogoNumber(today.getDayOfMonth))
           LogoList(elems, elems :+ EOIToken())
       },
