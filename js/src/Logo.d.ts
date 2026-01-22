@@ -55,6 +55,15 @@ export declare class Logo {
   /** Set a callback for print output */
   setOutputHandler(handler: (text: string) => void): void
 
+  /** Clear the output handler (print goes to console) */
+  clearOutputHandler(): void
+
+  /** Set a callback for turtle events (called after each drawing command) */
+  setEventHandler(handler: () => void): void
+
+  /** Clear the event handler (use default auto-render behavior) */
+  clearEventHandler(): void
+
   /** Get the current drawing data */
   getDrawing(): LogoDrawing
 

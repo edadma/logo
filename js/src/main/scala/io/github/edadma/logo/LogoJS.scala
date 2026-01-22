@@ -53,9 +53,14 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   private var autoRender: Boolean = true
   private var initialized: Boolean = false
   private var backgroundColor: String = "white"
+  private var eventHandler: Option[js.Function0[Unit]] = None
 
   private val logo = new Logo:
-    def event(): Unit = if initialized && autoRender then render()
+    def event(): Unit =
+      if initialized then
+        eventHandler match
+          case Some(handler) => handler()
+          case None => if autoRender then render()
 
   initialized = true
 
@@ -116,6 +121,14 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   /** Clear the output handler (print goes to console) */
   def clearOutputHandler(): Unit =
     logo.clearOutputHandler()
+
+  /** Set a callback for turtle events (called after each drawing command) */
+  def setEventHandler(handler: js.Function0[Unit]): Unit =
+    eventHandler = Some(handler)
+
+  /** Clear the event handler (use default auto-render behavior) */
+  def clearEventHandler(): Unit =
+    eventHandler = None
 
   /** Force a render */
   def render(): Unit =
