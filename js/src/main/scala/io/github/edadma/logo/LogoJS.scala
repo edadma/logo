@@ -137,6 +137,12 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   def clearEventHandler(): Unit =
     eventHandler = None
 
+  /** Set a global variable */
+  def setVariable(name: String, value: Any): Unit = logo.setVariable(name, value)
+
+  /** Get a global variable */
+  def getVariable(name: String): Option[LogoValue] = logo.getVariable(name)
+
   /** Force a render */
   def render(): Unit =
     val width = canvas.width

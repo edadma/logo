@@ -160,6 +160,20 @@ abstract class Logo:
     defaultColor = c
     color = c
 
+  /** Set a global variable programmatically */
+  def setVariable(name: String, value: Any): Unit =
+    val logoValue = value match
+      case v: LogoValue => v
+      case n: Number    => logoNumber(n)
+      case b: Boolean   => LogoBoolean(b)
+      case s: String    => LogoWord(s)
+      case null         => LogoNull()
+      case other        => LogoWord(other.toString)
+    vars(name) = logoValue
+
+  /** Get a global variable */
+  def getVariable(name: String): Option[LogoValue] = vars.get(name)
+
   // Trampoline - iteratively evaluates thunks until Done
   // Uses explicit while loop to ensure no stack growth on any platform
   private def trampoline(initial: EvalResult): LogoValue =
