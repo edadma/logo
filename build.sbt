@@ -7,7 +7,7 @@ lazy val logo = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
     name         := "logo",
-    version      := "0.2.3",
+    version      := "0.2.4",
     scalaVersion := "3.7.4",
     scalacOptions ++=
       Seq(

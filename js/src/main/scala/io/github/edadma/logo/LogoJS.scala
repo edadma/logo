@@ -312,22 +312,72 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     ctx.stroke()
 
   private def drawTurtle(x: Double, y: Double, heading: Double): Unit =
-    val w = 15.0
-    val h = 20.0
-
     ctx.save()
     ctx.translate(x, y)
-    ctx.rotate(heading - Pi / 2)
+    ctx.rotate(heading + Pi / 2)
 
+    // Tail (behind shell)
     ctx.beginPath()
-    ctx.moveTo(0, 0)
-    ctx.lineTo(-w / 2, h / 2)
-    ctx.lineTo(0, h)
-    ctx.lineTo(w / 2, h / 2)
-    ctx.closePath()
-
-    ctx.strokeStyle = "green"
+    ctx.moveTo(0, 10)
+    ctx.lineTo(0, 14)
+    ctx.strokeStyle = "#4a7a44"
     ctx.lineWidth = 2
+    ctx.lineCap = "round"
+    ctx.stroke()
+
+    // Legs (behind shell)
+    ctx.fillStyle = "#4a7a44"
+    ctx.strokeStyle = "#1a3a18"
+    ctx.lineWidth = 1
+    // Front legs
+    ctx.beginPath()
+    ctx.ellipse(-7, -6, 3, 5, 0.4, 0, 2 * Pi)
+    ctx.fill()
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.ellipse(7, -6, 3, 5, -0.4, 0, 2 * Pi)
+    ctx.fill()
+    ctx.stroke()
+    // Back legs
+    ctx.beginPath()
+    ctx.ellipse(-6, 6, 3, 4, 0.3, 0, 2 * Pi)
+    ctx.fill()
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.ellipse(6, 6, 3, 4, -0.3, 0, 2 * Pi)
+    ctx.fill()
+    ctx.stroke()
+
+    // Head (behind shell)
+    ctx.beginPath()
+    ctx.ellipse(0, -14, 4, 5, 0, 0, 2 * Pi)
+    ctx.fillStyle = "#4a7a44"
+    ctx.fill()
+    ctx.strokeStyle = "#1a3a18"
+    ctx.lineWidth = 1.5
+    ctx.stroke()
+
+    // Eyes
+    ctx.fillStyle = "black"
+    ctx.beginPath()
+    ctx.arc(-1.5, -15, 1, 0, 2 * Pi)
+    ctx.arc(1.5, -15, 1, 0, 2 * Pi)
+    ctx.fill()
+
+    // Shell (on top)
+    ctx.beginPath()
+    ctx.ellipse(0, 0, 8, 10, 0, 0, 2 * Pi)
+    ctx.fillStyle = "#2d5a27"
+    ctx.fill()
+    ctx.strokeStyle = "#1a3a18"
+    ctx.lineWidth = 1.5
+    ctx.stroke()
+
+    // Shell pattern
+    ctx.strokeStyle = "#3d7a37"
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.ellipse(0, 0, 5, 6, 0, 0, 2 * Pi)
     ctx.stroke()
 
     ctx.restore()
