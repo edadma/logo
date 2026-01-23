@@ -23,6 +23,7 @@ case class LogoNumber(n: Number) extends LogoValue:
 case class LogoProcedure(override val toString: String, proc: Procedure) extends LogoValue
 case class LogoWord(override val toString: String)                       extends LogoValue
 case class LogoNull()              extends LogoValue { override val toString: String = "null"                        }
+case object LogoUnit               extends LogoValue { override val toString: String = ""                            }
 case class LogoBoolean(b: Boolean) extends LogoValue { override def toString: String = if b then "true" else "false" }
 case class LogoList(list: Seq[LogoValue], terminated: Seq[LogoValue]) extends LogoValue:
   override def toString: String = list map {

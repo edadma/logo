@@ -740,7 +740,7 @@ abstract class Logo:
                     case v: LogoValue => v
                     case n: Number    => logoNumber(n)
                     case b: Boolean   => LogoBoolean(b)
-                    case ()           => LogoNull()
+                    case ()           => LogoUnit
                   More(() => k(res.pos(tok.r), rest2))
                 })
               case Some(up @ UserProcedure(name, reqParams, optParams, restParam, _))
@@ -996,7 +996,7 @@ abstract class Logo:
                   case v: LogoValue => v
                   case n: Number    => logoNumber(n)
                   case b: Boolean   => LogoBoolean(b)
-                  case ()           => LogoNull()
+                  case ()           => LogoUnit
                 More(() => k(res.pos(tok.r), rest))
               })
 
@@ -1006,7 +1006,7 @@ abstract class Logo:
                   case v: LogoValue => v
                   case n: Number    => logoNumber(n)
                   case b: Boolean   => LogoBoolean(b)
-                  case ()           => LogoNull()
+                  case ()           => LogoUnit
                 More(() => k(res.pos(tok.r), rest))
               })
 
