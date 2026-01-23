@@ -7,6 +7,10 @@ import org.scalajs.dom.html
 
 import scala.math.Pi
 
+/** Singleton representing "no value" from commands like print, fd, etc. */
+@JSExportTopLevel("LogoUnit")
+object LogoUnitJS extends js.Object
+
 @js.native
 trait LogoDrawing extends js.Object:
   val lines: js.Array[LineData] = js.native
@@ -69,10 +73,13 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     logo.interp(program)
     if !autoRender then render()
 
-  /** Execute a single command */
-  def execute(command: String): Unit =
-    logo.interp(command)
+  /** Execute a single command, returns result (undefined for commands with no output) */
+  def execute(command: String): js.UndefOr[String] =
+    val result = logo.interp(command)
     if !autoRender then render()
+    result match
+      case LogoUnit => js.undefined
+      case v        => v.toString
 
   /** Clear the screen and reset turtle */
   def clear(): Unit =

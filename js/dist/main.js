@@ -21685,11 +21685,12 @@ function $s_Lio_github_edadma_logo_LogoJS__run__Lio_github_edadma_logo_LogoJS__T
     this$1.render();
   }
 }
-function $s_Lio_github_edadma_logo_LogoJS__execute__Lio_github_edadma_logo_LogoJS__T__V(this$1, command) {
-  this$1[$r_Lio_github_edadma_logo_LogoJS__logo].iF(command);
+function $s_Lio_github_edadma_logo_LogoJS__execute__Lio_github_edadma_logo_LogoJS__T__O(this$1, command) {
+  var result = this$1[$r_Lio_github_edadma_logo_LogoJS__logo].iF(command);
   if ((!(!(!this$1[$r_Lio_github_edadma_logo_LogoJS__io$github$edadma$logo$LogoJS$$autoRender])))) {
     this$1.render();
   }
+  return (($m_Lio_github_edadma_logo_LogoUnit$() === result) ? (void 0) : result.l());
 }
 function $s_Lio_github_edadma_logo_LogoJS__clear__Lio_github_edadma_logo_LogoJS__V(this$1) {
   this$1[$r_Lio_github_edadma_logo_LogoJS__logo].CL();
@@ -21749,19 +21750,19 @@ function $s_Lio_github_edadma_logo_LogoJS__render__Lio_github_edadma_logo_LogoJS
   } else {
     $ps_Lio_github_edadma_logo_LogoJS__renderWithLines__Lio_github_edadma_logo_LogoJS__V(this$1);
   }
-  matchResult2: {
-    var x4 = this$1[$r_Lio_github_edadma_logo_LogoJS__logo].Fh();
-    if ((x4 instanceof $c_s_Some)) {
-      var x6 = x4.aW;
-      if ((x6 !== null)) {
-        $ps_Lio_github_edadma_logo_LogoJS__drawTurtle__Lio_github_edadma_logo_LogoJS__D__D__D__V(this$1, (+x6.dV), (+x6.er), (+x6.es));
-        break matchResult2;
+  matchResult3: {
+    var x5 = this$1[$r_Lio_github_edadma_logo_LogoJS__logo].Fh();
+    if ((x5 instanceof $c_s_Some)) {
+      var x7 = x5.aW;
+      if ((x7 !== null)) {
+        $ps_Lio_github_edadma_logo_LogoJS__drawTurtle__Lio_github_edadma_logo_LogoJS__D__D__D__V(this$1, (+x7.dV), (+x7.er), (+x7.es));
+        break matchResult3;
       }
     }
-    if (($m_s_None$() === x4)) {
-      break matchResult2;
+    if (($m_s_None$() === x5)) {
+      break matchResult3;
     }
-    throw new $c_s_MatchError(x4);
+    throw new $c_s_MatchError(x5);
   }
   this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].restore();
 }
@@ -21771,39 +21772,39 @@ function $s_Lio_github_edadma_logo_LogoJS__getDrawing__Lio_github_edadma_logo_Lo
   var arcs = [];
   $m_sci_Seq$().eA(this$1[$r_Lio_github_edadma_logo_LogoJS__logo].eR).aw(new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((x$1) => {
     if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLine)) {
-      var x31 = x$1.jT;
-      var x32 = x$1.jV;
-      var x33 = x$1.jU;
-      var x34 = x$1.jW;
-      var x35 = x$1.jR;
-      var x36 = x$1.jS;
-      if ((x35 !== null)) {
-        var r = (x35.dV | 0);
-        var g = (x35.er | 0);
-        var b = (x35.es | 0);
-        return (lines.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x1", x31), new $c_T2("y1", x32), new $c_T2("x2", x33), new $c_T2("y2", x34), new $c_T2("color", (((((("rgb(" + r) + ",") + g) + ",") + b) + ")")), new $c_T2("width", x36)])))) | 0);
+      var x32 = x$1.jT;
+      var x33 = x$1.jV;
+      var x34 = x$1.jU;
+      var x35 = x$1.jW;
+      var x36 = x$1.jR;
+      var x37 = x$1.jS;
+      if ((x36 !== null)) {
+        var r = (x36.dV | 0);
+        var g = (x36.er | 0);
+        var b = (x36.es | 0);
+        return (lines.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x1", x32), new $c_T2("y1", x33), new $c_T2("x2", x34), new $c_T2("y2", x35), new $c_T2("color", (((((("rgb(" + r) + ",") + g) + ",") + b) + ")")), new $c_T2("width", x37)])))) | 0);
       }
     }
     if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLabel)) {
-      var x25 = x$1.jP;
-      var x26 = x$1.jQ;
-      var x27 = x$1.jN;
-      var x28 = x$1.jO;
-      return (labels.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", x25), new $c_T2("y", x26), new $c_T2("heading", x27), new $c_T2("text", x28)])))) | 0);
+      var x26 = x$1.jP;
+      var x27 = x$1.jQ;
+      var x28 = x$1.jN;
+      var x29 = x$1.jO;
+      return (labels.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", x26), new $c_T2("y", x27), new $c_T2("heading", x28), new $c_T2("text", x29)])))) | 0);
     }
     if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawArc)) {
-      var x13 = x$1.jL;
-      var x14 = x$1.jM;
-      var x15 = x$1.jI;
-      var x16 = x$1.jG;
-      var x17 = x$1.jJ;
-      var x18 = x$1.jH;
-      var x19 = x$1.jK;
-      if ((x18 !== null)) {
-        var r$2 = (x18.dV | 0);
-        var g$2 = (x18.er | 0);
-        var b$2 = (x18.es | 0);
-        return (arcs.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", x13), new $c_T2("y", x14), new $c_T2("heading", x15), new $c_T2("angle", x16), new $c_T2("radius", x17), new $c_T2("color", (((((("rgb(" + r$2) + ",") + g$2) + ",") + b$2) + ")")), new $c_T2("width", x19)])))) | 0);
+      var x14 = x$1.jL;
+      var x15 = x$1.jM;
+      var x16 = x$1.jI;
+      var x17 = x$1.jG;
+      var x18 = x$1.jJ;
+      var x19 = x$1.jH;
+      var x20 = x$1.jK;
+      if ((x19 !== null)) {
+        var r$2 = (x19.dV | 0);
+        var g$2 = (x19.er | 0);
+        var b$2 = (x19.es | 0);
+        return (arcs.push($m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", x14), new $c_T2("y", x15), new $c_T2("heading", x16), new $c_T2("angle", x17), new $c_T2("radius", x18), new $c_T2("color", (((((("rgb(" + r$2) + ",") + g$2) + ",") + b$2) + ")")), new $c_T2("width", x20)])))) | 0);
       }
     }
     throw new $c_s_MatchError(x$1);
@@ -21811,17 +21812,17 @@ function $s_Lio_github_edadma_logo_LogoJS__getDrawing__Lio_github_edadma_logo_Lo
   return $m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("lines", lines), new $c_T2("labels", labels), new $c_T2("arcs", arcs)])));
 }
 function $s_Lio_github_edadma_logo_LogoJS__getTurtle__Lio_github_edadma_logo_LogoJS__Lio_github_edadma_logo_TurtleState(this$1) {
-  var x40 = this$1[$r_Lio_github_edadma_logo_LogoJS__logo].Fh();
-  if ((x40 instanceof $c_s_Some)) {
-    var x42 = x40.aW;
-    if ((x42 !== null)) {
-      return $m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", (+x42.dV)), new $c_T2("y", (+x42.er)), new $c_T2("heading", (+x42.es)), new $c_T2("visible", true)])));
+  var x41 = this$1[$r_Lio_github_edadma_logo_LogoJS__logo].Fh();
+  if ((x41 instanceof $c_s_Some)) {
+    var x43 = x41.aW;
+    if ((x43 !== null)) {
+      return $m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", (+x43.dV)), new $c_T2("y", (+x43.er)), new $c_T2("heading", (+x43.es)), new $c_T2("visible", true)])));
     }
   }
-  if (($m_s_None$() === x40)) {
+  if (($m_s_None$() === x41)) {
     return $m_sjs_js_special_package$().oM($m_sr_ScalaRunTime$().ab(new ($d_T2.r().C)([new $c_T2("x", 0), new $c_T2("y", 0), new $c_T2("heading", 1.5707963267948966), new $c_T2("visible", false)])));
   }
-  throw new $c_s_MatchError(x40);
+  throw new $c_s_MatchError(x41);
 }
 function $ps_Lio_github_edadma_logo_LogoJS__renderWithPaths__Lio_github_edadma_logo_LogoJS__V(this$1) {
   var Style$lzy1 = new $c_sr_LazyRef();
@@ -21830,56 +21831,56 @@ function $ps_Lio_github_edadma_logo_LogoJS__renderWithPaths__Lio_github_edadma_l
   var lastX = new $c_sr_DoubleRef(0.0);
   var lastY = new $c_sr_DoubleRef(0.0);
   $m_sci_Seq$().eA(this$1[$r_Lio_github_edadma_logo_LogoJS__logo].eR).aw(new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((Style$lzy1$2) => ((x$1) => {
-    matchResult9: {
+    matchResult10: {
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLine)) {
-        var x75 = x$1.jT;
-        var x76 = x$1.jV;
-        var x77 = x$1.jU;
-        var x78 = x$1.jW;
-        var x79 = x$1.jR;
-        var x80 = x$1.jS;
-        var style = $ps_Lio_github_edadma_logo_LogoJS__Style$2__Lio_github_edadma_logo_LogoJS__sr_LazyRef__Lio_github_edadma_logo_LogoJS$Style$3$(this$1, Style$lzy1$2).GZ(x79, x80);
+        var x76 = x$1.jT;
+        var x77 = x$1.jV;
+        var x78 = x$1.jU;
+        var x79 = x$1.jW;
+        var x80 = x$1.jR;
+        var x81 = x$1.jS;
+        var style = $ps_Lio_github_edadma_logo_LogoJS__Style$2__Lio_github_edadma_logo_LogoJS__sr_LazyRef__Lio_github_edadma_logo_LogoJS$Style$3$(this$1, Style$lzy1$2).GZ(x80, x81);
         if ((!currentStyle.aO.an(style))) {
           $ps_Lio_github_edadma_logo_LogoJS__flushPath$1__Lio_github_edadma_logo_LogoJS__sr_BooleanRef__sr_ObjectRef__sr_LazyRef__V(this$1, pathStarted, currentStyle, Style$lzy1$2);
           currentStyle.aO = new $c_s_Some(style);
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].beginPath();
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x75, x76);
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x76, x77);
           pathStarted.kK = true;
-          lastX.kL = x75;
-          lastY.kL = x76;
+          lastX.kL = x76;
+          lastY.kL = x77;
         }
-        if ((((!pathStarted.kK) || (lastX.kL !== x75)) || (lastY.kL !== x76))) {
+        if ((((!pathStarted.kK) || (lastX.kL !== x76)) || (lastY.kL !== x77))) {
           if ((!pathStarted.kK)) {
             this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].beginPath();
             pathStarted.kK = true;
           }
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x75, x76);
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x76, x77);
         }
-        this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineTo(x77, x78);
-        lastX.kL = x77;
-        lastY.kL = x78;
-        break matchResult9;
+        this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineTo(x78, x79);
+        lastX.kL = x78;
+        lastY.kL = x79;
+        break matchResult10;
       }
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawArc)) {
-        var x66 = x$1.jL;
-        var x67 = x$1.jM;
-        var x68 = x$1.jI;
-        var x69 = x$1.jG;
-        var x70 = x$1.jJ;
-        var x71 = x$1.jH;
-        var x72 = x$1.jK;
+        var x67 = x$1.jL;
+        var x68 = x$1.jM;
+        var x69 = x$1.jI;
+        var x70 = x$1.jG;
+        var x71 = x$1.jJ;
+        var x72 = x$1.jH;
+        var x73 = x$1.jK;
         $ps_Lio_github_edadma_logo_LogoJS__flushPath$1__Lio_github_edadma_logo_LogoJS__sr_BooleanRef__sr_ObjectRef__sr_LazyRef__V(this$1, pathStarted, currentStyle, Style$lzy1$2);
-        $ps_Lio_github_edadma_logo_LogoJS__renderArc__Lio_github_edadma_logo_LogoJS__D__D__D__D__D__T3__D__V(this$1, x66, x67, x68, x69, x70, x71, x72);
-        break matchResult9;
+        $ps_Lio_github_edadma_logo_LogoJS__renderArc__Lio_github_edadma_logo_LogoJS__D__D__D__D__D__T3__D__V(this$1, x67, x68, x69, x70, x71, x72, x73);
+        break matchResult10;
       }
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLabel)) {
-        var x60 = x$1.jP;
-        var x61 = x$1.jQ;
-        var x62 = x$1.jN;
-        var x63 = x$1.jO;
+        var x61 = x$1.jP;
+        var x62 = x$1.jQ;
+        var x63 = x$1.jN;
+        var x64 = x$1.jO;
         $ps_Lio_github_edadma_logo_LogoJS__flushPath$1__Lio_github_edadma_logo_LogoJS__sr_BooleanRef__sr_ObjectRef__sr_LazyRef__V(this$1, pathStarted, currentStyle, Style$lzy1$2);
-        $ps_Lio_github_edadma_logo_LogoJS__renderLabel__Lio_github_edadma_logo_LogoJS__D__D__D__T__V(this$1, x60, x61, x62, x63);
-        break matchResult9;
+        $ps_Lio_github_edadma_logo_LogoJS__renderLabel__Lio_github_edadma_logo_LogoJS__D__D__D__T__V(this$1, x61, x62, x63, x64);
+        break matchResult10;
       }
       throw new $c_s_MatchError(x$1);
     }
@@ -21888,39 +21889,39 @@ function $ps_Lio_github_edadma_logo_LogoJS__renderWithPaths__Lio_github_edadma_l
 }
 function $ps_Lio_github_edadma_logo_LogoJS__renderWithLines__Lio_github_edadma_logo_LogoJS__V(this$1) {
   $m_sci_Seq$().eA(this$1[$r_Lio_github_edadma_logo_LogoJS__logo].eR).aw(new $c_sr_AbstractFunction1_$$Lambda$70e1780b84463d18653aacefee3ab989ac625f28(((x$1) => {
-    matchResult10: {
+    matchResult11: {
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLine)) {
-        var x102 = x$1.jT;
-        var x103 = x$1.jV;
-        var x104 = x$1.jU;
-        var x105 = x$1.jW;
-        var x106 = x$1.jR;
-        var x107 = x$1.jS;
-        if ((x106 !== null)) {
-          var r = (x106.dV | 0);
-          var g = (x106.er | 0);
-          var b = (x106.es | 0);
+        var x103 = x$1.jT;
+        var x104 = x$1.jV;
+        var x105 = x$1.jU;
+        var x106 = x$1.jW;
+        var x107 = x$1.jR;
+        var x108 = x$1.jS;
+        if ((x107 !== null)) {
+          var r = (x107.dV | 0);
+          var g = (x107.er | 0);
+          var b = (x107.es | 0);
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].strokeStyle = (((((("rgb(" + r) + ",") + g) + ",") + b) + ")");
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineWidth = x107;
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineWidth = x108;
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].beginPath();
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x102, x103);
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineTo(x104, x105);
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].moveTo(x103, x104);
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineTo(x105, x106);
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].stroke();
-          break matchResult10;
+          break matchResult11;
         }
       }
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawArc)) {
-        var x90 = x$1.jL;
-        var x91 = x$1.jM;
-        var x92 = x$1.jI;
-        var x93 = x$1.jG;
-        var x94 = x$1.jJ;
-        var x95 = x$1.jH;
-        var x96 = x$1.jK;
-        if ((x95 !== null)) {
-          var r$2 = (x95.dV | 0);
-          var g$2 = (x95.er | 0);
-          var b$2 = (x95.es | 0);
+        var x91 = x$1.jL;
+        var x92 = x$1.jM;
+        var x93 = x$1.jI;
+        var x94 = x$1.jG;
+        var x95 = x$1.jJ;
+        var x96 = x$1.jH;
+        var x97 = x$1.jK;
+        if ((x96 !== null)) {
+          var r$2 = (x96.dV | 0);
+          var g$2 = (x96.er | 0);
+          var b$2 = (x96.es | 0);
           var \u03b43$___1;
           var \u03b43$___2;
           var \u03b43$___3;
@@ -21930,28 +21931,28 @@ function $ps_Lio_github_edadma_logo_LogoJS__renderWithLines__Lio_github_edadma_l
           var r$1 = (\u03b43$___1 | 0);
           var g$1 = (\u03b43$___2 | 0);
           var b$1 = (\u03b43$___3 | 0);
-          var sign = ((x93 >= 0.0) ? 1.0 : (-1.0));
-          var absAngle = (+Math.abs(x93));
-          var perpAngle = (x92 + ((3.141592653589793 * sign) / 2.0));
-          var cx = (x90 + (x94 * (+Math.cos(perpAngle))));
-          var cy = (x91 + (x94 * (+Math.sin(perpAngle))));
-          var y = (x91 - cy);
-          var x = (x90 - cx);
+          var sign = ((x94 >= 0.0) ? 1.0 : (-1.0));
+          var absAngle = (+Math.abs(x94));
+          var perpAngle = (x93 + ((3.141592653589793 * sign) / 2.0));
+          var cx = (x91 + (x95 * (+Math.cos(perpAngle))));
+          var cy = (x92 + (x95 * (+Math.sin(perpAngle))));
+          var y = (x92 - cy);
+          var x = (x91 - cx);
           var startAngle = (+Math.atan2(y, x));
           var sweepRad = (3.141592653589793 * (absAngle / 180.0));
-          var endAngle = ((x93 >= 0.0) ? (startAngle - sweepRad) : (startAngle + sweepRad));
+          var endAngle = ((x94 >= 0.0) ? (startAngle - sweepRad) : (startAngle + sweepRad));
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].strokeStyle = (((((("rgb(" + r$1) + ",") + g$1) + ",") + b$1) + ")");
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineWidth = x96;
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineWidth = x97;
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].lineCap = "round";
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].beginPath();
-          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].arc(cx, cy, x94, startAngle, endAngle, (x93 >= 0.0));
+          this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].arc(cx, cy, x95, startAngle, endAngle, (x94 >= 0.0));
           this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].stroke();
-          break matchResult10;
+          break matchResult11;
         }
       }
       if ((x$1 instanceof $c_Lio_github_edadma_logo_DrawLabel)) {
         $ps_Lio_github_edadma_logo_LogoJS__renderLabel__Lio_github_edadma_logo_LogoJS__D__D__D__T__V(this$1, x$1.jP, x$1.jQ, x$1.jN, x$1.jO);
-        break matchResult10;
+        break matchResult11;
       }
       throw new $c_s_MatchError(x$1);
     }
@@ -21968,11 +21969,11 @@ function $ps_Lio_github_edadma_logo_LogoJS__renderLabel__Lio_github_edadma_logo_
   this$1[$r_Lio_github_edadma_logo_LogoJS__ctx].restore();
 }
 function $ps_Lio_github_edadma_logo_LogoJS__renderArc__Lio_github_edadma_logo_LogoJS__D__D__D__D__D__T3__D__V(this$1, x, y, heading, angleDeg, radius, color, width) {
-  matchResult11: {
+  matchResult12: {
     var \u03b43$;
     if ((color !== null)) {
       var \u03b43$ = color;
-      break matchResult11;
+      break matchResult12;
     }
     throw new $c_s_MatchError(color);
   }
@@ -22019,25 +22020,25 @@ function $ps_Lio_github_edadma_logo_LogoJS__Style$2__Lio_github_edadma_logo_Logo
 }
 function $ps_Lio_github_edadma_logo_LogoJS__flushPath$1__Lio_github_edadma_logo_LogoJS__sr_BooleanRef__sr_ObjectRef__sr_LazyRef__V(this$1, pathStarted$1, currentStyle$1, Style$lzy1$3) {
   if ((pathStarted$1.kK && (!currentStyle$1.aO.i()))) {
-    matchResult8: {
+    matchResult9: {
       var \u03b41$___1;
       var \u03b41$___2;
       var \u03b41$___3;
       var \u03b41$___4;
-      var x50 = currentStyle$1.aO.aK();
-      if ((x50 !== null)) {
+      var x51 = currentStyle$1.aO.aK();
+      if ((x51 !== null)) {
         $ps_Lio_github_edadma_logo_LogoJS__Style$2__Lio_github_edadma_logo_LogoJS__sr_LazyRef__Lio_github_edadma_logo_LogoJS$Style$3$(this$1, Style$lzy1$3);
-        var x52 = x50.n2;
-        var x53 = x50.n3;
-        if ((x52 !== null)) {
-          var \u03b41$___1 = (x52.dV | 0);
-          var \u03b41$___2 = (x52.er | 0);
-          var \u03b41$___3 = (x52.es | 0);
-          var \u03b41$___4 = x53;
-          break matchResult8;
+        var x53 = x51.n2;
+        var x54 = x51.n3;
+        if ((x53 !== null)) {
+          var \u03b41$___1 = (x53.dV | 0);
+          var \u03b41$___2 = (x53.er | 0);
+          var \u03b41$___3 = (x53.es | 0);
+          var \u03b41$___4 = x54;
+          break matchResult9;
         }
       }
-      throw new $c_s_MatchError(x50);
+      throw new $c_s_MatchError(x51);
     }
     var r$2 = (\u03b41$___1 | 0);
     var g$2 = (\u03b41$___2 | 0);
@@ -22082,7 +22083,7 @@ function $a_Lio_github_edadma_logo_LogoJS() {
         $s_Lio_github_edadma_logo_LogoJS__run__Lio_github_edadma_logo_LogoJS__T__V(this, arg);
       }
       "execute"(arg) {
-        $s_Lio_github_edadma_logo_LogoJS__execute__Lio_github_edadma_logo_LogoJS__T__V(this, arg);
+        return $s_Lio_github_edadma_logo_LogoJS__execute__Lio_github_edadma_logo_LogoJS__T__O(this, arg);
       }
       "clear"() {
         $s_Lio_github_edadma_logo_LogoJS__clear__Lio_github_edadma_logo_LogoJS__V(this);
@@ -22149,6 +22150,25 @@ var $d_Lio_github_edadma_logo_LogoJS$Style$3$ = new $TypeData().i($c_Lio_github_
   i: 1,
   k: 1
 }));
+var $b_Lio_github_edadma_logo_LogoUnitJS$;
+function $a_Lio_github_edadma_logo_LogoUnitJS$() {
+  if ((!$b_Lio_github_edadma_logo_LogoUnitJS$)) {
+    $b_Lio_github_edadma_logo_LogoUnitJS$ = class $b_Lio_github_edadma_logo_LogoUnitJS$ extends Object {
+      constructor() {
+        super();
+        $n_Lio_github_edadma_logo_LogoUnitJS$ = this;
+      }
+    };
+  }
+  return $b_Lio_github_edadma_logo_LogoUnitJS$;
+}
+var $n_Lio_github_edadma_logo_LogoUnitJS$;
+function $m_Lio_github_edadma_logo_LogoUnitJS$() {
+  if ((!$n_Lio_github_edadma_logo_LogoUnitJS$)) {
+    $n_Lio_github_edadma_logo_LogoUnitJS$ = new ($a_Lio_github_edadma_logo_LogoUnitJS$())();
+  }
+  return $n_Lio_github_edadma_logo_LogoUnitJS$;
+}
 function $ct_Lio_github_edadma_numbers_Complex__s_math_Numeric__s_math_Fractional__($thiz, evidence$1, evidence$2) {
   $thiz.b9 = evidence$1;
   $thiz.eS = evidence$2;
@@ -72918,6 +72938,8 @@ var $t_Ljava_time_temporal_ChronoUnit$__ERAS = null;
 var $t_Ljava_time_temporal_ChronoUnit$__FOREVER = null;
 var $t_ju_Locale$Category$__DISPLAY = null;
 var $t_ju_Locale$Category$__FORMAT = null;
+let $e_LogoUnit = $m_Lio_github_edadma_logo_LogoUnitJS$();
+export { $e_LogoUnit as LogoUnit };
 let $e_Logo = $a_Lio_github_edadma_logo_LogoJS();
 export { $e_Logo as Logo };
 //# sourceMappingURL=main.js.map
