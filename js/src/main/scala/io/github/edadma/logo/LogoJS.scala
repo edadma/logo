@@ -58,6 +58,7 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   private var initialized: Boolean = false
   private var backgroundColor: String = "white"
   private var foregroundColor: (Int, Int, Int) = (0, 0, 0) // RGB for theme-aware drawing
+  private var isDarkMode: Boolean = false
   private var eventHandler: Option[js.Function0[Unit]] = None
 
   private val logo = new Logo:
@@ -99,6 +100,10 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   /** Set the canvas background color */
   def setBackgroundColor(color: String): Unit =
     backgroundColor = color
+    val (r, g, b) = parseColor(color)
+    // Calculate luminance to determine if dark mode
+    val luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    isDarkMode = luminance < 0.5
     render()
 
   /** Set the default pen color (used after clear and for theme-aware drawing) */
@@ -348,18 +353,25 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     ctx.translate(x, y)
     ctx.rotate(heading + Pi / 2)
 
+    // Theme-aware colors
+    val (shellFill, shellOutline, shellPattern, skinColor, skinOutline) =
+      if isDarkMode then
+        ("#2d5a27", "#1a3a18", "#3d7a37", "#4a7a44", "#1a3a18")
+      else
+        ("#5a9a50", "#3a6a38", "#7aba70", "#7ab070", "#3a6a38")
+
     // Tail (behind shell)
     ctx.beginPath()
     ctx.moveTo(0, 10)
     ctx.lineTo(0, 14)
-    ctx.strokeStyle = "#4a7a44"
+    ctx.strokeStyle = skinColor
     ctx.lineWidth = 2
     ctx.lineCap = "round"
     ctx.stroke()
 
     // Legs (behind shell)
-    ctx.fillStyle = "#4a7a44"
-    ctx.strokeStyle = "#1a3a18"
+    ctx.fillStyle = skinColor
+    ctx.strokeStyle = skinOutline
     ctx.lineWidth = 1
     // Front legs
     ctx.beginPath()
@@ -383,9 +395,9 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     // Head (behind shell)
     ctx.beginPath()
     ctx.ellipse(0, -14, 4, 5, 0, 0, 2 * Pi)
-    ctx.fillStyle = "#4a7a44"
+    ctx.fillStyle = skinColor
     ctx.fill()
-    ctx.strokeStyle = "#1a3a18"
+    ctx.strokeStyle = skinOutline
     ctx.lineWidth = 1.5
     ctx.stroke()
 
@@ -399,14 +411,14 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     // Shell (on top)
     ctx.beginPath()
     ctx.ellipse(0, 0, 8, 10, 0, 0, 2 * Pi)
-    ctx.fillStyle = "#2d5a27"
+    ctx.fillStyle = shellFill
     ctx.fill()
-    ctx.strokeStyle = "#1a3a18"
+    ctx.strokeStyle = shellOutline
     ctx.lineWidth = 1.5
     ctx.stroke()
 
     // Shell pattern
-    ctx.strokeStyle = "#3d7a37"
+    ctx.strokeStyle = shellPattern
     ctx.lineWidth = 1
     ctx.beginPath()
     ctx.ellipse(0, 0, 5, 6, 0, 0, 2 * Pi)
