@@ -126,6 +126,19 @@ abstract class Logo:
   // CPS: Pending control flow from output/stop
   private[logo] var pendingReturn: Option[LogoValue] = None
 
+  // Async execution support: yield flag set by commands that produce visible output
+  private var _shouldYield: Boolean = false
+
+  /** Mark that a yield point was reached (drawing or output command) */
+  private[logo] def markYield(): Unit =
+    _shouldYield = true
+
+  /** Check and clear the yield flag */
+  def shouldYield(): Boolean =
+    val was = _shouldYield
+    _shouldYield = false
+    was
+
   // Set by output builtin - invoke this to return a value from the current procedure
   private[logo] def doOutput(value: LogoValue): Unit = pendingReturn = Some(value)
 
@@ -194,20 +207,30 @@ abstract class Logo:
   /** Get a global variable */
   def getVariable(name: String): Option[LogoValue] = vars.get(name)
 
+  /** Execute a single step of the trampoline.
+    * Returns the next EvalResult state.
+    * This method is public to allow external async execution loops.
+    */
+  def trampolineStep(current: EvalResult): EvalResult =
+    current match
+      case Done(v) => Done(v)
+      case More(thunk) => thunk()
+      case PendingCall(proc, args, k) => executeProcedure(proc, args, k)
+      case PendingRepeatLoop(i, times, body, k) => executeRepeatIteration(i, times, body, k)
+      case PendingForLoop(varName, current_, end, step, body, k) => executeForIteration(varName, current_, end, step, body, k)
+      case PendingWhileLoop(conditionCode, body, k) => executeWhileIteration(conditionCode, body, k)
+      case PendingForeverLoop(body, k) => executeForeverIteration(body, k)
+      case PendingDoWhileLoop(body, conditionCode, k) => executeDoWhileIteration(body, conditionCode, k)
+
   // Trampoline - iteratively evaluates thunks until Done
   // Uses explicit while loop to ensure no stack growth on any platform
   private def trampoline(initial: EvalResult): LogoValue =
     var current: EvalResult = initial
     while true do
+      current = trampolineStep(current)
       current match
         case Done(v) => return v
-        case More(thunk) => current = thunk()
-        case PendingCall(proc, args, k) => current = executeProcedure(proc, args, k)
-        case PendingRepeatLoop(i, times, body, k) => current = executeRepeatIteration(i, times, body, k)
-        case PendingForLoop(varName, current_, end, step, body, k) => current = executeForIteration(varName, current_, end, step, body, k)
-        case PendingWhileLoop(conditionCode, body, k) => current = executeWhileIteration(conditionCode, body, k)
-        case PendingForeverLoop(body, k) => current = executeForeverIteration(body, k)
-        case PendingDoWhileLoop(body, conditionCode, k) => current = executeDoWhileIteration(body, conditionCode, k)
+        case _ => // continue loop
     throw new RuntimeException("unreachable")
 
   // Execute a procedure call - sets up params, evaluates body, cleans up
@@ -426,6 +449,22 @@ abstract class Logo:
   def interp(toks: Seq[LogoValue]): LogoValue =
     trampoline(interp(toks, (v, _) => Done(v)))
 
+  /** Start interpretation without running the trampoline.
+    * Returns the initial EvalResult for external async stepping.
+    */
+  def interpStart(input: String): EvalResult =
+    _shouldYield = false
+    pendingReturn = None
+    val tokens = transform(tokenize(CharReader.fromString(input)))
+    interp(tokens, (v, _) => Done(v))
+
+  /** Start interpretation from a CharReader without running the trampoline. */
+  def interpStart(r: CharReader): EvalResult =
+    _shouldYield = false
+    pendingReturn = None
+    val tokens = transform(tokenize(r))
+    interp(tokens, (v, _) => Done(v))
+
   // CPS interpreter - processes statements with continuation
   // All continuation invocations wrapped in More() to ensure trampoline handles them
   private def interp(toks: Seq[LogoValue], k: (LogoValue, Seq[LogoValue]) => EvalResult): EvalResult =
@@ -503,7 +542,7 @@ abstract class Logo:
                 case Some(v) => Some(v)
                 case None =>
                   interpResult match
-                    case LogoNull() => None
+                    case LogoNull() | LogoUnit => None
                     case v => Some(v)
               val result = outputVal match
                 case Some(v) =>
@@ -560,7 +599,7 @@ abstract class Logo:
             case Some(v) => Some(v)
             case None =>
               interpResult match
-                case LogoNull() => None
+                case LogoNull() | LogoUnit => None
                 case v => Some(v)
           val result = outputVal match
             case Some(v) =>

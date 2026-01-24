@@ -139,7 +139,7 @@ lazy val builtin: Map[String, Procedure] =
       "print",
       1,
       1,
-      (ctx, args) => ctx.output(args.mkString(" ")),
+      (ctx, args) => { ctx.output(args.mkString(" ")); ctx.markYield() },
     ),
     BuiltinVariadic(
       "list",
@@ -970,13 +970,13 @@ lazy val builtin: Map[String, Procedure] =
       "type",
       1,
       1,
-      (ctx, args) => ctx.outputNoNewline(args.mkString(" ")),
+      (ctx, args) => { ctx.outputNoNewline(args.mkString(" ")); ctx.markYield() },
     ),
     BuiltinVariadic(
       "show",
       1,
       1,
-      (ctx, args) =>
+      (ctx, args) => {
         ctx.output(
           args
             .map {
@@ -985,7 +985,9 @@ lazy val builtin: Map[String, Procedure] =
               case v                  => v.toString
             }
             .mkString(" "),
-        ),
+        )
+        ctx.markYield()
+      },
     ),
     BuiltinProcedure(
       "equalp",
@@ -1061,6 +1063,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2) }
           ctx.x = x2
           ctx.y = y2
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1070,6 +1073,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(turn)) =>
           ctx.heading = ctx.computeTurn(number(turn).doubleValue)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1084,6 +1088,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2) }
           ctx.x = x2
           ctx.y = y2
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1093,6 +1098,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(turn)) =>
           ctx.heading = ctx.computeTurn(-number(turn).doubleValue)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1102,6 +1108,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(text)) =>
           ctx.draws += DrawLabel(ctx.x, ctx.y, ctx.heading, text.toString)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1111,9 +1118,11 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(size @ LogoList(Seq(width, _), _))) =>
           ctx.width = number(width).doubleValue
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(width)) =>
           ctx.width = number(width).doubleValue
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1124,18 +1133,22 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, Seq(LogoNull())) =>
           ctx.color = ctx.defaultColor
           ctx.usingDefaultColor = true
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
           ctx.color = (number(r).intValue, number(g).intValue, number(b).intValue)
           ctx.usingDefaultColor = false
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(LogoNumber(n))) =>
           ctx.color = colorArray(n.intValue)
           ctx.usingDefaultColor = false
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(LogoWord(c))) =>
           ctx.color = colorMap(c)
           ctx.usingDefaultColor = false
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1145,6 +1158,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.clearscreen()
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1155,6 +1169,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.clean()
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1164,6 +1179,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.home()
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1179,6 +1195,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1195,6 +1212,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
+          ctx.markYield()
           ctx.event()
         case (_, Seq(other)) => problem(null, s"'setpos' requires a list [x y], got $other")
       },
@@ -1208,6 +1226,7 @@ lazy val builtin: Map[String, Procedure] =
           val (newx, _) = ctx.applyScreenMode(rawX, ctx.y)
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, ctx.y) }
           ctx.x = newx
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1220,6 +1239,7 @@ lazy val builtin: Map[String, Procedure] =
           val (_, newy) = ctx.applyScreenMode(ctx.x, rawY)
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, ctx.x, newy) }
           ctx.y = newy
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1229,6 +1249,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(h)) =>
           ctx.heading = ctx.computeHeading(number(h).doubleValue)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1251,6 +1272,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1312,6 +1334,7 @@ lazy val builtin: Map[String, Procedure] =
           if ctx.pen then
             ctx.emitStyleChanges()
             ctx.draws += DrawArc(ctx.x, ctx.y, ctx.heading, angleDeg, r)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1330,6 +1353,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.pen = false
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1339,6 +1363,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.pen = true
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1350,6 +1375,7 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, _) =>
           ctx.pen = true
           ctx.penMode = PaintMode
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1360,6 +1386,7 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, _) =>
           ctx.pen = true
           ctx.penMode = EraseMode
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1370,6 +1397,7 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, _) =>
           ctx.pen = true
           ctx.penMode = ReverseMode
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1422,12 +1450,15 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
           ctx.backgroundColor = (number(r).intValue, number(g).intValue, number(b).intValue)
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(LogoNumber(n))) =>
           ctx.backgroundColor = colorArray(n.intValue)
+          ctx.markYield()
           ctx.event()
         case (ctx, Seq(LogoWord(c))) =>
           ctx.backgroundColor = colorMap(c)
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1437,6 +1468,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.show = false
+          ctx.markYield()
           ctx.event()
       },
     ),
@@ -1446,6 +1478,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.show = true
+          ctx.markYield()
           ctx.event()
       },
     ),
