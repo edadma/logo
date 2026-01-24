@@ -54,12 +54,27 @@ abstract class Logo:
   private[logo] var heading: Double        = Pi / 2
   private[logo] var color: (Int, Int, Int) = colorMap("black")
   private[logo] var defaultColor: (Int, Int, Int) = colorMap("black")
+  private[logo] var usingDefaultColor: Boolean = true // true = use foreground at render time
   private[logo] var backgroundColor: (Int, Int, Int) = colorMap("white")
   private[logo] var pen: Boolean           = true
   private[logo] var penMode: PenMode       = PaintMode
   private[logo] var width: Double          = 1
   private[logo] var show: Boolean          = true
   private[logo] val draws                  = new ListBuffer[Draw]
+
+  // Track last emitted style to avoid duplicate DrawSetColor/DrawSetWidth
+  private var lastEmittedColor: Option[Option[(Int, Int, Int)]] = None // None=never, Some(None)=default, Some(Some(c))=explicit
+  private var lastEmittedWidth: Option[Double] = None
+
+  /** Emit DrawSetColor/DrawSetWidth if style changed since last emit */
+  private[logo] def emitStyleChanges(): Unit =
+    val currentColorSetting = if usingDefaultColor then None else Some(color)
+    if lastEmittedColor != Some(currentColorSetting) then
+      draws += DrawSetColor(currentColorSetting)
+      lastEmittedColor = Some(currentColorSetting)
+    if lastEmittedWidth != Some(width) then
+      draws += DrawSetWidth(width)
+      lastEmittedWidth = Some(width)
   private[logo] val vars                   = new mutable.HashMap[String, LogoValue]
   private[logo] val procedures             = new mutable.HashMap[String, UserProcedure]
   private[logo] val repcountStack          = new mutable.Stack[Int]
@@ -149,12 +164,17 @@ abstract class Logo:
     draws.clear()
     home()
     color = defaultColor
+    usingDefaultColor = true
     pen = true
     penMode = PaintMode
     width = 1
+    lastEmittedColor = None
+    lastEmittedWidth = None
 
   def clean(): Unit =
     draws.clear()
+    lastEmittedColor = None
+    lastEmittedWidth = None
 
   def setDefaultColor(c: (Int, Int, Int)): Unit =
     defaultColor = c

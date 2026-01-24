@@ -1058,7 +1058,7 @@ lazy val builtin: Map[String, Procedure] =
           val (rawX, rawY) = ctx.computeEndpoint(number(distance).doubleValue)
           val (x2, y2) = ctx.applyScreenMode(rawX, rawY)
 
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2) }
           ctx.x = x2
           ctx.y = y2
           ctx.event()
@@ -1081,7 +1081,7 @@ lazy val builtin: Map[String, Procedure] =
           val (rawX, rawY) = ctx.computeEndpoint(-number(distance).doubleValue)
           val (x2, y2) = ctx.applyScreenMode(rawX, rawY)
 
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, x2, y2) }
           ctx.x = x2
           ctx.y = y2
           ctx.event()
@@ -1121,14 +1121,21 @@ lazy val builtin: Map[String, Procedure] =
       "setcolor",
       1,
       {
+        case (ctx, Seq(LogoNull())) =>
+          ctx.color = ctx.defaultColor
+          ctx.usingDefaultColor = true
+          ctx.event()
         case (ctx, Seq(LogoList(Seq(r, g, b), _))) =>
           ctx.color = (number(r).intValue, number(g).intValue, number(b).intValue)
+          ctx.usingDefaultColor = false
           ctx.event()
         case (ctx, Seq(LogoNumber(n))) =>
           ctx.color = colorArray(n.intValue)
+          ctx.usingDefaultColor = false
           ctx.event()
         case (ctx, Seq(LogoWord(c))) =>
           ctx.color = colorMap(c)
+          ctx.usingDefaultColor = false
           ctx.event()
       },
     ),
@@ -1169,7 +1176,7 @@ lazy val builtin: Map[String, Procedure] =
           val rawY = number(y).doubleValue
           val (newx, newy) = ctx.applyScreenMode(rawX, rawY)
 
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
           ctx.event()
@@ -1185,7 +1192,7 @@ lazy val builtin: Map[String, Procedure] =
           val rawY = number(y).doubleValue
           val (newx, newy) = ctx.applyScreenMode(rawX, rawY)
 
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
           ctx.event()
@@ -1199,7 +1206,7 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, Seq(x)) =>
           val rawX = number(x).doubleValue
           val (newx, _) = ctx.applyScreenMode(rawX, ctx.y)
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, ctx.y, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, ctx.y) }
           ctx.x = newx
           ctx.event()
       },
@@ -1211,7 +1218,7 @@ lazy val builtin: Map[String, Procedure] =
         case (ctx, Seq(y)) =>
           val rawY = number(y).doubleValue
           val (_, newy) = ctx.applyScreenMode(ctx.x, rawY)
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, ctx.x, newy, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, ctx.x, newy) }
           ctx.y = newy
           ctx.event()
       },
@@ -1241,7 +1248,7 @@ lazy val builtin: Map[String, Procedure] =
             case c: ComplexSmallRational => (c.re.doubleValue, c.im.doubleValue)
             case _                       => (n.doubleValue, 0.0)
 
-          if ctx.pen then ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy, ctx.color, ctx.width)
+          if ctx.pen then { ctx.emitStyleChanges(); ctx.draws += DrawLine(ctx.x, ctx.y, newx, newy) }
           ctx.x = newx
           ctx.y = newy
           ctx.event()
@@ -1303,7 +1310,8 @@ lazy val builtin: Map[String, Procedure] =
           val angleDeg = number(angle).doubleValue
           val r = number(radius).doubleValue
           if ctx.pen then
-            ctx.draws += DrawArc(ctx.x, ctx.y, ctx.heading, angleDeg, r, ctx.color, ctx.width)
+            ctx.emitStyleChanges()
+            ctx.draws += DrawArc(ctx.x, ctx.y, ctx.heading, angleDeg, r)
           ctx.event()
       },
     ),

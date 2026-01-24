@@ -57,6 +57,7 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   private var autoRender: Boolean = true
   private var initialized: Boolean = false
   private var backgroundColor: String = "white"
+  private var foregroundColor: (Int, Int, Int) = (0, 0, 0) // RGB for theme-aware drawing
   private var eventHandler: Option[js.Function0[Unit]] = None
 
   private val logo = new Logo:
@@ -100,9 +101,10 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     backgroundColor = color
     render()
 
-  /** Set the default pen color (used after clear) */
+  /** Set the default pen color (used after clear and for theme-aware drawing) */
   def setForegroundColor(color: String): Unit =
     val rgb = parseColor(color)
+    foregroundColor = rgb
     logo.setDefaultColor(rgb)
     render()
 
@@ -172,21 +174,33 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     val lines = js.Array[LineData]()
     val labels = js.Array[LabelData]()
     val arcs = js.Array[ArcData]()
+    var currentColor: (Int, Int, Int) = foregroundColor
+    var currentWidth: Double = 1.0
 
     logo.drawing.foreach {
-      case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
+      case DrawSetColor(colorOpt) =>
+        currentColor = colorOpt.getOrElse(foregroundColor)
+
+      case DrawSetWidth(width) =>
+        currentWidth = width
+
+      case DrawLine(x1, y1, x2, y2) =>
+        val (r, g, b) = currentColor
         lines.push(js.Dynamic.literal(
           x1 = x1, y1 = y1, x2 = x2, y2 = y2,
-          color = s"rgb($r,$g,$b)", width = width
+          color = s"rgb($r,$g,$b)", width = currentWidth
         ).asInstanceOf[LineData])
+
       case DrawLabel(x, y, heading, text) =>
         labels.push(js.Dynamic.literal(
           x = x, y = y, heading = heading, text = text
         ).asInstanceOf[LabelData])
-      case DrawArc(x, y, heading, angle, radius, (r, g, b), width) =>
+
+      case DrawArc(x, y, heading, angle, radius) =>
+        val (r, g, b) = currentColor
         arcs.push(js.Dynamic.literal(
           x = x, y = y, heading = heading, angle = angle, radius = radius,
-          color = s"rgb($r,$g,$b)", width = width
+          color = s"rgb($r,$g,$b)", width = currentWidth
         ).asInstanceOf[ArcData])
     }
 
@@ -203,6 +217,8 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
   private def renderWithPaths(): Unit =
     case class Style(color: (Int, Int, Int), width: Double)
 
+    var currentColor: (Int, Int, Int) = foregroundColor
+    var currentWidth: Double = 1.0
     var currentStyle: Option[Style] = None
     var pathStarted = false
     var lastX: Double = 0
@@ -220,8 +236,14 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
         currentStyle = None
 
     logo.drawing.foreach {
-      case DrawLine(x1, y1, x2, y2, color, width) =>
-        val style = Style(color, width)
+      case DrawSetColor(colorOpt) =>
+        currentColor = colorOpt.getOrElse(foregroundColor)
+
+      case DrawSetWidth(width) =>
+        currentWidth = width
+
+      case DrawLine(x1, y1, x2, y2) =>
+        val style = Style(currentColor, currentWidth)
 
         if !currentStyle.contains(style) then
           flushPath()
@@ -243,9 +265,9 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
         lastX = x2
         lastY = y2
 
-      case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
+      case DrawArc(x, y, heading, angleDeg, radius) =>
         flushPath()
-        renderArc(x, y, heading, angleDeg, radius, color, width)
+        renderArc(x, y, heading, angleDeg, radius, currentColor, currentWidth)
 
       case DrawLabel(x, y, heading, text) =>
         flushPath()
@@ -255,17 +277,27 @@ class LogoJS(canvas: html.Canvas) extends js.Object:
     flushPath()
 
   private def renderWithLines(): Unit =
+    var currentColor: (Int, Int, Int) = foregroundColor
+    var currentWidth: Double = 1.0
+
     logo.drawing.foreach {
-      case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
+      case DrawSetColor(colorOpt) =>
+        currentColor = colorOpt.getOrElse(foregroundColor)
+
+      case DrawSetWidth(width) =>
+        currentWidth = width
+
+      case DrawLine(x1, y1, x2, y2) =>
+        val (r, g, b) = currentColor
         ctx.strokeStyle = s"rgb($r,$g,$b)"
-        ctx.lineWidth = width
+        ctx.lineWidth = currentWidth
         ctx.beginPath()
         ctx.moveTo(x1, y1)
         ctx.lineTo(x2, y2)
         ctx.stroke()
 
-      case DrawArc(x, y, heading, angleDeg, radius, (r, g, b), width) =>
-        renderArc(x, y, heading, angleDeg, radius, (r, g, b), width)
+      case DrawArc(x, y, heading, angleDeg, radius) =>
+        renderArc(x, y, heading, angleDeg, radius, currentColor, currentWidth)
 
       case DrawLabel(x, y, heading, text) =>
         renderLabel(x, y, heading, text)

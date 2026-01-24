@@ -169,6 +169,8 @@ object LogoPlayground extends SimpleSwingApplication:
         // Group consecutive lines with same style into paths
         case class Style(color: (Int, Int, Int), width: Double)
 
+        var currentColor: (Int, Int, Int) = logo.defaultColor
+        var currentWidth: Double = 1.0
         var currentStyle: Option[Style] = None
         var currentPath: Path2D.Double  = null
 
@@ -182,8 +184,14 @@ object LogoPlayground extends SimpleSwingApplication:
             currentStyle = None
 
         logo.drawing foreach {
-          case DrawLine(x1, y1, x2, y2, color, width) =>
-            val style = Style(color, width)
+          case DrawSetColor(colorOpt) =>
+            currentColor = colorOpt.getOrElse(logo.defaultColor)
+
+          case DrawSetWidth(width) =>
+            currentWidth = width
+
+          case DrawLine(x1, y1, x2, y2) =>
+            val style = Style(currentColor, currentWidth)
 
             if !currentStyle.contains(style) then
               flushPath()
@@ -199,9 +207,9 @@ object LogoPlayground extends SimpleSwingApplication:
 
             currentPath.lineTo(x2, y2)
 
-          case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
+          case DrawArc(x, y, heading, angleDeg, radius) =>
             flushPath()
-            renderArc(gr, x, y, heading, angleDeg, radius, color, width)
+            renderArc(gr, x, y, heading, angleDeg, radius, currentColor, currentWidth)
 
           case DrawLabel(x, y, heading, text) =>
             flushPath()
@@ -211,10 +219,20 @@ object LogoPlayground extends SimpleSwingApplication:
         flushPath()
 
       private def renderWithLines(gr: Graphics2D): Unit =
+        var currentColor: (Int, Int, Int) = logo.defaultColor
+        var currentWidth: Double = 1.0
+
         logo.drawing foreach {
-          case DrawLine(x1, y1, x2, y2, (r, g, b), width) =>
+          case DrawSetColor(colorOpt) =>
+            currentColor = colorOpt.getOrElse(logo.defaultColor)
+
+          case DrawSetWidth(width) =>
+            currentWidth = width
+
+          case DrawLine(x1, y1, x2, y2) =>
+            val (r, g, b) = currentColor
             gr.setColor(new Color(r, g, b))
-            gr.setStroke(new BasicStroke(width.toFloat))
+            gr.setStroke(new BasicStroke(currentWidth.toFloat))
 
             val roundedX1 = Math.round(x1).toInt
             val roundedY1 = Math.round(y1).toInt
@@ -223,8 +241,8 @@ object LogoPlayground extends SimpleSwingApplication:
 
             gr.drawLine(roundedX1, roundedY1, roundedX2, roundedY2)
 
-          case DrawArc(x, y, heading, angleDeg, radius, color, width) =>
-            renderArc(gr, x, y, heading, angleDeg, radius, color, width)
+          case DrawArc(x, y, heading, angleDeg, radius) =>
+            renderArc(gr, x, y, heading, angleDeg, radius, currentColor, currentWidth)
 
           case DrawLabel(x, y, heading, text) =>
             renderLabel(gr, x, y, heading, text)
