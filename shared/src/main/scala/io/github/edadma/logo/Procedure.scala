@@ -726,7 +726,7 @@ lazy val builtin: Map[String, Procedure] =
           case Seq(seed) =>
             RandomState.generator = new scala.util.Random(number(seed).longValue)
           case _ => problem(null, "'rerandom' takes 0 or 1 argument")
-        LogoNull(),
+        LogoUnit,
     ),
     // UCB Logo: rseq - real sequence (like iseq but returns decimals)
     BuiltinProcedure(
@@ -758,7 +758,7 @@ lazy val builtin: Map[String, Procedure] =
               if i < 1 || i > elems.length then problem(null, s"'setitem' index $i out of range 1..${elems.length}")
               val newElems = elems.updated(i - 1, value)
               ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
-              LogoNull()
+              LogoUnit
             case _ => problem(null, s"'setitem' variable '$name' is not a list")
       },
     ),
@@ -775,7 +775,7 @@ lazy val builtin: Map[String, Procedure] =
             case LogoList(elems, _) =>
               val newElems = value +: elems
               ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
-              LogoNull()
+              LogoUnit
             case _ => problem(null, s"'push' variable '$name' is not a list")
       },
     ),
@@ -811,7 +811,7 @@ lazy val builtin: Map[String, Procedure] =
             case LogoList(elems, _) =>
               val newElems = elems :+ value
               ctx.vars(name) = LogoList(newElems, newElems :+ EOIToken())
-              LogoNull()
+              LogoUnit
             case _ => problem(null, s"'queue' variable '$name' is not a list")
       },
     ),
@@ -882,7 +882,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(template, LogoList(elems, _))) =>
           elems.foreach(elem => Template.apply1(ctx, template, elem))
-          LogoNull()
+          LogoUnit
         case (_, Seq(_, other)) => problem(null, s"'foreach' second argument must be a list, got $other")
       },
     ),
@@ -1507,7 +1507,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, Seq(name)) =>
           ctx.declareLocal(name.toString.toLowerCase)
-          LogoNull()
+          LogoUnit
       },
     ),
     BuiltinProcedure(
@@ -1518,7 +1518,7 @@ lazy val builtin: Map[String, Procedure] =
           val varName = name.toString.toLowerCase
           ctx.declareLocal(varName)
           ctx.vars(varName) = value
-          LogoNull()
+          LogoUnit
       },
     ),
     BuiltinProcedure(
@@ -1535,7 +1535,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.screenMode = WindowMode
-          LogoNull()
+          LogoUnit
       },
     ),
     BuiltinProcedure(
@@ -1544,7 +1544,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.screenMode = FenceMode
-          LogoNull()
+          LogoUnit
       },
     ),
     BuiltinProcedure(
@@ -1553,7 +1553,7 @@ lazy val builtin: Map[String, Procedure] =
       {
         case (ctx, _) =>
           ctx.screenMode = WrapMode
-          LogoNull()
+          LogoUnit
       },
     ),
     BuiltinProcedure(
@@ -1609,7 +1609,7 @@ lazy val builtin: Map[String, Procedure] =
           else
             ctx.testResultStack.pop()
             ctx.testResultStack.push(result)
-          LogoNull()
+          LogoUnit
       },
     ),
     // Time procedures (use UTC for cross-platform compatibility)
@@ -1645,7 +1645,7 @@ lazy val builtin: Map[String, Procedure] =
       "ignore",
       1,
       {
-        case (_, _) => LogoNull()
+        case (_, _) => LogoUnit
       },
     ),
     // Input procedures

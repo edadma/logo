@@ -454,9 +454,9 @@ class BuiltinTests extends AnyFreeSpec with Matchers with Test:
     """.stripMargin) shouldBe "done"
   }
 
-  "ignore returns null" in {
-    // ignore should not output anything, so using it in expression context should give null
-    eval("ignore 42") shouldBe "null"
+  "ignore returns unit" in {
+    // ignore is a command, not an operation - it doesn't output a value
+    run("ignore 42") shouldBe ""
   }
 
   // ============================================================================
@@ -523,7 +523,7 @@ class BuiltinTests extends AnyFreeSpec with Matchers with Test:
   }
 
   "runresult no output gives empty list" in {
-    eval("count runresult [print 42]") shouldBe "0"
+    eval("count runresult [ignore 42]") shouldBe "0"
   }
 
   "runresult with procedure" in {
