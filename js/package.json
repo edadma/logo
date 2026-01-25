@@ -1,6 +1,6 @@
 {
   "name": "@edadma/logo",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Logo programming language interpreter",
   "main": "dist/main.js",
   "module": "dist/main.js",
@@ -31,10 +31,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edadma/logo.git"
+    "url": "git+https://github.com/edadma/codeturtle.git"
   },
   "bugs": {
-    "url": "https://github.com/edadma/logo/issues"
+    "url": "https://github.com/edadma/codeturtle/issues"
   },
-  "homepage": "https://github.com/edadma/logo#readme"
+  "homepage": "https://github.com/edadma/codeturtle#readme"
 }
