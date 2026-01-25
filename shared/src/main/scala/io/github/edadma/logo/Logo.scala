@@ -152,7 +152,7 @@ abstract class Logo:
   def clearOutputHandler(): Unit = outputHandler = None
 
   private[logo] def output(s: String): Unit = outputHandler match
-    case Some(handler) => handler(s)
+    case Some(handler) => handler(s + "\n")
     case None          => println(s)
 
   private[logo] def outputNoNewline(s: String): Unit = outputHandler match
