@@ -1,6 +1,6 @@
 {
   "name": "@edadma/logo",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "Logo programming language interpreter",
   "main": "dist/main.js",
